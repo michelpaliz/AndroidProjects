@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.TransitionValues;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int  MAX_FALLOS = 3;
     private static int intentos = 0;
     private static int luckyNumber = Lib.Util.randBetween(1, 10);;
+    private static int numero = 0;
+    //prueba
+    private Button button = (Button) findViewById(R.id.button1);
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.button1:
                 eleccion = 1;
+//                numero = Integer.parseInt(((Button)view).getText().toString());
                 break;
             case R.id.button2:
                 eleccion = 2;
