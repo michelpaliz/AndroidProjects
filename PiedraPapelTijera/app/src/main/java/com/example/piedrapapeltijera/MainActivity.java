@@ -2,6 +2,7 @@ package com.example.piedrapapeltijera;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.pm.SharedLibraryInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +13,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final int MAX_PUNTOS = 3;
-    private int empate;
+    private int empate = 0;
     private int puntosUsuario = 0;
     private int puntosMaquina = 0;
     private Button btnPiedra;
@@ -27,30 +28,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnPiedra = (Button) findViewById(R.id.btnPiedra);
+        btnPiedra  = (Button) findViewById(R.id.btnPiedra);
         btnPapel = (Button) findViewById(R.id.btnPapel);
         btnTijera = (Button) findViewById(R.id.btnTijera);
         imgMaquina  =  (ImageView)  findViewById(R.id.imgMaquina);
         imgUsuario  =  (ImageView)  findViewById(R.id.imgUsuario);
         resultado = (TextView) findViewById(R.id.resultado);
-
+        btnPapel.setOnClickListener(this);
+        btnTijera.setOnClickListener(this);
+        btnPiedra.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View view) {
 
+
         //Dar significado a las variables que el usuario escoje
-        switch (view.getId()) {
-            case R.id.btnPiedra:
+        switch (eleccion(view)) {
+            case 1:
                 imgUsuario.setImageResource(R.drawable.piedra);
                 eleccion = 1;
                 break;
-            case R.id.btnPapel:
+            case 2:
                 imgUsuario.setImageResource(R.drawable.papel);
                 eleccion = 2;
                 break;
-            case R.id.btnTijera:
+            case 3:
                 imgUsuario.setImageResource(R.drawable.tijera);
                 eleccion = 3;
                 break;
@@ -70,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-//        resultado.setText(combinacion);
         if (combinacion.equalsIgnoreCase("13") || combinacion.equalsIgnoreCase("31")) {
             if ((eleccion == 1 && resultadoMaquina == 1) || (eleccion == 3 && resultadoMaquina == 3)) {
                empate++;
@@ -110,12 +113,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultado.setText("Empates " + empate + " Puntos usuario " + puntosUsuario +" " + "Puntos Maquina " + puntosMaquina);
     }
 
+    public int eleccion(View v){
+        int numero;
+        if (v.getId() == btnPiedra.getId()){
+             numero = 1;
+        }else if(v.getId() == btnPapel.getId()){
+             numero = 2;
+        }else{
+            numero = 3;
+        }
+        return numero;
+    }
 
-
-    public int maquina() {
-        int resultado = Lib.Util.randBetween(1, 3);
+    public int maquina(){
+        int resultado = Lib.Util.randBetween(1,3);
         return resultado;
     }
+
 
 
 }

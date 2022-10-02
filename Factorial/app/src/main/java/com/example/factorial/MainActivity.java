@@ -24,10 +24,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resultado = (TextView) findViewById(R.id.resultado);
         numero = (EditText) findViewById(R.id.calcularFactorial) ;
         button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(this);
 
     }
 
-    protected int calcularFactorial(int numero )
+    protected long calcularFactorial(int numero )
     {
         int factorial = 1;
 
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             System.out.println(factorial);
         } else {
-            System.out.println("Error");
+            Toast.makeText(getApplicationContext(),"El numero no es entero", Toast.LENGTH_SHORT ).show();
+            finishAffinity();
         }
         return factorial;
     }
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int factorial = Integer.parseInt(numero.getText().toString());
-        int importe = calcularFactorial(factorial);
+        long importe = calcularFactorial(factorial);
         resultado.setText(importe + "");
         if (view.getId() == R.id.resultado)
             Toast.makeText(getApplicationContext(),"Resultado es " +""+ importe, Toast.LENGTH_SHORT ).show();

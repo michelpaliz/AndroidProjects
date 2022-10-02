@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btCruz = (Button) findViewById(R.id.button2);
         img = (ImageView) findViewById(R.id.imageView);
         information = (TextView) findViewById(R.id.resultado);
+        btCara.setOnClickListener(this);
+        btCruz.setOnClickListener(this);
     }
 
     @Override
