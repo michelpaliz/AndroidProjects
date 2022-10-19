@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Para resoluciones mas grandes de 480px-->
+<resources>
+    <dimen name="title_size">50sp</dimen>
+    <dimen name="bar_width">600dp</dimen>
+    <dimen name="margin">40dp</dimen>
+    <dimen name="width_item_btn0">175dp</dimen>
+    <dimen name="margin_start">150dp</dimen>
+    <dimen name="margin_bottom">40dp</dimen>
+    <dimen name="margin_left_item">40dp</dimen>
+    <dimen name="margin_item_btn_equals">50dp</dimen>
+
+
+</resources>

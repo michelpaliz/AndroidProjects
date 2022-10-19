@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Para mi resoluccion principal para pequenyas-->
+<resources>
+    <dimen name="title_size">16sp</dimen>
+    <dimen name="bar_width">400dp</dimen>
+    <dimen name="height_item">54dp</dimen>
+    <dimen name="width_item">67dp</dimen>
+<!--    Si algun elemento no lo tengo puesto no afectaria en nada -->
+    <dimen name="width_item_btn0">100dp</dimen>
+    <dimen name="margin">20dp</dimen>
+    <dimen name="margin_start">40dp</dimen>
+    <dimen name="margin_bottom">10dp</dimen>
+    <dimen name="margin_left_item">20dp</dimen>
+    <dimen name="margin_item_btn_equals">40dp</dimen>
+</resources>
