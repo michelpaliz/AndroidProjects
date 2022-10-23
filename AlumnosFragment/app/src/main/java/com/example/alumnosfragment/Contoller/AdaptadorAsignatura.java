@@ -35,8 +35,6 @@ public class AdaptadorAsignatura extends RecyclerView.Adapter<AdaptadorAsignatur
     @Override
     public void onBindViewHolder(@NonNull HolderAlumno holder, int position) {
         Nota nota = notas.get(position);
-//        asignaturas = HolderAlumno.parsearAsignatura(HolderAlumno.tvNota.getContext());
-//        Asignatura asignatura = asignaturas.get(position);
         holder.bindContacto(nota);
     }
 
@@ -48,7 +46,6 @@ public class AdaptadorAsignatura extends RecyclerView.Adapter<AdaptadorAsignatur
             return notas.size();
         }
     }
-
 
 
     public static class HolderAlumno extends RecyclerView.ViewHolder {
@@ -72,16 +69,6 @@ public class AdaptadorAsignatura extends RecyclerView.Adapter<AdaptadorAsignatur
             asignaturas = parsearAsignatura(tvNota.getContext());
             tvCodigo.setText(nota.getCodAsig());
             tvNota.setText(nota.getCalificacion());
-            if (asignaturas == null){
-                Log.d("esnull","es null");
-            }
-
-//            Log.d("notas",String.valueOf(AdaptadorAsignatura.notas.size()));
-            Log.d("notas",(notas.toString()));
-            Log.d("asignaturas",(this.asignaturas.toString()));
-            Log.d("notas",(asignaturas.toString()));
-            Log.d("notassize",(String.valueOf(notas.size())));
-            Log.d("asignaturassize",(String.valueOf(asignaturas.size())));
             for (int i = 0; i < asignaturas.size(); i++) {
                 if (asignaturas.get(i).getCodigoAsignatura().equalsIgnoreCase(nota.getCodAsig())) {
                     tvNombre.setText(asignaturas.get(i).getNombreAsignatura());
@@ -96,16 +83,6 @@ public class AdaptadorAsignatura extends RecyclerView.Adapter<AdaptadorAsignatur
             parserAsignaturas.startParser();
             asignaturas = parserAsignaturas.getAsignaturas();
             return asignaturas;
-        }
-
-        @Override
-        public String toString() {
-            return "HolderAlumno{" +
-                    "tvCodigo=" + tvCodigo +
-                    ", tvNombre=" + tvNombre +
-                    ", tvNota=" + tvNota +
-                    ", asignaturas=" + asignaturas +
-                    '}';
         }
     }
 }

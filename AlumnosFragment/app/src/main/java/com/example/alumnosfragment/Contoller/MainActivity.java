@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity implements IAlumno, Fragment
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().setReorderingAllowed(true).add(R.id.FrgListado, FragmentListarAlumno.class, null).commit();
             fragmentManager.addFragmentOnAttachListener(this);
-            //            fragmentManager.beginTransaction().setReorderingAllowed(true).add(R.id.FrgListado,new FragmentListarAlumno(alumnos,this), null).commit();
-
 
 
     }

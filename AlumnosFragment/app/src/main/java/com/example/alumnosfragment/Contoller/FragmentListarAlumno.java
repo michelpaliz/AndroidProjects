@@ -28,19 +28,6 @@ public class FragmentListarAlumno extends Fragment {
     }
 
 
-    //    public FragmentListarAlumno(List<Alumno> alumnos, IAlumno listener) {
-//        this.alumnos = alumnos;
-//        this.listener = listener;
-//    }
-
-//
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater layoutInflater , ViewGroup parent, Bundle bundle){
-//        View view = LayoutInflater.from(getContext()).inflate(R.layout.recyclerview_lista_alumnos, parent,false );
-//        return  view;
-//    }
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
