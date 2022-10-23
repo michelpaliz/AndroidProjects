@@ -42,12 +42,9 @@ public class ParserAlumno {
             json = new String(buffer, StandardCharsets.UTF_8);
             JSONTokener jsonTokener = new JSONTokener(json);
             JSONArray jsonArray = new JSONArray(jsonTokener);
-            JSONArray jsonNotas = null;
-            List<Nota>notas = new ArrayList<>();
-            List<Nota>notasFinal ;
+            List<Nota>notas = null;
 
             for (int i = 0; i < jsonArray.length(); i++) {
-
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nia = jsonObject.getString("nia");
                 String nombre = jsonObject.getString("nombre");
@@ -56,7 +53,10 @@ public class ParserAlumno {
                 String fechaNacimiento = jsonObject.getString("fechaNacimiento");
                 String email = jsonObject.getString("email");
                 //Creamos el array para las notas
-                 jsonNotas = jsonObject.getJSONArray("notas");
+                JSONArray jsonNotas = jsonObject.getJSONArray("notas");
+                //IMPORTANATISIMO DEBEMOS INICIALIZAR LA LISTA CON EL MAXIMO.
+                //SI NO COJERA TODAS LOS COMPONENTES DE MATRIZ NOTAS DEL JSON
+                notas = new ArrayList<>(jsonNotas.length());
                 for (int j = 0; j < jsonNotas.length(); j++) {
                     jsonObject = jsonNotas.getJSONObject(j);
                     notas.add(new Nota(jsonObject.getString("calificacion"),jsonObject.getString("codAsig")));

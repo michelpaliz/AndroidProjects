@@ -70,7 +70,7 @@ public class AdaptadorAsignatura extends RecyclerView.Adapter<AdaptadorAsignatur
             tvCodigo.setText(nota.getCodAsig());
             tvNota.setText(nota.getCalificacion());
             for (int i = 0; i < asignaturas.size(); i++) {
-                if (asignaturas.get(i).getCodigoAsignatura().equalsIgnoreCase(nota.getCodAsig())) {
+                if (asignaturas.get(i).getCodigoAsignatura().equals(nota.getCodAsig())) {
                     tvNombre.setText(asignaturas.get(i).getNombreAsignatura());
                 }
             }
