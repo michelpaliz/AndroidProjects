@@ -10,23 +10,22 @@
         android:id="@+id/linearLayout"
         android:layout_width="901dp"
         android:layout_height="715dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginBottom="216dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.486">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/FrgListado"
-            android:layout_width="886dp"
-            android:layout_height="698dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             tools:layout="@layout/list_item_alumnos_recyclerview" />
 
     </LinearLayout>
@@ -35,19 +34,21 @@
         android:id="@+id/linearLayout2"
         android:layout_width="894dp"
         android:layout_height="855dp"
-        android:layout_marginStart="75dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.769"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/FrgDetalle"
-            android:layout_width="882dp"
-            android:layout_height="843dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

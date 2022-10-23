@@ -39,6 +39,9 @@ public class FragmentDetalle extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //Esto es para el layout del detalle
+        RecyclerView recyclerView = requireView().findViewById(R.id.rvListarDetalle);
+        recyclerView.setAdapter(new AdaptadorAsignatura(alumno.getNotas()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
         mostrarDetalle(alumno);
 
@@ -47,9 +50,6 @@ public class FragmentDetalle extends Fragment {
 
     public void mostrarDetalle(Alumno alumno){
         requireActivity().setTitle("Notas de " + alumno.getNombre() + " " + alumno.getApellido() + " " + alumno.getApellido2());
-        RecyclerView recyclerView = requireView().findViewById(R.id.rvListarDetalle);
-        recyclerView.setAdapter(new AdaptadorAsignatura(alumno.getNotas()));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
     }
 
 

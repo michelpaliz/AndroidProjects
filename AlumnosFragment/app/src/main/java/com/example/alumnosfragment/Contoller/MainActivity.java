@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentOnAttachListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.example.alumnosfragment.Interface.IAlumno;
 import com.example.alumnosfragment.Model.Alumno;
 import com.example.alumnosfragment.R;
@@ -30,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements IAlumno, Fragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //Parseamos
         ParserAlumno parserAlumno = new ParserAlumno(getApplicationContext());
         if(parserAlumno.startParser()){
@@ -38,14 +39,16 @@ public class MainActivity extends AppCompatActivity implements IAlumno, Fragment
             Log.d("alumnosMain", String.valueOf(alumnos.size()));
             Log.d("mostraralumnos", alumnos.toString());
         }else{
-            Log.d("salto","no se ha podido parsear");
+            Toast.makeText(this,"No se ha pasado los datos correctamente", Toast.LENGTH_SHORT).show();
         }
         isTablet = findViewById(R.id.FrgDetalle) !=null;
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().setReorderingAllowed(true).add(R.id.FrgListado, FragmentListarAlumno.class, null).commit();
-            fragmentManager.addFragmentOnAttachListener(this);
+            if (savedInstanceState == null){
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().setReorderingAllowed(true).add(R.id.FrgListado, FragmentListarAlumno.class, null).commit();
+                fragmentManager.addFragmentOnAttachListener(this);
 
+            }
 
     }
 

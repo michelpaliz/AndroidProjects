@@ -8,14 +8,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="731dp"
-        android:layout_height="176dp"
+        android:layout_width="844dp"
+        android:layout_height="361dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,36 +23,9 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/FrgListado"
-            android:layout_width="721dp"
-            android:layout_height="161dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             tools:layout="@layout/list_item_alumnos_recyclerview" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="737dp"
-        android:layout_height="187dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="30dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/FrgDetalle"
-            android:layout_width="717dp"
-            android:layout_height="178dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout="@layout/list_item_notas_recyclerview"></androidx.fragment.app.FragmentContainerView>
-
-
     </LinearLayout>
 
 

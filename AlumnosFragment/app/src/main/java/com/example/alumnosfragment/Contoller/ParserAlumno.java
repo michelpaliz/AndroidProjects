@@ -27,7 +27,6 @@ public class ParserAlumno {
         this.alumnoFichero = contexto.getResources().openRawResource(R.raw.alumnos_notas);
     }
 
-
     public boolean startParser()  {
         boolean parseado = false;
         String json = null;
@@ -37,8 +36,6 @@ public class ParserAlumno {
             byte[] buffer = new byte[size];
             alumnoFichero.read(buffer);
             alumnoFichero.close();
-            Alumno alumno;
-            Nota nota;
             json = new String(buffer, StandardCharsets.UTF_8);
             JSONTokener jsonTokener = new JSONTokener(json);
             JSONArray jsonArray = new JSONArray(jsonTokener);
@@ -54,14 +51,13 @@ public class ParserAlumno {
                 String email = jsonObject.getString("email");
                 //Creamos el array para las notas
                 JSONArray jsonNotas = jsonObject.getJSONArray("notas");
-                //IMPORTANATISIMO DEBEMOS INICIALIZAR LA LISTA CON EL MAXIMO.
-                //SI NO COJERA TODAS LOS COMPONENTES DE MATRIZ NOTAS DEL JSON
+                //IMPORTANTISIMO DEBEMOS INICIALIZAR LA LISTA CON EL MAXIMO.
+                //PORQUE SI NO COJERIA TODAS LOS COMPONENTES DE MATRIZ NOTAS DEL JSON
                 notas = new ArrayList<>(jsonNotas.length());
                 for (int j = 0; j < jsonNotas.length(); j++) {
                     jsonObject = jsonNotas.getJSONObject(j);
                     notas.add(new Nota(jsonObject.getString("calificacion"),jsonObject.getString("codAsig")));
                 }
-
                 alumnos.add(new Alumno(nia, nombre, apellido1, apellido2, fechaNacimiento, email, notas));
                 parseado = true;
             }
