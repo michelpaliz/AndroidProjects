@@ -42,10 +42,12 @@ public class ParserAlumno {
             json = new String(buffer, StandardCharsets.UTF_8);
             JSONTokener jsonTokener = new JSONTokener(json);
             JSONArray jsonArray = new JSONArray(jsonTokener);
-            JSONArray jsonNotas;
+            JSONArray jsonNotas = null;
             List<Nota>notas = new ArrayList<>();
+            List<Nota>notasFinal ;
 
             for (int i = 0; i < jsonArray.length(); i++) {
+
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nia = jsonObject.getString("nia");
                 String nombre = jsonObject.getString("nombre");
@@ -55,25 +57,17 @@ public class ParserAlumno {
                 String email = jsonObject.getString("email");
                 //Creamos el array para las notas
                  jsonNotas = jsonObject.getJSONArray("notas");
-
                 for (int j = 0; j < jsonNotas.length(); j++) {
                     jsonObject = jsonNotas.getJSONObject(j);
-//                    nota = new Nota(jsonObject.getString("calificacion"),jsonObject.getString("codAsig"));
-//                    notas.add(nota);
                     notas.add(new Nota(jsonObject.getString("calificacion"),jsonObject.getString("codAsig")));
-
                 }
 
-//                alumno = new Alumno(nia,nombre,apellido1,apellido2,fechaNacimiento,email,notas);
-//                alumnos.add(alumno);
                 alumnos.add(new Alumno(nia, nombre, apellido1, apellido2, fechaNacimiento, email, notas));
-                Log.d("alumnos","Total " +String.valueOf(alumnos.size()));
                 parseado = true;
             }
 
         }catch (IOException | JSONException io){
             io.printStackTrace();
-            parseado = false;
         }
 
         return  parseado;

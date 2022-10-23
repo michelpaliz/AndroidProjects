@@ -18,11 +18,11 @@ import java.util.List;
 
 public class AdaptadorAsignatura extends RecyclerView.Adapter<AdaptadorAsignatura.HolderAlumno> {
 
-    private static List<Nota> notas = null;
+    private final List<Nota> notas;
 
 
     public AdaptadorAsignatura( List<Nota>notas) {
-        AdaptadorAsignatura.notas = notas;
+        this.notas = notas;
     }
 
     @NonNull
