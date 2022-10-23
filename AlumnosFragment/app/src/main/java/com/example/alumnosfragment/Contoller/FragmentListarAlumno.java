@@ -44,7 +44,7 @@ public class FragmentListarAlumno extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
-        assert alumnos != null && listener != null;
+//        assert alumnos != null && listener != null;
         RecyclerView recyclerView = view.findViewById(R.id.rvListarAlumnos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(new AdaptadorAlumno(alumnos,listener));
@@ -54,9 +54,5 @@ public class FragmentListarAlumno extends Fragment {
         this.alumnos = alumnos;
         this.listener = listener;
     }
-
-
-
-
 
 }

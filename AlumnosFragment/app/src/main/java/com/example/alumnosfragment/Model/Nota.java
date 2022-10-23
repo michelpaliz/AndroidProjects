@@ -18,4 +18,12 @@ public class Nota implements Serializable {
     public String getCodAsig() {
         return codAsig;
     }
+
+    @Override
+    public String toString() {
+        return "Nota{" +
+                "calificacion='" + calificacion + '\'' +
+                ", codAsig='" + codAsig + '\'' +
+                '}';
+    }
 }

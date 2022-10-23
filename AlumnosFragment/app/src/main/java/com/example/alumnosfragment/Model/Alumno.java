@@ -1,6 +1,16 @@
 package com.example.alumnosfragment.Model;
 
+import org.w3c.dom.CDATASection;
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Alumno implements Serializable {
@@ -12,6 +22,7 @@ public class Alumno implements Serializable {
     private final String nacimiento;
     private final String email;
     private final List<Nota> notas;
+    private int edad;
 
     public Alumno(String nia, String nombre, String apellido, String apellido2, String nacimiento, String email, List<Nota> notas) {
         this.nia = nia;
@@ -51,4 +62,44 @@ public class Alumno implements Serializable {
         return notas;
     }
 
+    public int calcularEdad(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        int edadPredeterminado =0;
+        Period p = null;
+        try {
+            date = sdf.parse(nacimiento);
+            GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            assert date != null;
+            gregorianCalendar.setTime(date);
+            LocalDate hoy = LocalDate.now();
+            LocalDate nacimiento = gregorianCalendar.toZonedDateTime().toLocalDate();
+            p = Period.between(nacimiento,hoy);
+        }catch (ParseException io){
+            io.printStackTrace();
+        }
+        if (p == null){
+            return edadPredeterminado;
+        }
+        return  p.getYears();
+    }
+
+    public int getEdad() {
+        return calcularEdad();
+    }
+
+
+    @Override
+    public String toString() {
+        return "Alumno{" +
+                "nia='" + nia + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", apellido2='" + apellido2 + '\'' +
+                ", nacimiento='" + nacimiento + '\'' +
+                ", email='" + email + '\'' +
+                ", notas=" + notas +
+                ", edad=" + edad +
+                '}';
+    }
 }

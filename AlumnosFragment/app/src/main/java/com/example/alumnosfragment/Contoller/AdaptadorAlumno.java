@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.alumnosfragment.Interface.IAlumno;
 import com.example.alumnosfragment.Model.Alumno;
+import com.example.alumnosfragment.Model.Nota;
 import com.example.alumnosfragment.R;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class AdaptadorAlumno extends RecyclerView.Adapter<AdaptadorAlumno.Holder
 
     private final List<Alumno> alumnos;
     private final IAlumno listener;
+    private static String nota;
 
     public AdaptadorAlumno(List<Alumno> alumnos, IAlumno listener) {
         this.alumnos = alumnos;
@@ -39,6 +41,9 @@ public class AdaptadorAlumno extends RecyclerView.Adapter<AdaptadorAlumno.Holder
 
     @Override
     public int getItemCount() {
+        if (alumnos == null){
+            return  0;
+        }
         return alumnos.size();
     }
 
@@ -46,12 +51,15 @@ public class AdaptadorAlumno extends RecyclerView.Adapter<AdaptadorAlumno.Holder
 
         private final TextView tvNombre;
         private final TextView tvEmail;
+        private final TextView tvEdad;
         private final IAlumno listener;
+
 
 
         public HolderAlumno(@NonNull View itemView, IAlumno listener) {
             super(itemView);
             this.listener = listener;
+            this.tvEdad = itemView.findViewById(R.id.tvEdadItemListarAlumno);
             this.tvNombre = itemView.findViewById(R.id.tvNombreItemListarAlumno);
             this.tvEmail = itemView.findViewById(R.id.tvEmailItemListarAlumno);
             //IMPORTANTISIMO SI NO PONEMOS ESTA LINEA NUESTRA INTERFAZ DE ONCLICK NO FUNCIONARA!!
@@ -62,8 +70,9 @@ public class AdaptadorAlumno extends RecyclerView.Adapter<AdaptadorAlumno.Holder
         public void bindContacto(Alumno alumno){
             tvNombre.setText(alumno.getNombre());
             tvEmail.setText(alumno.getEmail());
-        }
+            tvEdad.setText(String.valueOf(alumno.getEdad()));
 
+        }
 
         @Override
         public void onClick(View view) {

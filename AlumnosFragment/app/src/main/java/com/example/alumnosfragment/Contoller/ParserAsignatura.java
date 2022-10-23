@@ -28,7 +28,7 @@ public class ParserAsignatura {
 
     public boolean startParser() {
         boolean parseado = false;
-        String json = null;
+        String json;
         asignaturas = new ArrayList<>();
 
         try {
@@ -36,7 +36,6 @@ public class ParserAsignatura {
             byte[] buffer = new byte[size];
             asignaturaFichero.read(buffer);
             asignaturaFichero.close();
-            asignaturas = new ArrayList<>();
             json = new String(buffer, StandardCharsets.UTF_8);
             JSONTokener jsonTokener = new JSONTokener(json);
             JSONArray jsonArray = new JSONArray(jsonTokener);
@@ -51,7 +50,7 @@ public class ParserAsignatura {
 
         }catch (IOException | JSONException io){
             io.printStackTrace();
-            parseado = false;
+            //Si salta la excepcion seria false como defecto que hemos puesto.
         }
 
         return parseado;

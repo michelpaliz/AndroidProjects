@@ -15,14 +15,9 @@ import java.util.Objects;
 public class DetalleActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME="com.example.alumnosfragment.EXTRA_NAME";
-    public  List<Asignatura> asignaturas;
 
     public DetalleActivity() {
         super(R.layout.activity_detalle);
-    }
-
-    public DetalleActivity(List<Asignatura> asignaturas) {
-        this.asignaturas= asignaturas;
     }
 
     @Override
@@ -30,9 +25,7 @@ public class DetalleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null){
            Alumno alumno = (Alumno) Objects.requireNonNull(getIntent().getSerializableExtra(EXTRA_NAME));
-//           Asignatura asignatura = (Asignatura) Objects.requireNonNull(getIntent().getSerializableExtra(EXTRA_NAME));
            Bundle bundle = new Bundle();
-//           bundle.putSerializable(FragmentDetalle.EXTRA_DETALLE,asignatura);
            bundle.putSerializable(FragmentDetalle.EXTRA_DETALLE,alumno  );
            FragmentManager manager = getSupportFragmentManager();
            manager.beginTransaction().setReorderingAllowed(true).add(R.id.FrgDetalle, FragmentDetalle.class, bundle).commit();
@@ -42,7 +35,4 @@ public class DetalleActivity extends AppCompatActivity {
 
     }
 
-    public void setAsignaturas(List<Asignatura> asignaturas) {
-        this.asignaturas = asignaturas;
-    }
 }

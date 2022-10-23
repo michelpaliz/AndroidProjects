@@ -37,6 +37,8 @@ public class ParserAlumno {
             byte[] buffer = new byte[size];
             alumnoFichero.read(buffer);
             alumnoFichero.close();
+            Alumno alumno;
+            Nota nota;
             json = new String(buffer, StandardCharsets.UTF_8);
             JSONTokener jsonTokener = new JSONTokener(json);
             JSONArray jsonArray = new JSONArray(jsonTokener);
@@ -52,12 +54,18 @@ public class ParserAlumno {
                 String fechaNacimiento = jsonObject.getString("fechaNacimiento");
                 String email = jsonObject.getString("email");
                 //Creamos el array para las notas
-                jsonNotas = jsonObject.getJSONArray("notas");
+                 jsonNotas = jsonObject.getJSONArray("notas");
 
                 for (int j = 0; j < jsonNotas.length(); j++) {
-                    JSONObject jsonObject1 = jsonNotas.getJSONObject(j);
-                    notas.add(new Nota(jsonObject1.getString("calificacion"),jsonObject1.getString("codAsig")));
+                    jsonObject = jsonNotas.getJSONObject(j);
+//                    nota = new Nota(jsonObject.getString("calificacion"),jsonObject.getString("codAsig"));
+//                    notas.add(nota);
+                    notas.add(new Nota(jsonObject.getString("calificacion"),jsonObject.getString("codAsig")));
+
                 }
+
+//                alumno = new Alumno(nia,nombre,apellido1,apellido2,fechaNacimiento,email,notas);
+//                alumnos.add(alumno);
                 alumnos.add(new Alumno(nia, nombre, apellido1, apellido2, fechaNacimiento, email, notas));
                 Log.d("alumnos","Total " +String.valueOf(alumnos.size()));
                 parseado = true;
