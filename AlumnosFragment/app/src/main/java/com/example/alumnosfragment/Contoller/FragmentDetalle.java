@@ -46,16 +46,19 @@ public class FragmentDetalle extends Fragment {
         recyclerView.setAdapter(adaptadorAsignatura);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
-        if (alumno!= null)
-        mostrarDetalle(alumno);
+        if (alumno!= null) {
+            mostrarDetalle(alumno);
+        }
+
 
     }
 
 
     public void mostrarDetalle(Alumno alumno){
-        if (adaptadorAsignatura != null)
+        if (adaptadorAsignatura != null){
             adaptadorAsignatura.setNotas(alumno.getNotas());
             requireActivity().setTitle("Notas de " + alumno.getNombre() + " " + alumno.getApellido() + " " + alumno.getApellido2());
+        }
 
     }
 
