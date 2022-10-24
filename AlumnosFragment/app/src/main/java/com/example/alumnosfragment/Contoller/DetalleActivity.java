@@ -26,7 +26,7 @@ public class DetalleActivity extends AppCompatActivity {
         if (savedInstanceState == null){
            Alumno alumno = (Alumno) Objects.requireNonNull(getIntent().getSerializableExtra(EXTRA_NAME));
            Bundle bundle = new Bundle();
-           bundle.putSerializable(FragmentDetalle.EXTRA_DETALLE,alumno  );
+           bundle.putSerializable(FragmentDetalle.EXTRA_DETALLE,alumno);
            FragmentManager manager = getSupportFragmentManager();
            manager.beginTransaction().setReorderingAllowed(true).add(R.id.FrgDetalle, FragmentDetalle.class, bundle).commit();
 

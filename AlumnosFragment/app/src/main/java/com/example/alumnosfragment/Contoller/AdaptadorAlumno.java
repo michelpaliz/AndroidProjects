@@ -19,7 +19,6 @@ public class AdaptadorAlumno extends RecyclerView.Adapter<AdaptadorAlumno.Holder
 
     private final List<Alumno> alumnos;
     private final IAlumno listener;
-    private static String nota;
 
     public AdaptadorAlumno(List<Alumno> alumnos, IAlumno listener) {
         this.alumnos = alumnos;
@@ -55,6 +54,11 @@ public class AdaptadorAlumno extends RecyclerView.Adapter<AdaptadorAlumno.Holder
         private final IAlumno listener;
 
 
+        /**
+         *
+         * @param itemView
+         * @param listener
+         */
 
         public HolderAlumno(@NonNull View itemView, IAlumno listener) {
             super(itemView);

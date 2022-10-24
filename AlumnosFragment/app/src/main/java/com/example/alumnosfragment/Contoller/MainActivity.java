@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements IAlumno, Fragment
                 manager.beginTransaction().setReorderingAllowed(true).add(R.id.FrgDetalle,FragmentDetalle.class, bundle).commit();
             }
         }
+        if(fragment.getId()==R.id.FrgDetalle){
+            frgDetalle = (FragmentDetalle) fragment;
+        }
     }
 
 }

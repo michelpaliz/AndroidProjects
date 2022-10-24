@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AdaptadorAsignatura extends RecyclerView.Adapter<AdaptadorAsignatura.HolderAlumno> {
 
-    private final List<Nota> notas;
+    private  List<Nota> notas;
 
 
     public AdaptadorAsignatura( List<Nota>notas) {
@@ -47,6 +47,10 @@ public class AdaptadorAsignatura extends RecyclerView.Adapter<AdaptadorAsignatur
         }
     }
 
+    public void setNotas(List<Nota> notas) {
+        this.notas = notas;
+        notifyDataSetChanged();
+    }
 
     public static class HolderAlumno extends RecyclerView.ViewHolder {
 
@@ -54,6 +58,7 @@ public class AdaptadorAsignatura extends RecyclerView.Adapter<AdaptadorAsignatur
         private final TextView tvNombre;
         private TextView tvNota ;
         private List <Asignatura> asignaturas;
+
 
 
         public HolderAlumno(@NonNull View itemView) {
