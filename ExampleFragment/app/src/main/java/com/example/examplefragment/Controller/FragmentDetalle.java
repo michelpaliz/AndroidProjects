@@ -58,6 +58,8 @@ public class FragmentDetalle extends Fragment {
 
     }
 
+    //Este metodo hacemos los setters de nuestro view
+    //Por ejemplo puede ir los RecyclerView y los TextViews.
     public void mostrarDetalle(Contacto contacto){
         sb.setLength(0);
         sb.append(contacto.getNombre()).append(" ").append(contacto.getApellido1()).append(" ").append(contacto.getApellido2());

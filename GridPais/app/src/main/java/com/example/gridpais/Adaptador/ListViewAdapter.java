@@ -36,7 +36,7 @@ public class ListViewAdapter extends ArrayAdapter<Pais> {
     //**Mediante los datos que tenemos en nuestra lista el Adaptador se encargara de distribuirlos a nuestro View
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Holder holder = null;
-        Pais pais;
+        Pais pais = new Pais();
 //       LayoutInflater inflater = LayoutInflater.from(getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 //        LayoutInflater inflater = LayoutInflater.from(getContext());
         if (convertView == null) {
@@ -44,7 +44,6 @@ public class ListViewAdapter extends ArrayAdapter<Pais> {
 //            convertView = inflater.inflate(R.layout.listitem_country,parent, null);
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_country, parent, false);
             holder = new Holder();
-            pais = new Pais();
             holder.ivFlag = (ImageView) convertView.findViewById(R.id.ivImagen);
             holder.nombrePais = (TextView) convertView.findViewById(R.id.tvNombre);
             holder.capital = (TextView) convertView.findViewById(R.id.tvCapital);
