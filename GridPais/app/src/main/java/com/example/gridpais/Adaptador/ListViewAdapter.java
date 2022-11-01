@@ -25,7 +25,7 @@ public class ListViewAdapter extends ArrayAdapter<Pais> {
 
     }
 
-    static class Holder {
+    public static class Holder {
         ImageView ivFlag;
         TextView nombrePais;
         TextView capital;
