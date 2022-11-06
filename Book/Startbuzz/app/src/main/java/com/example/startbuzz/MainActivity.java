@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements IElement, FragmentOnAttachListener {
-
-    private final static int MAX_CANTIDADES = 4;
+public class MainActivity extends AppCompatActivity implements IElement{
 
     private List<Opcion>opciones;
     private List<Coffe> coffees;
@@ -55,9 +53,9 @@ public class MainActivity extends AppCompatActivity implements IElement, Fragmen
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(new OpcionesAdapter(this,opciones, this));
             recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().setReorderingAllowed(true).add(R.id.FrgListado, FragmentLista.class, null).commit();
-            manager.addFragmentOnAttachListener(this);
+//            FragmentManager manager = getSupportFragmentManager();
+//            manager.beginTransaction().setReorderingAllowed(true).add(R.id.FrgListado, FragmentLista.class, null).commit();
+//            manager.addFragmentOnAttachListener(this);
         }
 
     }
@@ -89,11 +87,11 @@ public class MainActivity extends AppCompatActivity implements IElement, Fragmen
         Coffe coffe = coffees.get(position);
         Opcion opcion = opciones.get(position);
     }
-
-    @Override
-    public void onAttachFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment) {
-        if (fragment.getId() == R.id.fragmentContainerView){
-            
-        }
-    }
+//
+//    @Override
+//    public void onAttachFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment) {
+//        if (fragment.getId() == R.id.fragmentContainerView){
+//
+//        }
+//    }
 }

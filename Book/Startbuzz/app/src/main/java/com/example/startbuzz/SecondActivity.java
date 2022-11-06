@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,10 +15,7 @@ import com.example.startbuzz.Model.Coffe;
 
 import java.util.List;
 
-public class SecondActivity extends AppCompatActivity implements IElement{
-
-    public static final String MESSAGE = "MESSAGE";
-    private OpcionesAdapter adapter;
+public class SecondActivity extends AppCompatActivity implements IElement {
 
     private final List<Coffe> coffees;
 
@@ -44,4 +42,5 @@ public class SecondActivity extends AppCompatActivity implements IElement{
     @Override
     public void onSelectedElement(int position) {
     }
+
 }
