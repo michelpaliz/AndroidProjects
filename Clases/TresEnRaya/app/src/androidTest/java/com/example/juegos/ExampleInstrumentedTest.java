@@ -1,4 +1,4 @@
-package com.example.tresenraya;
+package com.example.juegos;
 
 import android.content.Context;
 
