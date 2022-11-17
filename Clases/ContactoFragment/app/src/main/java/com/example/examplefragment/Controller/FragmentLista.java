@@ -23,7 +23,7 @@ public class FragmentLista extends Fragment {
     private IContactoListener listener;
 
     //Esta implementacion los coje desde el main que este nuestros contactos;
-    public interface IOnAttachListener{
+    public interface IOnAttachListener{1
         List<Contacto> getContactosListado();
     }
 

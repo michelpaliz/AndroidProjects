@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AlumnosFragment</string>
+    <string name="title_activity_detalle">DetalleActivity</string>
+    <string name="alumnos">alumnos</string>
+</resources>

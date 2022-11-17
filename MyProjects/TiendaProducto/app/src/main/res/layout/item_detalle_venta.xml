@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?><!-- XML implementation of Card Layout -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:layout_gravity="center"
+    android:layout_margin="5dp"
+    android:background="#00FFFF"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/tvNombre"
+            android:layout_width="223dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Nombre"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvStock"
+            android:layout_width="108dp"
+            android:layout_height="53dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Stock"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNombre" />
+
+        <TextView
+            android:id="@+id/tvPrecioVenta"
+            android:layout_width="114dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Precio de Venta"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStock" />
+
+        <TextView
+            android:id="@+id/tvResumen"
+            android:layout_width="114dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="RESUMEN DE COMPRA"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPrecioVenta" />
+
+        <TextView
+            android:id="@+id/tvResumenCompra"
+            android:layout_width="209dp"
+            android:layout_height="67dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="144dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="RESUMEN DE COMPRA"
+            app:layout_constraintStart_toEndOf="@+id/tvResumen"
+            app:layout_constraintTop_toBottomOf="@+id/tvNombre" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="112dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="80dp"
+            android:text="Comprar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvResumenCompra" />
+
+        <EditText
+            android:id="@+id/editTextNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="12dp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:minHeight="48dp"
+            android:text="Introduce un numero"
+            app:layout_constraintBottom_toTopOf="@+id/tvResumenCompra"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tvComunicacion"
+            android:layout_width="210dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/editTextNumber"
+            app:layout_constraintStart_toEndOf="@+id/tvStock" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
