@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><!-- XML implementation of Card Layout -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:layout_gravity="center"
+    android:layout_margin="5dp"
+    android:background="#00FFFF"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/FragmentoDetalle"
+        android:name="com.example.examenciclistas.Vista.FragmentoLista"
+        android:layout_width="356dp"
+        android:layout_height="672dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.cardview.widget.CardView>

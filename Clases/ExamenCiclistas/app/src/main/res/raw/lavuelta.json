@@ -1,0 +1,4776 @@
+{
+  "competition": {
+    "name": "La Vuelta",
+    "cyclists": [
+      {
+        "cyclistId": 1,
+        "name": "Rodrigo",
+        "surname": "Rico",
+        "team": "Astana"
+      },
+      {
+        "cyclistId": 2,
+        "name": "Guillermo",
+        "surname": "Madrid",
+        "team": "Astana"
+      },
+      {
+        "cyclistId": 3,
+        "name": "Flavio",
+        "surname": "Arriaga",
+        "team": "Astana"
+      },
+      {
+        "cyclistId": 4,
+        "name": "Omar",
+        "surname": "Salcido",
+        "team": "Astana"
+      },
+      {
+        "cyclistId": 5,
+        "name": "Gabriel",
+        "surname": "Sanabria",
+        "team": "Astana"
+      },
+      {
+        "cyclistId": 6,
+        "name": "Aarón",
+        "surname": "Mendoza",
+        "team": "Cofidis"
+      },
+      {
+        "cyclistId": 7,
+        "name": "Raúl",
+        "surname": "Ochoa",
+        "team": "Cofidis"
+      },
+      {
+        "cyclistId": 8,
+        "name": "Elías",
+        "surname": "Laboy",
+        "team": "Cofidis"
+      },
+      {
+        "cyclistId": 9,
+        "name": "Iñaki",
+        "surname": "Fuentes",
+        "team": "Cofidis"
+      },
+      {
+        "cyclistId": 10,
+        "name": "Gustavo",
+        "surname": "Zaragoza",
+        "team": "Cofidis"
+      },
+      {
+        "cyclistId": 11,
+        "name": "Emilio",
+        "surname": "Viera",
+        "team": "Lotto"
+      },
+      {
+        "cyclistId": 12,
+        "name": "Oriol",
+        "surname": "Esquibel",
+        "team": "Lotto"
+      },
+      {
+        "cyclistId": 13,
+        "name": "Kevin",
+        "surname": "Puente",
+        "team": "Lotto"
+      },
+      {
+        "cyclistId": 14,
+        "name": "Adrián",
+        "surname": "Mata",
+        "team": "Lotto"
+      },
+      {
+        "cyclistId": 15,
+        "name": "Daniel",
+        "surname": "Delrío",
+        "team": "Lotto"
+      },
+      {
+        "cyclistId": 16,
+        "name": "Jaime",
+        "surname": "Linares",
+        "team": "Movistar"
+      },
+      {
+        "cyclistId": 17,
+        "name": "Samuel",
+        "surname": "Ramón",
+        "team": "Movistar"
+      },
+      {
+        "cyclistId": 18,
+        "name": "Fermín",
+        "surname": "Atencio",
+        "team": "Movistar"
+      },
+      {
+        "cyclistId": 19,
+        "name": "Jorge",
+        "surname": "Corrales",
+        "team": "Movistar"
+      },
+      {
+        "cyclistId": 20,
+        "name": "Gabriel",
+        "surname": "Tejada",
+        "team": "Movistar"
+      },
+      {
+        "cyclistId": 21,
+        "name": "Ismael",
+        "surname": "Piña",
+        "team": "Euskaltel"
+      },
+      {
+        "cyclistId": 22,
+        "name": "Alexis",
+        "surname": "Roybal",
+        "team": "Euskaltel"
+      },
+      {
+        "cyclistId": 23,
+        "name": "Óscar",
+        "surname": "Palomino",
+        "team": "Euskaltel"
+      },
+      {
+        "cyclistId": 24,
+        "name": "Ignacio",
+        "surname": "Cardona",
+        "team": "Euskaltel"
+      },
+      {
+        "cyclistId": 25,
+        "name": "Emilio",
+        "surname": "Candelaria",
+        "team": "Euskaltel"
+      },
+      {
+        "cyclistId": 26,
+        "name": "Steven",
+        "surname": "Venegas",
+        "team": "Gazprom"
+      },
+      {
+        "cyclistId": 27,
+        "name": "Abraham",
+        "surname": "Romo",
+        "team": "Gazprom"
+      },
+      {
+        "cyclistId": 28,
+        "name": "Allen",
+        "surname": "Solano",
+        "team": "Gazprom"
+      },
+      {
+        "cyclistId": 29,
+        "name": "Alberto",
+        "surname": "Quintana",
+        "team": "Gazprom"
+      },
+      {
+        "cyclistId": 30,
+        "name": "Esteban",
+        "surname": "Cortés",
+        "team": "Gazprom"
+      },
+      {
+        "cyclistId": 31,
+        "name": "Bernard",
+        "surname": "Maestas",
+        "team": "DSM"
+      },
+      {
+        "cyclistId": 32,
+        "name": "Lorenzo",
+        "surname": "Zamudio",
+        "team": "DSM"
+      },
+      {
+        "cyclistId": 33,
+        "name": "Miguel",
+        "surname": "Rojo",
+        "team": "DSM"
+      },
+      {
+        "cyclistId": 34,
+        "name": "Juan Carlos",
+        "surname": "Yáñez",
+        "team": "DSM"
+      },
+      {
+        "cyclistId": 35,
+        "name": "Julio",
+        "surname": "Adame",
+        "team": "DSM"
+      }
+    ],
+    "stages": [
+      {
+        "startCity": "Caleruega",
+        "finishCity": "Burgos",
+        "distance": 166.7,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 50,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 56,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 50,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 37,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 32,
+            "seconds": 13
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 52,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 48,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 42,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 32
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 52,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 22,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 33,
+            "seconds": 5
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 56
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 39,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 40
+          }
+        ]
+      },
+      {
+        "startCity": "Santo Domingo de Silos",
+        "finishCity": "Espinosa de los Monteros ",
+        "distance": 202.8,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 5,
+            "minutes": 33,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 2,
+            "hours": 5,
+            "minutes": 31,
+            "seconds": 32
+          },
+          {
+            "cyclistId": 3,
+            "hours": 5,
+            "minutes": 16,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 4,
+            "hours": 5,
+            "minutes": 7,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 5,
+            "hours": 5,
+            "minutes": 35,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 6,
+            "hours": 5,
+            "minutes": 12,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 7,
+            "hours": 5,
+            "minutes": 26,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 8,
+            "hours": 5,
+            "minutes": 34,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 9,
+            "hours": 5,
+            "minutes": 17,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 10,
+            "hours": 5,
+            "minutes": 21,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 11,
+            "hours": 5,
+            "minutes": 22,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 12,
+            "hours": 5,
+            "minutes": 25,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 13,
+            "hours": 5,
+            "minutes": 35,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 14,
+            "hours": 5,
+            "minutes": 6,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 15,
+            "hours": 5,
+            "minutes": 3,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 16,
+            "hours": 5,
+            "minutes": 30,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 17,
+            "hours": 5,
+            "minutes": 31,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 18,
+            "hours": 5,
+            "minutes": 20,
+            "seconds": 5
+          },
+          {
+            "cyclistId": 19,
+            "hours": 5,
+            "minutes": 0,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 20,
+            "hours": 5,
+            "minutes": 17,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 21,
+            "hours": 5,
+            "minutes": 12,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 22,
+            "hours": 5,
+            "minutes": 9,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 23,
+            "hours": 5,
+            "minutes": 34,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 24,
+            "hours": 5,
+            "minutes": 13,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 25,
+            "hours": 5,
+            "minutes": 28,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 26,
+            "hours": 5,
+            "minutes": 7,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 27,
+            "hours": 5,
+            "minutes": 24,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 28,
+            "hours": 5,
+            "minutes": 35,
+            "seconds": 50
+          },
+          {
+            "cyclistId": 29,
+            "hours": 5,
+            "minutes": 27,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 30,
+            "hours": 5,
+            "minutes": 34,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 31,
+            "hours": 5,
+            "minutes": 18,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 32,
+            "hours": 5,
+            "minutes": 0,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 33,
+            "hours": 5,
+            "minutes": 2,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 34,
+            "hours": 5,
+            "minutes": 4,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 35,
+            "hours": 5,
+            "minutes": 8,
+            "seconds": 49
+          }
+        ]
+      },
+      {
+        "startCity": "El Burgo de Osma",
+        "finishCity": "Molina de Aragón",
+        "distance": 163.9,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 2,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 3,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 4,
+            "hours": 3,
+            "minutes": 39,
+            "seconds": 57
+          },
+          {
+            "cyclistId": 5,
+            "hours": 3,
+            "minutes": 46,
+            "seconds": 5
+          },
+          {
+            "cyclistId": 6,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 57
+          },
+          {
+            "cyclistId": 7,
+            "hours": 3,
+            "minutes": 33,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 8,
+            "hours": 3,
+            "minutes": 36,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 9,
+            "hours": 3,
+            "minutes": 38,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 10,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 11,
+            "hours": 3,
+            "minutes": 33,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 12,
+            "hours": 3,
+            "minutes": 51,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 13,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 14,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 15,
+            "hours": 3,
+            "minutes": 42,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 16,
+            "hours": 3,
+            "minutes": 49,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 17,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 18,
+            "hours": 3,
+            "minutes": 39,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 19,
+            "hours": 3,
+            "minutes": 41,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 20,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 21,
+            "hours": 3,
+            "minutes": 41,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 22,
+            "hours": 3,
+            "minutes": 42,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 23,
+            "hours": 3,
+            "minutes": 34,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 24,
+            "hours": 3,
+            "minutes": 51,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 25,
+            "hours": 3,
+            "minutes": 42,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 26,
+            "hours": 3,
+            "minutes": 43,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 27,
+            "hours": 3,
+            "minutes": 48,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 28,
+            "hours": 3,
+            "minutes": 44,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 29,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 30,
+            "hours": 3,
+            "minutes": 30,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 31,
+            "hours": 3,
+            "minutes": 34,
+            "seconds": 7
+          },
+          {
+            "cyclistId": 32,
+            "hours": 3,
+            "minutes": 43,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 33,
+            "hours": 3,
+            "minutes": 50,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 34,
+            "hours": 3,
+            "minutes": 47,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 35,
+            "hours": 3,
+            "minutes": 58,
+            "seconds": 42
+          }
+        ]
+      },
+      {
+        "startCity": "Tarancón",
+        "finishCity": "Albacete",
+        "distance": 184.4,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 22,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 33,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 26,
+            "seconds": 50
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 39,
+            "seconds": 7
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 37,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 22,
+            "seconds": 56
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 32
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 37,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 43,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 32
+          }
+        ]
+      },
+      {
+        "startCity": "Requena",
+        "finishCity": "Alto de la Montaña de Cullera",
+        "distance": 158.3,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 3,
+            "minutes": 34,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 2,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 3,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 4,
+            "hours": 3,
+            "minutes": 50,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 5,
+            "hours": 3,
+            "minutes": 43,
+            "seconds": 43
+          },
+          {
+            "cyclistId": 6,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 7,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 8,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 10
+          },
+          {
+            "cyclistId": 9,
+            "hours": 3,
+            "minutes": 56,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 10,
+            "hours": 3,
+            "minutes": 39,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 11,
+            "hours": 3,
+            "minutes": 47,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 12,
+            "hours": 3,
+            "minutes": 33,
+            "seconds": 50
+          },
+          {
+            "cyclistId": 13,
+            "hours": 3,
+            "minutes": 50,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 14,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 15,
+            "hours": 3,
+            "minutes": 49,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 16,
+            "hours": 3,
+            "minutes": 33,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 17,
+            "hours": 3,
+            "minutes": 41,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 18,
+            "hours": 3,
+            "minutes": 34,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 19,
+            "hours": 3,
+            "minutes": 55,
+            "seconds": 27
+          },
+          {
+            "cyclistId": 20,
+            "hours": 3,
+            "minutes": 58,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 21,
+            "hours": 3,
+            "minutes": 40,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 22,
+            "hours": 3,
+            "minutes": 54,
+            "seconds": 57
+          },
+          {
+            "cyclistId": 23,
+            "hours": 3,
+            "minutes": 30,
+            "seconds": 50
+          },
+          {
+            "cyclistId": 24,
+            "hours": 3,
+            "minutes": 44,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 25,
+            "hours": 3,
+            "minutes": 54,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 26,
+            "hours": 3,
+            "minutes": 58,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 27,
+            "hours": 3,
+            "minutes": 49,
+            "seconds": 6
+          },
+          {
+            "cyclistId": 28,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 29,
+            "hours": 3,
+            "minutes": 43,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 30,
+            "hours": 3,
+            "minutes": 41,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 31,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 32,
+            "hours": 3,
+            "minutes": 45,
+            "seconds": 7
+          },
+          {
+            "cyclistId": 33,
+            "hours": 3,
+            "minutes": 48,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 34,
+            "hours": 3,
+            "minutes": 34,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 35,
+            "hours": 3,
+            "minutes": 49,
+            "seconds": 7
+          }
+        ]
+      },
+      {
+        "startCity": "Gandia",
+        "finishCity": "Balcón de Alicante",
+        "distance": 152.0,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 2,
+            "hours": 3,
+            "minutes": 46,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 3,
+            "hours": 3,
+            "minutes": 37,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 4,
+            "hours": 3,
+            "minutes": 47,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 5,
+            "hours": 3,
+            "minutes": 56,
+            "seconds": 7
+          },
+          {
+            "cyclistId": 6,
+            "hours": 3,
+            "minutes": 56,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 7,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 8,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 9,
+            "hours": 3,
+            "minutes": 33,
+            "seconds": 27
+          },
+          {
+            "cyclistId": 10,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 11,
+            "hours": 3,
+            "minutes": 43,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 12,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 13,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 14,
+            "hours": 3,
+            "minutes": 59,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 15,
+            "hours": 3,
+            "minutes": 43,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 16,
+            "hours": 3,
+            "minutes": 45,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 17,
+            "hours": 3,
+            "minutes": 34,
+            "seconds": 43
+          },
+          {
+            "cyclistId": 18,
+            "hours": 3,
+            "minutes": 39,
+            "seconds": 57
+          },
+          {
+            "cyclistId": 19,
+            "hours": 3,
+            "minutes": 40,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 20,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 21,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 22,
+            "hours": 3,
+            "minutes": 45,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 23,
+            "hours": 3,
+            "minutes": 39,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 24,
+            "hours": 3,
+            "minutes": 48,
+            "seconds": 10
+          },
+          {
+            "cyclistId": 25,
+            "hours": 3,
+            "minutes": 55,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 26,
+            "hours": 3,
+            "minutes": 51,
+            "seconds": 56
+          },
+          {
+            "cyclistId": 27,
+            "hours": 3,
+            "minutes": 43,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 28,
+            "hours": 3,
+            "minutes": 58,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 29,
+            "hours": 3,
+            "minutes": 41,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 30,
+            "hours": 3,
+            "minutes": 48,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 31,
+            "hours": 3,
+            "minutes": 55,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 32,
+            "hours": 3,
+            "minutes": 37,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 33,
+            "hours": 3,
+            "minutes": 30,
+            "seconds": 57
+          },
+          {
+            "cyclistId": 34,
+            "hours": 3,
+            "minutes": 50,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 35,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 34
+          }
+        ]
+      },
+      {
+        "startCity": "Santa Pola",
+        "finishCity": "La Manga del Mar Menor",
+        "distance": 173.7,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 26,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 42,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 32,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 22,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 43,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 43,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 21
+          }
+        ]
+      },
+      {
+        "startCity": "Puerto Lumbreras",
+        "finishCity": "Alto de Velefique",
+        "distance": 188.0,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 33,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 56,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 39,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 56,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 57
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 13
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 33,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 51
+          }
+        ]
+      },
+      {
+        "startCity": "Roquetas de Mar",
+        "finishCity": "Rincón de la Victoria",
+        "distance": 189.0,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 45,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 50,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 32
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 35,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 52,
+            "seconds": 21
+          }
+        ]
+      },
+      {
+        "startCity": "Antequera",
+        "finishCity": "Valdepeñas de Jaén",
+        "distance": 133.6,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 3,
+            "minutes": 56,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 2,
+            "hours": 3,
+            "minutes": 56,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 3,
+            "hours": 3,
+            "minutes": 43,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 4,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 5,
+            "hours": 3,
+            "minutes": 30,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 6,
+            "hours": 3,
+            "minutes": 53,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 7,
+            "hours": 3,
+            "minutes": 48,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 8,
+            "hours": 3,
+            "minutes": 37,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 9,
+            "hours": 3,
+            "minutes": 50,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 10,
+            "hours": 3,
+            "minutes": 51,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 11,
+            "hours": 3,
+            "minutes": 51,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 12,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 13,
+            "hours": 3,
+            "minutes": 53,
+            "seconds": 50
+          },
+          {
+            "cyclistId": 14,
+            "hours": 3,
+            "minutes": 56,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 15,
+            "hours": 3,
+            "minutes": 42,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 16,
+            "hours": 3,
+            "minutes": 30,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 17,
+            "hours": 3,
+            "minutes": 55,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 18,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 19,
+            "hours": 3,
+            "minutes": 44,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 20,
+            "hours": 3,
+            "minutes": 59,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 21,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 22,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 23,
+            "hours": 3,
+            "minutes": 38,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 24,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 25,
+            "hours": 3,
+            "minutes": 39,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 26,
+            "hours": 3,
+            "minutes": 55,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 27,
+            "hours": 3,
+            "minutes": 33,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 28,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 29,
+            "hours": 3,
+            "minutes": 40,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 30,
+            "hours": 3,
+            "minutes": 50,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 31,
+            "hours": 3,
+            "minutes": 31,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 32,
+            "hours": 3,
+            "minutes": 39,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 33,
+            "hours": 3,
+            "minutes": 40,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 34,
+            "hours": 3,
+            "minutes": 58,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 35,
+            "hours": 3,
+            "minutes": 58,
+            "seconds": 49
+          }
+        ]
+      },
+      {
+        "startCity": "Jaén",
+        "finishCity": "Córdoba",
+        "distance": 175.0,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 52,
+            "seconds": 6
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 6
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 35,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 33,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 42,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 43,
+            "seconds": 5
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 45,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 22,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 39,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 50,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 22,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 33
+          }
+        ]
+      },
+      {
+        "startCity": "Belmez",
+        "finishCity": "Villanueva de la Serena",
+        "distance": 203.7,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 5,
+            "minutes": 25,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 2,
+            "hours": 5,
+            "minutes": 22,
+            "seconds": 43
+          },
+          {
+            "cyclistId": 3,
+            "hours": 5,
+            "minutes": 13,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 4,
+            "hours": 5,
+            "minutes": 29,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 5,
+            "hours": 5,
+            "minutes": 14,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 6,
+            "hours": 5,
+            "minutes": 34,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 7,
+            "hours": 5,
+            "minutes": 20,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 8,
+            "hours": 5,
+            "minutes": 27,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 9,
+            "hours": 5,
+            "minutes": 8,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 10,
+            "hours": 5,
+            "minutes": 22,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 11,
+            "hours": 5,
+            "minutes": 8,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 12,
+            "hours": 5,
+            "minutes": 28,
+            "seconds": 7
+          },
+          {
+            "cyclistId": 13,
+            "hours": 5,
+            "minutes": 30,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 14,
+            "hours": 5,
+            "minutes": 33,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 15,
+            "hours": 5,
+            "minutes": 18,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 16,
+            "hours": 5,
+            "minutes": 21,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 17,
+            "hours": 5,
+            "minutes": 33,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 18,
+            "hours": 5,
+            "minutes": 10,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 19,
+            "hours": 5,
+            "minutes": 26,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 20,
+            "hours": 5,
+            "minutes": 19,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 21,
+            "hours": 5,
+            "minutes": 20,
+            "seconds": 56
+          },
+          {
+            "cyclistId": 22,
+            "hours": 5,
+            "minutes": 0,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 23,
+            "hours": 5,
+            "minutes": 14,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 24,
+            "hours": 5,
+            "minutes": 35,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 25,
+            "hours": 5,
+            "minutes": 28,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 26,
+            "hours": 5,
+            "minutes": 3,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 27,
+            "hours": 5,
+            "minutes": 9,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 28,
+            "hours": 5,
+            "minutes": 35,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 29,
+            "hours": 5,
+            "minutes": 14,
+            "seconds": 57
+          },
+          {
+            "cyclistId": 30,
+            "hours": 5,
+            "minutes": 3,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 31,
+            "hours": 5,
+            "minutes": 15,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 32,
+            "hours": 5,
+            "minutes": 16,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 33,
+            "hours": 5,
+            "minutes": 17,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 34,
+            "hours": 5,
+            "minutes": 34,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 35,
+            "hours": 5,
+            "minutes": 33,
+            "seconds": 4
+          }
+        ]
+      },
+      {
+        "startCity": "Don Benito",
+        "finishCity": "Pico Villuercas",
+        "distance": 165.7,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 22,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 50,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 39,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 37,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 43,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 42,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 35,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 37,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 32
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 48,
+            "seconds": 6
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 32,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 5
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 48,
+            "seconds": 43
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 57
+          }
+        ]
+      },
+      {
+        "startCity": "Navalmoral de la Mata",
+        "finishCity": "El Barraco",
+        "distance": 197.5,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 26,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 39,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 7
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 50
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 35,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 26,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 32,
+            "seconds": 32
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 56
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 32,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 35,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 45,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 32
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 26,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 35,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 50,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 5
+          }
+        ]
+      },
+      {
+        "startCity": "Laredo",
+        "finishCity": "Santa Cruz de Bezana",
+        "distance": 180.0,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 48,
+            "seconds": 5
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 39,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 50,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 42,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 26
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 27
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 10
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 32,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 43
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 50,
+            "seconds": 33
+          }
+        ]
+      },
+      {
+        "startCity": "Unquera",
+        "finishCity": "Lagos de Covadonga",
+        "distance": 185.8,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 41,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 35,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 17
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 41,
+            "seconds": 43
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 48
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 52,
+            "seconds": 7
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 50,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 41,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 43,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 42,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 45,
+            "seconds": 23
+          }
+        ]
+      },
+      {
+        "startCity": "Salas",
+        "finishCity": "Altu d\u0027El Gamoniteiru",
+        "distance": 162.6,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 3,
+            "minutes": 53,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 2,
+            "hours": 3,
+            "minutes": 46,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 3,
+            "hours": 3,
+            "minutes": 58,
+            "seconds": 12
+          },
+          {
+            "cyclistId": 4,
+            "hours": 3,
+            "minutes": 42,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 5,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 6,
+            "hours": 3,
+            "minutes": 50,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 7,
+            "hours": 3,
+            "minutes": 48,
+            "seconds": 57
+          },
+          {
+            "cyclistId": 8,
+            "hours": 3,
+            "minutes": 34,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 9,
+            "hours": 3,
+            "minutes": 59,
+            "seconds": 13
+          },
+          {
+            "cyclistId": 10,
+            "hours": 3,
+            "minutes": 39,
+            "seconds": 32
+          },
+          {
+            "cyclistId": 11,
+            "hours": 3,
+            "minutes": 51,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 12,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 13,
+            "hours": 3,
+            "minutes": 30,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 14,
+            "hours": 3,
+            "minutes": 47,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 15,
+            "hours": 3,
+            "minutes": 47,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 16,
+            "hours": 3,
+            "minutes": 47,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 17,
+            "hours": 3,
+            "minutes": 44,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 18,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 19,
+            "hours": 3,
+            "minutes": 53,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 20,
+            "hours": 3,
+            "minutes": 30,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 21,
+            "hours": 3,
+            "minutes": 37,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 22,
+            "hours": 3,
+            "minutes": 58,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 23,
+            "hours": 3,
+            "minutes": 46,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 24,
+            "hours": 3,
+            "minutes": 48,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 25,
+            "hours": 3,
+            "minutes": 50,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 26,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 32
+          },
+          {
+            "cyclistId": 27,
+            "hours": 3,
+            "minutes": 42,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 28,
+            "hours": 3,
+            "minutes": 48,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 29,
+            "hours": 3,
+            "minutes": 59,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 30,
+            "hours": 3,
+            "minutes": 42,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 31,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 32,
+            "hours": 3,
+            "minutes": 47,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 33,
+            "hours": 3,
+            "minutes": 54,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 34,
+            "hours": 3,
+            "minutes": 33,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 35,
+            "hours": 3,
+            "minutes": 36,
+            "seconds": 6
+          }
+        ]
+      },
+      {
+        "startCity": "Tapia",
+        "finishCity": "Monforte de Lemos",
+        "distance": 191.2,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 41,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 32,
+            "seconds": 52
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 28
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 49,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 5
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 37,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 56
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 6
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 54,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 58,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 10
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 44
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 29
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 45,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 48,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 26,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 25
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 13
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 30,
+            "seconds": 28
+          }
+        ]
+      },
+      {
+        "startCity": "Padrón",
+        "finishCity": "Santiago de Compostela",
+        "distance": 191.2,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 36
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 41,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 59
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 56,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 57,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 46,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 38,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 50
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 43
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 52,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 19
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 54
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 26,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 37,
+            "seconds": 49
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 21
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 5
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 27
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 27,
+            "seconds": 58
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 32,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 45,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 42,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 32,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 28,
+            "seconds": 18
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 36,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 41,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 29
+          }
+        ]
+      },
+      {
+        "startCity": "Moralzarzal",
+        "finishCity": "Puerto de Navacerrada",
+        "distance": 181.0,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 4,
+            "minutes": 20,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 2,
+            "hours": 4,
+            "minutes": 33,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 3,
+            "hours": 4,
+            "minutes": 51,
+            "seconds": 6
+          },
+          {
+            "cyclistId": 4,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 6
+          },
+          {
+            "cyclistId": 5,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 23
+          },
+          {
+            "cyclistId": 6,
+            "hours": 4,
+            "minutes": 39,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 7,
+            "hours": 4,
+            "minutes": 59,
+            "seconds": 16
+          },
+          {
+            "cyclistId": 8,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 11
+          },
+          {
+            "cyclistId": 9,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 50
+          },
+          {
+            "cyclistId": 10,
+            "hours": 4,
+            "minutes": 43,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 11,
+            "hours": 4,
+            "minutes": 48,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 12,
+            "hours": 4,
+            "minutes": 43,
+            "seconds": 37
+          },
+          {
+            "cyclistId": 13,
+            "hours": 4,
+            "minutes": 53,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 14,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 15,
+            "hours": 4,
+            "minutes": 40,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 16,
+            "hours": 4,
+            "minutes": 26,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 17,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 18,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 56
+          },
+          {
+            "cyclistId": 19,
+            "hours": 4,
+            "minutes": 23,
+            "seconds": 3
+          },
+          {
+            "cyclistId": 20,
+            "hours": 4,
+            "minutes": 34,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 21,
+            "hours": 4,
+            "minutes": 44,
+            "seconds": 15
+          },
+          {
+            "cyclistId": 22,
+            "hours": 4,
+            "minutes": 26,
+            "seconds": 20
+          },
+          {
+            "cyclistId": 23,
+            "hours": 4,
+            "minutes": 31,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 24,
+            "hours": 4,
+            "minutes": 35,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 25,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 55
+          },
+          {
+            "cyclistId": 26,
+            "hours": 4,
+            "minutes": 29,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 27,
+            "hours": 4,
+            "minutes": 39,
+            "seconds": 27
+          },
+          {
+            "cyclistId": 28,
+            "hours": 4,
+            "minutes": 25,
+            "seconds": 38
+          },
+          {
+            "cyclistId": 29,
+            "hours": 4,
+            "minutes": 35,
+            "seconds": 5
+          },
+          {
+            "cyclistId": 30,
+            "hours": 4,
+            "minutes": 24,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 31,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 56
+          },
+          {
+            "cyclistId": 32,
+            "hours": 4,
+            "minutes": 55,
+            "seconds": 56
+          },
+          {
+            "cyclistId": 33,
+            "hours": 4,
+            "minutes": 21,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 34,
+            "hours": 4,
+            "minutes": 42,
+            "seconds": 27
+          },
+          {
+            "cyclistId": 35,
+            "hours": 4,
+            "minutes": 47,
+            "seconds": 53
+          }
+        ]
+      },
+      {
+        "startCity": "Las Rozas",
+        "finishCity": "Madrid",
+        "distance": 158.0,
+        "results": [
+          {
+            "cyclistId": 1,
+            "hours": 3,
+            "minutes": 40,
+            "seconds": 57
+          },
+          {
+            "cyclistId": 2,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 3,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 47
+          },
+          {
+            "cyclistId": 4,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 8
+          },
+          {
+            "cyclistId": 5,
+            "hours": 3,
+            "minutes": 54,
+            "seconds": 6
+          },
+          {
+            "cyclistId": 6,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 7,
+            "hours": 3,
+            "minutes": 59,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 8,
+            "hours": 3,
+            "minutes": 55,
+            "seconds": 34
+          },
+          {
+            "cyclistId": 9,
+            "hours": 3,
+            "minutes": 45,
+            "seconds": 41
+          },
+          {
+            "cyclistId": 10,
+            "hours": 3,
+            "minutes": 54,
+            "seconds": 42
+          },
+          {
+            "cyclistId": 11,
+            "hours": 3,
+            "minutes": 39,
+            "seconds": 24
+          },
+          {
+            "cyclistId": 12,
+            "hours": 3,
+            "minutes": 58,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 13,
+            "hours": 3,
+            "minutes": 55,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 14,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 15,
+            "hours": 3,
+            "minutes": 43,
+            "seconds": 50
+          },
+          {
+            "cyclistId": 16,
+            "hours": 3,
+            "minutes": 32,
+            "seconds": 45
+          },
+          {
+            "cyclistId": 17,
+            "hours": 3,
+            "minutes": 52,
+            "seconds": 2
+          },
+          {
+            "cyclistId": 18,
+            "hours": 3,
+            "minutes": 33,
+            "seconds": 46
+          },
+          {
+            "cyclistId": 19,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 30
+          },
+          {
+            "cyclistId": 20,
+            "hours": 3,
+            "minutes": 34,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 21,
+            "hours": 3,
+            "minutes": 35,
+            "seconds": 40
+          },
+          {
+            "cyclistId": 22,
+            "hours": 3,
+            "minutes": 40,
+            "seconds": 33
+          },
+          {
+            "cyclistId": 23,
+            "hours": 3,
+            "minutes": 55,
+            "seconds": 51
+          },
+          {
+            "cyclistId": 24,
+            "hours": 3,
+            "minutes": 55,
+            "seconds": 35
+          },
+          {
+            "cyclistId": 25,
+            "hours": 3,
+            "minutes": 49,
+            "seconds": 14
+          },
+          {
+            "cyclistId": 26,
+            "hours": 3,
+            "minutes": 38,
+            "seconds": 31
+          },
+          {
+            "cyclistId": 27,
+            "hours": 3,
+            "minutes": 45,
+            "seconds": 9
+          },
+          {
+            "cyclistId": 28,
+            "hours": 3,
+            "minutes": 45,
+            "seconds": 27
+          },
+          {
+            "cyclistId": 29,
+            "hours": 3,
+            "minutes": 53,
+            "seconds": 39
+          },
+          {
+            "cyclistId": 30,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 4
+          },
+          {
+            "cyclistId": 31,
+            "hours": 3,
+            "minutes": 51,
+            "seconds": 1
+          },
+          {
+            "cyclistId": 32,
+            "hours": 3,
+            "minutes": 57,
+            "seconds": 53
+          },
+          {
+            "cyclistId": 33,
+            "hours": 3,
+            "minutes": 49,
+            "seconds": 0
+          },
+          {
+            "cyclistId": 34,
+            "hours": 3,
+            "minutes": 48,
+            "seconds": 22
+          },
+          {
+            "cyclistId": 35,
+            "hours": 3,
+            "minutes": 53,
+            "seconds": 2
+          }
+        ]
+      }
+    ]
+  }
+}
