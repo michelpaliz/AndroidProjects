@@ -1,0 +1,16 @@
+
+*********** CREAR UN PANEL DE NAVEGACION ***************
+
+CREAMOS VARIOS FRAGMENTOS Y CON ELLOS LOS VIEWS (LAYOUTS)
+
+  -themes.xml =  cambiamos el style y por este parent="Theme.AppCompat.Light.DarkActionBar"
+
+
+ -activity_main = Es un drawerlayout que tendremos que anyadir nuestro toolbar con un include y un NavigationView.
+ -app_bar = Es un coordinator layout y tambien creamos nuestro toolbar e incluimos con un include nuestro layout donde se encuentra el content_view.
+ -content_main =  Es un fragmento container layout donde insertaremos nuestros fragmentos.
+ -En los fragmentos vamos creando uno por imagen cada uno tiene un textView y un ImageView.
+    -fragmento_camara = Es un constraint layout donde insertamos un textView y una imageView.
+ -nav_header_main = Es un linearLayout donde contiene el encabezado de nuestra applicacion; tiene 2 textViews
+
+
