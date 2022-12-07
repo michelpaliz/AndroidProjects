@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navRecibidos"
+            android:icon="@drawable/icon_correo_recibidos"
+            android:title="@string/received"/>
+        <item
+            android:id="@+id/navEnviados"
+            android:icon="@drawable/icon_nuevo_correo"
+            android:title="@string/send"/>
+        <item
+            android:id="@+id/navNoLeidos"
+            android:icon="@drawable/icon_no_leido"
+            android:title="@string/unread"/>
+
+        <item
+            android:id="@+id/navEnviar"
+            android:icon="@drawable/icon_enviados"
+            android:title="@string/sent"/>
+
+
+
+
+    </group>
+
+    <item android:title="@string/social">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/navSpam"
+                    android:icon="@drawable/icon_spam"
+                    android:title="@string/spam"/>
+                <item
+                    android:id="@+id/navPapelera"
+                    android:icon="@drawable/icon_papelera"
+                    android:title="@string/bin"/>
+
+            </group>
+        </menu>
+    </item>
+</menu>
