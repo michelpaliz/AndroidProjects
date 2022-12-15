@@ -16,7 +16,6 @@ import com.germangascon.navigationdrawersample.Interfaz.IOnCorreoSeleccionado;
 import com.germangascon.navigationdrawersample.Modelo.Cuenta;
 import com.germangascon.navigationdrawersample.R;
 import com.germangascon.navigationdrawersample.Vista.Adaptadores.AdaptadorEnviados;
-import com.germangascon.navigationdrawersample.Vista.Adaptadores.AdaptadorRecibidos;
 
 public class FragmentoEnviados extends Fragment {
 
