@@ -3,6 +3,7 @@ package com.germangascon.navigationdrawersample.Vista.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,64 +13,73 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.germangascon.navigationdrawersample.Interfaz.IOnCorreoSeleccionado;
+import com.germangascon.navigationdrawersample.Modelo.Contacto;
 import com.germangascon.navigationdrawersample.Modelo.Cuenta;
+import com.germangascon.navigationdrawersample.Modelo.Email;
 import com.germangascon.navigationdrawersample.R;
 import com.germangascon.navigationdrawersample.Vista.Adaptadores.AdaptadorEmail;
 
 public class FragmentoDetalle extends Fragment {
 
 
-    private AdaptadorEmail adaptadorEmail;
-    private TipoFragmento tipoFragmento;
-    private Cuenta cuenta;
-    private IOnCorreoSeleccionado iOnCorreoSeleccionado;
+    //    PARA CARGAR LOS DATOS UTILIZAMOS UNA INSTACIA DE TIPO CUENTA
+    private Email email;
+    private Contacto contacto;
+    //    PARA EL VIEW
+    private TextView tvTextoEmail;
+    private TextView tvTemaEmail;
+    private TextView tvOrigenEmail;
+    private TextView tvDestinoEmail;
+    private TextView tvFechaEnvioEmail;
+    private TextView tvNombreContacto;
 
-
-    public enum TipoFragmento {
-        RECEIVED, SENT, UNREADED, DELETED, SPAM, BIN
-    }
 
     public interface IOnAttachListener {
-        Cuenta getCuenta();
-        TipoFragmento getTipoFragmento();
+        Email getEmail();
+        Contacto getContactFromEmail(Email email);
     }
 
     public FragmentoDetalle() {
-        super(R.layout.recycler_view);
+        super(R.layout.fragmento_detalle);
     }
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-//        adaptadorEmail = new AdaptadorEmail(getContext(), cuenta, tipoFragmento, iOnCorreoSeleccionado);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adaptadorEmail);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        tvNombreContacto = view.findViewById(R.id.tvNombreContacto);
+        tvTextoEmail = view.findViewById(R.id.tvTextoEmail);
+        tvTemaEmail = view.findViewById(R.id.tvTemaEnvio);
+        tvOrigenEmail = view.findViewById(R.id.tvOrigenEmail);
+        tvDestinoEmail = view.findViewById(R.id.tvDestinoEmail);
+        tvFechaEnvioEmail = view.findViewById(R.id.tvFechaEnvio);
+
+        if (contacto == null && email == null){
+            throw new NullPointerException();
+        }else{
+            cargarDatos();
+        }
+
     }
+
+
+    public void cargarDatos() {
+        tvNombreContacto.setText(contacto.getNombre());
+        tvTextoEmail.setText(email.getTexto());
+        tvDestinoEmail.setText(email.getCorreoDestino());
+        tvTemaEmail.setText(email.getTema());
+        tvOrigenEmail.setText(email.getCorreoOrigen());
+        tvFechaEnvioEmail.setText(email.getFecha());
+    }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         //Para la cuenta
-        iOnCorreoSeleccionado = (IOnCorreoSeleccionado) context;
         IOnAttachListener iOnAttachListener = (IOnAttachListener) context;
-        cuenta = iOnAttachListener.getCuenta();
-        //Para el tipo de fragmento
-        tipoFragmento = iOnAttachListener.getTipoFragmento();
-        actualizarLista(tipoFragmento);
-    }
-
-    /**
-     * @param tipoFragmento el fragmento que vamos a cargar a nuestro layout de nuestro adaptador
-     */
-    public void actualizarLista(TipoFragmento tipoFragmento) {
-        this.tipoFragmento = tipoFragmento;
-        if (adaptadorEmail != null) {
-//            adaptadorEmail.actualizarLista(tipoFragmento);
-        }
+        email = iOnAttachListener.getEmail();
+        contacto = iOnAttachListener.getContactFromEmail(email);
     }
 
 

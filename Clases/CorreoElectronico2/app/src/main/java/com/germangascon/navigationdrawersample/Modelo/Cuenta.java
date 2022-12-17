@@ -5,17 +5,11 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Cuenta implements Serializable {
-    @SerializedName("id")
     private final int id;
-    @SerializedName("name")
     private final String nombre;
-    @SerializedName("surname")
     private final String apellido;
-    @SerializedName("email")
     private final String email;
-    @SerializedName("contacts")
     private  List<Contacto> contactoList;
-    @SerializedName("mails")
     private  List<Email> correos;
 
     public Cuenta(int id, String nombre, String apellido, String email, List<Contacto>contactoList, List<Email> emails) {
@@ -49,6 +43,15 @@ public class Cuenta implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public Contacto getContact(String email) {
+        for(int i = 0; i < contactoList.size(); i++) {
+            if(email.equals(contactoList.get(i).getEmail())) {
+                return contactoList.get(i);
+            }
+        }
+        return null;
     }
 
     @Override

@@ -21,8 +21,8 @@ public class FragmentoListado extends Fragment {
 
     private AdaptadorEmail adaptadorEmail;
     private TipoFragmento tipoFragmento;
-    private Cuenta cuenta;
     private IOnCorreoSeleccionado iOnCorreoSeleccionado;
+    private Cuenta cuenta;
 
 
     public enum TipoFragmento {
@@ -43,7 +43,7 @@ public class FragmentoListado extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        adaptadorEmail = new AdaptadorEmail(getContext(), cuenta, tipoFragmento, iOnCorreoSeleccionado);
+        adaptadorEmail = new AdaptadorEmail(getContext(), cuenta, tipoFragmento,iOnCorreoSeleccionado);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adaptadorEmail);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));

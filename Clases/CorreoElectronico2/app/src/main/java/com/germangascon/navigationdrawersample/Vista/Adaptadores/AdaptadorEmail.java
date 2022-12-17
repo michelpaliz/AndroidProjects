@@ -3,6 +3,7 @@ package com.germangascon.navigationdrawersample.Vista.Adaptadores;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,24 +30,26 @@ import java.util.stream.Stream;
 public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCorreoRecibidos> {
 
     private final Context context;
-    private final IOnCorreoSeleccionado onCorreoSeleccionado;
     private final CorreoLogica correoLogica;
     private FragmentoListado.TipoFragmento tipoFragmento;
     private HashMap<Email, Contacto> listaGeneral;
     private HashMap<Email, Email> listaSpam;
+    private final IOnCorreoSeleccionado iOnCorreoSeleccionado;
+    private Cuenta cuenta;
+    public static int email;
 
 
     /**
-     * @param context              el contexto que le pasamos de nuestra actividad
-     * @param cuenta               nuestro objt donde se encuentra 1 matriz de contactos y otra de correos
-     * @param tipoFragmento        el tipo de fragmento
-     * @param onCorreoSeleccionado  TODO investigar para que sirve este listener
+     * @param context       el contexto que le pasamos de nuestra actividad
+     * @param cuenta        nuestro objt donde se encuentra 1 matriz de contactos y otra de correos
+     * @param tipoFragmento el tipo de fragmento
      */
-    public AdaptadorEmail(Context context, Cuenta cuenta, FragmentoListado.TipoFragmento tipoFragmento, IOnCorreoSeleccionado onCorreoSeleccionado) {
+    public AdaptadorEmail(Context context, Cuenta cuenta, FragmentoListado.TipoFragmento tipoFragmento, IOnCorreoSeleccionado iOnCorreoSeleccionado) {
         this.context = context;
         this.tipoFragmento = tipoFragmento;
+        this.cuenta = cuenta;
         this.correoLogica = new CorreoLogica(cuenta);
-        this.onCorreoSeleccionado = onCorreoSeleccionado;
+        this.iOnCorreoSeleccionado = iOnCorreoSeleccionado;
         cargarDatos();
     }
 
@@ -138,8 +141,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
                 .stream()
                 .sorted((o1, o2) -> o2.getKey().getFecha().compareTo(o1.getKey().getFecha()));
 
-        List<Map.Entry<Email, Contacto>> test1 = stream.collect(Collectors.toList());
-        return test1;
+        return stream.collect(Collectors.toList());
     }
 
     /**
@@ -152,8 +154,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
                 .stream()
                 .sorted((o1, o2) -> o2.getKey().getFecha().compareTo(o1.getKey().getFecha()));
 
-        List<Map.Entry<Email, Email>> test2 = stream.collect(Collectors.toList());
-        return test2;
+        return stream.collect(Collectors.toList());
     }
 
 
@@ -171,14 +172,14 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
     }
 
 
-    public class HolderCorreoRecibidos extends RecyclerView.ViewHolder {
+    public class HolderCorreoRecibidos extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView imageView;
         private final TextView tvNombre;
         private final TextView tvTema;
         private final TextView tvDescripcion;
         private final TextView tvFecha;
-
+        List<Map.Entry<Email, Email>> listaEmail;
 
         public HolderCorreoRecibidos(@NonNull View itemView) {
             super(itemView);
@@ -187,59 +188,67 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
             this.tvTema = itemView.findViewById(R.id.tvAsuntoEnviado);
             this.tvDescripcion = itemView.findViewById(R.id.tvTextoEnviado);
             this.tvFecha = itemView.findViewById(R.id.tvFechaEnviado);
+            itemView.setOnClickListener(this);
         }
 
         /**
          * Funcion para cargar los datos generales (CORREOS ENVIADOS, CORREOS ELIMINADOS, CORREOS RECIBIDOS)
          *
-         * @param contacto
+         * @param listaEmail
          * @param posicion
          */
-        public void cargarDatosGeneral(List<Map.Entry<Email, Contacto>> contacto, int posicion) {
-            String nombre = "c" + contacto.get(posicion).getValue().getFoto();
+        public void cargarDatosGeneral(List<Map.Entry<Email, Contacto>> listaEmail, int posicion) {
+            String nombre = "c" + listaEmail.get(posicion).getValue().getFoto();
             System.out.println(nombre);
             int id = context.getResources().getIdentifier(nombre, "drawable", context.getPackageName());
             imageView.setImageResource(id);
-            String texto = contacto.get(posicion).getKey().getTexto();
+            String texto = listaEmail.get(posicion).getKey().getTexto();
             tvDescripcion.setText(texto.substring(0, 15));
-            tvNombre.setText(contacto.get(posicion).getValue().getNombre());
-            tvTema.setText(contacto.get(posicion).getKey().getTema());
+            tvNombre.setText(listaEmail.get(posicion).getValue().getNombre());
+            tvTema.setText(listaEmail.get(posicion).getKey().getTema());
 
-            if (!contacto.get(posicion).getKey().isLeido()) {
+            if (!listaEmail.get(posicion).getKey().isLeido()) {
                 tvFecha.setTextColor(Color.parseColor("#000000"));
             } else {
                 tvFecha.setTextColor(Color.parseColor("#00BCD4"));
             }
-            tvFecha.setText(contacto.get(posicion).getKey().getFecha());
+            tvFecha.setText(listaEmail.get(posicion).getKey().getFecha());
 
         }
 
         /**
          * Funcion para los correos recibidos pero que no son reconocidos en nuestros contactos
          *
-         * @param email
+         * @param listaEmail
          * @param posicion
          */
-        public void cargarDatosSpam(List<Map.Entry<Email, Email>> email, int posicion) {
+        public void cargarDatosSpam(List<Map.Entry<Email, Email>> listaEmail, int posicion) {
+            this.listaEmail = listaEmail;
             String nombre = "d";
             System.out.println(nombre);
-            int id = context.getResources().getIdentifier(nombre, "drawable", context.getPackageName());
+            @SuppressLint("DiscouragedApi") int id = context.getResources().getIdentifier(nombre, "drawable", context.getPackageName());
             imageView.setImageResource(id);
-            String texto = email.get(posicion).getKey().getTexto();
+            String texto = listaEmail.get(posicion).getKey().getTexto();
             tvDescripcion.setText(texto.substring(0, 15));
-            tvNombre.setText(email.get(posicion).getValue().getCorreoOrigen());
-            tvTema.setText(email.get(posicion).getKey().getTema());
-
-
-            if (!email.get(posicion).getKey().isLeido()) {
+            tvNombre.setText(listaEmail.get(posicion).getValue().getCorreoOrigen());
+            tvTema.setText(listaEmail.get(posicion).getKey().getTema());
+            if (!listaEmail.get(posicion).getKey().isLeido()) {
                 tvFecha.setTextColor(Color.parseColor("#000000"));
             } else {
                 tvFecha.setTextColor(Color.parseColor("#00BCD4"));
             }
-            tvFecha.setText(email.get(posicion).getKey().getFecha());
+            tvFecha.setText(listaEmail.get(posicion).getKey().getFecha());
         }
 
 
+        @Override
+        public void onClick(View v) {
+            if (cuenta == null) {
+                throw new NullPointerException();
+            }
+            email = getAdapterPosition();
+            iOnCorreoSeleccionado.onCorreoSeleccionado(getAdapterPosition());
+        }
     }
 
 

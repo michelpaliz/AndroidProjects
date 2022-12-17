@@ -1,5 +1,7 @@
 package com.germangascon.navigationdrawersample.Modelo;
 
+import android.annotation.SuppressLint;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -74,6 +76,7 @@ public class Email implements Serializable {
     }
 
 
+    @SuppressLint("SimpleDateFormat")
     public String formatearFecha(String fecha)  {
         Date date = null;
        try {

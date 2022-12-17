@@ -15,28 +15,34 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.germangascon.navigationdrawersample.Interfaz.IOnCorreoSeleccionado;
+import com.germangascon.navigationdrawersample.Modelo.Contacto;
 import com.germangascon.navigationdrawersample.Modelo.Cuenta;
+import com.germangascon.navigationdrawersample.Modelo.Email;
 import com.germangascon.navigationdrawersample.Modelo.EmailParser;
+import com.germangascon.navigationdrawersample.Vista.Adaptadores.AdaptadorEmail;
+import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoDetalle;
 import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoListado;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IOnCorreoSeleccionado, FragmentoListado.IOnAttachListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IOnCorreoSeleccionado, FragmentoListado.IOnAttachListener, FragmentoDetalle.IOnAttachListener {
 
     private static final String ACCOUNT_KEY = "com.germangascon.correoelectronico.account";
-    private static final String SELECTED_EMAIL_KEY = "com.germangascon.correoelectronico.selectedemail";
     private static final String LISTING_TYPE_KEY = "com.germangascon.correoelectronico.listingtype";
+    private static final String SELECTED_EMAIL_KEY = "com.germangascon.correoelectronico.selectedemail";
 
     private Cuenta cuenta;
     private FragmentoListado.TipoFragmento tipoFragmento;
     private FragmentoListado fragmentoListado;
     private FloatingActionButton floatingActionButton;
     private DrawerLayout drawer;
+    private Email email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         if (savedInstanceState != null) {
+            email = (Email) savedInstanceState.getSerializable(SELECTED_EMAIL_KEY);
             cuenta = (Cuenta) savedInstanceState.getSerializable(ACCOUNT_KEY);
             tipoFragmento = (FragmentoListado.TipoFragmento) savedInstanceState.getSerializable(LISTING_TYPE_KEY);
         }
@@ -44,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         cargarDatos();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
 //        //Floating
@@ -89,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putSerializable(ACCOUNT_KEY, cuenta);
+        outState.putSerializable(SELECTED_EMAIL_KEY, email);
         super.onSaveInstanceState(outState);
     }
 
@@ -100,14 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentoListado = (FragmentoListado) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         } else {
             throw new NullPointerException();
-        }
-    }
-
-
-    @Override
-    public void onCorreoSeleccionado(int posicion) {
-        if (cuenta == null) {
-            cargarDatos();
         }
     }
 
@@ -168,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             msg = getString(R.string.bin);
         }
 
-        if (tipoFragmento == null){
+        if (tipoFragmento == null) {
             throw new NullPointerException();
         }
 
@@ -184,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+//    FRAGMENTO LISTADO
 
     @Override
     public Cuenta getCuenta() {
@@ -196,5 +195,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public FragmentoListado.TipoFragmento getTipoFragmento() {
         return tipoFragmento;
+    }
+
+    //    FRAGMENTO DETALLE
+
+    @Override
+    public Email getEmail() {
+//        email = AdaptadorEmail.email;
+//        if (email == null){
+//            throw new NullPointerException();
+//        }
+//        return AdaptadorEmail.email;
+        return  cuenta.getCorreos().get(AdaptadorEmail.email);
+    }
+
+    @Override
+    public Contacto getContactFromEmail(Email email) {
+        String contactStr;
+        if(email.getCorreoOrigen().equals(cuenta.getEmail())) {
+            contactStr = email.getCorreoDestino();
+        } else {
+            contactStr = email.getCorreoOrigen();
+        }
+        return cuenta.getContact(contactStr);
+    }
+
+
+    @Override
+    public void onCorreoSeleccionado(int email) {
+        if (cuenta == null) {
+            cargarDatos();
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new FragmentoDetalle()).addToBackStack(null).commit();
     }
 }
