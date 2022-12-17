@@ -2,9 +2,7 @@ package com.germangascon.navigationdrawersample.Vista.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,17 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.germangascon.navigationdrawersample.Interfaz.IOnCorreoSeleccionado;
-import com.germangascon.navigationdrawersample.Modelo.Contacto;
 import com.germangascon.navigationdrawersample.Modelo.Cuenta;
-import com.germangascon.navigationdrawersample.Modelo.Email;
 import com.germangascon.navigationdrawersample.R;
 import com.germangascon.navigationdrawersample.Vista.Adaptadores.AdaptadorEmail;
-import com.germangascon.navigationdrawersample.Vista.Logica.CorreoLogica;
 
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicReference;
-
-public class FragmentoEmail extends Fragment {
+public class FragmentoDetalle extends Fragment {
 
 
     private AdaptadorEmail adaptadorEmail;
@@ -42,7 +34,7 @@ public class FragmentoEmail extends Fragment {
         TipoFragmento getTipoFragmento();
     }
 
-    public FragmentoEmail() {
+    public FragmentoDetalle() {
         super(R.layout.recycler_view);
     }
 
@@ -51,7 +43,7 @@ public class FragmentoEmail extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        adaptadorEmail = new AdaptadorEmail(getContext(), cuenta, tipoFragmento, iOnCorreoSeleccionado);
+//        adaptadorEmail = new AdaptadorEmail(getContext(), cuenta, tipoFragmento, iOnCorreoSeleccionado);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adaptadorEmail);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
@@ -76,7 +68,7 @@ public class FragmentoEmail extends Fragment {
     public void actualizarLista(TipoFragmento tipoFragmento) {
         this.tipoFragmento = tipoFragmento;
         if (adaptadorEmail != null) {
-            adaptadorEmail.actualizarLista(tipoFragmento);
+//            adaptadorEmail.actualizarLista(tipoFragmento);
         }
     }
 

@@ -18,7 +18,7 @@ import com.germangascon.navigationdrawersample.Modelo.Cuenta;
 import com.germangascon.navigationdrawersample.Modelo.Email;
 import com.germangascon.navigationdrawersample.R;
 import com.germangascon.navigationdrawersample.Vista.Logica.CorreoLogica;
-import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoEmail;
+import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoListado;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,18 +31,18 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
     private final Context context;
     private final IOnCorreoSeleccionado onCorreoSeleccionado;
     private final CorreoLogica correoLogica;
-    private FragmentoEmail.TipoFragmento tipoFragmento;
+    private FragmentoListado.TipoFragmento tipoFragmento;
     private HashMap<Email, Contacto> listaGeneral;
     private HashMap<Email, Email> listaSpam;
 
 
     /**
-     * @param context       el contexto que le pasamos de nuestra actividad
-     * @param cuenta        nuestro objt donde se encuentra 1 matriz de contactos y otra de correos
-     * @param tipoFragmento el tipo de fragmento
-     * @param onCorreoSeleccionado
+     * @param context              el contexto que le pasamos de nuestra actividad
+     * @param cuenta               nuestro objt donde se encuentra 1 matriz de contactos y otra de correos
+     * @param tipoFragmento        el tipo de fragmento
+     * @param onCorreoSeleccionado  TODO investigar para que sirve este listener
      */
-    public AdaptadorEmail(Context context, Cuenta cuenta, FragmentoEmail.TipoFragmento tipoFragmento, IOnCorreoSeleccionado onCorreoSeleccionado) {
+    public AdaptadorEmail(Context context, Cuenta cuenta, FragmentoListado.TipoFragmento tipoFragmento, IOnCorreoSeleccionado onCorreoSeleccionado) {
         this.context = context;
         this.tipoFragmento = tipoFragmento;
         this.correoLogica = new CorreoLogica(cuenta);
@@ -52,7 +52,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
 
 
     @SuppressLint("NotifyDataSetChanged")
-    public void actualizarLista(FragmentoEmail.TipoFragmento tipoFragmento){
+    public void actualizarLista(FragmentoListado.TipoFragmento tipoFragmento) {
         this.tipoFragmento = tipoFragmento;
         cargarDatos();
         notifyDataSetChanged();
@@ -70,12 +70,15 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
             case UNREADED:
                 listaGeneral = correoLogica.getCorreosNoLeidos();
                 break;
-            case SPAM:
-                listaSpam = correoLogica.getCorreosSpam();
-                break;
             case DELETED:
                 listaGeneral = correoLogica.getCorreosEliminados();
                 break;
+            case BIN:
+                listaGeneral = correoLogica.getCorreosEliminados();
+            case SPAM:
+                listaSpam = correoLogica.getCorreosSpam();
+                break;
+
         }
 
     }
@@ -105,20 +108,24 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
     public void onBindViewHolder(@NonNull HolderCorreoRecibidos holder, int position) {
         List<Map.Entry<Email, Contacto>> test1 = null;
         List<Map.Entry<Email, Email>> test2 = null;
+        cargarDatos();
         switch (tipoFragmento) {
             case RECEIVED:
-            case SPAM:
+            case SENT:
             case UNREADED:
             case DELETED:
+            case BIN:
                 test1 = gestionGeneral();
-            case SENT:
+                break;
+            case SPAM:
                 test2 = gestionSpam();
                 break;
         }
 
         if (test1 != null) {
             holder.cargarDatosGeneral(test1, position);
-        } else {
+        }
+        if (test2 != null) {
             holder.cargarDatosSpam(test2, position);
         }
 
@@ -135,8 +142,8 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
                 .stream()
                 .sorted((o1, o2) -> o2.getKey().getFecha().compareTo(o1.getKey().getFecha()));
 
-        List<Map.Entry<Email, Contacto>> test = stream.collect(Collectors.toList());
-        return test;
+        List<Map.Entry<Email, Contacto>> test1 = stream.collect(Collectors.toList());
+        return test1;
     }
 
     /**
@@ -149,14 +156,22 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
                 .stream()
                 .sorted((o1, o2) -> o2.getKey().getFecha().compareTo(o1.getKey().getFecha()));
 
-        List<Map.Entry<Email, Email>> test = stream.collect(Collectors.toList());
-        return test;
+        List<Map.Entry<Email, Email>> test2 = stream.collect(Collectors.toList());
+        return test2;
     }
 
 
     @Override
     public int getItemCount() {
-        return listaGeneral.size();
+        int size = 0;
+        if (listaGeneral != null) {
+            size = listaGeneral.size();
+        }
+        if (listaSpam != null)
+            size = listaSpam.size();
+
+        return size;
+
     }
 
 

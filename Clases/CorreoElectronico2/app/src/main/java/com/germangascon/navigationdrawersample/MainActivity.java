@@ -16,24 +16,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.germangascon.navigationdrawersample.Interfaz.IOnCorreoSeleccionado;
 import com.germangascon.navigationdrawersample.Modelo.Cuenta;
-import com.germangascon.navigationdrawersample.Modelo.Email;
 import com.germangascon.navigationdrawersample.Modelo.EmailParser;
-import com.germangascon.navigationdrawersample.Modelo.ModeloContacto;
-import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoEmail;
-import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoEnviados;
+import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoListado;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentoEnviados.IOnAttachListener, IOnCorreoSeleccionado {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IOnCorreoSeleccionado, FragmentoListado.IOnAttachListener {
 
     private static final String ACCOUNT_KEY = "com.germangascon.correoelectronico.account";
     private static final String SELECTED_EMAIL_KEY = "com.germangascon.correoelectronico.selectedemail";
     private static final String LISTING_TYPE_KEY = "com.germangascon.correoelectronico.listingtype";
 
     private Cuenta cuenta;
-    private Email email;
-    private FragmentoEmail.TipoFragmento tipoFragmento;
-    private FragmentoEmail fragmentoEmail;
+    private FragmentoListado.TipoFragmento tipoFragmento;
+    private FragmentoListado fragmentoListado;
     private FloatingActionButton floatingActionButton;
     private DrawerLayout drawer;
 
@@ -42,15 +38,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState != null) {
             cuenta = (Cuenta) savedInstanceState.getSerializable(ACCOUNT_KEY);
+            tipoFragmento = (FragmentoListado.TipoFragmento) savedInstanceState.getSerializable(LISTING_TYPE_KEY);
         }
 
-        this.tipoFragmento = null;
+        cargarDatos();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (cuenta == null) {
-            cargarDatos();
-        }
+
 
 //        //Floating
 //        floatingActionButton = findViewById(R.id.floatButton);
@@ -101,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         EmailParser emailParser = new EmailParser(this);
         if (emailParser.startParser()) {
             cuenta = emailParser.getCuenta();
+            tipoFragmento = FragmentoListado.TipoFragmento.RECEIVED;
+            fragmentoListado = (FragmentoListado) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         } else {
             throw new NullPointerException();
         }
@@ -112,15 +109,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (cuenta == null) {
             cargarDatos();
         }
-    }
-
-
-    @Override
-    public Cuenta getCuenta() {
-        if (cuenta == null) {
-            cargarDatos();
-        }
-        return cuenta;
     }
 
     @Override
@@ -164,29 +152,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         String msg = "";
         if (id == R.id.navRecibidos) {
-            tipoFragmento = FragmentoEmail.TipoFragmento.RECEIVED;
+            tipoFragmento = FragmentoListado.TipoFragmento.RECEIVED;
             msg = getString(R.string.received);
         } else if (id == R.id.navEnviados) {
-            tipoFragmento = FragmentoEmail.TipoFragmento.SENT;
+            tipoFragmento = FragmentoListado.TipoFragmento.SENT;
             msg = getString(R.string.sent);
         } else if (id == R.id.navNoLeidos) {
-            tipoFragmento = FragmentoEmail.TipoFragmento.UNREADED;
+            tipoFragmento = FragmentoListado.TipoFragmento.UNREADED;
             msg = getString(R.string.unread);
         } else if (id == R.id.navSpam) {
-            tipoFragmento = FragmentoEmail.TipoFragmento.SPAM;
+            tipoFragmento = FragmentoListado.TipoFragmento.SPAM;
             msg = getString(R.string.spam);
         } else if (id == R.id.navPapelera) {
-            tipoFragmento = FragmentoEmail.TipoFragmento.BIN;
+            tipoFragmento = FragmentoListado.TipoFragmento.BIN;
             msg = getString(R.string.bin);
         }
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragmentoEmail).commit();
-        fragmentoEmail.actualizarLista(tipoFragmento);
+        if (tipoFragmento == null){
+            throw new NullPointerException();
+        }
+
+
+        fragmentoListado = new FragmentoListado();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragmentoListado).commit();
+        fragmentoListado.actualizarLista(tipoFragmento);
         setTitle(msg);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
 
+    @Override
+    public Cuenta getCuenta() {
+        if (cuenta == null) {
+            cargarDatos();
+        }
+        return cuenta;
+    }
+
+    @Override
+    public FragmentoListado.TipoFragmento getTipoFragmento() {
+        return tipoFragmento;
+    }
 }
