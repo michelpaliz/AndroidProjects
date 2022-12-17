@@ -36,7 +36,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
     private HashMap<Email, Email> listaSpam;
     private final IOnCorreoSeleccionado iOnCorreoSeleccionado;
     private Cuenta cuenta;
-    public static int email;
+    public static Email email;
 
 
     /**
@@ -120,7 +120,6 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
                 test2 = gestionSpam();
                 break;
         }
-
         if (test1 != null) {
             holder.cargarDatosGeneral(test1, position);
         }
@@ -179,7 +178,8 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
         private final TextView tvTema;
         private final TextView tvDescripcion;
         private final TextView tvFecha;
-        List<Map.Entry<Email, Email>> listaEmail;
+        List<Map.Entry<Email, Contacto>> listaEmail;
+        List<Map.Entry<Email,Email>> listaSpam;
 
         public HolderCorreoRecibidos(@NonNull View itemView) {
             super(itemView);
@@ -198,9 +198,10 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
          * @param posicion
          */
         public void cargarDatosGeneral(List<Map.Entry<Email, Contacto>> listaEmail, int posicion) {
+            this.listaEmail =listaEmail;
             String nombre = "c" + listaEmail.get(posicion).getValue().getFoto();
             System.out.println(nombre);
-            int id = context.getResources().getIdentifier(nombre, "drawable", context.getPackageName());
+            @SuppressLint("DiscouragedApi") int id = context.getResources().getIdentifier(nombre, "drawable", context.getPackageName());
             imageView.setImageResource(id);
             String texto = listaEmail.get(posicion).getKey().getTexto();
             tvDescripcion.setText(texto.substring(0, 15));
@@ -219,25 +220,25 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
         /**
          * Funcion para los correos recibidos pero que no son reconocidos en nuestros contactos
          *
-         * @param listaEmail
+         * @param listaSpam
          * @param posicion
          */
-        public void cargarDatosSpam(List<Map.Entry<Email, Email>> listaEmail, int posicion) {
-            this.listaEmail = listaEmail;
+        public void cargarDatosSpam(List<Map.Entry<Email, Email>> listaSpam, int posicion) {
+            this.listaSpam = listaSpam;
             String nombre = "d";
             System.out.println(nombre);
             @SuppressLint("DiscouragedApi") int id = context.getResources().getIdentifier(nombre, "drawable", context.getPackageName());
             imageView.setImageResource(id);
-            String texto = listaEmail.get(posicion).getKey().getTexto();
+            String texto = listaSpam.get(posicion).getKey().getTexto();
             tvDescripcion.setText(texto.substring(0, 15));
-            tvNombre.setText(listaEmail.get(posicion).getValue().getCorreoOrigen());
-            tvTema.setText(listaEmail.get(posicion).getKey().getTema());
-            if (!listaEmail.get(posicion).getKey().isLeido()) {
+            tvNombre.setText(listaSpam.get(posicion).getValue().getCorreoOrigen());
+            tvTema.setText(listaSpam.get(posicion).getKey().getTema());
+            if (!listaSpam.get(posicion).getKey().isLeido()) {
                 tvFecha.setTextColor(Color.parseColor("#000000"));
             } else {
                 tvFecha.setTextColor(Color.parseColor("#00BCD4"));
             }
-            tvFecha.setText(listaEmail.get(posicion).getKey().getFecha());
+            tvFecha.setText(listaSpam.get(posicion).getKey().getFecha());
         }
 
 
@@ -246,8 +247,16 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
             if (cuenta == null) {
                 throw new NullPointerException();
             }
-            email = getAdapterPosition();
-            iOnCorreoSeleccionado.onCorreoSeleccionado(getAdapterPosition());
+
+            if (listaEmail != null){
+                email = listaEmail.get(getAdapterPosition()).getKey();
+            }
+            if (listaSpam != null){
+                email = listaSpam.get(getAdapterPosition()).getKey();
+            }
+
+
+            iOnCorreoSeleccionado.onCorreoSeleccionado(cuenta.getCorreos().get(getAdapterPosition()));
         }
     }
 

@@ -201,12 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public Email getEmail() {
-//        email = AdaptadorEmail.email;
-//        if (email == null){
-//            throw new NullPointerException();
-//        }
-//        return AdaptadorEmail.email;
-        return  cuenta.getCorreos().get(AdaptadorEmail.email);
+        return AdaptadorEmail.email;
     }
 
     @Override
@@ -222,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
-    public void onCorreoSeleccionado(int email) {
+    public void onCorreoSeleccionado(Email position) {
         if (cuenta == null) {
             cargarDatos();
         }

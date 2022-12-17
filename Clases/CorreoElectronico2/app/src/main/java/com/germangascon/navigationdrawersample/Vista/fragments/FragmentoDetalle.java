@@ -64,8 +64,13 @@ public class FragmentoDetalle extends Fragment {
 
 
     public void cargarDatos() {
-        tvNombreContacto.setText(contacto.getNombre());
-        tvTextoEmail.setText(email.getTexto());
+
+        if(contacto != null){
+            tvNombreContacto.setText(contacto.getNombre());
+        }else {
+            tvNombreContacto.setText("Unknow");
+        }
+        tvTextoEmail.setText(email.getTexto().substring(0,15));
         tvDestinoEmail.setText(email.getCorreoDestino());
         tvTemaEmail.setText(email.getTema());
         tvOrigenEmail.setText(email.getCorreoOrigen());
