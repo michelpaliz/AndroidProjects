@@ -70,9 +70,6 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
             case UNREADED:
                 listaGeneral = correoLogica.getCorreosNoLeidos();
                 break;
-            case DELETED:
-                listaGeneral = correoLogica.getCorreosEliminados();
-                break;
             case BIN:
                 listaGeneral = correoLogica.getCorreosEliminados();
             case SPAM:
@@ -113,7 +110,6 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
             case RECEIVED:
             case SENT:
             case UNREADED:
-            case DELETED:
             case BIN:
                 test1 = gestionGeneral();
                 break;
