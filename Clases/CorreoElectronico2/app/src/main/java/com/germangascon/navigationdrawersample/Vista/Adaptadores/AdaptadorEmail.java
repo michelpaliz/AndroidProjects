@@ -58,6 +58,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
     @SuppressLint("NotifyDataSetChanged")
     public void actualizarLista(FragmentoListado.TipoFragmento tipoFragmento) {
         this.tipoFragmento = tipoFragmento;
+        cargarFragmentos();
         notifyDataSetChanged();
     }
 
@@ -120,6 +121,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
                 test2 = gestionSpam();
                 break;
         }
+
         if (test1 != null) {
             holder.cargarDatosGeneral(test1, position);
         }
@@ -252,6 +254,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
                 email = listaSpam.get(getAdapterPosition()).getKey();
                 spam = true;
             }
+//            iOnCorreoSeleccionado.onCorreoSeleccionado(email);
             iOnCorreoSeleccionado.onCorreoSeleccionado(cuenta.getCorreos().get(getAdapterPosition()));
         }
     }

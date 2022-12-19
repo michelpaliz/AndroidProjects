@@ -54,7 +54,7 @@ public class FragmentoDetalle extends Fragment {
         tvDestinoEmail = view.findViewById(R.id.tvDestinoEmail);
         tvFechaEnvioEmail = view.findViewById(R.id.tvFechaEnvio);
 
-        if (contacto == null && email == null){
+        if (email == null){
             throw new NullPointerException();
         }else{
             cargarDatos();
