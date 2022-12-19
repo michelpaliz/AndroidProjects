@@ -67,10 +67,12 @@ public class FragmentoDetalle extends Fragment {
 
         if(contacto != null){
             tvNombreContacto.setText(contacto.getNombre());
+            //Esta variable la reinicio a null para que vuelva a coger la anterior.
+            contacto = null;
         }else {
             tvNombreContacto.setText("Unknow");
         }
-        tvTextoEmail.setText(email.getTexto().substring(0,15));
+        tvTextoEmail.setText(email.getTexto());
         tvDestinoEmail.setText(email.getCorreoDestino());
         tvTemaEmail.setText(email.getTema());
         tvOrigenEmail.setText(email.getCorreoOrigen());

@@ -166,11 +166,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             msg = getString(R.string.bin);
         }
 
-        if (tipoFragmento == null) {
-            throw new NullPointerException();
-        }
-
-
         fragmentoListado = new FragmentoListado();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragmentoListado).commit();
@@ -186,9 +181,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public Cuenta getCuenta() {
-        if (cuenta == null) {
-            cargarDatos();
-        }
         return cuenta;
     }
 
@@ -206,21 +198,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public Contacto getContactFromEmail(Email email) {
-        String contactStr;
-        if(email.getCorreoOrigen().equals(cuenta.getEmail())) {
-            contactStr = email.getCorreoDestino();
-        } else {
-            contactStr = email.getCorreoOrigen();
+        Contacto contacto;
+        if (AdaptadorEmail.spam) {
+            return null;
         }
-        return cuenta.getContact(contactStr);
+        contacto = AdaptadorEmail.contacto;
+        return contacto;
     }
 
 
     @Override
     public void onCorreoSeleccionado(Email position) {
-        if (cuenta == null) {
-            cargarDatos();
-        }
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new FragmentoDetalle()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentoDetalle()).addToBackStack(null).commit();
     }
 }

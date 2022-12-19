@@ -45,15 +45,6 @@ public class Cuenta implements Serializable {
         return email;
     }
 
-    public Contacto getContact(String email) {
-        for(int i = 0; i < contactoList.size(); i++) {
-            if(email.equals(contactoList.get(i).getEmail())) {
-                return contactoList.get(i);
-            }
-        }
-        return null;
-    }
-
     @Override
     public String toString() {
         return "Cuenta{" +

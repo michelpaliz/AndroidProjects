@@ -3,7 +3,6 @@ package com.germangascon.navigationdrawersample.Vista.Adaptadores;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +30,15 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
 
     private final Context context;
     private final CorreoLogica correoLogica;
+    private final IOnCorreoSeleccionado iOnCorreoSeleccionado;
+    private final Cuenta cuenta;
     private FragmentoListado.TipoFragmento tipoFragmento;
     private HashMap<Email, Contacto> listaGeneral;
     private HashMap<Email, Email> listaSpam;
-    private final IOnCorreoSeleccionado iOnCorreoSeleccionado;
-    private Cuenta cuenta;
+    //Para la configuracion de la vista
     public static Email email;
-
+    public static Contacto contacto;
+    public static boolean spam;
 
     /**
      * @param context       el contexto que le pasamos de nuestra actividad
@@ -50,19 +51,18 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
         this.cuenta = cuenta;
         this.correoLogica = new CorreoLogica(cuenta);
         this.iOnCorreoSeleccionado = iOnCorreoSeleccionado;
-        cargarDatos();
+        cargarFragmentos();
     }
 
 
     @SuppressLint("NotifyDataSetChanged")
     public void actualizarLista(FragmentoListado.TipoFragmento tipoFragmento) {
         this.tipoFragmento = tipoFragmento;
-        cargarDatos();
         notifyDataSetChanged();
     }
 
 
-    private void cargarDatos() {
+    private void cargarFragmentos() {
         switch (tipoFragmento) {
             case RECEIVED:
                 listaGeneral = correoLogica.getCorreosRecibidos();
@@ -75,6 +75,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
                 break;
             case BIN:
                 listaGeneral = correoLogica.getCorreosEliminados();
+                break;
             case SPAM:
                 listaSpam = correoLogica.getCorreosSpam();
                 break;
@@ -108,7 +109,6 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
     public void onBindViewHolder(@NonNull HolderCorreoRecibidos holder, int position) {
         List<Map.Entry<Email, Contacto>> test1 = null;
         List<Map.Entry<Email, Email>> test2 = null;
-        cargarDatos();
         switch (tipoFragmento) {
             case RECEIVED:
             case SENT:
@@ -136,6 +136,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
      * @return la lista ordenada de forma descendente
      */
     public List<Map.Entry<Email, Contacto>> gestionGeneral() {
+
         Stream<Map.Entry<Email, Contacto>> stream = listaGeneral.entrySet()
                 .stream()
                 .sorted((o1, o2) -> o2.getKey().getFecha().compareTo(o1.getKey().getFecha()));
@@ -163,6 +164,7 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
         if (listaGeneral != null) {
             size = listaGeneral.size();
         }
+
         if (listaSpam != null)
             size = listaSpam.size();
 
@@ -178,8 +180,8 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
         private final TextView tvTema;
         private final TextView tvDescripcion;
         private final TextView tvFecha;
-        List<Map.Entry<Email, Contacto>> listaEmail;
-        List<Map.Entry<Email,Email>> listaSpam;
+        private List<Map.Entry<Email, Contacto>> listaEmail;
+        private List<Map.Entry<Email, Email>> listaSpam;
 
         public HolderCorreoRecibidos(@NonNull View itemView) {
             super(itemView);
@@ -194,13 +196,12 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
         /**
          * Funcion para cargar los datos generales (CORREOS ENVIADOS, CORREOS ELIMINADOS, CORREOS RECIBIDOS)
          *
-         * @param listaEmail
-         * @param posicion
+         * @param listaEmail la lista de los emails generales especificados arriba
+         * @param posicion   la posicion del indice para obtener el elemento del hashmap
          */
         public void cargarDatosGeneral(List<Map.Entry<Email, Contacto>> listaEmail, int posicion) {
-            this.listaEmail =listaEmail;
+            this.listaEmail = listaEmail;
             String nombre = "c" + listaEmail.get(posicion).getValue().getFoto();
-            System.out.println(nombre);
             @SuppressLint("DiscouragedApi") int id = context.getResources().getIdentifier(nombre, "drawable", context.getPackageName());
             imageView.setImageResource(id);
             String texto = listaEmail.get(posicion).getKey().getTexto();
@@ -220,13 +221,12 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
         /**
          * Funcion para los correos recibidos pero que no son reconocidos en nuestros contactos
          *
-         * @param listaSpam
-         * @param posicion
+         * @param listaSpam la lista de spam de los correos de spam
+         * @param posicion  la posicion del indice para obtener el elemento del hashmap
          */
         public void cargarDatosSpam(List<Map.Entry<Email, Email>> listaSpam, int posicion) {
             this.listaSpam = listaSpam;
             String nombre = "d";
-            System.out.println(nombre);
             @SuppressLint("DiscouragedApi") int id = context.getResources().getIdentifier(nombre, "drawable", context.getPackageName());
             imageView.setImageResource(id);
             String texto = listaSpam.get(posicion).getKey().getTexto();
@@ -241,21 +241,17 @@ public class AdaptadorEmail extends RecyclerView.Adapter<AdaptadorEmail.HolderCo
             tvFecha.setText(listaSpam.get(posicion).getKey().getFecha());
         }
 
-
         @Override
         public void onClick(View v) {
-            if (cuenta == null) {
-                throw new NullPointerException();
-            }
-
-            if (listaEmail != null){
+            if (listaEmail != null) {
                 email = listaEmail.get(getAdapterPosition()).getKey();
+                contacto = listaEmail.get(getAdapterPosition()).getValue();
+                spam = false;
             }
-            if (listaSpam != null){
+            if (listaSpam != null) {
                 email = listaSpam.get(getAdapterPosition()).getKey();
+                spam = true;
             }
-
-
             iOnCorreoSeleccionado.onCorreoSeleccionado(cuenta.getCorreos().get(getAdapterPosition()));
         }
     }

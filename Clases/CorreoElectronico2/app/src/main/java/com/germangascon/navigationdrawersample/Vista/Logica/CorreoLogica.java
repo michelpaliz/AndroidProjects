@@ -51,7 +51,6 @@ public class CorreoLogica {
     public HashMap<Email, Email>cargarDatosCorreosSpam() {
         HashMap<Email,Email>  correosGestion = new HashMap<>();
         List<Email> correosSpam = cuenta.getCorreos().stream().filter(Email::isSpam).collect(Collectors.toList());
-//        correosSpam.forEach( c -> System.out.println(c.getCorreoOrigen() + " " + c.isSpam()));
         for (Email email: correosSpam) {
              correosGestion.put(email , email);
         }
