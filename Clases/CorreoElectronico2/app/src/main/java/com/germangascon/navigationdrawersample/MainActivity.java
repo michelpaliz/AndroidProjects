@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.germangascon.navigationdrawersample.Interfaz.IOnCorreoSeleccionado;
 import com.germangascon.navigationdrawersample.Modelo.Contacto;
@@ -22,6 +23,7 @@ import com.germangascon.navigationdrawersample.Modelo.EmailParser;
 import com.germangascon.navigationdrawersample.Vista.Adaptadores.AdaptadorEmail;
 import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoDetalle;
 import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoListado;
+import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoNuevoMensaje;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -52,18 +54,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-//        //Floating
-//        floatingActionButton = findViewById(R.id.floatButton);
-//        floatingActionButton.setOnClickListener(v -> {
-//                Bundle bundle = new Bundle();
-//                NewEmailFragment f = new NewEmailFragment();
-//                bundle.putSerializable(NewEmailFragment.ACCOUNT_EXTRA, account);
-//                f.setArguments(bundle);
-//                getSupportFragmentManager().beginTransaction().
-//                        replace(R.id.content_frame, f).
-//                        addToBackStack(null).commit();
-//                fab.hide();
-//        });
+        //Floating
+        nuevoMensaje();
+
 
         //Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -72,8 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Drawer + Toggle
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -88,6 +80,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvUser.setText(R.string.nav_header_title);
         TextView tvEmail = headerView.findViewById(R.id.tvEmail);
         tvEmail.setText(R.string.nav_header_subtitle);
+    }
+
+    public void nuevoMensaje() {
+        floatingActionButton = findViewById(R.id.floatButton);
+        floatingActionButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            FragmentoNuevoMensaje f = new FragmentoNuevoMensaje();
+            bundle.putSerializable(FragmentoNuevoMensaje.ACCOUNT_EXTRA, cuenta);
+            f.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commit();
+            floatingActionButton.hide();
+        });
+
     }
 
 
@@ -164,10 +169,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.navPapelera) {
             tipoFragmento = FragmentoListado.TipoFragmento.BIN;
             msg = getString(R.string.bin);
+        } else if (id == R.id.navEnviar) {
+            tipoFragmento = FragmentoListado.TipoFragmento.NEW_MESSAGE;
         }
+
 
         fragmentoListado = new FragmentoListado();
 
+        if (tipoFragmento.equals(FragmentoListado.TipoFragmento.NEW_MESSAGE)){
+            FragmentoNuevoMensaje fragmentoNuevoMensaje = new FragmentoNuevoMensaje();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(FragmentoNuevoMensaje.ACCOUNT_EXTRA, cuenta);
+            fragmentoNuevoMensaje.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragmentoNuevoMensaje).commit();
+            setTitle(msg);
+        }
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragmentoListado).commit();
         fragmentoListado.actualizarLista(tipoFragmento);
         setTitle(msg);

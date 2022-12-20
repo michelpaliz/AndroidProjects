@@ -26,7 +26,7 @@ public class FragmentoListado extends Fragment {
 
 
     public enum TipoFragmento {
-        RECEIVED, SENT, UNREADED, SPAM, BIN
+        RECEIVED, SENT, UNREADED, SPAM, BIN, NEW_MESSAGE
     }
 
     public interface IOnAttachListener {
