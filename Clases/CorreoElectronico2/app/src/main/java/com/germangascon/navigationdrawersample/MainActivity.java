@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,71 +20,97 @@ import com.germangascon.navigationdrawersample.Modelo.Contacto;
 import com.germangascon.navigationdrawersample.Modelo.Cuenta;
 import com.germangascon.navigationdrawersample.Modelo.Email;
 import com.germangascon.navigationdrawersample.Modelo.EmailParser;
-import com.germangascon.navigationdrawersample.Modelo.ModeloContacto;
-import com.germangascon.navigationdrawersample.Vista.Logica.CorreoLogica;
-import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoEliminados;
-import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoEnviados;
-import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoEnvio;
-import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoNoLeidos;
-import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoRecibidos;
-import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoSpam;
+import com.germangascon.navigationdrawersample.Vista.Adaptadores.AdaptadorEmail;
+import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoDetalle;
+import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoListado;
+import com.germangascon.navigationdrawersample.Vista.fragments.FragmentoNuevoMensaje;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, IOnCorreoSeleccionado, FragmentoListado.IOnAttachListener, FragmentoDetalle.IOnAttachListener {
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentoRecibidos.IOnAttachListener, FragmentoEnviados.IOnAttachListener, FragmentoSpam.IOnAttachListener, FragmentoNoLeidos.IOnAttachListener, IOnCorreoSeleccionado, FragmentoEliminados.IOnAttachListener {
-    private DrawerLayout drawer;
-    private ModeloContacto modeloContacto;
+    private static final String ACCOUNT_KEY = "com.germangascon.correoelectronico.account";
+    private static final String LISTING_TYPE_KEY = "com.germangascon.correoelectronico.listingtype";
+    private static final String SELECTED_EMAIL_KEY = "com.germangascon.correoelectronico.selectedemail";
 
     private Cuenta cuenta;
+    private FragmentoListado.TipoFragmento tipoFragmento;
+    private FragmentoListado fragmentoListado;
+    private FloatingActionButton floatingActionButton;
+    private DrawerLayout drawer;
+    private Email email;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        if (savedInstanceState != null) {
+            email = (Email) savedInstanceState.getSerializable(SELECTED_EMAIL_KEY);
+            cuenta = (Cuenta) savedInstanceState.getSerializable(ACCOUNT_KEY);
+            tipoFragmento = (FragmentoListado.TipoFragmento) savedInstanceState.getSerializable(LISTING_TYPE_KEY);
+        }
+
+        cargarDatos();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
 
-    public MainActivity() {
-        super(R.layout.activity_main);
+        //Floating
+        nuevoMensaje();
+
+
+        //Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //Drawer + Toggle
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        //NavigationView
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        // Obtenemos una referencia al header del Navigation para poder modificarlo en tiempo de ejecución
+        View headerView = navigationView.getHeaderView(0);
+        ImageView ivUser = headerView.findViewById(R.id.ivProfile);
+        TextView tvUser = headerView.findViewById(R.id.tvUser);
+        tvUser.setText(R.string.nav_header_title);
+        TextView tvEmail = headerView.findViewById(R.id.tvEmail);
+        tvEmail.setText(R.string.nav_header_subtitle);
+    }
+
+    public void nuevoMensaje() {
+        floatingActionButton = findViewById(R.id.floatButton);
+        floatingActionButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            FragmentoNuevoMensaje f = new FragmentoNuevoMensaje();
+            bundle.putSerializable(FragmentoNuevoMensaje.ACCOUNT_EXTRA, cuenta);
+            f.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commit();
+            floatingActionButton.hide();
+        });
+
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putSerializable(ACCOUNT_KEY, cuenta);
+        outState.putSerializable(SELECTED_EMAIL_KEY, email);
+        super.onSaveInstanceState(outState);
     }
 
     public void cargarDatos() {
         EmailParser emailParser = new EmailParser(this);
         if (emailParser.startParser()) {
             cuenta = emailParser.getCuenta();
+            tipoFragmento = FragmentoListado.TipoFragmento.RECEIVED;
+            fragmentoListado = (FragmentoListado) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         } else {
             throw new NullPointerException();
-        }
-    }
-
-    @Override
-    public void onCorreoSeleccionado(int posicion) {
-        if (cuenta == null) {
-            cargarDatos();
-        }
-    }
-
-
-    @Override
-    public Cuenta getCuenta() {
-        if (cuenta == null) {
-            cargarDatos();
-        }
-        return cuenta;
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        /*
-         * Si el usuario pulsa el botón atrás mientras está mostrándose el menú del NavigationView,
-         * hacemos que se cierre dicho menú, ya que el comportamiento por defecto es cerrar la
-         * Activity.
-         */
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -93,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -106,121 +134,97 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    public void testing() {
-        CorreoLogica correoLogica = new CorreoLogica(cuenta);
-        HashMap<Email, Contacto> hashMap1 = correoLogica.getCorreosRecibidos();
-        Stream<Map.Entry<Email, Contacto>> stream1 = hashMap1.entrySet()
-                .stream()
-                .sorted((o1, o2) -> o2.getKey().getFecha().compareTo(o1.getKey().getFecha()));
-
-        List<Map.Entry<Email, Contacto>> test1 = stream1.collect(Collectors.toList());
-
-
-        HashMap<Email, Email> hashMap2 = correoLogica.getCorreosSpam();
-        Stream<Map.Entry<Email, Email>> stream2 = hashMap2.entrySet()
-                .stream()
-                .sorted((o1, o2) -> o2.getKey().getFecha().compareTo(o1.getKey().getFecha()));
-        List<Map.Entry<Email, Email>> test2 = stream2.collect(Collectors.toList());
-
-
-        test1.forEach( t -> System.out.println(t.getKey().getFecha() + " " + t.getValue().getDireccion()));
-    }
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        //Para pruebas de datos.
-        cargarDatos();
-        testing();
-
-        //Floating
-        FloatingActionButton floatingActionButton = findViewById(R.id.floatButton);
-        floatingActionButton.setOnClickListener(v -> {
-            Fragment fragment = new FragmentoEnvio();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-            setTitle("Send new message");
-        });
-
-
-                Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+    public void onBackPressed() {
         drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        // Obtenemos una referencia al header del Navigation para poder modificarlo en tiempo de ejecución
-        View headerView = navigationView.getHeaderView(0);
-        ImageView ivUser = headerView.findViewById(R.id.ivProfile);
-        TextView tvUser = headerView.findViewById(R.id.tvUser);
-        tvUser.setText(R.string.nav_header_title);
-        TextView tvEmail = headerView.findViewById(R.id.tvEmail);
-        tvEmail.setText(R.string.nav_header_subtitle);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            int visibilidad = floatingActionButton.getVisibility();
+            if (visibilidad == View.GONE) {
+                floatingActionButton.show();
+            }
+        }
     }
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Fragment f;
         // Se ha hecho click en algún item del NavigationView
         int id = item.getItemId();
-
+        String msg = "";
         if (id == R.id.navRecibidos) {
-            f = new FragmentoRecibidos();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame, f)
-                    .commit();
-            setTitle(R.string.received);
+            tipoFragmento = FragmentoListado.TipoFragmento.RECEIVED;
+            msg = getString(R.string.received);
         } else if (id == R.id.navEnviados) {
-            f = new FragmentoEnviados();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame, f)
-                    .commit();
-            setTitle("Sent messages");
+            tipoFragmento = FragmentoListado.TipoFragmento.SENT;
+            msg = getString(R.string.sent);
         } else if (id == R.id.navNoLeidos) {
-            f = new FragmentoNoLeidos();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame, f)
-                    .commit();
-            setTitle("Not read");
+            tipoFragmento = FragmentoListado.TipoFragmento.UNREADED;
+            msg = getString(R.string.unread);
         } else if (id == R.id.navSpam) {
-            f = new FragmentoSpam();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame, f)
-                    .commit();
-            setTitle("Spam");
+            tipoFragmento = FragmentoListado.TipoFragmento.SPAM;
+            msg = getString(R.string.spam);
         } else if (id == R.id.navPapelera) {
-            f = new FragmentoEliminados();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame, f)
-                    .commit();
-            setTitle("Papelera");
-        }else if (id == R.id.navEnviar) {
-            f = new FragmentoEnvio();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame, f)
-                    .commit();
-            setTitle("Send new message");
+            tipoFragmento = FragmentoListado.TipoFragmento.BIN;
+            msg = getString(R.string.bin);
+        } else if (id == R.id.navEnviar) {
+            tipoFragmento = FragmentoListado.TipoFragmento.NEW_MESSAGE;
         }
 
+
+        fragmentoListado = new FragmentoListado();
+
+        if (tipoFragmento.equals(FragmentoListado.TipoFragmento.NEW_MESSAGE)){
+            FragmentoNuevoMensaje fragmentoNuevoMensaje = new FragmentoNuevoMensaje();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(FragmentoNuevoMensaje.ACCOUNT_EXTRA, cuenta);
+            fragmentoNuevoMensaje.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragmentoNuevoMensaje).commit();
+            setTitle(msg);
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragmentoListado).commit();
+        fragmentoListado.actualizarLista(tipoFragmento);
+        setTitle(msg);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+//    FRAGMENTO LISTADO
+
+    @Override
+    public Cuenta getCuenta() {
+        return cuenta;
+    }
+
+    @Override
+    public FragmentoListado.TipoFragmento getTipoFragmento() {
+        return tipoFragmento;
+    }
+
+    //    FRAGMENTO DETALLE
+
+    @Override
+    public Email getEmail() {
+        return AdaptadorEmail.email;
+    }
+
+    @Override
+    public Contacto getContactFromEmail(Email email) {
+        Contacto contacto;
+        if (AdaptadorEmail.spam) {
+            return null;
+        }
+        contacto = AdaptadorEmail.contacto;
+        return contacto;
+    }
 
 
+    @Override
+    public void onCorreoSeleccionado(Email position) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new FragmentoDetalle()).addToBackStack(null).commit();
+    }
 }
