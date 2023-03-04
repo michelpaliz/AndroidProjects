@@ -1,15 +1,19 @@
 package com.example.basedatos.modelos;
 
+import com.example.basedatos.ui.HashGenerator;
+
+import java.security.NoSuchAlgorithmException;
+
 public class User {
 
     private final int id;
     private String userName;
     private String password;
 
-    public User(int id, String name, String password) {
+    public User(int id, String name, String password) throws NoSuchAlgorithmException {
         this.id = id;
         this.userName = name;
-        this.password = password;
+        setPassword(password);
     }
 
     public int getId() {
@@ -29,6 +33,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = HashGenerator.getSMAString.generator();
     }
+
 }

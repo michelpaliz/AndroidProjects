@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.germangascon.retrofitsample.interfaces.IAPIService;
-import com.germangascon.retrofitsample.models.Autor;
 import com.germangascon.retrofitsample.models.Categoria;
 import com.germangascon.retrofitsample.rest.RestClient;
 
@@ -27,12 +26,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class FragmentAddCategory extends Fragment {
+public class FragmentCategory extends Fragment {
 
 
     private TextView tvModify;
     private EditText edNombre;
-    private Button btnAdd, btnModify;
+    private Button btnAdd, btnModify, btnBack;
     private IAPIService iapiService;
     private String nombre;
     private List<Categoria> categorias;
@@ -78,6 +77,9 @@ public class FragmentAddCategory extends Fragment {
         btnModify = view.findViewById(R.id.btnModifyCategory);
         iapiService = RestClient.getInstance();
         tvModify = view.findViewById(R.id.tvTitulo_addCategory);
+        btnBack = view.findViewById(R.id.btnBack_category);
+
+        goingBack();
 
         btnModify.setVisibility(View.INVISIBLE);
         if (option == 1){
@@ -86,6 +88,16 @@ public class FragmentAddCategory extends Fragment {
             modifyCategory();
         }
         registerNewCategory();
+    }
+
+    public void goingBack(){
+        btnBack.setOnClickListener(v -> {
+            FragmentAdminFunctions nextFrag= new FragmentAdminFunctions();
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, nextFrag, "findThisFragment")
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 
 

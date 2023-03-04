@@ -1,6 +1,6 @@
-package com.germangascon.frasescelebres.repo;
+package com.user_manager_v1.repository.rp;
 
-import com.germangascon.frasescelebres.models.Categoria;
+import com.user_manager_v1.models.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

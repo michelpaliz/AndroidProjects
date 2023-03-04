@@ -2,92 +2,80 @@ package com.germangascon.retrofitsample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import com.germangascon.retrofitsample.activities.login.ProfileActivity;
 
-public class FragmentAddAuthor extends Fragment {
+public class FragmentAdminFunctions extends Fragment {
 
 
-    private Button btnaddAuthor, btnEditAuthor, btnAddPhrase, btnEditPhrase, btnAddCategory, btnEditCategory ;
+    private Intent goToAdminPage;
 
-    public FragmentAddAuthor() {
+    public FragmentAdminFunctions() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_admin, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnaddAuthor = view.findViewById(R.id.btnAnyadirAutor);
-        btnAddCategory = view.findViewById(R.id.btnAnyadirCategoria);
-        btnAddPhrase = view.findViewById(R.id.btnAnyadirFrase);
-
-        btnEditAuthor = view.findViewById(R.id.btnModificarAutor);
-        btnEditCategory = view.findViewById(R.id.btnModificarCategoria);
-        btnEditPhrase = view.findViewById(R.id.btnModificarFrase);
-
+        Button btnaddAuthor = view.findViewById(R.id.btnAnyadirAutor);
+        Button btnAddCategory = view.findViewById(R.id.btnAnyadirCategoria);
+        Button btnAddPhrase = view.findViewById(R.id.btnAnyadirFrase);
+        Button btnEdit = view.findViewById(R.id.btnModificarFrase);
+        Button btnBack = view.findViewById(R.id.btnVolverAdmin);
+        goToAdminPage = new Intent(getContext(), Admin.class);
 
         //Add functions
-
-        btnaddAuthor.setOnClickListener( v -> {
-            Intent goToAdminPage = new Intent(getContext(), Admin.class);
-            goToAdminPage.putExtra("option",1);
+        btnaddAuthor.setOnClickListener(v -> {
+            goToAdminPage.putExtra("option", 1);
             startActivity(goToAdminPage);
         });
 
         btnAddCategory.setOnClickListener(v -> {
-            Intent goToAdminPage = new Intent(getContext(), Admin.class);
-            goToAdminPage.putExtra("option",2);
+            goToAdminPage.putExtra("option", 2);
             startActivity(goToAdminPage);
         });
 
         btnAddPhrase.setOnClickListener(v -> {
-            Intent goToAdminPage = new Intent(getContext(), Admin.class);
-            goToAdminPage.putExtra("option",3);
+            goToAdminPage.putExtra("option", 3);
             startActivity(goToAdminPage);
 
         });
 
         //Edit functions
 
-        btnEditPhrase.setOnClickListener(v -> {
-
+        btnEdit.setOnClickListener(v -> {
+            goToAdminPage.putExtra("option", 4);
+            startActivity(goToAdminPage);
         });
 
-        btnEditCategory.setOnClickListener(v -> {
-
+        btnBack.setOnClickListener(v -> {
+            Intent goToMainPage = new Intent(getContext(), ProfileActivity.class);
+            startActivity(goToMainPage);
         });
-
-        btnEditAuthor.setOnClickListener(v -> {
-
-        });
-
 
 
     }
-
-
 
 
 }

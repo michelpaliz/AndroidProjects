@@ -1,2 +1,11 @@
-package com.germangascon.frasescelebres.controllers;public class UsuarioController {
+package com.germangascon.frasescelebres.controllers;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UsuarioController {
+
+
+
+
 }

@@ -1,8 +1,7 @@
 package com.user_manager_v1.repository.rp;
 
-import com.germangascon.frasescelebres.FrasesCelebres;
-import com.germangascon.frasescelebres.util.Log;
-
+import com.user_manager_v1.UserManagementApplication;
+import com.user_manager_v1.util.Log;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,9 +20,9 @@ public class DbConnection {
     private final static String TAG = "DbConnection";
     private static DbConnection instance = null;
     private String DB_SERVER = "localhost";
-    private String DB_NAME = "frases";
-    private String DB_USERNAME = "frases";
-    private String DB_PASSWORD = "frases";
+    private String DB_NAME = "proyecto";
+    private String DB_USERNAME = "root";
+    private String DB_PASSWORD = "539012";
     public Connection connection;
 
     /** Constructor private para evitar que sea instanciado */
@@ -40,8 +39,8 @@ public class DbConnection {
     public synchronized static DbConnection getInstance() {
         if(instance == null) {
             instance = new DbConnection();
-            if(FrasesCelebres.CONFIG_FILE != null) {
-                instance.readConfig(FrasesCelebres.CONFIG_FILE);
+            if(UserManagementApplication.CONFIG_FILE != null) {
+                instance.readConfig(UserManagementApplication.CONFIG_FILE);
             }
             instance.connect();
         }

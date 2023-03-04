@@ -17,7 +17,7 @@ import com.germangascon.retrofitsample.models.Frase;
 
 import java.util.List;
 
-public class ApdapterGeneric<T> extends RecyclerView.Adapter<ApdapterGeneric.HolderAdapter> {
+public class ListApdapterGeneric<T> extends RecyclerView.Adapter<ListApdapterGeneric.HolderAdapter> {
 
     private final IListenerList iListenerList;
     private final List<Frase> frases;
@@ -25,7 +25,7 @@ public class ApdapterGeneric<T> extends RecyclerView.Adapter<ApdapterGeneric.Hol
     private final int option;
     private final boolean isDetalle;
 
-    public ApdapterGeneric(List<T> list, List<Frase> frases, IListenerList iListenerList, int option, boolean isDetalle) {
+    public ListApdapterGeneric(List<T> list, List<Frase> frases, IListenerList iListenerList, int option, boolean isDetalle) {
         this.iListenerList = iListenerList;
         this.list = list;
         this.frases = frases;
@@ -35,90 +35,77 @@ public class ApdapterGeneric<T> extends RecyclerView.Adapter<ApdapterGeneric.Hol
 
     @NonNull
     @Override
-    public ApdapterGeneric.HolderAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListApdapterGeneric.HolderAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent,
                 false);
         return new HolderAdapter(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ApdapterGeneric.HolderAdapter holder, int position) {
-        System.out.println("esto es fraselist" + list);
-        T tipo = list.get(position);
-        if (isDetalle){
-            switch (option){
-                case 1:
-                    holder.cargarDetalleAutores((Autor) tipo);
-                    break;
-                case 2:
-                    holder.cargarDatosCategoria((Categoria) tipo);
-                    break;
-            }
-        }
-        switch (option){
+    public void onBindViewHolder(@NonNull ListApdapterGeneric.HolderAdapter holder, int position) {
+
+        switch (option) {
+            case 0:
+                if (isDetalle) {
+                    Frase frase = frases.get(position);
+                    holder.cargarDetalles(frase);
+                }
+                break;
             case 1:
+                Object tipo = list.get(position);
                 holder.cargarDatosAutores((Autor) tipo);
                 break;
             case 2:
+                tipo = list.get(position);
                 holder.cargarDatosCategoria((Categoria) tipo);
+                break;
+
+            case 3:
+                Frase frase = frases.get(position);
+                holder.cargarDetalles(frase);
                 break;
         }
     }
 
     @Override
     public int getItemCount() {
+        if (isDetalle) {
+            return frases.size();
+        }
         return list.size();
     }
 
     public class HolderAdapter extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final TextView tvAutor;
-        private final TextView tvCategoria;
         private final TextView tvTexto;
 
         public HolderAdapter(@NonNull View itemView) {
             super(itemView);
-            tvAutor = itemView.findViewById(R.id.tvAutor_item);
-            tvCategoria = itemView.findViewById(R.id.tvCategoria_item);
-            tvTexto = itemView.findViewById(R.id.tvTexto_item);
-            itemView.setOnClickListener(this);
+            tvTexto = itemView.findViewById(R.id.tvTipo_item);
+            if (!isDetalle) {
+                itemView.setOnClickListener(this);
+            }
         }
 
         public void cargarDatosAutores(Autor autor) {
-            tvAutor.setText(autor.getNombre());
+            tvTexto.setText(autor.getNombre());
         }
 
         public void cargarDatosCategoria(Categoria categoria) {
-            tvAutor.setText(categoria.getNombre());
+            tvTexto.setText(categoria.getNombre());
         }
 
-        // para detalle
-
-
-        public void cargarDetalleAutores(Autor autor){
-            tvAutor.setText(autor.getNombre());
-            this.tvFrase = itemView.findViewById(R.id.tvFraseCateg);
-        }
-
-        public void cargarDetalleCategorias(){
-            this.tvCategoria = itemView.findViewById(R.id.tvCategoria);
-            this.tvFrase = itemView.findViewById(R.id.tvFraseCateg);
-        }
-
-
-
-        public void cargarDatosFrases(Frase frase) {
-            tvAutor.setText(frase.getAutor().getNombre());
-            tvCategoria.setText(frase.getCategoria().getNombre());
+        public void cargarDetalles(Frase frase) {
             tvTexto.setText(frase.getTexto());
         }
 
         @Override
         public void onClick(View v) {
-            if (v != null){
+            if (v != null) {
                 iListenerList.onItemSelected(getAdapterPosition());
+                notifyDataSetChanged();
                 int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(itemView.getContext(), tvAutor.getText().toString(), duration);
+                Toast toast = Toast.makeText(itemView.getContext(), tvTexto.getText().toString(), duration);
                 toast.show();
             }
         }

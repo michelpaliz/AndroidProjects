@@ -2,7 +2,6 @@ package com.germangascon.retrofitsample;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +15,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.germangascon.retrofitsample.interfaces.IAPIService;
-import com.germangascon.retrofitsample.interfaces.IListenerList;
 import com.germangascon.retrofitsample.models.Autor;
 import com.germangascon.retrofitsample.rest.RestClient;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentAddAuthor extends Fragment {
+public class FragmentAuthor extends Fragment {
 
     private IAPIService iapiService;
     private EditText edNombre, edNacimiento, edMuerte, edProfesion;
@@ -78,6 +76,7 @@ public class FragmentAddAuthor extends Fragment {
         iapiService = RestClient.getInstance();
         tvTitulo = view.findViewById(R.id.tvTitulo_Author);
 
+        goingBack();
 
         //****** Add Author *****
 
@@ -99,6 +98,17 @@ public class FragmentAddAuthor extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_author, container, false);
+    }
+
+
+    public void goingBack(){
+        btnBack.setOnClickListener(v -> {
+            FragmentAdminFunctions nextFrag= new FragmentAdminFunctions();
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, nextFrag, "findThisFragment")
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 
 
@@ -176,9 +186,6 @@ public class FragmentAddAuthor extends Fragment {
 
         });
 
-        btnBack.setOnClickListener(v -> {
-
-        });
 
 
     }

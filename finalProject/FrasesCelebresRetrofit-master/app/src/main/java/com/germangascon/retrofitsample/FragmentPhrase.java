@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,30 +30,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentAddPhrase extends Fragment {
+public class FragmentPhrase extends Fragment {
 
     private TextView tvTitulo;
     private EditText edTexto, edFecha, edAutor, edCategoria;
-    private String texto, fecha, nombreAutor, nombreCategoria;
-    private Button btnAdd, btnModify;
+    private String texto;
+    private String fecha;
+    private Button btnAdd, btnModify, btnBack;
     private Autor autorRecogido;
     private Categoria categoriaRecogida;
     private IAPIService iapiService;
     private Frase frase;
     private int option;
+//    private Spinner spinner;
 
 
     private List<Categoria> categorias;
     private List<Autor> autores;
 
-    public FragmentAddPhrase() {
+    public FragmentPhrase() {
         categorias = new ArrayList<>();
         autores = new ArrayList<>();
     }
 
     public interface IOnAttachListener {
         List<Autor> getDataAutoresPhrase();
+
         List<Categoria> getDataCategoriasPhrase();
+
         Frase getFrase();
     }
 
@@ -91,13 +98,16 @@ public class FragmentAddPhrase extends Fragment {
         btnAdd = view.findViewById(R.id.btnRegisterNewPhrase);
         btnModify = view.findViewById(R.id.btnModifyPhrase);
         tvTitulo = view.findViewById(R.id.tvTitulo_Phrase);
+        btnBack = view.findViewById(R.id.btnBack_phrase);
         iapiService = RestClient.getInstance();
         autorRecogido = new Autor();
         categoriaRecogida = new Categoria();
-
+//        spinner = view.findViewById(R.id.spinner);
         btnModify.setVisibility(View.INVISIBLE);
 
-        if (option == 1){
+        goingBack();
+
+        if (option == 1) {
             btnModify.setVisibility(View.VISIBLE);
             btnAdd.setVisibility(View.INVISIBLE);
             modifyPhrase();
@@ -107,14 +117,34 @@ public class FragmentAddPhrase extends Fragment {
     }
 
 
+    public void goingBack() {
+        btnBack.setOnClickListener(v -> {
+            FragmentAdminFunctions nextFrag = new FragmentAdminFunctions();
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, nextFrag, "findThisFragment")
+                    .addToBackStack(null)
+                    .commit();
+        });
+    }
 
-    public void modifyPhrase(){
+    public void modifyPhrase() {
 
         tvTitulo.setText("Modify Phrase");
+
+        System.out.println(autores);
+
+//        ArrayAdapter<Autor> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, autores);
+//
+//        spinner.setAdapter(arrayAdapter);
+//        autorRecogido = (Autor) spinner.getSelectedItem();
+
+
+
         btnModify.setOnClickListener(v -> {
             if (!validateTexto() || !validateFecha() || !validateNameAuthor() || !validateNameCategory()) {
                 return;
             }
+
 
             frase.setTexto(texto);
             frase.setAutor(autorRecogido);
@@ -196,7 +226,7 @@ public class FragmentAddPhrase extends Fragment {
             return false;
         } else {
             edAutor.setError(null);
-            nombreAutor = edAutor.getText().toString();
+            String nombreAutor = edAutor.getText().toString();
             return true;
         }
     }
@@ -211,7 +241,7 @@ public class FragmentAddPhrase extends Fragment {
             return false;
         } else {
             edAutor.setError(null);
-            nombreCategoria = edCategoria.getText().toString();
+            String nombreCategoria = edCategoria.getText().toString();
             return true;
         }
     }
@@ -224,14 +254,19 @@ public class FragmentAddPhrase extends Fragment {
         if (strFechaProgramada.isEmpty()) {
             edFecha.setError("Cannot be empty");
             return false;
-        } else if (containsOnlyDigits) {
-            edFecha.setError("Introduce only digits");
+        } else if (!validatePragramDate(strFechaProgramada)) {
+            edFecha.setError("Format is yyyy-MM-dd");
             return false;
         } else {
             edFecha.setError(null);
             fecha = edFecha.getText().toString();
             return true;
         }
+    }
+
+
+    public boolean validatePragramDate(String fecha) {
+        return fecha.matches("([0-9]{4}-([0-9]{2})-([0-9]{2}))");
     }
 
 //    ******** OTHER FUNCTIONS ************

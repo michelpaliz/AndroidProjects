@@ -1,9 +1,9 @@
 package com.example.myProyect.models;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
@@ -19,6 +19,7 @@ public class Usuario {
     @Id
     private int id;
     private String nombre;
+    private String apellido;
     private String email;
     private String password;
     private String gender;
@@ -40,6 +41,7 @@ public class Usuario {
     public void init() {
         id = 0;
         nombre = null;
+        apellido = null;
         email = null;
         password = null;
         gender = null;
@@ -156,6 +158,14 @@ public class Usuario {
 
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public Timestamp getCurrentTimestamp() {

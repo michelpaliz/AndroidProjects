@@ -1,6 +1,7 @@
 package com.user_manager_v1.util;
 
-import com.germangascon.frasescelebres.FrasesCelebres;
+
+import com.user_manager_v1.UserManagementApplication;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ public class Log {
     }
 
     public static void d(String tag, String msg) {
-        if(FrasesCelebres.DEBUG) {
+        if(UserManagementApplication.DEBUG) {
             Logger.getLogger(tag).log(Level.INFO, "DEBUG ["+tag+"] " + msg);
         }
     }

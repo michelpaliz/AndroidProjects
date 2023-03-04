@@ -1,9 +1,7 @@
 package com.user_manager_v1.rest_controllers.md;
-
-
-import com.germangascon.frasescelebres.models.Categoria;
-import com.germangascon.frasescelebres.repo.ICategoriaDao;
-import com.germangascon.frasescelebres.util.Log;
+import com.user_manager_v1.models.Categoria;
+import com.user_manager_v1.repository.rp.ICategoriaDao;
+import com.user_manager_v1.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

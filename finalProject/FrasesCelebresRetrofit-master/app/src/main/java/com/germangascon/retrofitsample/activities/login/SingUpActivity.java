@@ -2,15 +2,16 @@ package com.germangascon.retrofitsample.activities.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -27,6 +28,8 @@ public class SingUpActivity extends AppCompatActivity {
     private Button btnHome, btnSignUp;
     private TextView tvSignIn;
     private EditText edFirstName, edLastName, edEmail, edPassword, edConfirm;
+    private Spinner spinner;
+    private String[] campos ;
 
 
     @Override
@@ -37,6 +40,7 @@ public class SingUpActivity extends AppCompatActivity {
         registrationProcess();
         goHome();
         goToSingInAcct();
+
     }
 
     public void init() {
@@ -45,10 +49,12 @@ public class SingUpActivity extends AppCompatActivity {
         edEmail = findViewById(R.id.tvEmail_signup);
         edPassword = findViewById(R.id.tvPassword_signup);
         edConfirm = findViewById(R.id.tvConfirm_signup);
-
+        campos = getResources().getStringArray(R.array.type);
         btnSignUp = findViewById(R.id.btnSingUp_signup);
         btnHome = findViewById(R.id.btnHome_singup);
         tvSignIn = findViewById(R.id.tvSingIn_singup);
+
+        spinner = findViewById(R.id.spinner);
     }
 
     // ********* ACTION BUTTONS ***********
@@ -72,7 +78,17 @@ public class SingUpActivity extends AppCompatActivity {
 //   ********* VALIDATION PROCESS ***********
 
     public void registrationProcess() {
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.layout, campos);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+
+
         btnSignUp.setOnClickListener(v -> {
+
+            String result = spinner.getSelectedItem().toString();
+            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+
             //Check for Errors
             if (!validateFirstName() || !validateLastName()
                     || !validateEmail() || !validatePassword()) {
@@ -84,7 +100,7 @@ public class SingUpActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(SingUpActivity.this);
             //The url posting to:
 //            String url = "http://192.168.1.15:9080/api/v1/user/register";
-            String url = "http://192.168.204.198:9080/api/v1/user/register";
+            String url = "http://192.168.9.127:9080/api/v1/user/register";
 
             //String Request Object
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -105,13 +121,14 @@ public class SingUpActivity extends AppCompatActivity {
             }) {
                 @NonNull
                 @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
+                protected Map<String, String> getParams() {
 //                    return super.getParams();
                     Map<String, String> params = new HashMap<>();
                     params.put("first_name", edFirstName.getText().toString());
                     params.put("last_name", edLastName.getText().toString());
                     params.put("email", edEmail.getText().toString());
                     params.put("password", edPassword.getText().toString());
+                    params.put("type", result);
                     return params;
                 }
             };//End of string request object

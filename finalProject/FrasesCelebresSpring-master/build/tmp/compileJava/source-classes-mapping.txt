@@ -1,0 +1,24 @@
+com/germangascon/frasescelebres/models/Frase.java
+ com.germangascon.frasescelebres.models.Frase
+com/germangascon/frasescelebres/util/Log.java
+ com.germangascon.frasescelebres.util.Log
+com/germangascon/frasescelebres/db/DbConnection.java
+ com.germangascon.frasescelebres.db.DbConnection
+com/germangascon/frasescelebres/controllers/AutorController.java
+ com.germangascon.frasescelebres.controllers.AutorController
+com/germangascon/frasescelebres/repo/IAutorRepo.java
+ com.germangascon.frasescelebres.repo.IAutorRepo
+com/germangascon/frasescelebres/models/Usuario.java
+ com.germangascon.frasescelebres.models.Usuario
+ com.germangascon.frasescelebres.models.Usuario$Gender
+ com.germangascon.frasescelebres.models.Usuario$TipoUsuario
+com/germangascon/frasescelebres/controllers/FraseController.java
+ com.germangascon.frasescelebres.controllers.FraseController
+com/germangascon/frasescelebres/FrasesCelebres.java
+ com.germangascon.frasescelebres.FrasesCelebres
+com/germangascon/frasescelebres/models/Autor.java
+ com.germangascon.frasescelebres.models.Autor
+com/germangascon/frasescelebres/models/Categoria.java
+ com.germangascon.frasescelebres.models.Categoria
+com/germangascon/frasescelebres/models/Auth.java
+ com.germangascon.frasescelebres.models.Auth

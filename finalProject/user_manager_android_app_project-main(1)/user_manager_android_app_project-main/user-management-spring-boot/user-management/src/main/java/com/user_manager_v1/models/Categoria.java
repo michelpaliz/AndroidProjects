@@ -4,6 +4,7 @@ package com.user_manager_v1.models;
 import javax.persistence.*;
 import java.util.List;
 
+
 @Entity
 public class Categoria {
     @Id

@@ -7,17 +7,21 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.View;
 import android.widget.Button;
 
 import com.germangascon.retrofitsample.activities.login.ProfileActivity;
 
-public class FragmentConsultas extends Fragment {
+import java.util.Objects;
+
+public class FragmentoConsultas extends Fragment {
 
     private int opcion;
+    private FragmentList fragmentList;
 
-    public FragmentConsultas() {
+    public FragmentoConsultas() {
         super(R.layout.fragemento_consultas);
     }
 
@@ -28,13 +32,7 @@ public class FragmentConsultas extends Fragment {
         Button btnAutores = view.findViewById(R.id.btnFrasesPorAutor);
         Button btnCategorias = view.findViewById(R.id.btnFrasesPorCategoria);
         Button btnVolver = view.findViewById(R.id.btnVolver);
-
-//        FragmentManager manager = requireActivity().getSupportFragmentManager();
-//        manager.beginTransaction()
-//                .setReorderingAllowed(true)
-//                .addToBackStack(null)
-//                .replace(R.id.frgConsultas,FragmentList.class, null)
-//                .commit();
+        Button btnFrases = view.findViewById(R.id.btnFrases);
 
 
         btnVolver.setOnClickListener(v -> {
@@ -44,8 +42,22 @@ public class FragmentConsultas extends Fragment {
 
         //2 TIPOS DE BUSQUEDAS
 
+        btnFrases.setOnClickListener(v -> {
+            fragmentList = new FragmentList();
+            opcion = 3;
+            Bundle args = new Bundle();
+            args.putInt("option", 3);
+            fragmentList.setArguments(args);
+            getParentFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .addToBackStack(null)
+                    .replace(R.id.frgConsultas, fragmentList, null)
+                    .commit();
+
+        });
+
         btnAutores.setOnClickListener(v -> {
-            Fragment fragmentList = new FragmentList();
+            fragmentList = new FragmentList();
             opcion = 1;
             Bundle args = new Bundle();
             args.putInt("option", 1);
@@ -59,8 +71,8 @@ public class FragmentConsultas extends Fragment {
         });
 
         btnCategorias.setOnClickListener(v -> {
+            fragmentList = new FragmentList();
             opcion = 2;
-            Fragment fragmentList = new FragmentList();
             Bundle args = new Bundle();
             args.putInt("option", 2);
             fragmentList.setArguments(args);

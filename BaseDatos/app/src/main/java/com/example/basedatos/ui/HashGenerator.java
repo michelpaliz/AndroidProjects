@@ -1,2 +1,4 @@
-package com.example.basedatos.ui;public class HashGenerator {
+package com.example.basedatos.ui;
+
+public class HashGenerator {
 }

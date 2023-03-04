@@ -1,7 +1,7 @@
-package com.germangascon.frasescelebres.models;
+package com.user_manager_v1.models;
 
-import java.sql.Date;
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 public class Frase {
@@ -13,7 +13,7 @@ public class Frase {
     private int id;
     @Column(name = "texto", length = 255)
     private String texto;
-    @Column(name = "fechaProgramada", unique = true)
+    @Column(name = "fecha_programada", unique = true)
     private Date fechaProgramada;
     /** Relaciones */
     @ManyToOne(cascade = CascadeType.REFRESH)

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/repository/UserRepository.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/resources/db_script/main.sql" dialect="MySQL" />
+  </component>
+</project>

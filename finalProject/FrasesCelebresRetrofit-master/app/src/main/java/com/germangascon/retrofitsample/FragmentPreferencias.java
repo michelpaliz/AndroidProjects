@@ -1,64 +1,53 @@
 package com.germangascon.retrofitsample;
 
+
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentPreferencias#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentPreferencias extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public FragmentPreferencias() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentPreferencias.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentPreferencias newInstance(String param1, String param2) {
-        FragmentPreferencias fragment = new FragmentPreferencias();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class FragmentPreferencias extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+    EditTextPreference ip, port;
+    Preference username, password;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_preferencias, container, false);
+    public void onCreatePreferences(Bundle bundle, String rootKey) {
+        setPreferencesFromResource(R.xml.options, rootKey);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        ip = findPreference("ip");
+        port = findPreference("port");
+        username = findPreference("iUsernamePref");
+        password = findPreference("iPasswordPref");
+        assert ip != null;
+        ip.setText(prefs.getString("ip", ""));
+
+        assert port != null;
+        port.setText(prefs.getString("port", ""));
+
+//        assert username != null;
+//        username.setSummary(prefs.getString("usernamePref", ""));
+//
+//        assert password != null;
+//        password.setSummary(prefs.getString("passwordPref", ""));
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        ip.setText(sharedPreferences.getString("ip", ""));
+        port.setText(sharedPreferences.getString("port", ""));
+        username.setSummary(sharedPreferences.getString("usernamePref", ""));
+        password.setSummary(sharedPreferences.getString("passwordPref", ""));
     }
 }

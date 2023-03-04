@@ -1,4 +1,4 @@
-package com.germangascon.frasescelebres.models;
+package com.user_manager_v1.models;
 
 public class Auth {
     private int id;

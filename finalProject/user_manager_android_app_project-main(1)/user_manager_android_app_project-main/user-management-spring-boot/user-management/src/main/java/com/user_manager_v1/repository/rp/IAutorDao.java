@@ -1,6 +1,6 @@
 package com.user_manager_v1.repository.rp;
 
-import com.germangascon.frasescelebres.models.Autor;
+import com.user_manager_v1.models.Autor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

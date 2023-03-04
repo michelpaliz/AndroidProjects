@@ -1,8 +1,8 @@
-package com.germangascon.frasescelebres.controllers;
+package com.user_manager_v1.rest_controllers.md;
 
-import com.germangascon.frasescelebres.models.Autor;
-import com.germangascon.frasescelebres.repo.IAutorDao;
-import com.germangascon.frasescelebres.util.Log;
+import com.user_manager_v1.models.Autor;
+import com.user_manager_v1.repository.rp.IAutorDao;
+import com.user_manager_v1.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,6 @@ public class AutorController {
     public List<Autor> getAutoresLimit(@PathVariable("offset") int offset) {
         return repo.getAutoresLimit(offset);
     }
-
 
     @GetMapping(value = "/{id}")
     public Optional<Autor> getAutor(@PathVariable("id") Integer id) {
