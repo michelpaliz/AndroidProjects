@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "236275525323",
+    "project_id": "caminoalba-3ee10",
+    "storage_bucket": "caminoalba-3ee10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236275525323:android:b93f4ede6e1df2a1da9d4e",
+        "android_client_info": {
+          "package_name": "com.example.caminoalba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236275525323-v745b4abtf2h1d3vfgt6sbkkqnus8njv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKFEyZsTxHG0Db5sATPFd9-hH_OFoJMrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236275525323-v745b4abtf2h1d3vfgt6sbkkqnus8njv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
