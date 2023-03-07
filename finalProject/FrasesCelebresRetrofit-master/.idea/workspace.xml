@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config>
+        <device id="_device_class_phone" />
+      </config>
+    </shared>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1ebfc053-5eb6-4bf1-b5ce-59d3f8ca8d69" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/.idea/emulatorDisplays.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/google-services.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/androidTest/java/com/example/caminoalba/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/java/com/example/caminoalba/AddElementActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/java/com/example/caminoalba/EditActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/java/com/example/caminoalba/LoginActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/java/com/example/caminoalba/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/java/com/example/caminoalba/RegistrationActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable-v24/background.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable-v24/card_view.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable-v24/default_background.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable-v24/df_background.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable-v24/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable-v24/undraw_appreciate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable-v24/undraw_digital_rm.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable-v24/undraw_sign_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/alt_btn_styling.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/circle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/first_gradient.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/ic_baseline_dehaze_24.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/input_text_field_styling.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/main_btn_styling.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/progress_bar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/drawable/round_drawable.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/layout/activity_add_element.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/layout/activity_edit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/layout/activity_login.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/layout/activity_registration.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/values-night/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/values/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/xml/backup_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/main/res/xml/data_extraction_rules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/app/src/test/java/com/example/caminoalba/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CaminoAlba/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../FirebaseChat" beforeDir="false" afterPath="$PROJECT_DIR$/../../FirebaseChat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Final_project.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/emulatorDisplays.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/germangascon/retrofitsample/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/Admin.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/FragmentAdminFunctions.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/FragmentAuthor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/FragmentCategory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/FragmentContainer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/FragmentDetail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/FragmentList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/FragmentPhrase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/FragmentPreferencias.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/FragmentoConsultas.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/MainPage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/Parent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/activities/login/ListApdapterGeneric.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/activities/login/ProfileActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/activities/login/SingInActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/activities/login/SingUpActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/helpers/EmailHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/interfaces/IAPIService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/interfaces/IListenerList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/models/Autor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/models/Categoria.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/models/Frase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/models/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/rest/RestClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/germangascon/retrofitsample/rest/testing" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/alt_bg_img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/alt_btn_styling.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/alt_img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/card_view.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_baseline_dehaze_24.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/input_text_field_styling.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/main_act_img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/main_bg_img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/main_btn_styling.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_admin.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main_page.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_memo_broad_cast.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_notification_open.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_parent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_profile.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sing_in.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sing_up.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragemento_consultas.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_add_author.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_add_category.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_add_phrase.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_admin.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_container.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail_admin.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_preferencias.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/notification.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/recycler_item.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/recycler_view.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-land/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-night/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-w1240dp/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-w600dp/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/refs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/options.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/germangascon/retrofitsample/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/dataSources/73ab9d3a-9d30-49b7-9588-38f29c2a67dd.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/dataSources/73ab9d3a-9d30-49b7-9588-38f29c2a67dd/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/dataSources/73ab9d3a-9d30-49b7-9588-38f29c2a67dd/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/dataSources/73ab9d3a-9d30-49b7-9588-38f29c2a67dd/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/dataSources/73ab9d3a-9d30-49b7-9588-38f29c2a67dd/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/jpa-buddy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/bootJarMainClassName" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/bootRunMainClassName" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/FrasesCelebres.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/controllers/AutorController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/controllers/FraseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/db/DbConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/models/Auth.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/models/Autor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/models/Categoria.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/models/Frase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/models/Usuario$Gender.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/models/Usuario$TipoUsuario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/models/Usuario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/repo/IAutorRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/classes/java/main/com/germangascon/frasescelebres/util/Log.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/libs/FrasesCelebresSpring-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/resources/main/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/tmp/bootJar/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/FrasesCelebres.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/controllers/AutorController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/controllers/CategoriaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/controllers/FraseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/controllers/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/controllers/RegistroController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/controllers/UsuarioController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/db/DbConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/models/Auth.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/models/Autor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/models/Categoria.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/models/Frase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/models/Usuario$Gender.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/models/Usuario$TipoUsuario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/models/Usuario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/repo/IAutorDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/repo/ICategoriaDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/repo/IFraseDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/repo/UsuarioRepositorio.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/service/UsuarioServicio.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/classes/com/germangascon/frasescelebres/util/Log.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/resources/import.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/out/production/resources/main_sql.slq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/FrasesCelebres.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/controllers/AutorController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/controllers/CategoriaController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/controllers/FraseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/controllers/LoginController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/controllers/RegistroController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/controllers/UsuarioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/db/DbConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/models/Auth.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/models/Autor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/models/Categoria.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/models/Frase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/models/Usuario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/repo/IAutorDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/repo/ICategoriaDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/repo/IFraseDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/repo/UsuarioRepositorio.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/service/UsuarioServicio.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/java/com/germangascon/frasescelebres/util/Log.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/resources/import.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrasesCelebresSpring-master/src/main/resources/main_sql.slq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/src/main/java/com/example/myProyect/MyProyectApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/src/main/java/com/example/myProyect/controllers/LoginController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/src/main/java/com/example/myProyect/controllers/RegistroController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/src/main/java/com/example/myProyect/controllers/UsuarioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/src/main/java/com/example/myProyect/models/Usuario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/src/main/java/com/example/myProyect/repo/UsuarioRepositorio.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/src/main/java/com/example/myProyect/service/UsuarioServicio.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myProyect/src/test/java/com/example/myProyect/MyProyectApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/jpa-buddy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__antlr_antlr_2_7_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_fasterxml_classmate_1_5_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_13_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_13_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_13_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_13_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_13_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_13_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_6_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_sun_activation_jakarta_activation_1_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_sun_istack_istack_commons_runtime_3_0_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__com_zaxxer_HikariCP_4_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__jakarta_activation_jakarta_activation_api_1_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__jakarta_annotation_jakarta_annotation_api_1_3_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__jakarta_persistence_jakarta_persistence_api_2_2_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__jakarta_transaction_jakarta_transaction_api_1_3_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__jakarta_xml_bind_jakarta_xml_bind_api_2_3_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__mysql_mysql_connector_java_8_0_28.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_11_22.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_11_22.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__net_minidev_accessors_smart_2_4_8.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__net_minidev_json_smart_2_4_8.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_apache_logging_log4j_log4j_api_2_17_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_17_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_9_0_60.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_el_9_0_60.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_9_0_60.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_9_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_assertj_assertj_core_3_21_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_glassfish_jaxb_jaxb_runtime_2_3_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_glassfish_jaxb_txw2_2_3_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_hamcrest_hamcrest_2_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_5_1_2_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_hibernate_hibernate_core_5_6_7_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_jboss_jandex_2_4_2_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_4_3_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_params_5_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_8_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_mockito_mockito_core_4_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_mockito_mockito_junit_jupiter_4_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_objenesis_objenesis_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_ow2_asm_asm_9_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_5_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_36.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_36.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_aop_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_jpa_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jdbc_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_json_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_2_6_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_data_spring_data_commons_2_6_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_data_spring_data_jpa_2_6_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_security_spring_security_crypto_5_6_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_aop_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_aspects_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_beans_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_context_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_core_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_expression_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_jcl_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_jdbc_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_orm_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_test_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_tx_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_web_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_springframework_spring_webmvc_5_3_18.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_8_4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/libraries/Maven__org_yaml_snakeyaml_1_29.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/alt_bg_img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/alt_img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/main_act_img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/main_bg_img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/HELP.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/UserManagementApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/models/Auth.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/models/Autor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/models/Categoria.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/models/Frase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/models/Login.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/models/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/repository/rp/DbConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/repository/rp/IAutorDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/repository/rp/ICategoriaDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/repository/rp/IFraseDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/rest_controllers/LoginApiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/rest_controllers/RegisterApiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/rest_controllers/UserApiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/rest_controllers/md/AutorController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/rest_controllers/md/CategoriaController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/rest_controllers/md/FraseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/services/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/util/Log.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/resources/db_script/main.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/test/java/com/user_manager_v1/UserManagementApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/UserManagementApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/models/Auth.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/models/Autor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/models/Categoria.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/models/Frase.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/models/Login.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/models/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/repository/UserRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/repository/rp/DbConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/repository/rp/IAutorDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/repository/rp/ICategoriaDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/repository/rp/IFraseDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/rest_controllers/LoginApiController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/rest_controllers/RegisterApiController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/rest_controllers/UserApiController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/rest_controllers/md/AutorController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/rest_controllers/md/CategoriaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/rest_controllers/md/FraseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/services/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/com/user_manager_v1/util/Log.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/classes/db_script/main.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user-management-spring-boot/user-management/target/test-classes/com/user_manager_v1/UserManagementApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user_manager_android_app_project-main(1)/user_manager_android_app_project-main/user_manager_android_v1.zip" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[R5CT803PHBD]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="RetrofitSample" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="resourceFile" />
+        <option value="valueResourceFile" />
+        <option value="layoutResourceFile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2LK5RR8ZVAyVkD72TOLIqqzpnFT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="android-custom-view/home/michael/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED" value="RecyclerView" />
+    <property name="android-custom-view/home/michael/Android/Sdk/sources/android-33/android/view/View.java_SELECTED" value="View" />
+    <property name="android-custom-view/home/michael/Android/Sdk/sources/android-33/android/widget/Button.java_SELECTED" value="Button" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="android.template.-405358417">
+      <recent name="com.germangascon.retrofitsample" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
+    </key>
+    <key name="android.template.1605867510">
+      <recent name="com.germangascon.retrofitsample" />
+    </key>
+    <key name="android.template.1693476522">
+      <recent name="com.germangascon.retrofitsample.activities.login.pages" />
+      <recent name="com.germangascon.retrofitsample" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/layout-v28" />
+    </key>
+    <key name="android.template.1298851909">
+      <recent name="com.germangascon.retrofitsample.activities.login" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.germangascon.retrofitsample" />
+    </key>
+    <key name="android.template.-1424700546">
+      <recent name="com.germangascon.retrofitsample" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.germangascon.retrofitsample.activities.login" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Android App.app">
+    <configuration name="RetrofitSample" type="AndroidRunConfigurationType" factoryName="Android App">
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="true" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+        <option name="PROFILING_MODE" value="NOT_SET" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" goal="" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="RetrofitSample.app.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+        <option name="PROFILING_MODE" value="NOT_SET" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="/home/michael/Documents/GitHub/android/FrasesCelebresRetrofit-master/gradle" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/gradle" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Android App.RetrofitSample" />
+      <item itemvalue="Android App.app" />
+      <item itemvalue="Gradle./home/michael/Documents/GitHub/android/FrasesCelebresRetrofit-master/gradle" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1ebfc053-5eb6-4bf1-b5ce-59d3f8ca8d69" name="Changes" comment="" />
+      <created>1675606924411</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1675606924411</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/.." />
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+  </component>
+</project>
