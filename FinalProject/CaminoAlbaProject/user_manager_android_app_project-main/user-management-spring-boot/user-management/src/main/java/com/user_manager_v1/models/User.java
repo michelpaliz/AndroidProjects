@@ -20,6 +20,11 @@ public class User {
     private String password;
     @Column(name = "type")
     private String type;
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    private boolean enabled;
+
 
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @MapsId
@@ -33,13 +38,16 @@ public class User {
     private Person person;
 
 
-    public User(int user_id, String first_name, String last_name, String email, String password, String type) {
+    public User(int user_id, String first_name, String last_name, String email, String password, String type, String verificationCode, boolean enabled, Person person) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.type = type;
+        this.verificationCode = verificationCode;
+        this.enabled = enabled;
+        this.person = person;
     }
 
     public User() {
@@ -96,5 +104,29 @@ public class User {
 
     public String getType() {
         return type;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

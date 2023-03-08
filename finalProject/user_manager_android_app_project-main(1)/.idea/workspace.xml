@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3688d4fc-35ee-46ff-92f5-e1d25b7d745d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../FinalProject/CaminoAlba/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../FinalProject/CaminoAlba/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../FinalProject/CaminoAlba/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../FirebaseChat" beforeDir="false" afterPath="$PROJECT_DIR$/../../FirebaseChat" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2LPMTIP6wcWQvrQatSlVOLGQKL9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/michael/Documents/GitHub/android/FinalProject/CaminoAlbaProject",
+    "spring.configuration.checksum": "a71928610909a80110091e46897b88ce"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/rest_controllers/md" />
+      <recent name="$PROJECT_DIR$/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/repository/rp" />
+      <recent name="$PROJECT_DIR$/user_manager_android_app_project-main/user-management-spring-boot/user-management/src/main/java/com/user_manager_v1/models" />
+    </key>
+    <key name="ImportMappingsDialog.RecentPackages">
+      <recent name="com.user_manager_v1.models" />
+      <recent name="" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.user_manager_v1.repository.rp" />
+      <recent name="com.user_manager_v1.util" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="user_manager_android_app_project-main(1)" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="user_manager_android_app_project-main(1)" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserManagementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="user-management" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.user_manager_v1.UserManagementApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3688d4fc-35ee-46ff-92f5-e1d25b7d745d" name="Changes" comment="" />
+      <created>1675768270589</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1675768270589</updated>
+      <workItem from="1675768271786" duration="6420000" />
+      <workItem from="1675781148521" duration="12985000" />
+      <workItem from="1675853525098" duration="5301000" />
+      <workItem from="1675953567347" duration="1920000" />
+      <workItem from="1675976341884" duration="1271000" />
+      <workItem from="1676015034852" duration="1279000" />
+      <workItem from="1676043159563" duration="3343000" />
+      <workItem from="1676106660001" duration="6590000" />
+      <workItem from="1676198361091" duration="8399000" />
+      <workItem from="1676277346384" duration="1251000" />
+      <workItem from="1676299200509" duration="656000" />
+      <workItem from="1676300059765" duration="2049000" />
+      <workItem from="1676316701184" duration="1082000" />
+      <workItem from="1676320930499" duration="1214000" />
+      <workItem from="1676362752986" duration="1378000" />
+      <workItem from="1676373797680" duration="599000" />
+      <workItem from="1676384935413" duration="1903000" />
+      <workItem from="1676397410409" duration="1856000" />
+      <workItem from="1676449834838" duration="2518000" />
+      <workItem from="1676476220069" duration="2020000" />
+      <workItem from="1676535448376" duration="1905000" />
+      <workItem from="1676560328196" duration="2136000" />
+      <workItem from="1678124369631" duration="1301000" />
+      <workItem from="1678203601238" duration="5506000" />
+      <workItem from="1678289991486" duration="229000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

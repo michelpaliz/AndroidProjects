@@ -8,7 +8,9 @@ CREATE TABLE users
     last_name  VARCHAR(50)  NOT NULL,
     email      VARCHAR(255) NOT NULL UNIQUE,
     password   VARCHAR(255) NOT NULL,
-    type       varchar(10),
+    verification_code varchar(100) null,
+    type       varchar(10) not null default 'user',
+    enabled bit NOT NULL DEFAULT 0,
     PRIMARY KEY (user_id)
 );
 

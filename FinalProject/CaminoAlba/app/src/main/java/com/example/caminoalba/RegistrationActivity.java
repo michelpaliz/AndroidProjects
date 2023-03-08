@@ -66,9 +66,9 @@ public class RegistrationActivity extends AppCompatActivity {
             }
             //End for checking errors
             //Instantiate the request queue:
-            String url = "http://192.168.9.127:9080/api/v1/user/register";
+//            String url = "http://192.168.9.127:9080/api/v1/user/register";
             RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivity.this);
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.REGISTER_API,
                     response -> {
                         if (response.equalsIgnoreCase("success")) {
                             //we are removing the data to avoid more post petitions of new data that the user can put more.
