@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                     String last_name = (String) response.get("last_name");
                     String email = (String) response.get("email");
                     String password = (String) response.get("password");
+                    String type = (String) response.get("type");
 //                String type = (String) response.get("type");
 
                     //Set Intent Actions;
@@ -83,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("last_name", last_name);
                     intent.putExtra("email", email);
                     intent.putExtra("password", password);
-//                intent.putExtra("type", type);
+                    intent.putExtra("type", type);
                     SAVEUSER = true;
 
                     //Start Activity

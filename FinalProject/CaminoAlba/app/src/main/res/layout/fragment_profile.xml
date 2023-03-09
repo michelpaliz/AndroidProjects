@@ -1,14 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/my_dark_purple"
     tools:context=".ui.menuItems.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvProfileTittle"
+            android:layout_width="266dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="28dp"
+            android:background="@color/my_dark_purple"
+            android:gravity="center"
+            android:text="@string/hello_blank_fragment"
+            android:textColor="@color/my_grey"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProfileTittle"
+            tools:src="@tools:sample/avatars" />
+
+        <EditText
+            android:id="@+id/edFirstName"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/input_text_field_styling"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+
+        <EditText
+            android:id="@+id/edLastName"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/input_text_field_styling"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edFirstName" />
+
+        <EditText
+            android:id="@+id/edBirthDate"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/input_text_field_styling"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edLastName"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
+            android:id="@+id/edGender"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/input_text_field_styling"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edBirthDate"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSaveInformation"
+            android:layout_width="141dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="56dp"
+            android:background="@drawable/main_btn_styling"
+            android:text="Save Information"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.474"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edGender" />
+
+        <TextView
+            android:id="@+id/tvFirstName"
+            android:layout_width="90dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            android:text="First Name"
+            android:textColor="@color/my_grey"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvLastName"
+            app:layout_constraintEnd_toStartOf="@+id/edFirstName"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgProfile"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvLastName"
+            android:layout_width="90dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="28dp"
+            android:gravity="center"
+            android:text="Last Name"
+            android:textColor="@color/my_grey"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvBirthDate"
+            app:layout_constraintEnd_toStartOf="@+id/edLastName"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvBirthDate"
+            android:layout_width="90dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
+            android:text="Birth Date"
+            android:textColor="@color/my_grey"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvGender"
+            app:layout_constraintEnd_toStartOf="@+id/edBirthDate"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvGender"
+            android:layout_width="90dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="56dp"
+            android:gravity="center"
+            android:text="Gender"
+            android:textColor="@color/my_grey"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/btnSaveInformation"
+            app:layout_constraintEnd_toStartOf="@+id/edGender"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>
