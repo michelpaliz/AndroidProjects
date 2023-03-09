@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/profileFragment"
+            android:icon="@drawable/icon_partner"
+            android:title="@string/menu_profile" />
+        <item
+            android:id="@+id/newsFragment"
+            android:icon="@drawable/icon_news"
+            android:title="@string/menu_news" />
+        <item
+            android:id="@+id/blogFragment"
+            android:icon="@drawable/icon_mobile"
+            android:title="@string/menu_blog" />
+
+        <item
+            android:id="@+id/partnerFragment"
+            android:icon="@drawable/icon_socio"
+            android:title="@string/menu_socio" />
+
+
+
+
+    </group>
+</menu>
