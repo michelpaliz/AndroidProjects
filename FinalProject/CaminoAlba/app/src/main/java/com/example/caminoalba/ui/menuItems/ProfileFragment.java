@@ -1,5 +1,4 @@
 package com.example.caminoalba.ui.menuItems;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,11 +18,14 @@ import androidx.preference.PreferenceManager;
 import com.example.caminoalba.Config.RestClient;
 import com.example.caminoalba.Config.Utils;
 import com.example.caminoalba.R;
+import com.example.caminoalba.Services.UserService;
 import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.Person;
 import com.example.caminoalba.models.User;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +43,7 @@ public class ProfileFragment extends Fragment {
     private User user;
     private Context context;
     private IAPIservice iapiService;
+    private List<User> userList = new ArrayList<>();
 
 
     @Override
@@ -79,6 +82,20 @@ public class ProfileFragment extends Fragment {
 
         user = new User(firstName, lastName, email, password, type, person);
 
+        UserService.getUsersFromRest();
+
+
+        System.out.println("Esto es la lista desde el fragmento" + UserService.getUsers());
+
+        List<User> userList = UserService.getUsers();
+
+        for (int i = 0; i < userList.size() ; i++) {
+            System.out.println("item " + userList.get(i).getPerson());
+        }
+
+//        System.out.println("Esto un item de la lista desde el fragmento" + userList);
+//        System.out.println("Esto un item de la lista desde el fragmento" + UserService.getUsers().get(1).getEmail());
+
 
         if (user.getPerson().getBirthDate() == null) {
             edBirthdate.setHint("dd-MM-yyyy");
@@ -96,6 +113,10 @@ public class ProfileFragment extends Fragment {
 
         updatePerson();
     }
+
+
+
+
 
     public void updatePerson() {
         btnSave.setOnClickListener(v -> {

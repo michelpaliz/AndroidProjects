@@ -1,6 +1,7 @@
 package com.example.caminoalba.interfaces;
 
 import com.example.caminoalba.models.Person;
+import com.example.caminoalba.models.User;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public interface IAPIservice {
     Call<Boolean> addPerson(@Body Person person);
     @PUT("person/update")
     Call<Boolean> updatePerson(@Body Person person);
+    @GET("/api/v1/user/all")
+    Call<List<User>>getUsers();
 
 
 

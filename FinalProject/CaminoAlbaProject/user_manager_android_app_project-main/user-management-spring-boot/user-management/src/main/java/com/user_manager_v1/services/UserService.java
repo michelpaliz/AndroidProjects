@@ -18,7 +18,6 @@ public class UserService {
     }
     // End Of Register New User Service Method.
 
-
     public List<String> checkUserEmail(String email){
         return userRepository.checkUserEmail(email);
     }
@@ -33,4 +32,9 @@ public class UserService {
         return userRepository.GetUserDetailsByEmail(email);
     }
     // End Of Get User Details By Email.
+
+    public List<User> getUserList(){
+        return (List<User>) userRepository.findAll();
+    }
+
 }
