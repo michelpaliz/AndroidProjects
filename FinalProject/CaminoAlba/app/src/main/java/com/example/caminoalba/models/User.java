@@ -2,22 +2,36 @@ package com.example.caminoalba.models;
 
 public class User {
 
-    private String firstName;
-    private String lastName;
+    private int id;
+    private String first_name;
+    private String last_name;
     private String email;
     private String password;
     private String type;
-    private Person person;
+    private Boolean enabled;
 
 
-    public User(String firstName, String lastName, String email, String password, String type, Person person) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User() {
+    }
+
+    public User(int id, String first_name, String last_name, String email, String password, String type, Boolean enabled) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.type = type;
-        this.person = person;
+        this.enabled = enabled;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public String getType() {
         return type;
@@ -27,28 +41,20 @@ public class User {
         this.type = type;
     }
 
-    public Person getPerson() {
-        return person;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getEmail() {
@@ -67,15 +73,24 @@ public class User {
         this.password = password;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "id=" + id +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", type='" + type + '\'' +
-                ", person=" + person +
+                ", enabled=" + enabled +
                 '}';
     }
 }

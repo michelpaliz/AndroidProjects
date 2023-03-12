@@ -1,4 +1,5 @@
 package com.example.caminoalba.ui.menuItems;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,28 +9,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-import com.example.caminoalba.Config.RestClient;
+import com.example.caminoalba.rest.RestClient;
 import com.example.caminoalba.Config.Utils;
 import com.example.caminoalba.R;
 import com.example.caminoalba.Services.UserService;
 import com.example.caminoalba.interfaces.IAPIservice;
-import com.example.caminoalba.models.Person;
+import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
@@ -37,12 +33,13 @@ public class ProfileFragment extends Fragment {
     private EditText edFirstName, edLastName, edBirthdate, edGender;
     private String firstName, lastName, gender;
     private Date birhtDate;
-    private Person person;
+    private Profile profile;
     private ImageView imgProfile;
     private Button btnSave;
     private User user;
     private Context context;
     private IAPIservice iapiService;
+    User userSelected = null;
     private List<User> userList = new ArrayList<>();
 
 
@@ -78,78 +75,83 @@ public class ProfileFragment extends Fragment {
         email = (prefs.getString("emailPref", ""));
         type = (prefs.getString("typePref", ""));
 
-        person = new Person(firstName, lastName, null, null, null);
+//        profile = new Profile(firstName, lastName, null, null, null);
+//
+//        user = new User(firstName, lastName, email, password, type, profile);
 
-        user = new User(firstName, lastName, email, password, type, person);
 
         UserService.getUsersFromRest();
-
 
         System.out.println("Esto es la lista desde el fragmento" + UserService.getUsers());
 
         List<User> userList = UserService.getUsers();
 
-        for (int i = 0; i < userList.size() ; i++) {
-            System.out.println("item " + userList.get(i).getPerson());
+
+        //Encontrar el usuario correspondiente via email
+        for (int i = 0; i < userList.size(); i++) {
+            System.out.println("Item one by one " + userList.get(i));
+            if (userList.get(i).getEmail().equalsIgnoreCase(email)) {
+                userSelected = userList.get(i);
+            }
         }
+
+
+        System.out.println("Esto es userselected " + userSelected );
 
 //        System.out.println("Esto un item de la lista desde el fragmento" + userList);
 //        System.out.println("Esto un item de la lista desde el fragmento" + UserService.getUsers().get(1).getEmail());
 
 
-        if (user.getPerson().getBirthDate() == null) {
-            edBirthdate.setHint("dd-MM-yyyy");
-        } else {
-            edBirthdate.setText(user.getPerson().getBirthDate().toString());
-        }
-        if (user.getPerson().getGender() == null) {
-            edGender.setHint("Introduce your gender");
-        } else {
-            edGender.setText(user.getPerson().getGender());
-        }
+//        if (user.getPerson().getBirthDate() == null) {
+//            edBirthdate.setHint("dd-MM-yyyy");
+//        } else {
+//            edBirthdate.setText(user.getPerson().getBirthDate().toString());
+//        }
+//        if (user.getPerson().getGender() == null) {
+//            edGender.setHint("Introduce your gender");
+//        } else {
+//            edGender.setText(user.getPerson().getGender());
+//        }
 
-        edFirstName.setText(user.getFirstName().toUpperCase());
-        edLastName.setText(user.getLastName().toUpperCase());
+        edFirstName.setText(user.getFirst_name().toUpperCase());
+        edLastName.setText(user.getLast_name().toUpperCase());
 
-        updatePerson();
+//        updatePerson();
     }
 
 
-
-
-
-    public void updatePerson() {
-        btnSave.setOnClickListener(v -> {
-            if (!validateFirstName() || !validateLastName() || !validateDate() || !validateGender()) {
-                return;
-            }
-
-            if (user.getPerson() != null) {
-//                TODO put reques to update the user's person
-            }
-
-            person.setFirstName(firstName);
-            person.setLastName(lastName);
-            person.setBirthDate(birhtDate);
-            person.setGender(gender);
-            person.setPhoto(null);
-
-            System.out.println(user);
-
-            iapiService.addPerson(user.getPerson()).enqueue(new Callback<Boolean>() {
-                @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    Toast.makeText(getContext(), "Profile modified successfully", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
-                    Toast.makeText(getContext(), "Sorry there was an error try again later", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        });
-    }
+//    public void updatePerson() {
+//        btnSave.setOnClickListener(v -> {
+//            if (!validateFirstName() || !validateLastName() || !validateDate() || !validateGender()) {
+//                return;
+//            }
+//
+//            if (user.getPerson() != null) {
+////                TODO put reques to update the user's person
+//            }
+//
+//            profile.setFirstName(firstName);
+//            profile.setLastName(lastName);
+//            profile.setBirthDate(birhtDate);
+//            profile.setGender(gender);
+//            profile.setPhoto(null);
+//
+//            System.out.println(user);
+//
+//            iapiService.addPerson(user.getPerson()).enqueue(new Callback<Boolean>() {
+//                @Override
+//                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+//                    Toast.makeText(getContext(), "Profile modified successfully", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Boolean> call, Throwable t) {
+//                    Toast.makeText(getContext(), "Sorry there was an error try again later", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//
+//        });
+//    }
 
 //    **************** VALIDATE DATA *****************
 

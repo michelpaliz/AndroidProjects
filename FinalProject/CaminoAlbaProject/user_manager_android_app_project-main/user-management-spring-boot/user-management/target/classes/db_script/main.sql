@@ -22,5 +22,5 @@ CREATE TABLE users
 insert into users (user_id, email, first_name,last_name,password,type)
 values (1,'michaelpaliz@hotmail.com','michael', 'paliz', '1234','admin');
 
-insert into person (first_name,  last_name, birth_date, gender ,photo)
+insert into profile (first_name,  last_name, birth_date, gender ,photo)
 values ('michael', 'paliz', '1234','admin');

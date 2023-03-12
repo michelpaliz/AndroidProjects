@@ -4,28 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.caminoalba.Config.Config;
 import com.example.caminoalba.Config.EmailHelper;
+import com.example.caminoalba.interfaces.IAPIservice;
+import com.example.caminoalba.models.Profile;
+import com.example.caminoalba.models.User;
+import com.example.caminoalba.models.dto.UserAndProfileRequest;
+import com.example.caminoalba.rest.RestClient;
 
-import java.util.HashMap;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     private Button btnSingUp, btnHome;
     private EditText edFirstName, edLastName, edEmail, edPassword, edConfirm;
-    private ProgressBar progressBar;
     private Intent intent;
+    private int cont = 0;
 
 
     @Override
@@ -45,7 +42,6 @@ public class RegistrationActivity extends AppCompatActivity {
         edLastName = findViewById(R.id.edLastName_signup);
         edConfirm = findViewById(R.id.edConfirm_signup);
         edPassword = findViewById(R.id.edPassword_signup);
-        progressBar = findViewById(R.id.progress_circular);
     }
 
     public void backHome() {
@@ -57,49 +53,38 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void authenticateUser() {
-
         btnSingUp.setOnClickListener(v -> {
-            //Check for Errors
+
+            IAPIservice iapIservice = RestClient.getInstance();
+
+
             if (!validateFirstName() || !validateLastName()
                     || !validateEmail() || !validatePassword()) {
                 return;
             }
-            //End for checking errors
-            //Instantiate the request queue:
-//            String url = "http://192.168.9.127:9080/api/v1/user/register";
-            RequestQueue requestQueue = Volley.newRequestQueue(RegistrationActivity.this);
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.REGISTER_API,
-                    response -> {
-                        if (response.equalsIgnoreCase("success")) {
-                            //we are removing the data to avoid more post petitions of new data that the user can put more.
-                            edFirstName.setText(null);
-                            edLastName.setText(null);
-                            edEmail.setText(null);
-                            edPassword.setText(null);
-                            edConfirm.setText(null);
-                            Toast.makeText(this, "Registration successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    }, error -> {
-                error.printStackTrace();
-                System.out.println(error.getMessage());
-                Toast.makeText(this, "Registrarion unsuccessfully", Toast.LENGTH_SHORT).show();
-            }) {
-                @NonNull
+
+            int id = cont++;
+
+            User user = new User(id, edFirstName.getText().toString(), edLastName.getText().toString(), edEmail.getText().toString(),
+                    edPassword.getText().toString(), "user", false);
+
+            Profile profile = new Profile(id, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null);
+            UserAndProfileRequest userWithProfile = new UserAndProfileRequest(user, profile);
+
+            Call<UserAndProfileRequest> call = iapIservice.createUserWithProfile(userWithProfile);
+            call.enqueue(new Callback<UserAndProfileRequest>() {
                 @Override
-                protected Map<String, String> getParams() {
-//                    return super.getParams();
-                    Map<String, String> params = new HashMap<>();
-                    params.put("first_name", edFirstName.getText().toString());
-                    params.put("last_name", edLastName.getText().toString());
-                    params.put("email", edEmail.getText().toString());
-                    params.put("password", edPassword.getText().toString());
-                    return params;
+                public void onResponse(Call<UserAndProfileRequest> call, Response<UserAndProfileRequest> response) {
+                    Toast.makeText(RegistrationActivity.this, "Registration successfully", Toast.LENGTH_SHORT).show();
                 }
-            };//End of string request object
-            requestQueue.add(stringRequest);
+
+                @Override
+                public void onFailure(Call<UserAndProfileRequest> call, Throwable t) {
+                    Toast.makeText(RegistrationActivity.this, "Registrarion unsuccessfully", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         });
-
-
     }
 
 

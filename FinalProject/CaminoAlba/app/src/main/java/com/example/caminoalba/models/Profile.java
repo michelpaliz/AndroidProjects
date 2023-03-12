@@ -2,20 +2,33 @@ package com.example.caminoalba.models;
 
 import java.util.Date;
 
-public class Person {
+public class Profile {
 
+    private int id;
     private String firstName;
     private String lastName;
     private Date birthDate;
     private String gender;
     private String photo;
 
-    public Person(String firstName, String lastName, Date birthDate, String gender, String photo) {
+    public Profile() {
+    }
+
+    public Profile(int id, String firstName, String lastName, Date birthDate, String gender, String photo) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.gender = gender;
         this.photo = photo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {

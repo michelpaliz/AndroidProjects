@@ -1,7 +1,8 @@
-package com.example.caminoalba.Config;
+package com.example.caminoalba.rest;
 
 import android.widget.Toast;
 
+import com.example.caminoalba.Config.Config;
 import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.User;
 

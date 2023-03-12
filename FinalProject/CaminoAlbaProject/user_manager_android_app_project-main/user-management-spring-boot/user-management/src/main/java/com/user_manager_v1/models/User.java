@@ -1,14 +1,15 @@
 package com.user_manager_v1.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int user_id;
     @Column(name = "first_name")
     private String first_name;
@@ -20,8 +21,8 @@ public class User {
     private String password;
     @Column(name = "type")
     private String type;
-    @Column(name = "verification_code")
-    private String verificationCode;
+//    @Column(name = "verification_code")
+//    private String verificationCode;
 
     private boolean enabled;
 
@@ -35,19 +36,19 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    private Person person;
+    @JsonManagedReference
+    private Profile profile;
 
 
-    public User(int user_id, String first_name, String last_name, String email, String password, String type, String verificationCode, boolean enabled, Person person) {
+    public User(int user_id, String first_name, String last_name, String email, String password, String type, boolean enabled, Profile profile) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.type = type;
-        this.verificationCode = verificationCode;
         this.enabled = enabled;
-        this.person = person;
+        this.profile = profile;
     }
 
     public User() {
@@ -106,14 +107,6 @@ public class User {
         return type;
     }
 
-    public String getVerificationCode() {
-        return verificationCode;
-    }
-
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
@@ -122,11 +115,11 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Person getPerson() {
-        return person;
+    public Profile getPerson() {
+        return profile;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPerson(Profile profile) {
+        this.profile = profile;
     }
 }

@@ -1,11 +1,13 @@
 package com.user_manager_v1.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "person")
-public class Person {
+public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int person_id;
@@ -24,10 +26,12 @@ public class Person {
     @OneToOne
     @MapsId
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
 
-    public Person(String firstName, String lastName, Date birthDate, String gender, String photo, User user) {
+    public Profile(int person_id, String firstName, String lastName, Date birthDate, String gender, String photo, User user) {
+        this.person_id = person_id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -36,7 +40,16 @@ public class Person {
         this.user = user;
     }
 
-    public Person() {
+    public Profile(String firstName, String lastName, Date birthDate, String gender, String photo, User user) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.photo = photo;
+        this.user = user;
+    }
+
+    public Profile() {
 
     }
 
@@ -86,6 +99,14 @@ public class Person {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

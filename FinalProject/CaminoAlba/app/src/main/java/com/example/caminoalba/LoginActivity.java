@@ -80,12 +80,15 @@ public class LoginActivity extends AppCompatActivity {
 
                     //Set Intent Actions;
                     intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+                    System.out.println("frirstname is " + first_name);
+                    System.out.println("lastname is " + last_name);
                     intent.putExtra("first_name", first_name);
                     intent.putExtra("last_name", last_name);
                     intent.putExtra("email", email);
                     intent.putExtra("password", password);
                     intent.putExtra("type", type);
                     SAVEUSER = true;
+
 
                     //Start Activity
                     startActivity(intent);

@@ -1,6 +1,6 @@
 package com.example.caminoalba.Services;
 
-import com.example.caminoalba.Config.RestClient;
+import com.example.caminoalba.rest.RestClient;
 import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.User;
 
@@ -16,7 +16,8 @@ public class  UserService {
     private static final List<User> users = new ArrayList<>();
     private static final IAPIservice iapIservice = RestClient.getInstance();
 
-    public static void getUsersFromRest(){
+
+    public static  void getUsersFromRest(){
         Call<List<User>> usersCall =  iapIservice.getUsers();
         usersCall.enqueue(new Callback<List<User>>() {
             @Override
