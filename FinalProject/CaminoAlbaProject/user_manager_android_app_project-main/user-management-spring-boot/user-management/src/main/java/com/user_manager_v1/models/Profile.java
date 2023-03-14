@@ -1,18 +1,21 @@
 package com.user_manager_v1.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.user_manager_v1.helpers.ProfileDateDeserializer;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "person")
+@Table(name = "profiles")
 public class Profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int person_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int profile_id;
     private String firstName;
     private String lastName;
+    @JsonDeserialize(using = ProfileDateDeserializer.class)
     private Date birthDate;
     private String gender;
     private String photo;
@@ -30,8 +33,8 @@ public class Profile {
     private User user;
 
 
-    public Profile(int person_id, String firstName, String lastName, Date birthDate, String gender, String photo, User user) {
-        this.person_id = person_id;
+    public Profile(int profile_id, String firstName, String lastName, Date birthDate, String gender, String photo, User user) {
+        this.profile_id = profile_id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -53,12 +56,13 @@ public class Profile {
 
     }
 
-    public int getPerson_id() {
-        return person_id;
+
+    public int getProfile_id() {
+        return profile_id;
     }
 
-    private void setPerson_id(int person_id) {
-        this.person_id = person_id;
+    public void setProfile_id(int profile_id) {
+        this.profile_id = profile_id;
     }
 
     public String getFirstName() {
@@ -112,7 +116,7 @@ public class Profile {
     @Override
     public String toString() {
         return "Person{" +
-                "person_id=" + person_id +
+                "person_id=" + profile_id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthDate=" + birthDate +

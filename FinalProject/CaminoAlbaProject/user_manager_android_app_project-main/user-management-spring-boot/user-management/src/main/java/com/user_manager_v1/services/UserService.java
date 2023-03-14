@@ -26,27 +26,27 @@ public class UserService {
     private ProfileRepository profileRepository;
 
 
-    public int registerNewUserServiceMethod(String fname, String lname, String email, String password){
-        return userRepository.registerNewUser(fname,lname,email,password);
+    public int registerNewUserServiceMethod(String fname, String lname, String email, String password) {
+        return userRepository.registerNewUser(fname, lname, email, password);
     }
     // End Of Register New User Service Method.
 
-    public List<String> checkUserEmail(String email){
+    public List<String> checkUserEmail(String email) {
         return userRepository.checkUserEmail(email);
     }
     // End Of Check User Email Services Method.
 
-    public String checkUserPasswordByEmail(String email){
+    public String checkUserPasswordByEmail(String email) {
         return userRepository.checkUserPasswordByEmail(email);
     }
     // End Of Check User Password Services Method.
 
-    public User getUserDetailsByEmail(String email){
+    public User getUserDetailsByEmail(String email) {
         return userRepository.GetUserDetailsByEmail(email);
     }
     // End Of Get User Details By Email.
 
-    public List<User> getUserList(){
+    public List<User> getUserList() {
         return userRepository.getAllUsers();
     }
 
@@ -63,12 +63,10 @@ public class UserService {
         user.setPerson(profile);
         profile.setUser(user);
 
-//        List<User>users = (List<User>) userRepository.findAll();
-
-//        for (User value : users) {
-//            if (user.getEmail().equalsIgnoreCase(value.getEmail())) {
-//                return null;
-//            }
+        // Check if the user already exists in the database
+//        User existingUser = userRepository.GetUserDetailsByEmail(user.getEmail());
+//        if (existingUser != null) {
+//            return null;
 //        }
 
 

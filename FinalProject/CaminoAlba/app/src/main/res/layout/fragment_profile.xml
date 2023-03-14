@@ -79,10 +79,10 @@
             android:minHeight="48dp"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:textColorHint="@color/my_dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edLastName"
             tools:ignore="SpeakableTextPresentCheck" />
-
         <EditText
             android:id="@+id/edGender"
             android:layout_width="160dp"
@@ -91,6 +91,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/input_text_field_styling"
             android:gravity="center"
+            android:textColorHint="@color/my_dark_grey"
             android:minHeight="48dp"
             android:textColor="@color/black"
             android:textSize="18sp"

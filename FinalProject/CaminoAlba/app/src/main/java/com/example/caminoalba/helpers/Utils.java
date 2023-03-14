@@ -1,7 +1,8 @@
-package com.example.caminoalba.Config;
+package com.example.caminoalba.helpers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class Utils {
@@ -18,12 +19,13 @@ public class Utils {
     }
 
 
-    public static Date validateDate(String strDate) {
+    public static  Date validateDate(String strDate) {
         Date javaDate;
         if (strDate.trim().equals("")) {
             return null;
         } else {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//            ZonedDateTime dateTime = ZonedDateTime.parse("yyyy-MM-dd");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             simpleDateFormat.setLenient(false);
             try {
                 javaDate = simpleDateFormat.parse(strDate);

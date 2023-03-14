@@ -1,4 +1,4 @@
-package com.example.caminoalba.Config;
+package com.example.caminoalba.config;
 
 public class Config {
     public final static String PORT_NUMBER  = ":9080/";

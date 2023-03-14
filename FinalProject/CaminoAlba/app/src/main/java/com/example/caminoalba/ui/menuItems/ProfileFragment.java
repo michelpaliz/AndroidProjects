@@ -9,38 +9,48 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-import com.example.caminoalba.rest.RestClient;
-import com.example.caminoalba.Config.Utils;
 import com.example.caminoalba.R;
-import com.example.caminoalba.Services.UserService;
+import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
+import com.example.caminoalba.rest.RestClient;
+import com.example.caminoalba.services.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProfileFragment extends Fragment {
 
-
     private EditText edFirstName, edLastName, edBirthdate, edGender;
-    private String firstName, lastName, gender;
     private Date birhtDate;
     private Profile profile;
     private ImageView imgProfile;
     private Button btnSave;
-    private User user;
     private Context context;
     private IAPIservice iapiService;
-    User userSelected = null;
-    private List<User> userList = new ArrayList<>();
+    private Service service;
+    private int id;
+    private User user;
+    private List<Profile> profileList;
+    private List<User> userList;
+    private String firstName, lastName, email, password, type, gender;
+
+    public ProfileFragment() {
+
+    }
 
 
     @Override
@@ -65,93 +75,161 @@ public class ProfileFragment extends Fragment {
         edGender = view.findViewById(R.id.edGender);
         btnSave = view.findViewById(R.id.btnSaveInformation);
         iapiService = RestClient.getInstance();
+        user = new User();
+        service = new Service();
+        profileList = new ArrayList<>();
+        userList = new ArrayList<>();
+        service = new Service();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String firstName, lastName, email, password, type;
+
 
         firstName = (prefs.getString("usernamePref", ""));
         lastName = (prefs.getString("lastNamePref", ""));
-        password = (prefs.getString("passwordPref", ""));
         email = (prefs.getString("emailPref", ""));
+        password = (prefs.getString("passwordPref", ""));
         type = (prefs.getString("typePref", ""));
 
-//        profile = new Profile(firstName, lastName, null, null, null);
-//
-//        user = new User(firstName, lastName, email, password, type, profile);
+        this.firstName = firstName;
+        this.lastName = lastName;
 
 
-        UserService.getUsersFromRest();
-
-        System.out.println("Esto es la lista desde el fragmento" + UserService.getUsers());
-
-        List<User> userList = UserService.getUsers();
-
-
-        //Encontrar el usuario correspondiente via email
-        for (int i = 0; i < userList.size(); i++) {
-            System.out.println("Item one by one " + userList.get(i));
-            if (userList.get(i).getEmail().equalsIgnoreCase(email)) {
-                userSelected = userList.get(i);
-            }
-        }
+        // ------ Obtenemos el usuario actual mediante este metodo  -------
+        getUserList();
+        // ------ Obtenemos el perfil actual mediante este metodo   -------
+        getProfileList();
 
 
-        System.out.println("Esto es userselected " + userSelected );
-
-//        System.out.println("Esto un item de la lista desde el fragmento" + userList);
-//        System.out.println("Esto un item de la lista desde el fragmento" + UserService.getUsers().get(1).getEmail());
-
-
-//        if (user.getPerson().getBirthDate() == null) {
-//            edBirthdate.setHint("dd-MM-yyyy");
-//        } else {
-//            edBirthdate.setText(user.getPerson().getBirthDate().toString());
-//        }
-//        if (user.getPerson().getGender() == null) {
-//            edGender.setHint("Introduce your gender");
-//        } else {
-//            edGender.setText(user.getPerson().getGender());
-//        }
-
-        edFirstName.setText(user.getFirst_name().toUpperCase());
-        edLastName.setText(user.getLast_name().toUpperCase());
-
-//        updatePerson();
     }
 
 
-//    public void updatePerson() {
-//        btnSave.setOnClickListener(v -> {
-//            if (!validateFirstName() || !validateLastName() || !validateDate() || !validateGender()) {
-//                return;
-//            }
-//
-//            if (user.getPerson() != null) {
-////                TODO put reques to update the user's person
-//            }
-//
-//            profile.setFirstName(firstName);
-//            profile.setLastName(lastName);
-//            profile.setBirthDate(birhtDate);
-//            profile.setGender(gender);
-//            profile.setPhoto(null);
-//
-//            System.out.println(user);
-//
-//            iapiService.addPerson(user.getPerson()).enqueue(new Callback<Boolean>() {
-//                @Override
-//                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-//                    Toast.makeText(getContext(), "Profile modified successfully", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Boolean> call, Throwable t) {
-//                    Toast.makeText(getContext(), "Sorry there was an error try again later", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//
-//        });
-//    }
+//********** ACTUALIZAR LOS DATOS DEL PERFIL ************
+
+    public void updateProfile() {
+        btnSave.setOnClickListener(v -> {
+            if (!validateFirstName() || !validateLastName() || !validateDate() || !validateGender()) {
+                return;
+            }
+
+            profile.setFirstName(firstName);
+            profile.setLastName(lastName);
+//            java.sql.Date sqlDate = new java.sql.Date(birhtDate.getTime());
+            profile.setBirthDate(null);
+            profile.setGender(gender);
+            profile.setPhoto(null);
+            profile.setUser(user);
+
+            Call<Boolean> call = iapiService.updateProfile(profile);
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+                    Toast.makeText(getContext(), "Update unsuccessfully", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        });
+    }
+
+
+//    ********* MOSTRAR DATOS DEL USUARIO ************
+
+    public void showProfileData(Profile profile) {
+        edFirstName.setText(profile.getFirstName());
+        edLastName.setText(profile.getLastName());
+
+        if (profile.getGender() == null) {
+            edGender.setHint("Introduce your gender");
+        } else {
+            edGender.setText(profile.getGender());
+        }
+
+        if (profile.getBirthDate() == null) {
+            edBirthdate.setHint("yyyy-MM-dd");
+        } else {
+            edBirthdate.setText(profile.getBirthDate().toString());
+        }
+    }
+
+
+//    ******** MANIPULACION DE DATOS PARA EL USUARIO ***********
+
+    public void getUserList() {
+        service.getUsersFromRest(new Service.APICallback() {
+            @Override
+            public void onSuccess() {
+                // Data is available, do something with it
+                userList = service.getUsers();
+                // Manipulate the users data here
+                getUserByEmail(userList);
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                System.out.println(error);
+                // Handle error
+            }
+        });
+
+    }
+
+
+    public void getUserByEmail(List<User> userList) {
+        //Encontrar el usuario correspondiente via email
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getEmail().equalsIgnoreCase(email)) {
+                user = userList.get(i);
+            }
+        }
+    }
+
+
+//    ******* MANIPULACION DE DATOS PARA EL PERFIL ******
+
+    public void getProfileList() {
+        service.getProfilesFromRest(new Service.APICallback() {
+            @Override
+            public void onSuccess() {
+                // Data is available, do something with it
+                profileList = service.getProfiles();
+                // Manipulate the users data here
+                getProfileById(profileList);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                System.out.println(error);
+                // Handle error
+            }
+        });
+
+    }
+
+
+    public void getProfileById(List<Profile> profileList) {
+        for (int i = 0; i < profileList.size(); i++) {
+            System.out.println("Item one by one " + profileList.get(i));
+            if (profileList.get(i).getProfile_id() == user.getUser_id()) {
+                profile = profileList.get(i);
+            }
+        }
+
+        // TENEMOS QUE TENER CARGADO EL PERFILE PARA EFECTUAR CAMBIOS
+        System.out.println("Profile obtenido es " + profile);
+
+        if (profile == null) {
+            throw new NullPointerException();
+        }
+
+        showProfileData(profile);
+        updateProfile();
+    }
+
 
 //    **************** VALIDATE DATA *****************
 
@@ -170,11 +248,11 @@ public class ProfileFragment extends Fragment {
     public boolean validateLastName() {
         String strLastName = edLastName.getText().toString();
         if (strLastName.isEmpty()) {
-            edFirstName.setError("Cannot be empty");
+            edLastName.setError("Cannot be empty");
             return false;
         } else {
-            edFirstName.setError(null);
-            lastName = edFirstName.getText().toString();
+            edLastName.setError(null);
+            lastName = edLastName.getText().toString();
             return true;
         }
     }
@@ -193,6 +271,7 @@ public class ProfileFragment extends Fragment {
 
     public boolean validateDate() {
         String strNacimiento = edBirthdate.getText().toString();
+        System.out.println("esto es del date del usuario " + strNacimiento);
         birhtDate = Utils.validateDate(strNacimiento);
 
         if (strNacimiento.isEmpty()) {

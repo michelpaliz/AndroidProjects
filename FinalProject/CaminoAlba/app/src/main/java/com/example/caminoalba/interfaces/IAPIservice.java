@@ -11,22 +11,23 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface IAPIservice {
 
 
     //********* PERSON REST **************
 
-    @POST("person/add")
-    Call<Boolean> addPerson(@Body Profile profile);
-
-    @PUT("person/update")
-    Call<Boolean> updatePerson(@Body Profile profile);
+    @GET("/profile/all")
+    Call<List<Profile>> getProfiles();
 
     @GET("/user/all")
     Call<List<User>> getUsers();
 
     @POST("user/register")
     Call<UserAndProfileRequest> createUserWithProfile(@Body UserAndProfileRequest userWithProfile);
+
+    @PUT("/profile/update")
+    Call<Boolean> updateProfile(@Body Profile profile);
 
 }

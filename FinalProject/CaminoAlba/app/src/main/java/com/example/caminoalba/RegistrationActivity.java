@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.caminoalba.Config.EmailHelper;
+import com.example.caminoalba.helpers.EmailHelper;
 import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
@@ -57,7 +57,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
             IAPIservice iapIservice = RestClient.getInstance();
 
-
             if (!validateFirstName() || !validateLastName()
                     || !validateEmail() || !validatePassword()) {
                 return;
@@ -68,7 +67,7 @@ public class RegistrationActivity extends AppCompatActivity {
             User user = new User(id, edFirstName.getText().toString(), edLastName.getText().toString(), edEmail.getText().toString(),
                     edPassword.getText().toString(), "user", false);
 
-            Profile profile = new Profile(id, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null);
+            Profile profile = new Profile(id, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null,user);
             UserAndProfileRequest userWithProfile = new UserAndProfileRequest(user, profile);
 
             Call<UserAndProfileRequest> call = iapIservice.createUserWithProfile(userWithProfile);

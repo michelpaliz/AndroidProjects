@@ -2,7 +2,7 @@ package com.example.caminoalba.models;
 
 public class User {
 
-    private int id;
+    private int user_id;
     private String first_name;
     private String last_name;
     private String email;
@@ -14,8 +14,8 @@ public class User {
     public User() {
     }
 
-    public User(int id, String first_name, String last_name, String email, String password, String type, Boolean enabled) {
-        this.id = id;
+    public User(int user_id, String first_name, String last_name, String email, String password, String type, Boolean enabled) {
+        this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -24,12 +24,12 @@ public class User {
         this.enabled = enabled;
     }
 
-    public int getId() {
-        return id;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
 
@@ -84,7 +84,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + user_id +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +

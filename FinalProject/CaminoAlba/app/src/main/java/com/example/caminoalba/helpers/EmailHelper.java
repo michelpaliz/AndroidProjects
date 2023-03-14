@@ -1,4 +1,4 @@
-package com.example.caminoalba.Config;
+package com.example.caminoalba.helpers;
 
 import android.util.Patterns;
 

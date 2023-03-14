@@ -1,17 +1,8 @@
 package com.example.caminoalba.rest;
 
-import android.widget.Toast;
-
-import com.example.caminoalba.Config.Config;
+import com.example.caminoalba.config.Config;
 import com.example.caminoalba.interfaces.IAPIservice;
-import com.example.caminoalba.models.User;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

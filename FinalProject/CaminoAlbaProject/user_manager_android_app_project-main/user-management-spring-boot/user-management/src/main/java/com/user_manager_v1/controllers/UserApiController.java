@@ -5,17 +5,17 @@ import com.user_manager_v1.models.dto.UserAndProfileRequest;
 import com.user_manager_v1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class UserApiController {
 
+
     @Autowired
     UserService userService;
 
-    @GetMapping("/user/all")
+    @GetMapping("/all")
     public List<User> getAutores() {
         return userService.getUserList();
     }
@@ -29,6 +29,12 @@ public class UserApiController {
 //    @GetMapping("/all")
 //    public List<Autor> getAutores() {
 //        return userService.;
+//    }
+
+//    @PostMapping("/register")
+//    public UserAndProfileRequest createUserWithProfile(@RequestBody UserAndProfileRequest userWithProfile) {
+//
+//        return userService.createUserWithProfile(userWithProfile);
 //    }
 
     @PostMapping("/register")

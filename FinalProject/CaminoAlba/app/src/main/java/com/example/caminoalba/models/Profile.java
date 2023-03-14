@@ -4,31 +4,41 @@ import java.util.Date;
 
 public class Profile {
 
-    private int id;
+    private int profile_id;
     private String firstName;
     private String lastName;
     private Date birthDate;
     private String gender;
     private String photo;
+    private User user;
 
     public Profile() {
     }
 
-    public Profile(int id, String firstName, String lastName, Date birthDate, String gender, String photo) {
-        this.id = id;
+    public Profile(int profile_id, String firstName, String lastName, Date birthDate, String gender, String photo, User user) {
+        this.profile_id = profile_id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.gender = gender;
         this.photo = photo;
+        this.user = user;
     }
 
-    public int getId() {
-        return id;
+    public User getUser() {
+        return user;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getProfile_id() {
+        return profile_id;
+    }
+
+    public void setProfile_id(int profile_id) {
+        this.profile_id = profile_id;
     }
 
     public String getFirstName() {

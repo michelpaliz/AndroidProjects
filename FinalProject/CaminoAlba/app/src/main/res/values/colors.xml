@@ -16,8 +16,10 @@
     <color name="my_dark_purple">#292f62</color>
     <color name="my_light_purple">#7f5cdd</color>
     <color name="my_grey">#eeeee4</color>
+    <color name="my_dark_grey">#565645</color>
 
-<!--    primary colors-->
+
+    <!--    primary colors-->
     <color name="blue_shade_1">#0e2433</color>
     <color name="blue_shade_2">#1C4966</color>
     <color name="mtr_text_input_default_box_stroke_color" tools:overrise="true">#296D98</color>

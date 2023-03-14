@@ -15,8 +15,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.caminoalba.Config.Config;
-import com.example.caminoalba.Config.EmailHelper;
+import com.example.caminoalba.config.Config;
+import com.example.caminoalba.helpers.EmailHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
