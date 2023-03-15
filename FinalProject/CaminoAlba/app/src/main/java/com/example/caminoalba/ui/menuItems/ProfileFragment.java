@@ -34,6 +34,7 @@ import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
+    //  *----- Variables de vistas globales ------*
     private EditText edFirstName, edLastName, edBirthdate, edGender;
     private Date birhtDate;
     private Profile profile;
@@ -41,16 +42,14 @@ public class ProfileFragment extends Fragment {
     private Button btnSave;
     private Context context;
     private IAPIservice iapiService;
+
+    //  *----- Variables de funcionalidad globales ------*
     private Service service;
-    private int id;
     private User user;
     private List<Profile> profileList;
     private List<User> userList;
     private String firstName, lastName, email, password, type, gender;
-
-    public ProfileFragment() {
-
-    }
+    private SharedPreferences prefs;
 
 
     @Override
@@ -60,8 +59,7 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
@@ -69,30 +67,19 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // ------ Inicializamos vistas   -------
         edFirstName = view.findViewById(R.id.edFirstName);
         edLastName = view.findViewById(R.id.edLastName);
         edBirthdate = view.findViewById(R.id.edBirthDate);
         edGender = view.findViewById(R.id.edGender);
         btnSave = view.findViewById(R.id.btnSaveInformation);
+
+        // ------ Inicializamos variables  -------
         iapiService = RestClient.getInstance();
-        user = new User();
         service = new Service();
         profileList = new ArrayList<>();
         userList = new ArrayList<>();
-        service = new Service();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-
-        firstName = (prefs.getString("usernamePref", ""));
-        lastName = (prefs.getString("lastNamePref", ""));
-        email = (prefs.getString("emailPref", ""));
-        password = (prefs.getString("passwordPref", ""));
-        type = (prefs.getString("typePref", ""));
-
-        this.firstName = firstName;
-        this.lastName = lastName;
-
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         // ------ Obtenemos el usuario actual mediante este metodo  -------
         getUserList();
@@ -103,7 +90,111 @@ public class ProfileFragment extends Fragment {
     }
 
 
-//********** ACTUALIZAR LOS DATOS DEL PERFIL ************
+//    ********* MOSTRAR DATOS DEL USUARIO ************
+
+    public void showProfileData(Profile profile) {
+        edFirstName.setText(profile.getFirstName());
+        edLastName.setText(profile.getLastName());
+
+        if (profile.getGender() == null) {
+            edGender.setHint("Introduce your gender");
+        } else {
+            edGender.setText(profile.getGender());
+        }
+
+        if (profile.getBirthDate() == null) {
+            edBirthdate.setHint("yyyy-MM-dd");
+        } else {
+            edBirthdate.setText(profile.getBirthDate().toString());
+        }
+    }
+
+
+//    ******** MANIPULACION DE DATOS PARA EL USUARIO ***********
+
+    public void getUserList() {
+        if (user == null) {
+            user = new User();
+        }
+        service.getUsersFromRest(new Service.APICallback() {
+            @Override
+            public void onSuccess() {
+                // Data is available, do something with it
+                userList = service.getUsers();
+                // Manipulate the users data here
+                getUserByEmail(userList);
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                System.out.println(error);
+                // Handle error
+            }
+        });
+
+    }
+
+
+    public void getUserByEmail(List<User> userList) {
+        //Declaramos aqui la inicializacion de la preferencia del email para obtener el email correspondiente
+        email = (prefs.getString("emailPref", ""));
+        //Encontrar el usuario correspondiente via email
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getEmail().equalsIgnoreCase(email)) {
+                user = userList.get(i);
+            }
+        }
+    }
+
+
+//    ******* MANIPULACION DE DATOS PARA EL PERFIL ******
+
+    public void getProfileList() {
+        service.getProfilesFromRest(new Service.APICallback() {
+            @Override
+            public void onSuccess() {
+                profile = new Profile();
+                // Data is available, do something with it
+                profileList = service.getProfiles();
+                // Manipulate the users data here
+                getProfileById(profileList);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                System.out.println(error);
+                // Handle error
+            }
+        });
+
+    }
+
+
+    public void getProfileById(List<Profile> profileList) {
+        //Si el perfil ya esta cargado no es necesario generar otra instancia de perfil nuevo
+        if (profile == null) {
+            profile = new Profile();
+        }
+        for (int i = 0; i < profileList.size(); i++) {
+            System.out.println("Item one by one " + profileList.get(i));
+            if (profileList.get(i).getProfile_id() == user.getUser_id()) {
+                profile = profileList.get(i);
+            }
+        }
+
+        // TENEMOS QUE TENER CARGADO EL PERFIL PARA EFECTUAR CAMBIOS
+
+        if (profile == null) {
+            throw new NullPointerException();
+        }
+
+        showProfileData(profile);
+        updateProfile();
+    }
+
+
+    //********** ACTUALIZAR LOS DATOS DEL PERFIL ************
 
     public void updateProfile() {
         btnSave.setOnClickListener(v -> {
@@ -133,101 +224,6 @@ public class ProfileFragment extends Fragment {
             });
 
         });
-    }
-
-
-//    ********* MOSTRAR DATOS DEL USUARIO ************
-
-    public void showProfileData(Profile profile) {
-        edFirstName.setText(profile.getFirstName());
-        edLastName.setText(profile.getLastName());
-
-        if (profile.getGender() == null) {
-            edGender.setHint("Introduce your gender");
-        } else {
-            edGender.setText(profile.getGender());
-        }
-
-        if (profile.getBirthDate() == null) {
-            edBirthdate.setHint("yyyy-MM-dd");
-        } else {
-            edBirthdate.setText(profile.getBirthDate().toString());
-        }
-    }
-
-
-//    ******** MANIPULACION DE DATOS PARA EL USUARIO ***********
-
-    public void getUserList() {
-        service.getUsersFromRest(new Service.APICallback() {
-            @Override
-            public void onSuccess() {
-                // Data is available, do something with it
-                userList = service.getUsers();
-                // Manipulate the users data here
-                getUserByEmail(userList);
-
-            }
-
-            @Override
-            public void onFailure(String error) {
-                System.out.println(error);
-                // Handle error
-            }
-        });
-
-    }
-
-
-    public void getUserByEmail(List<User> userList) {
-        //Encontrar el usuario correspondiente via email
-        for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getEmail().equalsIgnoreCase(email)) {
-                user = userList.get(i);
-            }
-        }
-    }
-
-
-//    ******* MANIPULACION DE DATOS PARA EL PERFIL ******
-
-    public void getProfileList() {
-        service.getProfilesFromRest(new Service.APICallback() {
-            @Override
-            public void onSuccess() {
-                // Data is available, do something with it
-                profileList = service.getProfiles();
-                // Manipulate the users data here
-                getProfileById(profileList);
-            }
-
-            @Override
-            public void onFailure(String error) {
-                System.out.println(error);
-                // Handle error
-            }
-        });
-
-    }
-
-
-    public void getProfileById(List<Profile> profileList) {
-        for (int i = 0; i < profileList.size(); i++) {
-            System.out.println("Item one by one " + profileList.get(i));
-            if (profileList.get(i).getProfile_id() == user.getUser_id()) {
-                profile = profileList.get(i);
-            }
-        }
-
-        // TENEMOS QUE TENER CARGADO EL PERFILE PARA EFECTUAR CAMBIOS
-        System.out.println("Profile obtenido es " + profile);
-
-        if (profile == null) {
-            throw new NullPointerException();
-        }
-
-        showProfileData(profile);
-        updateProfile();
     }
 
 
