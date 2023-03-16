@@ -1,5 +1,7 @@
 package com.example.caminoalba.models;
 
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Profile {
@@ -7,7 +9,7 @@ public class Profile {
     private int profile_id;
     private String firstName;
     private String lastName;
-    private Date birthDate;
+    private String birthDate;
     private String gender;
     private String photo;
     private User user;
@@ -15,7 +17,7 @@ public class Profile {
     public Profile() {
     }
 
-    public Profile(int profile_id, String firstName, String lastName, Date birthDate, String gender, String photo, User user) {
+    public Profile(int profile_id, String firstName, String lastName, String birthDate, String gender, String photo, User user) {
         this.profile_id = profile_id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -57,11 +59,11 @@ public class Profile {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

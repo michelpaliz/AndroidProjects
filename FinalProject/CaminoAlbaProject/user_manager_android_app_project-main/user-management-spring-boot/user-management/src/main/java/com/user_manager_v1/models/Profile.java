@@ -1,11 +1,15 @@
 package com.user_manager_v1.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.user_manager_v1.helpers.ProfileDateDeserializer;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
+
 
 @Entity
 @Table(name = "profiles")
@@ -15,8 +19,11 @@ public class Profile {
     private int profile_id;
     private String firstName;
     private String lastName;
+
     @JsonDeserialize(using = ProfileDateDeserializer.class)
-    private Date birthDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
     private String gender;
     private String photo;
 
@@ -33,7 +40,7 @@ public class Profile {
     private User user;
 
 
-    public Profile(int profile_id, String firstName, String lastName, Date birthDate, String gender, String photo, User user) {
+    public Profile(int profile_id, String firstName, String lastName, LocalDate birthDate, String gender, String photo, User user) {
         this.profile_id = profile_id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,7 +50,7 @@ public class Profile {
         this.user = user;
     }
 
-    public Profile(String firstName, String lastName, Date birthDate, String gender, String photo, User user) {
+    public Profile(String firstName, String lastName, LocalDate birthDate, String gender, String photo, User user) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -81,11 +88,11 @@ public class Profile {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

@@ -5,21 +5,22 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-public class ProfileDateDeserializer extends JsonDeserializer<Date> {
+public class ProfileDateDeserializer extends JsonDeserializer<LocalDate> {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 
     @Override
-    public Date deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+    public LocalDate deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
             throws IOException {
         String dateStr = jsonParser.getText();
         try {
-            return DATE_FORMAT.parse(dateStr);
-        } catch (ParseException e) {
+            return LocalDate.parse(dateStr, DATE_FORMATTER);
+        } catch (DateTimeParseException e) {
             throw new RuntimeException("Failed to parse date: " + dateStr, e);
         }
     }

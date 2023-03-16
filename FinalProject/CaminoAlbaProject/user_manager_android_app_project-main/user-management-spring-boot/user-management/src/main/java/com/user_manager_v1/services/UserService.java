@@ -1,17 +1,13 @@
 package com.user_manager_v1.services;
-
-import ch.qos.logback.core.joran.conditional.IfAction;
 import com.user_manager_v1.models.Profile;
 import com.user_manager_v1.models.User;
 import com.user_manager_v1.models.dto.UserAndProfileRequest;
 import com.user_manager_v1.repository.ProfileRepository;
 import com.user_manager_v1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -62,13 +58,6 @@ public class UserService {
         // Associate the user and profile objects using the @OneToOne attribute
         user.setPerson(profile);
         profile.setUser(user);
-
-        // Check if the user already exists in the database
-//        User existingUser = userRepository.GetUserDetailsByEmail(user.getEmail());
-//        if (existingUser != null) {
-//            return null;
-//        }
-
 
         // Insert the user and profile data into the respective tables
         User savedUser = userRepository.save(user);

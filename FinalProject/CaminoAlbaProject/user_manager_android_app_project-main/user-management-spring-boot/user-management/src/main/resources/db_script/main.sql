@@ -14,7 +14,7 @@ CREATE TABLE users
     PRIMARY KEY (user_id)
 );
 
-
+DESCRIBE profiles;
 
 
 

@@ -24,6 +24,7 @@ import com.example.caminoalba.models.User;
 import com.example.caminoalba.rest.RestClient;
 import com.example.caminoalba.services.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,6 @@ public class ProfileFragment extends Fragment {
 
     //  *----- Variables de vistas globales ------*
     private EditText edFirstName, edLastName, edBirthdate, edGender;
-    private Date birhtDate;
     private Profile profile;
     private ImageView imgProfile;
     private Button btnSave;
@@ -49,6 +49,7 @@ public class ProfileFragment extends Fragment {
     private List<Profile> profileList;
     private List<User> userList;
     private String firstName, lastName, email, password, type, gender;
+    private LocalDate birthday;
     private SharedPreferences prefs;
 
 
@@ -67,6 +68,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         // ------ Inicializamos vistas   -------
         edFirstName = view.findViewById(R.id.edFirstName);
         edLastName = view.findViewById(R.id.edLastName);
@@ -204,8 +206,8 @@ public class ProfileFragment extends Fragment {
 
             profile.setFirstName(firstName);
             profile.setLastName(lastName);
-//            java.sql.Date sqlDate = new java.sql.Date(birhtDate.getTime());
-            profile.setBirthDate(null);
+            System.out.println("This is birthday " + birthday);
+            profile.setBirthDate(edBirthdate.getText().toString());
             profile.setGender(gender);
             profile.setPhoto(null);
             profile.setUser(user);
@@ -268,12 +270,13 @@ public class ProfileFragment extends Fragment {
     public boolean validateDate() {
         String strNacimiento = edBirthdate.getText().toString();
         System.out.println("esto es del date del usuario " + strNacimiento);
-        birhtDate = Utils.validateDate(strNacimiento);
-
+        birthday = Utils.validateDate(strNacimiento);
+//        assert date != null;
+//        birthday = Utils.convertDateToSQLDATE(date);
         if (strNacimiento.isEmpty()) {
             edBirthdate.setError("Cannot be empty");
             return false;
-        } else if (birhtDate == null) {
+        } else if (birthday == null) {
             edBirthdate.setError("Invalid format");
             return false;
         } else {

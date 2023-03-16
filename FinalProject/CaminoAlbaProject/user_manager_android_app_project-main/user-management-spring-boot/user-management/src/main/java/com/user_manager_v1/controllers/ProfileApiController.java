@@ -31,18 +31,7 @@ public class ProfileApiController {
         }
     }
 
-//    @PostMapping("/update")
-//    public boolean updatePerson(@RequestBody Profile profile) {
-//        try {
-//            Log.i("Update Person: ", profile.toString());
-//            profileRepository.save(profile);
-//            return true;
-//        } catch (Exception e) {
-//            Log.e("Update autor", e.getMessage());
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+
 
     @GetMapping("/all")
     public List<Profile> getAutores() {
@@ -52,8 +41,6 @@ public class ProfileApiController {
 
     @PutMapping("/update")
     public void updateProfile(@RequestBody Profile profileDetails) {
-//        profileDetails.setProfile_id(profileId);
-//        profileService.updateProfile(profileDetails);
         profileRepository.save(profileDetails);
 
     }
