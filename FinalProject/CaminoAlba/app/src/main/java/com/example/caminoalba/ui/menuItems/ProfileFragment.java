@@ -1,7 +1,14 @@
 package com.example.caminoalba.ui.menuItems;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,19 +32,29 @@ import com.example.caminoalba.models.User;
 import com.example.caminoalba.rest.RestClient;
 import com.example.caminoalba.services.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
+
+    private final int GALLERY_REQ_CODE = 1000;
+
     //  *----- Variables de vistas globales ------*
     private EditText edFirstName, edLastName, edBirthdate, edGender;
+    private TextView tvImage;
     private Profile profile;
     private ImageView imgProfile;
     private Button btnSave;
@@ -75,6 +93,8 @@ public class ProfileFragment extends Fragment {
         edBirthdate = view.findViewById(R.id.edBirthDate);
         edGender = view.findViewById(R.id.edGender);
         btnSave = view.findViewById(R.id.btnSaveInformation);
+        tvImage = view.findViewById(R.id.tvPhotoMessage);
+        imgProfile = view.findViewById(R.id.imgProfile);
 
         // ------ Inicializamos variables  -------
         iapiService = RestClient.getInstance();
@@ -88,7 +108,13 @@ public class ProfileFragment extends Fragment {
         // ------ Obtenemos el perfil actual mediante este metodo   -------
         getProfileList();
 
+        if ((imgProfile.getDrawable() != null)) {
+            tvImage.setVisibility(View.GONE);
+        } else {
+            tvImage.setVisibility(View.VISIBLE);
+        }
 
+        uploadPhoto();
     }
 
 
@@ -196,6 +222,75 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    public void uploadPhoto() {
+
+        if (imgProfile.getDrawable() == null) {
+            tvImage.setOnClickListener(v -> {
+                Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
+                tvImage.setVisibility(View.GONE);
+
+            });
+        }
+
+        imgProfile.setOnClickListener(v1 -> {
+            Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
+
+        });
+
+        if ((imgProfile.getDrawable() != null)) {
+            createPhotoRestPoint();
+        }
+
+    }
+
+    public void createPhotoRestPoint() {
+//        To upload an image from an ImageView in your app, you'll need to convert the image to a File object first
+        Drawable drawable = imgProfile.getDrawable();
+        System.out.println("asdjfsaljf");
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+//        int cont = 0;
+//        cont++;
+        File file = new File(requireContext().getCacheDir(), "image.png");
+        try {
+            OutputStream outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+        service.savePhotoLocalServer(new Service.APICallback() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(getContext(), "Photo sent successfully", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(getContext(), "Photo sent unsuccessfully", Toast.LENGTH_SHORT).show();
+            }
+        }, filePart);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == GALLERY_REQ_CODE && data != null) {
+            // Get the selected image URI
+            Uri uri = data.getData();
+
+            // Display the image in your app
+            imgProfile.setImageURI(uri);
+        }
+    }
+
     //********** ACTUALIZAR LOS DATOS DEL PERFIL ************
 
     public void updateProfile() {
@@ -207,9 +302,10 @@ public class ProfileFragment extends Fragment {
             profile.setFirstName(firstName);
             profile.setLastName(lastName);
             System.out.println("This is birthday " + birthday);
-            profile.setBirthDate(edBirthdate.getText().toString());
+//            profile.setBirthDate(edBirthdate.getText().toString());
+            profile.setBirthDate(birthday.toString());
             profile.setGender(gender);
-            profile.setPhoto(null);
+//            profile.setPhoto(tvImage.get);
             profile.setUser(user);
 
             Call<Boolean> call = iapiService.updateProfile(profile);

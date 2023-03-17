@@ -1,13 +1,16 @@
 package com.example.caminoalba.services;
+
 import androidx.annotation.NonNull;
 
 import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.rest.RestClient;
-import java.util.ArrayList;
+
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,10 +19,12 @@ public class Service {
 
     public List<User> users;
     public List<Profile> profiles;
+    private APICallback apiCallback;
     private final IAPIservice iapIservice = RestClient.getInstance();
 
     public interface APICallback {
         void onSuccess();
+
         void onFailure(String error);
     }
 
@@ -64,20 +69,36 @@ public class Service {
         });
     }
 
-    public List<User> getUsers() {
-        return users;
+
+    public void savePhotoLocalServer(APICallback apiCallback , MultipartBody.Part multipartBody) {
+
+        Call<ResponseBody> call = iapIservice.uploadImage(multipartBody);
+        call.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // Handle success response
+                apiCallback.onSuccess();
+                System.out.println("Photo sent successfully");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                // Handle error
+                System.out.println("Photo sent unsuccessfully ");
+                apiCallback.onFailure(t.getMessage());
+            }
+        });
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+
+    public List<User> getUsers() {
+        return users;
     }
 
     public List<Profile> getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(List<Profile> profiles) {
-        this.profiles = profiles;
-    }
 }
 
