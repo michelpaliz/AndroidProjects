@@ -25,9 +25,6 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-
-    private Boolean SAVEUSER = false;
-
     private Button btnSingIn, btnHome;
     private EditText edEmail, edPassword;
     private Intent intent;
@@ -86,9 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("email", email);
                     intent.putExtra("password", password);
                     intent.putExtra("type", type);
-                    SAVEUSER = true;
-
-
+                    Config.USER_SAVED = true;
                     //Start Activity
                     startActivity(intent);
                     finish();

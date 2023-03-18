@@ -5,7 +5,6 @@
     android:id="@+id/mobile_navigation2"
     app:startDestination="@id/profileFragment">
 
-
     <fragment
         android:id="@+id/newsFragment"
         android:name="com.example.caminoalba.ui.menuItems.NewsFragment"
@@ -27,5 +26,10 @@
         android:name="com.example.caminoalba.ui.menuItems.PartnerFragment"
         android:label="fragment_partner"
         tools:layout="@layout/fragment_partner" />
+    <fragment
+        android:id="@+id/logOutFragment"
+        android:name="com.example.caminoalba.ui.menuItems.LogOutFragment"
+        android:label="fragment_log_out"
+        tools:layout="@layout/fragment_log_out" />
 
 </navigation>

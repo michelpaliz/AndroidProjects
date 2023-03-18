@@ -1,14 +1,16 @@
 package com.example.caminoalba;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.caminoalba.config.Config;
+
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnSingUp , btnSingIn;
+    private Button btnSingUp, btnSingIn;
     private Intent intent;
 
 
@@ -22,26 +24,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //cargamos datos
-    public void init(){
+    public void init() {
         btnSingUp = findViewById(R.id.btnSing_up_register);
         btnSingIn = findViewById(R.id.btnSingIn_register);
     }
 
-    public void goToSingUp(){
-        btnSingUp.setOnClickListener( v -> {
+    public void goToSingUp() {
+        btnSingUp.setOnClickListener(v -> {
             intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
             finish();
         });
     }
 
-    public void goToSingIn(){
-        btnSingIn.setOnClickListener( v -> {
-            intent = new Intent(MainActivity.this, LoginActivity.class);
+    public void goToSingIn() {
+        btnSingIn.setOnClickListener(v -> {
+
+            if (Config.USER_SAVED) {
+                //Si no es primera vez que el usuario ya ha entrado se guarda sesion.
+                intent = new Intent(MainActivity.this, NavigationDrawerActivity.class);
+            } else {
+                //Si no pues tendra que logearse.
+                intent = new Intent(MainActivity.this, LoginActivity.class);
+            }
             startActivity(intent);
             finish();
+
+
         });
     }
-
-
 }

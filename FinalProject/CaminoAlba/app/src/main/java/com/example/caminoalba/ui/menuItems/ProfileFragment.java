@@ -123,12 +123,15 @@ public class ProfileFragment extends Fragment {
         }
 
         uploadPhoto();
+
         SharedPreferences profilePref = android.preference.PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = profilePref.edit();
         photo = profilePref.getString("photo", "");
         System.out.println("esto es photo " + photo);
         // Load the photo into the ImageView using Picasso
-        Picasso.get().load(photo).into(imgProfile);
+        if (!photo.isEmpty()){
+            Picasso.get().load(photo).into(imgProfile);
+        }
         // Load the photo into the ImageView using Glide
 //        Glide.with(context).load(photo).into(imgProfile);
 
