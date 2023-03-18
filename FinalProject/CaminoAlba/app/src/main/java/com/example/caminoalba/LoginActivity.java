@@ -76,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                     String email = (String) response.get("email");
                     String password = (String) response.get("password");
                     String type = (String) response.get("type");
-//                String type = (String) response.get("type");
 
                     //Set Intent Actions;
                     intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);

@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +34,9 @@ import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.rest.RestClient;
 import com.example.caminoalba.services.Service;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -66,9 +71,10 @@ public class ProfileFragment extends Fragment {
     private User user;
     private List<Profile> profileList;
     private List<User> userList;
-    private String firstName, lastName, email, password, type, gender;
+    private String firstName, lastName, email, password, type, gender, photo;
     private LocalDate birthday;
     private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
 
 
     @Override
@@ -108,13 +114,25 @@ public class ProfileFragment extends Fragment {
         // ------ Obtenemos el perfil actual mediante este metodo   -------
         getProfileList();
 
-        if ((imgProfile.getDrawable() != null)) {
+        // ------ Obtenemos la foto del permil por medio del perfil ya obtenido    -------
+
+        if ((photo != null)) {
             tvImage.setVisibility(View.GONE);
         } else {
             tvImage.setVisibility(View.VISIBLE);
         }
 
         uploadPhoto();
+        SharedPreferences profilePref = android.preference.PreferenceManager.getDefaultSharedPreferences(getContext());
+        editor = profilePref.edit();
+        photo = profilePref.getString("photo", "");
+        System.out.println("esto es photo " + photo);
+        // Load the photo into the ImageView using Picasso
+        Picasso.get().load(photo).into(imgProfile);
+        // Load the photo into the ImageView using Glide
+//        Glide.with(context).load(photo).into(imgProfile);
+
+
     }
 
 
@@ -217,21 +235,33 @@ public class ProfileFragment extends Fragment {
             throw new NullPointerException();
         }
 
+        editor.putString("photo", profile.getPhoto());
+        editor.putString("gender", profile.getGender());
+        editor.putString("birthDate", profile.getBirthDate());
+        editor.commit();
+        editor.apply();
         showProfileData(profile);
+
         updateProfile();
     }
 
 
     public void uploadPhoto() {
 
+        System.out.println("Check if it is null or it doesn't 1" + imgProfile.getDrawable());
+
         if (imgProfile.getDrawable() == null) {
             tvImage.setOnClickListener(v -> {
                 Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
                 tvImage.setVisibility(View.GONE);
-
+                System.out.println("Check if it is null or if it doesn't" + imgProfile.getDrawable());
+                if ((imgProfile.getDrawable() != null)) {
+                    createPhotoRestPoint();
+                }
             });
         }
+
 
         imgProfile.setOnClickListener(v1 -> {
             Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -239,16 +269,13 @@ public class ProfileFragment extends Fragment {
 
         });
 
-        if ((imgProfile.getDrawable() != null)) {
-            createPhotoRestPoint();
-        }
 
     }
+
 
     public void createPhotoRestPoint() {
 //        To upload an image from an ImageView in your app, you'll need to convert the image to a File object first
         Drawable drawable = imgProfile.getDrawable();
-        System.out.println("asdjfsaljf");
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 //        int cont = 0;
 //        cont++;
@@ -288,8 +315,36 @@ public class ProfileFragment extends Fragment {
 
             // Display the image in your app
             imgProfile.setImageURI(uri);
+            photo = getImageUri();
         }
     }
+
+    public String getImageUri() {
+        Uri imageUri = null;
+        Drawable drawable = imgProfile.getDrawable();
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+            imageUri = getImageUri(bitmap);
+        } else if (drawable instanceof VectorDrawable) {
+            VectorDrawable vectorDrawable = (VectorDrawable) drawable;
+            Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            vectorDrawable.draw(canvas);
+            imageUri = getImageUri(bitmap);
+        }
+        assert imageUri != null;
+        return imageUri.toString();
+    }
+
+    private Uri getImageUri(Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(requireContext().getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
+    }
+
 
     //********** ACTUALIZAR LOS DATOS DEL PERFIL ************
 
@@ -305,8 +360,9 @@ public class ProfileFragment extends Fragment {
 //            profile.setBirthDate(edBirthdate.getText().toString());
             profile.setBirthDate(birthday.toString());
             profile.setGender(gender);
-//            profile.setPhoto(tvImage.get);
+            profile.setPhoto(photo);
             profile.setUser(user);
+
 
             Call<Boolean> call = iapiService.updateProfile(profile);
             call.enqueue(new Callback<Boolean>() {
