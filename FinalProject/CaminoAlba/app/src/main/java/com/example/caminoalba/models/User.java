@@ -1,5 +1,7 @@
 package com.example.caminoalba.models;
 
+import androidx.annotation.NonNull;
+
 public class User {
 
     private int user_id;
@@ -8,19 +10,21 @@ public class User {
     private String email;
     private String password;
     private String type;
+    private String verification_code;
     private Boolean enabled;
 
 
     public User() {
     }
 
-    public User(int user_id, String first_name, String last_name, String email, String password, String type, Boolean enabled) {
+    public User(int user_id, String first_name, String last_name, String email, String password, String type, String verification_code, Boolean enabled) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.type = type;
+        this.verification_code = verification_code;
         this.enabled = enabled;
     }
 
@@ -81,14 +85,24 @@ public class User {
         this.enabled = enabled;
     }
 
+    public String getVerification_code() {
+        return verification_code;
+    }
+
+    public void setVerification_code(String verification_code) {
+        this.verification_code = verification_code;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "User{" +
-                "id=" + user_id +
+                "user_id=" + user_id +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", code_verification='" + verification_code + '\'' +
                 ", type='" + type + '\'' +
                 ", enabled=" + enabled +
                 '}';

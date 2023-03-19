@@ -26,17 +26,6 @@ public class UserApiController {
         return "Test end point is working";
     }
 
-//    @GetMapping("/all")
-//    public List<Autor> getAutores() {
-//        return userService.;
-//    }
-
-//    @PostMapping("/register")
-//    public UserAndProfileRequest createUserWithProfile(@RequestBody UserAndProfileRequest userWithProfile) {
-//
-//        return userService.createUserWithProfile(userWithProfile);
-//    }
-
     @PostMapping("/register")
     public UserAndProfileRequest createUserWithProfile(@RequestBody UserAndProfileRequest userWithProfile) {
         return userService.createUserWithProfile(userWithProfile);

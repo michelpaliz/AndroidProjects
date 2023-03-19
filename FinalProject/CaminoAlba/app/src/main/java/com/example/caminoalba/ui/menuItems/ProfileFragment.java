@@ -25,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
 import com.example.caminoalba.R;
@@ -34,6 +35,7 @@ import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.rest.RestClient;
 import com.example.caminoalba.services.Service;
+import com.example.caminoalba.ui.others.ConfirmEmailFragment;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -59,7 +61,7 @@ public class ProfileFragment extends Fragment {
 
     //  *----- Variables de vistas globales ------*
     private EditText edFirstName, edLastName, edBirthdate, edGender;
-    private TextView tvImage;
+    private TextView tvImage, tvEmailVerfication;
     private Profile profile;
     private ImageView imgProfile;
     private Button btnSave;
@@ -101,6 +103,7 @@ public class ProfileFragment extends Fragment {
         btnSave = view.findViewById(R.id.btnSaveInformation);
         tvImage = view.findViewById(R.id.tvPhotoMessage);
         imgProfile = view.findViewById(R.id.imgProfile);
+        tvEmailVerfication = view.findViewById(R.id.tvEmailVerified);
 
         // ------ Inicializamos variables  -------
         iapiService = RestClient.getInstance();
@@ -116,10 +119,10 @@ public class ProfileFragment extends Fragment {
 
         // ------ Obtenemos la foto del permil por medio del perfil ya obtenido    -------
 
-        if ((photo != null)) {
+        tvImage.setVisibility(View.VISIBLE);
+
+        if ((tvImage.getDrawableState() != null)) {
             tvImage.setVisibility(View.GONE);
-        } else {
-            tvImage.setVisibility(View.VISIBLE);
         }
 
         uploadPhoto();
@@ -129,13 +132,36 @@ public class ProfileFragment extends Fragment {
         photo = profilePref.getString("photo", "");
         System.out.println("esto es photo " + photo);
         // Load the photo into the ImageView using Picasso
-        if (!photo.isEmpty()){
+        if (!photo.isEmpty()) {
             Picasso.get().load(photo).into(imgProfile);
         }
         // Load the photo into the ImageView using Glide
 //        Glide.with(context).load(photo).into(imgProfile);
 
 
+    }
+
+
+
+    public void showEmailVerificationStatus() {
+
+        if (user.getEnabled()) {
+            tvEmailVerfication.setText("Email has been verified successfuly");
+        } else {
+            tvEmailVerfication.setText("Email hasn't been verifed, click here to verify it");
+            tvEmailVerfication.setOnClickListener(v -> {
+                // Create an instance of the child fragment
+                ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
+                // Begin a new FragmentTransaction using the getChildFragmentManager() method
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                // Add the child fragment to the transaction and specify a container view ID in the parent layout
+                transaction.add(R.id.child_fragment_container  , confirmEmailFragment);
+                transaction.addToBackStack(null); // Add the fragment to the back stack
+                transaction.commit();
+
+            });
+
+        }
     }
 
 
@@ -194,6 +220,8 @@ public class ProfileFragment extends Fragment {
                 user = userList.get(i);
             }
         }
+
+        showEmailVerificationStatus();
     }
 
 
@@ -219,6 +247,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    //    ******* MANIPULACION DE DATOS PARA EL FOTO DEL PERFIL ******
 
     public void getProfileById(List<Profile> profileList) {
         //Si el perfil ya esta cargado no es necesario generar otra instancia de perfil nuevo
@@ -252,6 +281,10 @@ public class ProfileFragment extends Fragment {
     public void uploadPhoto() {
 
         System.out.println("Check if it is null or it doesn't 1" + imgProfile.getDrawable());
+
+        if (photo == null) {
+            tvImage.setVisibility(View.VISIBLE);
+        }
 
         if (imgProfile.getDrawable() == null) {
             tvImage.setOnClickListener(v -> {
@@ -321,6 +354,7 @@ public class ProfileFragment extends Fragment {
             photo = getImageUri();
         }
     }
+
 
     public String getImageUri() {
         Uri imageUri = null;

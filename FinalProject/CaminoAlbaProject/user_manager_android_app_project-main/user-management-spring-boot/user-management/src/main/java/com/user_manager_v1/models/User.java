@@ -21,9 +21,9 @@ public class User {
     private String password;
     @Column(name = "type")
     private String type;
-//    @Column(name = "verification_code")
-//    private String verificationCode;
 
+    @Column(name = "verification_code")
+    private String verificationCode;
     private boolean enabled;
 
 
@@ -40,13 +40,14 @@ public class User {
     private Profile profile;
 
 
-    public User(int user_id, String first_name, String last_name, String email, String password, String type, boolean enabled, Profile profile) {
+    public User(int user_id, String first_name, String last_name, String email, String password, String type, String verificationCode, boolean enabled, Profile profile) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.type = type;
+        this.verificationCode = verificationCode;
         this.enabled = enabled;
         this.profile = profile;
     }
@@ -57,6 +58,10 @@ public class User {
 
     public int getUser_id() {
         return user_id;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
     public void setUser_id(int user_id) {
@@ -97,6 +102,10 @@ public class User {
 
     public String isType() {
         return type;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
     }
 
     public void setType(String type) {

@@ -8,6 +8,9 @@ import java.util.Locale;
 
 public class Utils {
 
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+
     public static boolean checkDigits(String text) {
         boolean containsOnlyDigits = false;
         for (int i = 0; i < text.length(); i++) {
@@ -17,6 +20,16 @@ public class Utils {
             }
         }
         return containsOnlyDigits;
+    }
+
+    public static String generateVerificationCode() {
+        int count = 6; // number of characters in the verification code
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
     }
 
 
@@ -48,5 +61,6 @@ public class Utils {
         long milliseconds = date.getTime();
         return new java.sql.Date(milliseconds);
     }
+
 
 }

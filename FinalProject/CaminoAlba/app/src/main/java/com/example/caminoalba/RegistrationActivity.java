@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.caminoalba.helpers.EmailHelper;
+import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
@@ -53,6 +56,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void authenticateUser() {
+
         btnSingUp.setOnClickListener(v -> {
 
             IAPIservice iapIservice = RestClient.getInstance();
@@ -64,10 +68,15 @@ public class RegistrationActivity extends AppCompatActivity {
 
             int id = cont++;
 
-            User user = new User(id, edFirstName.getText().toString(), edLastName.getText().toString(), edEmail.getText().toString(),
-                    edPassword.getText().toString(), "user", false);
+//            String verificationCode =
+//
+//            System.out.println("Esto es la verificacion " + verificationCode);
 
-            Profile profile = new Profile(id, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null,user);
+            User user = new User(id, edFirstName.getText().toString(), edLastName.getText().toString(), edEmail.getText().toString(),
+                    edPassword.getText().toString(), "user", Utils.generateVerificationCode(), false);
+
+
+            Profile profile = new Profile(id, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null, user);
             UserAndProfileRequest userWithProfile = new UserAndProfileRequest(user, profile);
 
             Call<UserAndProfileRequest> call = iapIservice.createUserWithProfile(userWithProfile);
