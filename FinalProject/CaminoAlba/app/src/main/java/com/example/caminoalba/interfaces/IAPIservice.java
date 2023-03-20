@@ -34,6 +34,9 @@ public interface IAPIservice {
     @PUT("/profile/update")
     Call<Boolean> updateProfile(@Body Profile profile);
 
+    @PUT("/user/update")
+    Call<Boolean> updateUser(@Body User user);
+
     @Multipart
     @POST("/upload-image")
     Call<ResponseBody> uploadImage(@Part MultipartBody.Part file);

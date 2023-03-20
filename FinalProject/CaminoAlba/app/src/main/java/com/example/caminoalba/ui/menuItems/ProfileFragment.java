@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
     private User user;
     private List<Profile> profileList;
     private List<User> userList;
-    private String firstName, lastName, email, password, type, gender, photo;
+    private String firstName, lastName, email, gender, photo;
     private LocalDate birthday;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
@@ -117,14 +117,7 @@ public class ProfileFragment extends Fragment {
         // ------ Obtenemos el perfil actual mediante este metodo   -------
         getProfileList();
 
-        // ------ Obtenemos la foto del permil por medio del perfil ya obtenido    -------
-
-        tvImage.setVisibility(View.VISIBLE);
-
-        if ((tvImage.getDrawableState() != null)) {
-            tvImage.setVisibility(View.GONE);
-        }
-
+        // ------ Obtenemos la foto por medio del perfil ya obtenido    -------
         uploadPhoto();
 
         SharedPreferences profilePref = android.preference.PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -142,7 +135,6 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
     public void showEmailVerificationStatus() {
 
         if (user.getEnabled()) {
@@ -150,12 +142,18 @@ public class ProfileFragment extends Fragment {
         } else {
             tvEmailVerfication.setText("Email hasn't been verifed, click here to verify it");
             tvEmailVerfication.setOnClickListener(v -> {
+
+                //Create varibles to pass to my child fragment
+                Bundle args = new Bundle();
+                args.putSerializable("user", user);
                 // Create an instance of the child fragment
                 ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
+                //Pass the args already created to the child fragment
+                confirmEmailFragment.setArguments(args);
                 // Begin a new FragmentTransaction using the getChildFragmentManager() method
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 // Add the child fragment to the transaction and specify a container view ID in the parent layout
-                transaction.add(R.id.child_fragment_container  , confirmEmailFragment);
+                transaction.add(R.id.child_fragment_container, confirmEmailFragment);
                 transaction.addToBackStack(null); // Add the fragment to the back stack
                 transaction.commit();
 
@@ -279,23 +277,21 @@ public class ProfileFragment extends Fragment {
 
 
     public void uploadPhoto() {
-
-        System.out.println("Check if it is null or it doesn't 1" + imgProfile.getDrawable());
-
         if (photo == null) {
+            imgProfile.setVisibility(View.GONE);
             tvImage.setVisibility(View.VISIBLE);
-        }
-
-        if (imgProfile.getDrawable() == null) {
             tvImage.setOnClickListener(v -> {
                 Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
                 tvImage.setVisibility(View.GONE);
-                System.out.println("Check if it is null or if it doesn't" + imgProfile.getDrawable());
+                imgProfile.setVisibility(View.VISIBLE);
+                System.out.println("Check if it is null" + imgProfile.getDrawable());
                 if ((imgProfile.getDrawable() != null)) {
                     createPhotoRestPoint();
                 }
             });
+        } else {
+            tvImage.setVisibility(View.GONE);
         }
 
 
