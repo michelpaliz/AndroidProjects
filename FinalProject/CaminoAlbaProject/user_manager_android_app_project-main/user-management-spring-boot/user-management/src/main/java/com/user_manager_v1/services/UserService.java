@@ -1,8 +1,11 @@
 package com.user_manager_v1.services;
 
+import com.user_manager_v1.models.Blog;
 import com.user_manager_v1.models.Profile;
 import com.user_manager_v1.models.User;
+import com.user_manager_v1.models.dto.UserAndProfileBlogRequest;
 import com.user_manager_v1.models.dto.UserAndProfileRequest;
+import com.user_manager_v1.repository.BlogRepository;
 import com.user_manager_v1.repository.ProfileRepository;
 import com.user_manager_v1.repository.UserRepository;
 import org.apache.commons.codec.CharEncoding;
@@ -40,6 +43,8 @@ public class UserService {
 
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+    private BlogRepository blogRepository;
 
 
     public int registerNewUserServiceMethod(String fname, String lname, String email, String password) {
@@ -67,10 +72,40 @@ public class UserService {
     }
 
 
-    public UserAndProfileRequest createUserWithProfile(@RequestBody UserAndProfileRequest request) {
+//    public UserAndProfileRequest createUserWithProfile(@RequestBody UserAndProfileRequest request) {
+//
+//        User user = request.getUser();
+//        Profile profile = request.getProfile();
+//
+//        String hashed_password = BCrypt.hashpw(request.getUser().getPassword(), BCrypt.gensalt());
+//        user.setPassword(hashed_password);
+//
+//        // Associate the user and profile objects using the @OneToOne attribute
+//        user.setPerson(profile);
+//        if (user.getVerificationCode() == null) {
+//            user.setVerificationCode(generateVerificationCode());
+//        }
+//
+//        profile.setUser(user);
+//
+//        // Insert the user and profile data into the respective tables
+//        User savedUser = userRepository.save(user);
+//        Profile profileSaved = profileRepository.save(profile);
+//
+//        //send verification email
+//        sendEmail(user);
+//
+//        // Return a successful response
+//        return new UserAndProfileRequest(savedUser, profileSaved);
+//    }
+//
+
+
+    public UserAndProfileBlogRequest createUserWithProfileAndBlog(@RequestBody UserAndProfileBlogRequest request) {
 
         User user = request.getUser();
         Profile profile = request.getProfile();
+        Blog blog = request.getBlog();
 
         String hashed_password = BCrypt.hashpw(request.getUser().getPassword(), BCrypt.gensalt());
         user.setPassword(hashed_password);
@@ -82,17 +117,20 @@ public class UserService {
         }
 
         profile.setUser(user);
+        blog.setProfile(profile);
 
         // Insert the user and profile data into the respective tables
         User savedUser = userRepository.save(user);
         Profile profileSaved = profileRepository.save(profile);
+        Blog blogSaved = blogRepository.save(blog);
 
         //send verification email
         sendEmail(user);
 
         // Return a successful response
-        return new UserAndProfileRequest(savedUser, profileSaved);
+        return new UserAndProfileBlogRequest(savedUser, profileSaved, blogSaved);
     }
+
 
     public String generateVerificationCode() {
         int count = 6; // number of characters in the verification code

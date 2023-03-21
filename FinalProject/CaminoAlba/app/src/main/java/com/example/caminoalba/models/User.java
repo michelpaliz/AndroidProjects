@@ -104,8 +104,8 @@ public class User implements Serializable {
                 ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", code_verification='" + verificationCode + '\'' +
                 ", type='" + type + '\'' +
+                ", verificationCode='" + verificationCode + '\'' +
                 ", enabled=" + enabled +
                 '}';
     }

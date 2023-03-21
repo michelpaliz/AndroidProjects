@@ -36,6 +36,7 @@ import com.example.caminoalba.models.User;
 import com.example.caminoalba.rest.RestClient;
 import com.example.caminoalba.services.Service;
 import com.example.caminoalba.ui.others.ConfirmEmailFragment;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -67,6 +68,7 @@ public class ProfileFragment extends Fragment {
     private Button btnSave;
     private Context context;
     private IAPIservice iapiService;
+    private Gson gson;
 
     //  *----- Variables de funcionalidad globales ------*
     private Service service;
@@ -101,7 +103,7 @@ public class ProfileFragment extends Fragment {
         edBirthdate = view.findViewById(R.id.edBirthDate);
         edGender = view.findViewById(R.id.edGender);
         btnSave = view.findViewById(R.id.btnSaveInformation);
-        tvImage = view.findViewById(R.id.tvPhotoMessage);
+//        tvImage = view.findViewById(R.id.tvPhotoMessage);
         imgProfile = view.findViewById(R.id.imgProfile);
         tvEmailVerfication = view.findViewById(R.id.tvEmailVerified);
 
@@ -111,6 +113,7 @@ public class ProfileFragment extends Fragment {
         profileList = new ArrayList<>();
         userList = new ArrayList<>();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        gson = new Gson();
 
         // ------ Obtenemos el usuario actual mediante este metodo  -------
         getUserList();
@@ -153,7 +156,7 @@ public class ProfileFragment extends Fragment {
                 // Begin a new FragmentTransaction using the getChildFragmentManager() method
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 // Add the child fragment to the transaction and specify a container view ID in the parent layout
-                transaction.add(R.id.child_fragment_container, confirmEmailFragment);
+                transaction.add(R.id.fragment_blog, confirmEmailFragment);
                 transaction.addToBackStack(null); // Add the fragment to the back stack
                 transaction.commit();
 
@@ -219,6 +222,8 @@ public class ProfileFragment extends Fragment {
             }
         }
 
+        String userStr = gson.toJson(user);
+        editor.putString("user", userStr);
         showEmailVerificationStatus();
     }
 
@@ -265,6 +270,9 @@ public class ProfileFragment extends Fragment {
             throw new NullPointerException();
         }
 
+        String profileStr = gson.toJson(profile);
+        editor.putString("profile", profileStr);
+
         editor.putString("photo", profile.getPhoto());
         editor.putString("gender", profile.getGender());
         editor.putString("birthDate", profile.getBirthDate());
@@ -279,11 +287,11 @@ public class ProfileFragment extends Fragment {
     public void uploadPhoto() {
         if (photo == null) {
             imgProfile.setVisibility(View.GONE);
-            tvImage.setVisibility(View.VISIBLE);
-            tvImage.setOnClickListener(v -> {
+//            tvImage.setVisibility(View.VISIBLE);
+            imgProfile.setOnClickListener(v -> {
                 Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
-                tvImage.setVisibility(View.GONE);
+//                tvImage.setVisibility(View.GONE);
                 imgProfile.setVisibility(View.VISIBLE);
                 System.out.println("Check if it is null" + imgProfile.getDrawable());
                 if ((imgProfile.getDrawable() != null)) {
@@ -291,7 +299,7 @@ public class ProfileFragment extends Fragment {
                 }
             });
         } else {
-            tvImage.setVisibility(View.GONE);
+//            tvImage.setVisibility(View.GONE);
         }
 
 

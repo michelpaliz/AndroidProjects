@@ -4,12 +4,30 @@ import java.util.List;
 
 public class Blog {
 
+    private int id;
     private String description;
-    private List<Blog> followers;
-    private List<Blog> following;
     private boolean enableInfo;
     private double kmlRunned;
     private int points;
+    private List<Blog> followers;
+    private List<Blog> following;
+
+
+    public Blog(int id, String description, boolean enableInfo, double kmlRunned, int points) {
+        this.id = id;
+        this.description = description;
+        this.enableInfo = enableInfo;
+        this.kmlRunned = kmlRunned;
+        this.points = points;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;

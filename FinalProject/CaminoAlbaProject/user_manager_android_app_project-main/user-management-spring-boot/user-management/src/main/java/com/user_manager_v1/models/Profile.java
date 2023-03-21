@@ -27,17 +27,14 @@ public class Profile {
     private String gender;
     private String photo;
 
-
-    //Empezamos a declarar las relaciones que existen
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @PrimaryKeyJoinColumn
-
     @OneToOne
     @MapsId
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
+
+    @OneToOne(mappedBy = "profile")
+    private Blog blog;
 
 
     public Profile(int profile_id, String firstName, String lastName, LocalDate birthDate, String gender, String photo, User user) {

@@ -2,6 +2,7 @@ package com.user_manager_v1.controllers;
 
 import com.user_manager_v1.models.Profile;
 import com.user_manager_v1.models.User;
+import com.user_manager_v1.models.dto.UserAndProfileBlogRequest;
 import com.user_manager_v1.models.dto.UserAndProfileRequest;
 import com.user_manager_v1.repository.UserRepository;
 import com.user_manager_v1.services.UserService;
@@ -32,9 +33,14 @@ public class UserApiController {
         return "Test end point is working";
     }
 
+    //    @PostMapping("/register")
+//    public UserAndProfileRequest createUserWithProfile(@RequestBody UserAndProfileRequest userWithProfile) {
+//        return userService.createUserWithProfile(userWithProfile);
+//    }
+
     @PostMapping("/register")
-    public UserAndProfileRequest createUserWithProfile(@RequestBody UserAndProfileRequest userWithProfile) {
-        return userService.createUserWithProfile(userWithProfile);
+    public UserAndProfileBlogRequest createUserWithProfileAndBlog(@RequestBody UserAndProfileBlogRequest userAndProfileBlogRequest) {
+        return userService.createUserWithProfileAndBlog(userAndProfileBlogRequest);
     }
 
     @PutMapping("/update")

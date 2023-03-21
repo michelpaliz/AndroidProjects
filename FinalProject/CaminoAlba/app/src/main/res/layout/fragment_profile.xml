@@ -5,7 +5,7 @@
     android:id="@+id/child_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/my_dark_purple"
+    android:background="@color/my_dark_blue"
     tools:context=".ui.menuItems.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,6 @@
             android:layout_width="266dp"
             android:layout_height="65dp"
             android:layout_marginTop="16dp"
-            android:background="@color/my_dark_purple"
             android:gravity="center"
             android:text="@string/hello_blank_fragment"
             android:textColor="@color/my_grey"
@@ -37,7 +36,6 @@
             android:background="@drawable/input_text_field_styling"
             android:gravity="center"
             android:minHeight="48dp"
-            android:text="TextView"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +50,6 @@
             android:background="@drawable/input_text_field_styling"
             android:gravity="center"
             android:minHeight="48dp"
-            android:text="TextView"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -181,26 +178,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvProfileTittle">
 
-            <TextView
-                android:id="@+id/tvPhotoMessage"
-                android:layout_width="154dp"
-                android:layout_height="136dp"
-                android:layout_marginTop="24dp"
-                android:background="@color/my_grey"
-                android:gravity="center"
-                android:text="Add your profile photo"
-                android:textColor="@color/black"
-                android:textSize="20sp">
-
-            </TextView>
-
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="10dp"
-                tools:src="@tools:sample/avatars" />
+                android:contentDescription="TODO"
+                android:src="@drawable/default_image" />
 
         </LinearLayout>
 

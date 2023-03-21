@@ -2,6 +2,7 @@ package com.example.caminoalba.interfaces;
 
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
+import com.example.caminoalba.models.dto.UserAndProfileBlogRequest;
 import com.example.caminoalba.models.dto.UserAndProfileRequest;
 
 import java.util.List;
@@ -28,8 +29,11 @@ public interface IAPIservice {
     @GET("/user/all")
     Call<List<User>> getUsers();
 
+//    @POST("user/register")
+//    Call<UserAndProfileRequest> createUserWithProfile(@Body UserAndProfileRequest userWithProfile);
+
     @POST("user/register")
-    Call<UserAndProfileRequest> createUserWithProfile(@Body UserAndProfileRequest userWithProfile);
+    Call<UserAndProfileBlogRequest> createUserWithProfileBlog(@Body UserAndProfileBlogRequest userWithProfile);
 
     @PUT("/profile/update")
     Call<Boolean> updateProfile(@Body Profile profile);

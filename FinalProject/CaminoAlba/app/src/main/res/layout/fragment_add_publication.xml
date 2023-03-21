@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fragment_publication"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/my_dark_blue"
+        tools:context=".ui.others.AddPublicationFragment">
+
+        <RelativeLayout
+            android:id="@+id/main_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Author field -->
+            <LinearLayout
+                android:id="@+id/authorField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <!-- Author profile photo -->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/authorPhoto"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/circle" />
+
+                <!-- Author name -->
+                <TextView
+                    android:id="@+id/authorName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:text="John Doe"
+                    android:textColor="@color/my_light_blue"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvTimeDisplayed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="150dp"
+                    android:text="Time"
+                    android:textColor="@color/my_light_blue"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+            <!-- Title field -->
+            <EditText
+                android:id="@+id/etTitleField"
+                android:textColorHint="@color/my_dark_grey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/authorField"
+                android:background="@drawable/input_text_field_styling"
+                android:hint="Title"
+                android:padding="16dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <!-- Description field -->
+            <EditText
+                android:id="@+id/etDescriptionField"
+                android:textColorHint="@color/my_dark_grey"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etTitleField"
+                android:background="@drawable/input_text_field_styling"
+                android:hint="Description"
+                android:padding="16dp"
+                android:textSize="18sp" />
+
+            <!-- Photo field -->
+            <LinearLayout
+                android:id="@+id/photoField"
+                android:layout_width="match_parent"
+                android:layout_height="490dp"
+                android:layout_below="@id/etDescriptionField"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Photos"
+                    android:textColor="@color/my_light_blue"
+                    android:textSize="18sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPhotoGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="372dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="horizontal"
+                    android:paddingTop="16dp"
+                    android:scrollbars="horizontal" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/addPhotoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/main_btn_styling"
+                    android:gravity="center"
+                    android:text="Add photo" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/my_light_blue"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgBlog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="26dp"
+            android:padding="16dp"
+            android:src="@drawable/ic_baseline_card_travel_24" />
+
+        <ImageView
+            android:id="@+id/imgHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="26dp"
+            android:padding="16dp"
+            android:src="@drawable/ic_baseline_home_24" />
+
+        <ImageView
+            android:id="@+id/imgAddPublication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="26dp"
+            android:padding="16dp"
+            android:src="@drawable/ic_baseline_post_add_24" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
