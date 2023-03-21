@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment {
 
     //  *----- Variables de vistas globales ------*
     private EditText edFirstName, edLastName, edBirthdate, edGender;
-    private TextView tvImage, tvEmailVerfication;
+    private TextView tvEmailVerfication;
     private Profile profile;
     private ImageView imgProfile;
     private Button btnSave;
@@ -103,7 +103,6 @@ public class ProfileFragment extends Fragment {
         edBirthdate = view.findViewById(R.id.edBirthDate);
         edGender = view.findViewById(R.id.edGender);
         btnSave = view.findViewById(R.id.btnSaveInformation);
-//        tvImage = view.findViewById(R.id.tvPhotoMessage);
         imgProfile = view.findViewById(R.id.imgProfile);
         tvEmailVerfication = view.findViewById(R.id.tvEmailVerified);
 
@@ -156,7 +155,7 @@ public class ProfileFragment extends Fragment {
                 // Begin a new FragmentTransaction using the getChildFragmentManager() method
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 // Add the child fragment to the transaction and specify a container view ID in the parent layout
-                transaction.add(R.id.fragment_blog, confirmEmailFragment);
+                transaction.add(R.id.child_fragment_container, confirmEmailFragment);
                 transaction.addToBackStack(null); // Add the fragment to the back stack
                 transaction.commit();
 
@@ -287,21 +286,16 @@ public class ProfileFragment extends Fragment {
     public void uploadPhoto() {
         if (photo == null) {
             imgProfile.setVisibility(View.GONE);
-//            tvImage.setVisibility(View.VISIBLE);
             imgProfile.setOnClickListener(v -> {
                 Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
-//                tvImage.setVisibility(View.GONE);
                 imgProfile.setVisibility(View.VISIBLE);
                 System.out.println("Check if it is null" + imgProfile.getDrawable());
                 if ((imgProfile.getDrawable() != null)) {
                     createPhotoRestPoint();
                 }
             });
-        } else {
-//            tvImage.setVisibility(View.GONE);
         }
-
 
         imgProfile.setOnClickListener(v1 -> {
             Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
