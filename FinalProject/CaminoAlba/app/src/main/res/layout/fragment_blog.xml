@@ -5,10 +5,62 @@
     android:layout_height="match_parent"
     tools:context=".ui.menuItems.BlogFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <!-- Search Bar -->
+        <EditText
+            android:id="@+id/etSearch_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search"
+            android:inputType="text" />
+
+        <!-- FrameLayout for RecyclerView items -->
+        <FrameLayout
+            android:id="@+id/recycler_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Footer menu -->
+        <LinearLayout
+            android:id="@+id/footer_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/my_light_blue"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/icon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_card_travel_24"
+                android:padding="16dp"
+                android:layout_marginEnd="26dp"
+                />
+
+            <ImageView
+                android:id="@+id/icon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_home_24"
+                android:padding="16dp"
+                android:layout_marginEnd="26dp"/>
+
+            <ImageView
+                android:id="@+id/icon3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_post_add_24"
+                android:padding="16dp"
+                android:layout_marginEnd="26dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

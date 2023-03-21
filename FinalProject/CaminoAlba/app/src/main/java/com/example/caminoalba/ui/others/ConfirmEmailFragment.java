@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.caminoalba.R;
 import com.example.caminoalba.interfaces.IAPIservice;
@@ -60,11 +61,19 @@ public class ConfirmEmailFragment extends Fragment {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Toast.makeText(getActivity(), "Email verified successfully !!! ", Toast.LENGTH_SHORT).show();
+                // In the child fragment, get a reference to the FragmentManager
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                // Pop the back stack to go back to the parent fragment
+                fragmentManager.popBackStack();
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
                 Toast.makeText(getContext(), "Update unsuccessfully", Toast.LENGTH_SHORT).show();
+                // In the child fragment, get a reference to the FragmentManager
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                // Pop the back stack to go back to the parent fragment
+                fragmentManager.popBackStack();
             }
         });
     }
