@@ -1,5 +1,7 @@
 package com.user_manager_v1.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,13 +17,37 @@ public class Blog {
     private int points;
     @ManyToMany
     private List<Blog> followers;
-
     @ManyToMany(mappedBy = "followers")
     private List<Blog> following;
-
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Publication> publications;
     @OneToOne
     @PrimaryKeyJoinColumn
+    @JsonBackReference
     private Profile profile;
+
+    public Blog() {
+    }
+
+    public Blog(int blog_id, String description, boolean enableInfo, double kmlRunned, int points, List<Blog> followers, List<Blog> following, List<Publication> publications, Profile profile) {
+        this.blog_id = blog_id;
+        this.description = description;
+        this.enableInfo = enableInfo;
+        this.kmlRunned = kmlRunned;
+        this.points = points;
+        this.followers = followers;
+        this.following = following;
+        this.publications = publications;
+        this.profile = profile;
+    }
+
+    public List<Publication> getPublications() {
+        return publications;
+    }
+
+    public void setPublications(List<Publication> publications) {
+        this.publications = publications;
+    }
 
     public int getBlog_id() {
         return blog_id;

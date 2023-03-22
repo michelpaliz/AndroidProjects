@@ -2,6 +2,7 @@ package com.user_manager_v1.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.user_manager_v1.helpers.ProfileDateDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,6 +35,7 @@ public class Profile {
     private User user;
 
     @OneToOne(mappedBy = "profile")
+    @JsonManagedReference
     private Blog blog;
 
 
@@ -60,6 +62,13 @@ public class Profile {
 
     }
 
+    public Blog getBlog() {
+        return blog;
+    }
+
+    public void setBlog(Blog blog) {
+        this.blog = blog;
+    }
 
     public int getProfile_id() {
         return profile_id;

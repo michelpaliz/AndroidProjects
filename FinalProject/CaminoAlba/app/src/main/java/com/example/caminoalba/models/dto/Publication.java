@@ -1,51 +1,20 @@
-package com.user_manager_v1.models;
+package com.example.caminoalba.models.dto;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Table(name = "publications")
 public class Publication {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
     private String title;
     private String description;
     private LocalDate datePublished;
-    @ElementCollection
     private List<String> photos;
-    @ManyToOne
-    private Blog blog;
 
-    public Publication() {
-    }
-
-    public Publication(int id, String title, String description, LocalDate datePublished, List<String> photos, Blog blog) {
-        this.id = id;
+    public Publication(String title, String description, LocalDate datePublished, List<String> photos) {
         this.title = title;
         this.description = description;
         this.datePublished = datePublished;
         this.photos = photos;
-        this.blog = blog;
-    }
-
-
-    public Blog getBlog() {
-        return blog;
-    }
-
-    public void setBlog(Blog blog) {
-        this.blog = blog;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -64,6 +33,14 @@ public class Publication {
         this.description = description;
     }
 
+    public List<String> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
+    }
+
     public LocalDate getDatePublished() {
         return datePublished;
     }
@@ -72,11 +49,13 @@ public class Publication {
         this.datePublished = datePublished;
     }
 
-    public List<String> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(List<String> photos) {
-        this.photos = photos;
+    @Override
+    public String toString() {
+        return "Publication{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", datePublished=" + datePublished +
+                ", photos=" + photos +
+                '}';
     }
 }

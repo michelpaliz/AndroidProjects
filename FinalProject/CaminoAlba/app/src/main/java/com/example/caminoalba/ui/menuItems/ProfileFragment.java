@@ -57,7 +57,6 @@ import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
-
     private final int GALLERY_REQ_CODE = 1000;
 
     //  *----- Variables de vistas globales ------*

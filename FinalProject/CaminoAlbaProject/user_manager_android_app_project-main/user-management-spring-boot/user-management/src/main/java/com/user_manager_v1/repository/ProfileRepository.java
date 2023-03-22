@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProfileRepository extends JpaRepository<Profile,Long> {
+public interface ProfileRepository extends JpaRepository<Profile,Integer> {
 
     @Query(value = "SELECT person_id FROM person WHERE person_id = :email ", nativeQuery = true)
     List<String> checkUserEmail(@Param("email") String email);
