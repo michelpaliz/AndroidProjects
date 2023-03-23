@@ -1,5 +1,6 @@
 package com.example.caminoalba.interfaces;
 
+import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.models.dto.UserAndProfileBlogRequest;
@@ -28,6 +29,9 @@ public interface IAPIservice {
 
     @GET("/user/all")
     Call<List<User>> getUsers();
+
+    @GET("/blog/all")
+    Call<List<Blog>> getBlogs();
 
 //    @POST("user/register")
 //    Call<UserAndProfileRequest> createUserWithProfile(@Body UserAndProfileRequest userWithProfile);

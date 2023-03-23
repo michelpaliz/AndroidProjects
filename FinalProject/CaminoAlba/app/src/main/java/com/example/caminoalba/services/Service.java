@@ -3,6 +3,7 @@ package com.example.caminoalba.services;
 import androidx.annotation.NonNull;
 
 import com.example.caminoalba.interfaces.IAPIservice;
+import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.rest.RestClient;
@@ -19,6 +20,7 @@ public class Service {
 
     public List<User> users;
     public List<Profile> profiles;
+    private List<Blog> blogs;
     private APICallback apiCallback;
     private final IAPIservice iapIservice = RestClient.getInstance();
 
@@ -69,8 +71,28 @@ public class Service {
         });
     }
 
+    public void getBlogsFromRest(APICallback callback) {
+        Call<List<Blog>> blogCall = iapIservice.getBlogs();
+        blogCall.enqueue(new Callback<List<Blog>>() {
+            @Override
+            public void onResponse(Call<List<Blog>> call, Response<List<Blog>> response) {
+                if (response.isSuccessful()) {
+                    blogs = response.body();
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure("Failed to get blogs");
+                }
+            }
 
-    public void savePhotoLocalServer(APICallback apiCallback , MultipartBody.Part multipartBody) {
+            @Override
+            public void onFailure(Call<List<Blog>> call, Throwable t) {
+                callback.onFailure("Failed to get blogs");
+            }
+        });
+    }
+
+
+    public void savePhotoLocalServer(APICallback apiCallback, MultipartBody.Part multipartBody) {
 
         Call<ResponseBody> call = iapIservice.uploadImage(multipartBody);
         call.enqueue(new Callback<ResponseBody>() {
@@ -100,5 +122,8 @@ public class Service {
         return profiles;
     }
 
+    public List<Blog> getBlogs() {
+        return blogs;
+    }
 }
 

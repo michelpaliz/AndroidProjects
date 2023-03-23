@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Blog {
 
-    private int id;
+    private int blog_id;
     private String description;
     private boolean enableInfo;
     private double kmlRunned;
@@ -12,21 +12,23 @@ public class Blog {
     private List<Blog> followers;
     private List<Blog> following;
 
+    public Blog() {
+    }
 
-    public Blog(int id, String description, boolean enableInfo, double kmlRunned, int points) {
-        this.id = id;
+    public Blog(int blog_id, String description, boolean enableInfo, double kmlRunned, int points) {
+        this.blog_id = blog_id;
         this.description = description;
         this.enableInfo = enableInfo;
         this.kmlRunned = kmlRunned;
         this.points = points;
     }
 
-    public int getId() {
-        return id;
+    public int getBlog_id() {
+        return blog_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBlog_id(int blog_id) {
+        this.blog_id = blog_id;
     }
 
     public String getDescription() {
@@ -75,5 +77,18 @@ public class Blog {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "id=" + blog_id +
+                ", description='" + description + '\'' +
+                ", enableInfo=" + enableInfo +
+                ", kmlRunned=" + kmlRunned +
+                ", points=" + points +
+                ", followers=" + followers +
+                ", following=" + following +
+                '}';
     }
 }

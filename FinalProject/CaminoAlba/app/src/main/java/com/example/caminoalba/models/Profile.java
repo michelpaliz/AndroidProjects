@@ -85,12 +85,14 @@ public class Profile {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "firstName='" + firstName + '\'' +
+        return "Profile{" +
+                "profile_id=" + profile_id +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
+                ", birthDate='" + birthDate + '\'' +
                 ", gender='" + gender + '\'' +
                 ", photo='" + photo + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

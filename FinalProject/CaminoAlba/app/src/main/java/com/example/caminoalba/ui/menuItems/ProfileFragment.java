@@ -31,6 +31,7 @@ import androidx.preference.PreferenceManager;
 import com.example.caminoalba.R;
 import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.interfaces.IAPIservice;
+import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.rest.RestClient;
@@ -72,6 +73,7 @@ public class ProfileFragment extends Fragment {
     //  *----- Variables de funcionalidad globales ------*
     private Service service;
     private User user;
+    private Blog blog;
     private List<Profile> profileList;
     private List<User> userList;
     private String firstName, lastName, email, gender, photo;
@@ -179,7 +181,7 @@ public class ProfileFragment extends Fragment {
         if (profile.getBirthDate() == null) {
             edBirthdate.setHint("yyyy-MM-dd");
         } else {
-            edBirthdate.setText(profile.getBirthDate().toString());
+            edBirthdate.setText(profile.getBirthDate());
         }
     }
 

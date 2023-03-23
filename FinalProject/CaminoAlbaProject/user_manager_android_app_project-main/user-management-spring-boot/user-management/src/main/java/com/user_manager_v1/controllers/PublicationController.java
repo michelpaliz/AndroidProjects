@@ -2,27 +2,17 @@ package com.user_manager_v1.controllers;
 
 import com.user_manager_v1.models.Publication;
 import com.user_manager_v1.repository.PublicationRepository;
-import com.user_manager_v1.services.PublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/blogs")
+@RequestMapping("/publication")
 public class PublicationController {
-    @Autowired
-    private PublicationService publicationService;
 
     @Autowired
     private PublicationRepository publicationRepository;
 
-
-    @PostMapping("/add/{blogId}/publications")
-    public ResponseEntity<Publication> addPublication(@PathVariable Long blogId, @RequestBody Publication publication) {
-        publicationService.addPublication(blogId, publication);
-        return new ResponseEntity<>(publication, HttpStatus.CREATED);
-    }
 
     @PutMapping("/update")
     public ResponseEntity<Publication> updatePublication(@RequestBody Publication publication) {
