@@ -14,12 +14,13 @@ public class User implements Serializable {
     private String type;
     private String verificationCode;
     private Boolean enabled;
+    private AccountStatus accountStatus;
 
 
     public User() {
     }
 
-    public User(int user_id, String first_name, String last_name, String email, String password, String type, String verificationCode, Boolean enabled) {
+    public User(int user_id, String first_name, String last_name, String email, String password, String type, String verificationCode, Boolean enabled, AccountStatus accountStatus) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -28,6 +29,15 @@ public class User implements Serializable {
         this.type = type;
         this.verificationCode = verificationCode;
         this.enabled = enabled;
+        this.accountStatus = accountStatus;
+    }
+
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
     }
 
     public int getUser_id() {
@@ -37,7 +47,6 @@ public class User implements Serializable {
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
-
 
     public String getType() {
         return type;

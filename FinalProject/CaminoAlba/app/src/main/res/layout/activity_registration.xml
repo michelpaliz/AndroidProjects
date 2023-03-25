@@ -154,7 +154,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgProfile"
         android:layout_width="241dp"
         android:layout_height="178dp"
         android:layout_marginTop="24dp"
@@ -173,7 +173,7 @@
         android:indeterminateDrawable="@drawable/progress_bar"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/imgProfile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.268" />

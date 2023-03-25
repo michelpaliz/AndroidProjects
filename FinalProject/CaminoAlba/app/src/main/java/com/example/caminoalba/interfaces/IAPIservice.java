@@ -4,7 +4,6 @@ import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.models.dto.UserAndProfileBlogRequest;
-import com.example.caminoalba.models.dto.UserAndProfileRequest;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
-import retrofit2.http.Path;
 
 public interface IAPIservice {
 

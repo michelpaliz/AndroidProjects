@@ -3,31 +3,50 @@ package com.example.caminoalba;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.caminoalba.config.Config;
 import com.example.caminoalba.helpers.EmailHelper;
+import com.example.caminoalba.models.Profile;
+import com.example.caminoalba.models.User;
+import com.example.caminoalba.services.Service;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
+    // ------ Vistas   -------
     private Button btnSingIn, btnHome;
     private EditText edEmail, edPassword;
     private Intent intent;
+    private Service service;
+    private ProgressBar progressBar;
+    private List<User> userList;
+    private User user;
+    private Profile profile;
+    private String email;
+    private SharedPreferences prefs;
+    // ------ Otras referencias    -------
+    private Gson gson;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,82 +58,129 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void init() {
+
+        // ------ Inicializamos vistas   -------
         btnSingIn = findViewById(R.id.btnSingIn_login);
         btnHome = findViewById(R.id.btnHome);
         edEmail = findViewById(R.id.edEmail);
         edPassword = findViewById(R.id.edPassword);
-
+        progressBar = findViewById(R.id.progressBar);
+        // ------ Inicializamos variables  -------
+        // ------ Para obtener todos los datos del usuario  -------
+        service = new Service();
+        user = new User();
+        profile = new Profile();
+        userList = new ArrayList<>();
+        gson = new Gson();
     }
 
     public void authenticateUser() {
-
         btnSingIn.setOnClickListener(v -> {
 
             if (!validateEmail() || !validatePassword()) {
                 return;
             }
 
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                progressBar.setVisibility(View.VISIBLE);
 
-            //Set Parameters
-            HashMap<String, String> params = new HashMap<>();
-            params.put("email", edEmail.getText().toString());
-            params.put("password", edPassword.getText().toString());
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
 
+                //Set Parameters
+                HashMap<String, String> params = new HashMap<>();
+                params.put("email", edEmail.getText().toString());
+                params.put("password", edPassword.getText().toString());
 
-            //Set JSON request Object
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Config.LOGIN_API, new JSONObject(params), (Response.Listener<JSONObject>) response -> {
-                try {
-                    Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-
-                    //Get values from Response Object
-                    String first_name = (String) response.get("first_name");
-                    String last_name = (String) response.get("last_name");
-                    String email = (String) response.get("email");
-                    String password = (String) response.get("password");
-                    String type = (String) response.get("type");
-
-                    //Set Intent Actions;
-                    intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
-                    System.out.println("frirstname is " + first_name);
-                    System.out.println("lastname is " + last_name);
-                    intent.putExtra("first_name", first_name);
-                    intent.putExtra("last_name", last_name);
-                    intent.putExtra("email", email);
-                    intent.putExtra("password", password);
-                    intent.putExtra("type", type);
-                    Config.USER_SAVED = true;
-                    //Start Activity
-                    startActivity(intent);
-                    finish();
-                    //Pass Values to profile activity
-
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("usernamePref", first_name);
-                    editor.putString("lastNamePref", last_name);
-                    editor.putString("passwordPref", password);
-                    editor.putString("emailPref", email);
-//                editor.putString("typePref", type);
-                    editor.putString("ip", Config.CLIENT_API);
-                    editor.putString("port", Config.PORT_NUMBER);
-                    editor.apply();
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    System.out.println(e.getMessage());
-                }
-            }, error -> {
-                error.printStackTrace();
-                System.out.println(error.getMessage());
-                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
-            });//End of the set Request Object
-            requestQueue.add(jsonObjectRequest);
-
+                //Set JSON request Object
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Config.LOGIN_API, new JSONObject(params), response -> {
+                    try {
+                        Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
+                        //Get values from Response Object
+                        email = (String) response.get("email");
+                        getCurrentUser();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        System.out.println(e.getMessage());
+                    }
+                }, error -> {
+                    error.printStackTrace();
+                    System.out.println(error.getMessage());
+                    Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+                });//End of the set Request Object
+                requestQueue.add(jsonObjectRequest);
+            }, 2000); // set the delay time to 5000 milliseconds (5 seconds)
+            // Hide the progress bar after 5 seconds
+            handler.postDelayed(() -> {
+            }, 5000); // set the duration of the progress bar to 10000 milliseconds (10 seconds)
         });
+    }
 
 
+    //    ******** OBTENER TODOS LOS DATOS DEL USUARIO ***********
+    //    ******** MANIPULACION DE DATOS PARA EL USUARIO ***********
+
+    public void getCurrentUser() {
+        service.getUsersFromRest(new Service.APICallback() {
+
+            @Override
+            public void onSuccess() {
+                userList = service.getUsers();
+
+                User userSelected = new User();
+                for (int i = 0; i < userList.size(); i++) {
+                    if (userList.get(i).getEmail().equalsIgnoreCase(email)) {
+                        userSelected = userList.get(i);
+                        System.out.println("esto es user " + userSelected);
+                    }
+                }
+                user = userSelected;
+                //Pass Values to profile activity
+                prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                editor = prefs.edit();
+                String userStr = gson.toJson(userSelected);
+                editor.putString("user", userStr);
+                editor.putString("email", userSelected.getEmail());
+
+
+                service.getProfilesFromRest(new Service.APICallback() {
+                    @Override
+                    public void onSuccess() {
+                        List<Profile> profileList = service.getProfiles();
+                        // Manipulate the users data here
+                        Profile profileSelected = new Profile();
+                        System.out.println("Item one by one " + profileList);
+                        for (int i = 0; i < profileList.size(); i++) {
+                            if (profileList.get(i).getProfile_id() == user.getUser_id()) {
+                                profileSelected = profileList.get(i);
+                            }
+                        }
+                        profile = profileSelected;
+                        // Save profile data to SharedPreferences
+                        String profileStr = gson.toJson(profile);
+                        editor.putString("profile", profileStr);
+                        editor.apply();
+                        //Set Intent Actions;
+                        progressBar.setVisibility(View.GONE);
+                        intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+                        //Start Activity
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        System.out.println(error);
+                        // Handle error
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+
+            }
+        });
     }
 
 
@@ -166,5 +232,6 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         });
     }
+
 
 }

@@ -26,7 +26,6 @@ public class Service {
 
     public interface APICallback {
         void onSuccess();
-
         void onFailure(String error);
     }
 

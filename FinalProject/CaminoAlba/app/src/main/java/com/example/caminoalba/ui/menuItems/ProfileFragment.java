@@ -2,6 +2,7 @@ package com.example.caminoalba.ui.menuItems;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,9 +17,11 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +34,6 @@ import androidx.preference.PreferenceManager;
 import com.example.caminoalba.R;
 import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.interfaces.IAPIservice;
-import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.rest.RestClient;
@@ -40,7 +42,6 @@ import com.example.caminoalba.ui.others.ConfirmEmailFragment;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,6 +49,7 @@ import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -61,26 +63,24 @@ public class ProfileFragment extends Fragment {
     private final int GALLERY_REQ_CODE = 1000;
 
     //  *----- Variables de vistas globales ------*
-    private EditText edFirstName, edLastName, edBirthdate, edGender;
+    private EditText edFirstName, edLastName, edBirthdate;
+    private Spinner spinnerGender;
     private TextView tvEmailVerfication;
     private Profile profile;
     private ImageView imgProfile;
     private Button btnSave;
     private Context context;
     private IAPIservice iapiService;
-    private Gson gson;
 
     //  *----- Variables de funcionalidad globales ------*
     private Service service;
     private User user;
-    private Blog blog;
     private List<Profile> profileList;
-    private List<User> userList;
-    private String firstName, lastName, email, gender, photo;
+    private String firstName, lastName, gender, photo;
+    private Boolean genderSelected;
     private LocalDate birthday;
-    private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
-
+    private SharedPreferences prefs;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -102,46 +102,74 @@ public class ProfileFragment extends Fragment {
         edFirstName = view.findViewById(R.id.edFirstName);
         edLastName = view.findViewById(R.id.edLastName);
         edBirthdate = view.findViewById(R.id.edBirthDate);
-        edGender = view.findViewById(R.id.edGender);
         btnSave = view.findViewById(R.id.btnSaveInformation);
         imgProfile = view.findViewById(R.id.imgProfile);
         tvEmailVerfication = view.findViewById(R.id.tvEmailVerified);
+        spinnerGender = view.findViewById(R.id.spinnerGender);
 
         // ------ Inicializamos variables  -------
+        genderSelected = false;
         iapiService = RestClient.getInstance();
         service = new Service();
         profileList = new ArrayList<>();
-        userList = new ArrayList<>();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        gson = new Gson();
+        Gson gson = new Gson();
 
         // ------ Obtenemos el usuario actual mediante este metodo  -------
-        getUserList();
+        String userStr = prefs.getString("user", "");
+        user = gson.fromJson(userStr, User.class);
+
         // ------ Obtenemos el perfil actual mediante este metodo   -------
-        getProfileList();
+        String profileStr = prefs.getString("profile", "");
+        profile = gson.fromJson(profileStr, Profile.class);
 
-        // ------ Obtenemos la foto por medio del perfil ya obtenido    -------
-        uploadPhoto();
-
-        SharedPreferences profilePref = android.preference.PreferenceManager.getDefaultSharedPreferences(getContext());
-        editor = profilePref.edit();
-        photo = profilePref.getString("photo", "");
-        System.out.println("esto es photo " + photo);
-        // Load the photo into the ImageView using Picasso
-        if (!photo.isEmpty()) {
-            Picasso.get().load(photo).into(imgProfile);
+        //Cuando anyadimos una nueva foto cargamos el perfil actualizado
+        if (!profile.getPhoto().equalsIgnoreCase(photo) && profile.getPhoto() != null) {
+            getUpdatedProfile();
+        } else if (profile.getPhoto() != null) {
+            showProfileData(profile);
         }
-        // Load the photo into the ImageView using Glide
-//        Glide.with(context).load(photo).into(imgProfile);
+        //Podemos actualizar el perfil en cualquier momento
+        btnUpdateProfile();
+        //Necesitamos poner el updateProfile dentro esta funcion xq es asincrona
+        if (!profile.getGender().equalsIgnoreCase(gender)) {
+            btnValidateGender();
+        }
+        btnUploadPhoto();
+        showEmailVerificationStatus();
 
+    }
 
+//    ********* MOSTRAR DATOS DEL USUARIO ************
+
+    public void showProfileData(Profile profile) {
+
+        // Load the photo into the ImageView using Picasso
+        editor = prefs.edit();
+        photo = prefs.getString("photo", "");
+        if (profile.getPhoto() != null && !profile.getPhoto().isEmpty()) {
+            Picasso.get().load(profile.getPhoto()).into(imgProfile);
+        } else {
+            Picasso.get().load(R.drawable.default_image).into(imgProfile);
+            // Load the photo into the ImageView using Glide
+            //Glide.with(context).load(photo).into(imgProfile);
+        }
+
+        edFirstName.setText(profile.getFirstName());
+        edLastName.setText(profile.getLastName());
+
+        if (profile.getBirthDate() == null) {
+            edBirthdate.setHint("yyyy-MM-dd");
+        } else {
+            edBirthdate.setText(profile.getBirthDate());
+        }
     }
 
 
     public void showEmailVerificationStatus() {
 
         if (user.getEnabled()) {
-            tvEmailVerfication.setText("Email has been verified successfuly");
+            tvEmailVerfication.setText("Email has been verified successfully");
         } else {
             tvEmailVerfication.setText("Email hasn't been verifed, click here to verify it");
             tvEmailVerfication.setOnClickListener(v -> {
@@ -166,71 +194,9 @@ public class ProfileFragment extends Fragment {
     }
 
 
-//    ********* MOSTRAR DATOS DEL USUARIO ************
-
-    public void showProfileData(Profile profile) {
-        edFirstName.setText(profile.getFirstName());
-        edLastName.setText(profile.getLastName());
-
-        if (profile.getGender() == null) {
-            edGender.setHint("Introduce your gender");
-        } else {
-            edGender.setText(profile.getGender());
-        }
-
-        if (profile.getBirthDate() == null) {
-            edBirthdate.setHint("yyyy-MM-dd");
-        } else {
-            edBirthdate.setText(profile.getBirthDate());
-        }
-    }
-
-
-//    ******** MANIPULACION DE DATOS PARA EL USUARIO ***********
-
-    public void getUserList() {
-        if (user == null) {
-            user = new User();
-        }
-        service.getUsersFromRest(new Service.APICallback() {
-            @Override
-            public void onSuccess() {
-                // Data is available, do something with it
-                userList = service.getUsers();
-                // Manipulate the users data here
-                getUserByEmail(userList);
-
-            }
-
-            @Override
-            public void onFailure(String error) {
-                System.out.println(error);
-                // Handle error
-            }
-        });
-
-    }
-
-
-    public void getUserByEmail(List<User> userList) {
-        //Declaramos aqui la inicializacion de la preferencia del email para obtener el email correspondiente
-        email = (prefs.getString("emailPref", ""));
-        //Encontrar el usuario correspondiente via email
-        for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getEmail().equalsIgnoreCase(email)) {
-                user = userList.get(i);
-            }
-        }
-
-        String userStr = gson.toJson(user);
-        editor.putString("user", userStr);
-        showEmailVerificationStatus();
-    }
-
-
 //    ******* MANIPULACION DE DATOS PARA EL PERFIL ******
 
-    public void getProfileList() {
+    public void getUpdatedProfile() {
         service.getProfilesFromRest(new Service.APICallback() {
             @Override
             public void onSuccess() {
@@ -265,49 +231,30 @@ public class ProfileFragment extends Fragment {
         }
 
         // TENEMOS QUE TENER CARGADO EL PERFIL PARA EFECTUAR CAMBIOS
-
-        if (profile == null) {
-            throw new NullPointerException();
-        }
-
-        String profileStr = gson.toJson(profile);
-        editor.putString("profile", profileStr);
-
-        editor.putString("photo", profile.getPhoto());
-        editor.putString("gender", profile.getGender());
-        editor.putString("birthDate", profile.getBirthDate());
-        editor.commit();
-        editor.apply();
         showProfileData(profile);
-
-        updateProfile();
+        btnUpdateProfile();
     }
 
+    /**
+     * When the ImageView is clicked, an implicit intent Intent.ACTION_PICK is created to select an image from the user's gallery.
+     * The android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI specifies the URI for the external storage of images,
+     * allowing the user to select an image from their device's gallery.
+     */
 
-    public void uploadPhoto() {
-        if (photo == null) {
-            imgProfile.setVisibility(View.GONE);
-            imgProfile.setOnClickListener(v -> {
-                Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
-                imgProfile.setVisibility(View.VISIBLE);
-                System.out.println("Check if it is null" + imgProfile.getDrawable());
-                if ((imgProfile.getDrawable() != null)) {
-                    createPhotoRestPoint();
-                }
-            });
-        }
-
-        imgProfile.setOnClickListener(v1 -> {
+    public void btnUploadPhoto() {
+        imgProfile.setOnClickListener(v -> {
             Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
-
+            createPhotoRestPoint();
         });
-
 
     }
 
-
+    /**
+     * The createPhotoRestPoint() method is used to create a REST endpoint for uploading the user's profile photo.
+     * The method first converts the ImageView's drawable to a bitmap and then saves it as a file in the app's cache directory.
+     * It then creates a RequestBody object with the image file and creates a MultipartBody.Part object to upload the file to the server using a Retrofit service.
+     */
     public void createPhotoRestPoint() {
 //        To upload an image from an ImageView in your app, you'll need to convert the image to a File object first
         Drawable drawable = imgProfile.getDrawable();
@@ -323,7 +270,6 @@ public class ProfileFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
         service.savePhotoLocalServer(new Service.APICallback() {
@@ -347,14 +293,22 @@ public class ProfileFragment extends Fragment {
         if (resultCode == RESULT_OK && requestCode == GALLERY_REQ_CODE && data != null) {
             // Get the selected image URI
             Uri uri = data.getData();
-
             // Display the image in your app
             imgProfile.setImageURI(uri);
             photo = getImageUri();
+            if (photo != null) {
+                editor.putString("photo", profile.getPhoto());
+            }
         }
     }
 
-
+    /**
+     * The getImageUri() method is used to convert a Bitmap image to a Uri that can be used to store or share the image.
+     * The method first checks the type of the Drawable in the imgProfile ImageView, whether it is a BitmapDrawable or a VectorDrawable.
+     * If it is a BitmapDrawable, the Bitmap is retrieved from the Drawable and passed to the getImageUri(Bitmap) method.
+     * If it is a VectorDrawable, a new Bitmap is created with the same dimensions as the VectorDrawable, and the VectorDrawable is drawn onto the Canvas of the Bitmap.
+     * The resulting Bitmap is then passed to the getImageUri(Bitmap) method.
+     */
     public String getImageUri() {
         Uri imageUri = null;
         Drawable drawable = imgProfile.getDrawable();
@@ -370,35 +324,60 @@ public class ProfileFragment extends Fragment {
             vectorDrawable.draw(canvas);
             imageUri = getImageUri(bitmap);
         }
-        assert imageUri != null;
-        return imageUri.toString();
+        return imageUri != null ? imageUri.toString() : null;
     }
 
-    private Uri getImageUri(Bitmap bitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(requireContext().getContentResolver(), bitmap, "Title", null);
-        return Uri.parse(path);
+    /**
+     * @param bitmap
+     * @return This method creates a new ContentValues object and sets the display name and MIME type for the image.
+     * It then uses the getContentResolver method to insert the image into the MediaStore database and get its Uri.
+     * Finally, it opens an output stream to the Uri and writes the Bitmap to it.
+     */
+
+    public Uri getImageUri(Bitmap bitmap) {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, "profile.jpg");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+
+        Uri uri = requireContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        OutputStream outputStream;
+        try {
+            outputStream = requireContext().getContentResolver().openOutputStream(uri);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            Objects.requireNonNull(outputStream).close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return uri;
     }
+
+
+//    private Uri getImageUri(Bitmap bitmap) {
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//        String path = MediaStore.Images.Media.insertImage(requireContext().getContentResolver(), bitmap, "Title", null);
+//        return Uri.parse(path);
+//    }
 
 
     //********** ACTUALIZAR LOS DATOS DEL PERFIL ************
 
-    public void updateProfile() {
+    public void btnUpdateProfile() {
         btnSave.setOnClickListener(v -> {
-            if (!validateFirstName() || !validateLastName() || !validateDate() || !validateGender()) {
+            if (!validateFirstName() || !validateLastName() || !validateDate() || !btnValidateGender()) {
                 return;
             }
 
             profile.setFirstName(firstName);
             profile.setLastName(lastName);
-            System.out.println("This is birthday " + birthday);
-//            profile.setBirthDate(edBirthdate.getText().toString());
             profile.setBirthDate(birthday.toString());
-            profile.setGender(gender);
-            profile.setPhoto(photo);
+            if (!photo.isEmpty()) {
+                profile.setPhoto(photo);
+            }
             profile.setUser(user);
-
 
             Call<Boolean> call = iapiService.updateProfile(profile);
             call.enqueue(new Callback<Boolean>() {
@@ -443,16 +422,25 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public boolean validateGender() {
-        String genderStr = edGender.getText().toString();
-        if (genderStr.isEmpty()) {
-            edGender.setError("Cannot be empty");
-            return false;
-        } else {
-            edGender.setError(null);
-            gender = edGender.getText().toString();
-            return true;
-        }
+    public boolean btnValidateGender() {
+        spinnerGender.setPrompt("Select gender");
+        spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                // Do something with the selected gender, such as save it to a variable or display it in a TextView
+                gender = (String) adapterView.getItemAtPosition(position);
+                genderSelected = true;
+                btnUpdateProfile();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                genderSelected = false;
+            }
+        });
+
+
+        return genderSelected;
     }
 
     public boolean validateDate() {
@@ -475,3 +463,4 @@ public class ProfileFragment extends Fragment {
 
 
 }
+

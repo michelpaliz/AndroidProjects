@@ -9,6 +9,9 @@ public class UserAndProfileBlogRequest {
     private Profile profile;
     private Blog blog;
 
+    public UserAndProfileBlogRequest() {
+    }
+
     public UserAndProfileBlogRequest(User user, Profile profile, Blog blog) {
         this.user = user;
         this.profile = profile;
@@ -37,5 +40,14 @@ public class UserAndProfileBlogRequest {
 
     public void setBlog(Blog blog) {
         this.blog = blog;
+    }
+
+    @Override
+    public String toString() {
+        return "UserAndProfileBlogRequest{" +
+                "user=" + user +
+                ", profile=" + profile +
+                ", blog=" + blog +
+                '}';
     }
 }

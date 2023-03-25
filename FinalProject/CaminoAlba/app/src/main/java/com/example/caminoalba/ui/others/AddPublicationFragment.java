@@ -55,6 +55,10 @@ public class AddPublicationFragment extends Fragment {
     private List<Uri> uriList;
     private SharedPreferences preferences;
 
+    public interface OnAddPhotoClickListener {
+        void onAddPhotoClick();
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,12 +85,15 @@ public class AddPublicationFragment extends Fragment {
         // ------ Inicializamos variables  -------
         uriList = new ArrayList<>();
         service = new Service();
-
         recyclerView = view.findViewById(R.id.rvPhotoGrid);
 //        recyclerView = new RecyclerView(requireContext());
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         getBlog();
         // ------  RecyclerView   -------
+        adapter = new RecyclerAdapter(uriList, requireContext());
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         addPhotos();
 
     }
@@ -166,8 +173,6 @@ public class AddPublicationFragment extends Fragment {
         }
         System.out.println("Selected URIs: " + uriList);
         System.out.println("Number of URIs: " + uriList.size());
-        adapter = new RecyclerAdapter(uriList);
-        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

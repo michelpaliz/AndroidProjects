@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -72,34 +73,14 @@ public class UserService {
     }
 
 
-//    public UserAndProfileRequest createUserWithProfile(@RequestBody UserAndProfileRequest request) {
-//
-//        User user = request.getUser();
-//        Profile profile = request.getProfile();
-//
-//        String hashed_password = BCrypt.hashpw(request.getUser().getPassword(), BCrypt.gensalt());
-//        user.setPassword(hashed_password);
-//
-//        // Associate the user and profile objects using the @OneToOne attribute
-//        user.setPerson(profile);
-//        if (user.getVerificationCode() == null) {
-//            user.setVerificationCode(generateVerificationCode());
-//        }
-//
-//        profile.setUser(user);
-//
-//        // Insert the user and profile data into the respective tables
-//        User savedUser = userRepository.save(user);
-//        Profile profileSaved = profileRepository.save(profile);
-//
-//        //send verification email
-//        sendEmail(user);
-//
-//        // Return a successful response
-//        return new UserAndProfileRequest(savedUser, profileSaved);
-//    }
-//
-
+    public User getUserById(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(Math.toIntExact(userId));
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        } else {
+            throw new RuntimeException("User not found with id " + userId);
+        }
+    }
 
     public UserAndProfileBlogRequest createUserWithProfileAndBlog(@RequestBody UserAndProfileBlogRequest request) {
 

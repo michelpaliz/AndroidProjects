@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -27,12 +28,7 @@ public class User {
     private boolean enabled;
 
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @MapsId
-//    @JoinColumn(name = "person_id")
-//    private Person person;
-
-//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private AccountStatus accountStatus;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -40,7 +36,7 @@ public class User {
     private Profile profile;
 
 
-    public User(int user_id, String first_name, String last_name, String email, String password, String type, String verificationCode, boolean enabled, Profile profile) {
+    public User(int user_id, String first_name, String last_name, String email, String password, String type, String verificationCode, boolean enabled, AccountStatus accountStatus, Profile profile) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -49,11 +45,28 @@ public class User {
         this.type = type;
         this.verificationCode = verificationCode;
         this.enabled = enabled;
+        this.accountStatus = accountStatus;
         this.profile = profile;
     }
 
     public User() {
 
+    }
+
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public int getUser_id() {
