@@ -15,8 +15,17 @@ import java.io.IOException;
 public class ImageController {
 
     @PostMapping("/upload-image")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
+            // Define the maximum file size in bytes (e.g. 10 MB)
+            long maxFileSize = 20 * 1024 * 1024;
+
+            // Check if the file size exceeds the maximum
+            if (file.getSize() > maxFileSize) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("The file size exceeds the maximum allowed size of " + maxFileSize + " bytes.");
+            }
+
             // Save the uploaded file to disk
             String fileName = file.getOriginalFilename();
             String fileExtension = FilenameUtils.getExtension(fileName);

@@ -46,9 +46,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import okhttp3.MediaType;
@@ -123,20 +126,27 @@ public class ProfileFragment extends Fragment {
         String profileStr = prefs.getString("profile", "");
         profile = gson.fromJson(profileStr, Profile.class);
 
+        photo = prefs.getString("photo", "");
+
         //Cuando anyadimos una nueva foto cargamos el perfil actualizado
-        if (!profile.getPhoto().equalsIgnoreCase(photo) && profile.getPhoto() != null) {
-            getUpdatedProfile();
-        } else if (profile.getPhoto() != null) {
-            showProfileData(profile);
+        if (profile.getPhoto() != null) {
+            if (!profile.getPhoto().equalsIgnoreCase(photo)) {
+                getUpdatedProfile();
+            }
         }
-        //Podemos actualizar el perfil en cualquier momento
-        btnUpdateProfile();
-        //Necesitamos poner el updateProfile dentro esta funcion xq es asincrona
-        if (!profile.getGender().equalsIgnoreCase(gender)) {
+
+        //Si cumple con las condiciones podemos actualizar el genero con el perfil
+        if (!Objects.equals(profile.getGender(), gender) || profile.getGender() == null) {
             btnValidateGender();
         }
-        btnUploadPhoto();
+
+
+        showProfileData(profile);
         showEmailVerificationStatus();
+        //Podemos actualizar el perfil en cualquier momento
+        btnUpdatePhoto();
+        btnUpdateProfile();
+
 
     }
 
@@ -163,6 +173,7 @@ public class ProfileFragment extends Fragment {
         } else {
             edBirthdate.setText(profile.getBirthDate());
         }
+
     }
 
 
@@ -232,7 +243,7 @@ public class ProfileFragment extends Fragment {
 
         // TENEMOS QUE TENER CARGADO EL PERFIL PARA EFECTUAR CAMBIOS
         showProfileData(profile);
-        btnUpdateProfile();
+//        btnUpdateProfile();
     }
 
     /**
@@ -241,13 +252,16 @@ public class ProfileFragment extends Fragment {
      * allowing the user to select an image from their device's gallery.
      */
 
-    public void btnUploadPhoto() {
+    public void btnUpdatePhoto() {
+        // Moved createPhotoRestPoint method call to a different location
+
         imgProfile.setOnClickListener(v -> {
             Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
-            createPhotoRestPoint();
+            if (photo != null){
+                createPhotoRestPoint();
+            }
         });
-
     }
 
     /**
@@ -256,22 +270,28 @@ public class ProfileFragment extends Fragment {
      * It then creates a RequestBody object with the image file and creates a MultipartBody.Part object to upload the file to the server using a Retrofit service.
      */
     public void createPhotoRestPoint() {
-//        To upload an image from an ImageView in your app, you'll need to convert the image to a File object first
+        // Get the image from the ImageView
         Drawable drawable = imgProfile.getDrawable();
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-//        int cont = 0;
-//        cont++;
-        File file = new File(requireContext().getCacheDir(), "image.png");
+
+        // Create a temporary file to store the image
+        File file = null;
         try {
+            file = File.createTempFile("image", ".jpg", requireContext().getCacheDir());
             OutputStream outputStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             outputStream.flush();
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Create the request body and file part
+        assert file != null;
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+
+        // Call the API to upload the file
         service.savePhotoLocalServer(new Service.APICallback() {
             @Override
             public void onSuccess() {
@@ -285,11 +305,9 @@ public class ProfileFragment extends Fragment {
         }, filePart);
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK && requestCode == GALLERY_REQ_CODE && data != null) {
             // Get the selected image URI
             Uri uri = data.getData();
@@ -326,17 +344,19 @@ public class ProfileFragment extends Fragment {
         }
         return imageUri != null ? imageUri.toString() : null;
     }
-
     /**
      * @param bitmap
      * @return This method creates a new ContentValues object and sets the display name and MIME type for the image.
      * It then uses the getContentResolver method to insert the image into the MediaStore database and get its Uri.
      * Finally, it opens an output stream to the Uri and writes the Bitmap to it.
+     * We ensure that the file is being saved has a unique name using timestamp or a unique identifier to the file name to make it unique.
      */
 
     public Uri getImageUri(Bitmap bitmap) {
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String fileName = "profile_" + timestamp + ".jpg";
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.DISPLAY_NAME, "profile.jpg");
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
 
         Uri uri = requireContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -353,15 +373,6 @@ public class ProfileFragment extends Fragment {
 
         return uri;
     }
-
-
-//    private Uri getImageUri(Bitmap bitmap) {
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-//        String path = MediaStore.Images.Media.insertImage(requireContext().getContentResolver(), bitmap, "Title", null);
-//        return Uri.parse(path);
-//    }
-
 
     //********** ACTUALIZAR LOS DATOS DEL PERFIL ************
 
@@ -429,6 +440,9 @@ public class ProfileFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 // Do something with the selected gender, such as save it to a variable or display it in a TextView
                 gender = (String) adapterView.getItemAtPosition(position);
+                if (gender != null && !gender.isEmpty() && !gender.equalsIgnoreCase(profile.getGender())) {
+                    profile.setGender(gender);
+                }
                 genderSelected = true;
                 btnUpdateProfile();
             }

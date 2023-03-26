@@ -35,10 +35,6 @@ public class UserApiController {
         return "Test end point is working";
     }
 
-    //    @PostMapping("/register")
-//    public UserAndProfileRequest createUserWithProfile(@RequestBody UserAndProfileRequest userWithProfile) {
-//        return userService.createUserWithProfile(userWithProfile);
-//    }
 
     @PostMapping("/register")
     public UserAndProfileBlogRequest createUserWithProfileAndBlog(@RequestBody UserAndProfileBlogRequest userAndProfileBlogRequest) {
