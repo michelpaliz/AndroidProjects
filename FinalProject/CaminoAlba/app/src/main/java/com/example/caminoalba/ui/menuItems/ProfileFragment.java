@@ -300,7 +300,11 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(String error) {
-                Toast.makeText(getContext(), "Photo sent unsuccessfully", Toast.LENGTH_SHORT).show();
+                if (error.contains("maximum allowed size")) {
+                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Photo sent unsuccessfully", Toast.LENGTH_SHORT).show();
+                }
             }
         }, filePart);
     }
@@ -381,7 +385,6 @@ public class ProfileFragment extends Fragment {
             if (!validateFirstName() || !validateLastName() || !validateDate() || !btnValidateGender()) {
                 return;
             }
-
             profile.setFirstName(firstName);
             profile.setLastName(lastName);
             profile.setBirthDate(birthday.toString());

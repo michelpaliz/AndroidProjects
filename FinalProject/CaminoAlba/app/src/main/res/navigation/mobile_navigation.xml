@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/blogFragment"
-        android:name="com.example.caminoalba.ui.menuItems.BlogFragment"
+        android:name="com.example.caminoalba.ui.menuItems.publication.BlogFragment"
         android:label="fragment_blog"
         tools:layout="@layout/fragment_blog" />
     <fragment

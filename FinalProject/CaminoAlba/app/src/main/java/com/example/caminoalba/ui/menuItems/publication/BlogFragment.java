@@ -1,4 +1,4 @@
-package com.example.caminoalba.ui.menuItems;
+package com.example.caminoalba.ui.menuItems.publication;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,13 +19,11 @@ import androidx.preference.PreferenceManager;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
-import com.example.caminoalba.ui.others.AddPublicationFragment;
-import com.example.caminoalba.ui.others.ConfirmEmailFragment;
 import com.google.gson.Gson;
 
 public class BlogFragment extends Fragment {
 
-    private EditText etSearchBar;
+    private EditText etSearchBar;;
     private FrameLayout frameLayout;
     private SharedPreferences preferences;
     private User user;

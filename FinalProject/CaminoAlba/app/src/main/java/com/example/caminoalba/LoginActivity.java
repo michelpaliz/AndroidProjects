@@ -3,7 +3,6 @@ package com.example.caminoalba;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -76,46 +76,47 @@ public class LoginActivity extends AppCompatActivity {
 
     public void authenticateUser() {
         btnSingIn.setOnClickListener(v -> {
-
             if (!validateEmail() || !validatePassword()) {
                 return;
             }
 
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
 
-                RequestQueue requestQueue = Volley.newRequestQueue(this);
+            email = edEmail.getText().toString();
+            String password = edPassword.getText().toString();
 
-                //Set Parameters
-                HashMap<String, String> params = new HashMap<>();
-                params.put("email", edEmail.getText().toString());
-                params.put("password", edPassword.getText().toString());
+            // Set Parameters
+            Map<String, String> params = new HashMap<>();
+            params.put("email", email);
+            params.put("password", password);
 
-                //Set JSON request Object
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Config.LOGIN_API, new JSONObject(params), response -> {
-                    try {
-                        Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-                        //Get values from Response Object
-                        email = (String) response.get("email");
-                        getCurrentUser();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        System.out.println(e.getMessage());
-                    }
-                }, error -> {
-                    error.printStackTrace();
-                    System.out.println(error.getMessage());
-                    Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
-                });//End of the set Request Object
-                requestQueue.add(jsonObjectRequest);
-            }, 2000); // set the delay time to 5000 milliseconds (5 seconds)
-            // Hide the progress bar after 5 seconds
-            handler.postDelayed(() -> {
-            }, 5000); // set the duration of the progress bar to 10000 milliseconds (10 seconds)
+            // Set JSON request Object
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Config.LOGIN_API, new JSONObject(params), response -> {
+                try {
+                    Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
+
+                    // Get values from Response Object
+                    email = (String) response.get("email");
+                    getCurrentUser();
+                    Config.USER_SAVED = true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+                } finally {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }, error -> {
+                error.printStackTrace();
+                System.out.println(error.getMessage());
+                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            });
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(jsonObjectRequest);
         });
-    }
 
+    }
 
     //    ******** OBTENER TODOS LOS DATOS DEL USUARIO ***********
     //    ******** MANIPULACION DE DATOS PARA EL USUARIO ***********

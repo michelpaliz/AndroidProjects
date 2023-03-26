@@ -1,4 +1,4 @@
-package com.example.caminoalba.ui.menuItems.recyclers;
+package com.example.caminoalba.ui.menuItems.publication.recyclers;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -16,12 +16,12 @@ import com.example.caminoalba.R;
 
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class RecyclerAdapterPhotos extends RecyclerView.Adapter<RecyclerAdapterPhotos.ViewHolder> {
 
     private final List<Uri> uriList;
     private final Drawable defaultImage;
 
-    public RecyclerAdapter(List<Uri> uriList, Context context) {
+    public RecyclerAdapterPhotos(List<Uri> uriList, Context context) {
         this.uriList = uriList;
         this.defaultImage = context.getResources().getDrawable(R.drawable.default_image);
     }
@@ -29,14 +29,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @NonNull
     @Override
-    public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerAdapterPhotos.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_photo, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerAdapterPhotos.ViewHolder holder, int position) {
 //        holder.imageView.setImageURI(uriList.get(position));
         if (uriList.size() == 0) {
             holder.imageView.setImageDrawable(defaultImage);

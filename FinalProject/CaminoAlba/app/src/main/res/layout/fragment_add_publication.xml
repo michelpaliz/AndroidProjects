@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/my_dark_blue"
-        tools:context=".ui.others.AddPublicationFragment">
+        tools:context=".ui.menuItems.publication.AddPublicationFragment">
 
         <RelativeLayout
             android:id="@+id/main_body"
@@ -50,11 +50,12 @@
                     android:id="@+id/tvTimeDisplayed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="150dp"
+                    android:layout_marginStart="100dp"
                     android:text="Time"
                     android:textColor="@color/my_light_blue"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
 
             </LinearLayout>
@@ -88,8 +89,8 @@
             <!-- Photo field -->
             <LinearLayout
                 android:id="@+id/photoField"
-                android:layout_width="match_parent"
-                android:layout_height="490dp"
+                android:layout_width="wrap_content"
+                android:layout_height="501dp"
                 android:layout_below="@id/etDescriptionField"
                 android:orientation="vertical"
                 android:padding="16dp">
@@ -104,21 +105,42 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvPhotoGrid"
                     android:layout_width="340dp"
-                    android:layout_height="349dp"
+                    android:layout_height="377dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:orientation="horizontal"
                     android:paddingTop="16dp"
                     android:scrollbars="horizontal" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/addPhotoButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:background="@drawable/main_btn_styling"
-                    android:gravity="center"
-                    android:text="Add photo" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/addPhotoButton"
+                        android:padding="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="15dp"
+                        android:background="@drawable/main_btn_styling"
+                        android:gravity="center"
+                        android:text="Add photo" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/secondButton"
+                        android:layout_width="125dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="85dp"
+                        android:layout_toEndOf="@id/addPhotoButton"
+                        android:background="@drawable/main_btn_styling"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Add Publication"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
 
             </LinearLayout>

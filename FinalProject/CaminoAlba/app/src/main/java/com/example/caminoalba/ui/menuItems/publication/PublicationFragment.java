@@ -1,4 +1,4 @@
-package com.example.caminoalba.ui.menuItems;
+package com.example.caminoalba.ui.menuItems.publication;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.example.caminoalba.R;
 
 public class PublicationFragment extends Fragment {
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

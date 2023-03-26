@@ -1,4 +1,4 @@
-package com.example.caminoalba.ui.others;
+package com.example.caminoalba.ui.menuItems.publication;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -27,9 +27,11 @@ import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.dto.Publication;
 import com.example.caminoalba.services.Service;
-import com.example.caminoalba.ui.menuItems.recyclers.RecyclerAdapter;
+import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterPhotos;
 import com.google.gson.Gson;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,27 +40,24 @@ public class AddPublicationFragment extends Fragment {
     private static final int MAX_PHOTOS = 5; // maximum number of photos allowed
 
     // ------ Vistas   -------
-    private TextView tvName, tvTime;
+    private TextView tvName, tvTimeDisplayed;
     private EditText etTitle, etDescription;
     private ImageView imageView;
     private Button btnImage;
+    private LocalDateTime currentTime;
+
     // ------ Para obtener el blog y publicacion  -------
     private List<Blog> blogs;
     private Profile profile;
     private Blog blog;
     private List<Publication> publicationList;
     // ------ Para obtener el recyclerview    -------
-    private RecyclerAdapter adapter;
+    private RecyclerAdapterPhotos adapter;
     private RecyclerView recyclerView;
     // ------ Otras referencias    -------
     private Service service;
     private List<Uri> uriList;
     private SharedPreferences preferences;
-
-    public interface OnAddPhotoClickListener {
-        void onAddPhotoClick();
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,19 +77,19 @@ public class AddPublicationFragment extends Fragment {
         // ------ Inicializamos vistas   -------
         tvName = view.findViewById(R.id.authorName);
         etTitle = view.findViewById(R.id.etTitleField);
-        tvTime = view.findViewById(R.id.tvTimeDisplayed);
         etDescription = view.findViewById(R.id.etDescriptionField);
         btnImage = view.findViewById(R.id.addPhotoButton);
         imageView = view.findViewById(R.id.authorPhoto);
+        tvTimeDisplayed = view.findViewById(R.id.tvTimeDisplayed);
         // ------ Inicializamos variables  -------
         uriList = new ArrayList<>();
         service = new Service();
+        currentTime = LocalDateTime.now();
         recyclerView = view.findViewById(R.id.rvPhotoGrid);
-//        recyclerView = new RecyclerView(requireContext());
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         getBlog();
         // ------  RecyclerView   -------
-        adapter = new RecyclerAdapter(uriList, requireContext());
+        adapter = new RecyclerAdapterPhotos(uriList, requireContext());
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -100,6 +99,9 @@ public class AddPublicationFragment extends Fragment {
 
     public void showAuthorInfo() {
         tvName.setText(profile.getFirstName());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = currentTime.format(formatter);
+        tvTimeDisplayed.setText(formattedDateTime);
         if (profile.getPhoto() != null) {
             imageView.setImageURI(Uri.parse(profile.getPhoto()));
         }
@@ -110,7 +112,6 @@ public class AddPublicationFragment extends Fragment {
         Gson gson = new Gson();
         String profileStr = preferences.getString("profile", "");
         profile = gson.fromJson(profileStr, Profile.class);
-        System.out.println("esto es profile desde add " + profile);
         showAuthorInfo();
         blogs = new ArrayList<>();
         blog = new Blog();
