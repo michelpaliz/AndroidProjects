@@ -6,6 +6,7 @@ import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
+import com.example.caminoalba.models.dto.Publication;
 import com.example.caminoalba.rest.RestClient;
 
 import java.util.List;
@@ -21,13 +22,13 @@ public class Service {
     public List<User> users;
     public List<Profile> profiles;
     private List<Blog> blogs;
-    private APICallback apiCallback;
     private final IAPIservice iapIservice = RestClient.getInstance();
 
     public interface APICallback {
         void onSuccess();
         void onFailure(String error);
     }
+
 
     public void getUsersFromRest(APICallback callback) {
         Call<List<User>> usersCall = iapIservice.getUsers();
@@ -109,6 +110,33 @@ public class Service {
                 System.out.println("Photo sent unsuccessfully ");
                 apiCallback.onFailure(t.getMessage());
             }
+        });
+    }
+
+
+    public void addPublication(APICallback apiCallback, Publication publication) {
+        Call<Publication> call = iapIservice.addPublication(publication);
+        call.enqueue(new Callback<Publication>() {
+            @Override
+            public void onResponse(Call<Publication> call, Response<Publication> response) {
+                if (response.isSuccessful()) {
+                    Publication savedPublication = response.body();
+                    // Call the onSuccess() method of the APICallback interface
+                    apiCallback.onSuccess();
+                } else {
+                    String errorMessage = "Error: " + response.code() + " " + response.message();
+                    // Call the onFailure() method of the APICallback interface with the error message
+                    apiCallback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Publication> call, Throwable t) {
+                // Call the onFailure() method of the APICallback interface with the network error message
+                apiCallback.onFailure("Network error: " + t.getMessage());
+            }
+
+
         });
     }
 

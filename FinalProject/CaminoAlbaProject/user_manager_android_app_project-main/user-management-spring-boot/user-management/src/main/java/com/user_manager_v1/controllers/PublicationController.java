@@ -28,4 +28,10 @@ public class PublicationController {
         return ResponseEntity.ok(updatedPublication);
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<Publication> addPublication(@RequestBody Publication publication) {
+        Publication savedPublication = publicationRepository.save(publication);
+        return ResponseEntity.ok(savedPublication);
+    }
+
 }

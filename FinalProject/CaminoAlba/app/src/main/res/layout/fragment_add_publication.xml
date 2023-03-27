@@ -129,7 +129,7 @@
                         android:text="Add photo" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/secondButton"
+                        android:id="@+id/btnAddPublication"
                         android:layout_width="125dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="85dp"

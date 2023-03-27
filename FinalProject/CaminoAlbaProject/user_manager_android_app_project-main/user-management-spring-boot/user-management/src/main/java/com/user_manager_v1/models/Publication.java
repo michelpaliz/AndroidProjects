@@ -1,7 +1,10 @@
 package com.user_manager_v1.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -13,7 +16,8 @@ public class Publication {
     private int id;
     private String title;
     private String description;
-    private LocalDate datePublished;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime datePublished;
     @ElementCollection
     private List<String> photos;
     @ManyToOne
@@ -22,7 +26,7 @@ public class Publication {
     public Publication() {
     }
 
-    public Publication(int id, String title, String description, LocalDate datePublished, List<String> photos, Blog blog) {
+    public Publication(int id, String title, String description, LocalDateTime datePublished, List<String> photos, Blog blog) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -64,11 +68,11 @@ public class Publication {
         this.description = description;
     }
 
-    public LocalDate getDatePublished() {
+    public LocalDateTime getDatePublished() {
         return datePublished;
     }
 
-    public void setDatePublished(LocalDate datePublished) {
+    public void setDatePublished(LocalDateTime datePublished) {
         this.datePublished = datePublished;
     }
 

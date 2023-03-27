@@ -74,16 +74,17 @@ public class ProfileFragment extends Fragment {
     private Button btnSave;
     private Context context;
     private IAPIservice iapiService;
+    private SharedPreferences prefs;
+    // ------ Otras referencias    -------
+    private Gson gson;
+    private SharedPreferences.Editor editor;
 
     //  *----- Variables de funcionalidad globales ------*
     private Service service;
     private User user;
     private List<Profile> profileList;
-    private String firstName, lastName, gender, photo;
-    private Boolean genderSelected;
-    private LocalDate birthday;
-    private SharedPreferences.Editor editor;
-    private SharedPreferences prefs;
+    private String gender;
+    private boolean profileUpdated = false;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -111,42 +112,36 @@ public class ProfileFragment extends Fragment {
         spinnerGender = view.findViewById(R.id.spinnerGender);
 
         // ------ Inicializamos variables  -------
-        genderSelected = false;
         iapiService = RestClient.getInstance();
         service = new Service();
         profileList = new ArrayList<>();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Gson gson = new Gson();
+        gson = new Gson();
 
         // ------ Obtenemos el usuario actual mediante este metodo  -------
         String userStr = prefs.getString("user", "");
         user = gson.fromJson(userStr, User.class);
 
         // ------ Obtenemos el perfil actual mediante este metodo   -------
-        String profileStr = prefs.getString("profile", "");
-        profile = gson.fromJson(profileStr, Profile.class);
-
-        photo = prefs.getString("photo", "");
-
-        //Cuando anyadimos una nueva foto cargamos el perfil actualizado
-        if (profile.getPhoto() != null) {
-            if (!profile.getPhoto().equalsIgnoreCase(photo)) {
-                getUpdatedProfile();
-            }
+        if (!profileUpdated) {
+            String profileStr = prefs.getString("profile", "");
+            profile = gson.fromJson(profileStr, Profile.class);
+            profileUpdated = true;
         }
 
-        //Si cumple con las condiciones podemos actualizar el genero con el perfil
-        if (!Objects.equals(profile.getGender(), gender) || profile.getGender() == null) {
-            btnValidateGender();
-        }
+//        String profileStr = prefs.getString("profile", "");
+//        Profile profile1 = gson.fromJson(profileStr, Profile.class);
+//        if (profile1 != null) {
+//            profile = profile1;
+//        }
 
 
+        //Podemos actualizar el perfil en cualquier momento
+        getUpdatedProfile();
         showProfileData(profile);
         showEmailVerificationStatus();
-        //Podemos actualizar el perfil en cualquier momento
         btnUpdatePhoto();
         btnUpdateProfile();
-
 
     }
 
@@ -156,7 +151,6 @@ public class ProfileFragment extends Fragment {
 
         // Load the photo into the ImageView using Picasso
         editor = prefs.edit();
-        photo = prefs.getString("photo", "");
         if (profile.getPhoto() != null && !profile.getPhoto().isEmpty()) {
             Picasso.get().load(profile.getPhoto()).into(imgProfile);
         } else {
@@ -211,7 +205,6 @@ public class ProfileFragment extends Fragment {
         service.getProfilesFromRest(new Service.APICallback() {
             @Override
             public void onSuccess() {
-                profile = new Profile();
                 // Data is available, do something with it
                 profileList = service.getProfiles();
                 // Manipulate the users data here
@@ -258,10 +251,9 @@ public class ProfileFragment extends Fragment {
         imgProfile.setOnClickListener(v -> {
             Intent intentGallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(Intent.createChooser(intentGallery, "Select Picture"), GALLERY_REQ_CODE);
-            if (photo != null){
-                createPhotoRestPoint();
-            }
         });
+
+
     }
 
     /**
@@ -296,6 +288,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onSuccess() {
                 Toast.makeText(getContext(), "Photo sent successfully", Toast.LENGTH_SHORT).show();
+                btnUpdateProfile();
             }
 
             @Override
@@ -313,14 +306,14 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == GALLERY_REQ_CODE && data != null) {
+            createPhotoRestPoint();
             // Get the selected image URI
             Uri uri = data.getData();
             // Display the image in your app
             imgProfile.setImageURI(uri);
-            photo = getImageUri();
-            if (photo != null) {
-                editor.putString("photo", profile.getPhoto());
-            }
+            profile.setPhoto(getImageUri());
+            editor.putString("photo", profile.getPhoto());
+
         }
     }
 
@@ -348,6 +341,7 @@ public class ProfileFragment extends Fragment {
         }
         return imageUri != null ? imageUri.toString() : null;
     }
+
     /**
      * @param bitmap
      * @return This method creates a new ContentValues object and sets the display name and MIME type for the image.
@@ -381,32 +375,38 @@ public class ProfileFragment extends Fragment {
     //********** ACTUALIZAR LOS DATOS DEL PERFIL ************
 
     public void btnUpdateProfile() {
+
         btnSave.setOnClickListener(v -> {
-            if (!validateFirstName() || !validateLastName() || !validateDate() || !btnValidateGender()) {
+            if (!validateFirstName() || !validateLastName() || !validateDate()) {
                 return;
             }
-            profile.setFirstName(firstName);
-            profile.setLastName(lastName);
-            profile.setBirthDate(birthday.toString());
-            if (!photo.isEmpty()) {
-                profile.setPhoto(photo);
-            }
-            profile.setUser(user);
 
-            Call<Boolean> call = iapiService.updateProfile(profile);
-            call.enqueue(new Callback<Boolean>() {
+            Call<Profile> call = iapiService.updateProfile(profile);
+            call.enqueue(new Callback<Profile>() {
                 @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                public void onResponse(Call<Profile> call, Response<Profile> response) {
                     Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
+
+                    Profile profile1 = profile;
+                    // Convert the JSON string to a Java object using Gson
+                    // Convert the updated profile object to a JSON string using Gson
+                    String profileStr = gson.toJson(profile1);
+                    // Store the updated profile JSON string as a preference
+                    editor.putString("profile", profileStr);
+                    editor.apply();
                 }
 
                 @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
-                    Toast.makeText(getContext(), "Update unsuccessfully", Toast.LENGTH_SHORT).show();
+                public void onFailure(Call<Profile> call, Throwable t) {
+                    System.out.println(t.getMessage());
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
             });
 
         });
+
+
     }
 
 
@@ -419,7 +419,8 @@ public class ProfileFragment extends Fragment {
             return false;
         } else {
             edFirstName.setError(null);
-            firstName = edFirstName.getText().toString();
+            String firstName = edFirstName.getText().toString();
+            profile.setFirstName(firstName);
             return true;
         }
     }
@@ -431,12 +432,13 @@ public class ProfileFragment extends Fragment {
             return false;
         } else {
             edLastName.setError(null);
-            lastName = edLastName.getText().toString();
+            String lastName = edLastName.getText().toString();
+            profile.setLastName(lastName);
             return true;
         }
     }
 
-    public boolean btnValidateGender() {
+    public void btnValidateGender() {
         spinnerGender.setPrompt("Select gender");
         spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -446,26 +448,20 @@ public class ProfileFragment extends Fragment {
                 if (gender != null && !gender.isEmpty() && !gender.equalsIgnoreCase(profile.getGender())) {
                     profile.setGender(gender);
                 }
-                genderSelected = true;
-                btnUpdateProfile();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                genderSelected = false;
+
             }
         });
 
-
-        return genderSelected;
     }
 
     public boolean validateDate() {
         String strNacimiento = edBirthdate.getText().toString();
         System.out.println("esto es del date del usuario " + strNacimiento);
-        birthday = Utils.validateDate(strNacimiento);
-//        assert date != null;
-//        birthday = Utils.convertDateToSQLDATE(date);
+        LocalDate birthday = Utils.validateDate(strNacimiento);
         if (strNacimiento.isEmpty()) {
             edBirthdate.setError("Cannot be empty");
             return false;
@@ -474,10 +470,10 @@ public class ProfileFragment extends Fragment {
             return false;
         } else {
             edBirthdate.setError(null);
+            profile.setBirthDate(strNacimiento);
             return true;
         }
     }
 
 
 }
-

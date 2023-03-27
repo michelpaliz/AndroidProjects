@@ -3,6 +3,7 @@ package com.example.caminoalba.interfaces;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
+import com.example.caminoalba.models.dto.Publication;
 import com.example.caminoalba.models.dto.UserAndProfileBlogRequest;
 
 import java.util.List;
@@ -31,14 +32,11 @@ public interface IAPIservice {
     @GET("/blog/all")
     Call<List<Blog>> getBlogs();
 
-//    @POST("user/register")
-//    Call<UserAndProfileRequest> createUserWithProfile(@Body UserAndProfileRequest userWithProfile);
-
     @POST("user/register")
     Call<UserAndProfileBlogRequest> createUserWithProfileBlog(@Body UserAndProfileBlogRequest userWithProfile);
 
     @PUT("/profile/update")
-    Call<Boolean> updateProfile(@Body Profile profile);
+    Call<Profile> updateProfile(@Body Profile profile);
 
     @PUT("/user/update")
     Call<Boolean> updateUser(@Body User user);
@@ -46,4 +44,9 @@ public interface IAPIservice {
     @Multipart
     @POST("/upload-image")
     Call<ResponseBody> uploadImage(@Part MultipartBody.Part file);
+
+    @POST("/publication/add")
+    Call<Publication> addPublication(@Body Publication publication);
+
+
 }

@@ -29,10 +29,12 @@ import com.example.caminoalba.models.dto.Publication;
 import com.example.caminoalba.services.Service;
 import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterPhotos;
 import com.google.gson.Gson;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AddPublicationFragment extends Fragment {
@@ -43,13 +45,14 @@ public class AddPublicationFragment extends Fragment {
     private TextView tvName, tvTimeDisplayed;
     private EditText etTitle, etDescription;
     private ImageView imageView;
-    private Button btnImage;
+    private Button btnImage, btnAddPublication;
     private LocalDateTime currentTime;
 
     // ------ Para obtener el blog y publicacion  -------
     private List<Blog> blogs;
     private Profile profile;
     private Blog blog;
+    private Publication publication;
     private List<Publication> publicationList;
     // ------ Para obtener el recyclerview    -------
     private RecyclerAdapterPhotos adapter;
@@ -81,8 +84,10 @@ public class AddPublicationFragment extends Fragment {
         btnImage = view.findViewById(R.id.addPhotoButton);
         imageView = view.findViewById(R.id.authorPhoto);
         tvTimeDisplayed = view.findViewById(R.id.tvTimeDisplayed);
+        btnAddPublication = view.findViewById(R.id.btnAddPublication);
         // ------ Inicializamos variables  -------
         uriList = new ArrayList<>();
+        publication = new Publication();
         service = new Service();
         currentTime = LocalDateTime.now();
         recyclerView = view.findViewById(R.id.rvPhotoGrid);
@@ -94,14 +99,14 @@ public class AddPublicationFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         addPhotos();
+        addPublication();
 
     }
 
     public void showAuthorInfo() {
         tvName.setText(profile.getFirstName());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDateTime = currentTime.format(formatter);
-        tvTimeDisplayed.setText(formattedDateTime);
+        publication.setDatePublished(LocalDateTime.now());
+        tvTimeDisplayed.setText(publication.getDatePublished());
         if (profile.getPhoto() != null) {
             imageView.setImageURI(Uri.parse(profile.getPhoto()));
         }
@@ -135,6 +140,32 @@ public class AddPublicationFragment extends Fragment {
         });
 
     }
+
+
+    public void addPublication() {
+        publication.setDescription(etDescription.getText().toString());
+        List<String> photos = new ArrayList<>();
+        for (Uri uri: uriList) {
+            photos.add(uri.toString());
+        }
+        publication.setPhotos(photos);
+        publication.setTitle(etTitle.getText().toString());
+
+        btnAddPublication.setOnClickListener(v -> {
+            service.addPublication(new Service.APICallback() {
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(getContext(), "Publication saved successfully", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    Toast.makeText(getContext(), "Publication couldn't be saved successfully", Toast.LENGTH_SHORT).show();
+                }
+            }, publication);
+        });
+    }
+
 
     //Desde el boton puedo subir varias fotos y guardarlos en un imageview para despues
     //representarlo en el recycler view.
