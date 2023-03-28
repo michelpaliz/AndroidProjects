@@ -1,5 +1,6 @@
 package com.user_manager_v1.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,10 +18,12 @@ public class Publication {
     private String title;
     private String description;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime datePublished;
     @ElementCollection
     private List<String> photos;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "blog_id")
     private Blog blog;
 
     public Publication() {

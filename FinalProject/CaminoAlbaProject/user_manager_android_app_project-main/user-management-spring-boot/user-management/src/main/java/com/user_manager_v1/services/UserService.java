@@ -3,12 +3,14 @@ package com.user_manager_v1.services;
 import com.user_manager_v1.models.Blog;
 import com.user_manager_v1.models.Profile;
 import com.user_manager_v1.models.User;
+import com.user_manager_v1.models.dto.BlogDTO;
 import com.user_manager_v1.models.dto.UserAndProfileBlogRequest;
 import com.user_manager_v1.models.dto.UserAndProfileRequest;
 import com.user_manager_v1.repository.BlogRepository;
 import com.user_manager_v1.repository.ProfileRepository;
 import com.user_manager_v1.repository.UserRepository;
 import org.apache.commons.codec.CharEncoding;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamSource;
@@ -82,11 +84,12 @@ public class UserService {
         }
     }
 
+
     public UserAndProfileBlogRequest createUserWithProfileAndBlog(@RequestBody UserAndProfileBlogRequest request) {
 
         User user = request.getUser();
         Profile profile = request.getProfile();
-        Blog blog = request.getBlog();
+        BlogDTO blogDTO = request.getBlog();
 
         String hashed_password = BCrypt.hashpw(request.getUser().getPassword(), BCrypt.gensalt());
         user.setPassword(hashed_password);
@@ -98,6 +101,9 @@ public class UserService {
         }
 
         profile.setUser(user);
+
+        ModelMapper modelMapper = new ModelMapper();
+        Blog blog = modelMapper.map(blogDTO, Blog.class);
         blog.setProfile(profile);
 
         // Insert the user and profile data into the respective tables
@@ -109,7 +115,7 @@ public class UserService {
         sendEmail(user);
 
         // Return a successful response
-        return new UserAndProfileBlogRequest(savedUser, profileSaved, blogSaved);
+        return new UserAndProfileBlogRequest(savedUser, profileSaved, modelMapper.map(blogSaved, BlogDTO.class));
     }
 
 

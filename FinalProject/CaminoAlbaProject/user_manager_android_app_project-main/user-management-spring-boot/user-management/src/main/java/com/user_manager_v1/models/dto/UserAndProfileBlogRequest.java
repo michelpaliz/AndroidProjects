@@ -8,9 +8,9 @@ public class UserAndProfileBlogRequest {
 
     private User user;
     private Profile profile;
-    private Blog blog;
+    private BlogDTO blog;
 
-    public UserAndProfileBlogRequest(User user, Profile profile, Blog blog) {
+    public UserAndProfileBlogRequest(User user, Profile profile, BlogDTO blog) {
         this.user = user;
         this.profile = profile;
         this.blog = blog;
@@ -32,11 +32,11 @@ public class UserAndProfileBlogRequest {
         this.profile = profile;
     }
 
-    public Blog getBlog() {
+    public BlogDTO getBlog() {
         return blog;
     }
 
-    public void setBlog(Blog blog) {
+    public void setBlog(BlogDTO blog) {
         this.blog = blog;
     }
 }

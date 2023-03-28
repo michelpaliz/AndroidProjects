@@ -23,44 +23,45 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.R;
+import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.dto.Publication;
+import com.example.caminoalba.rest.RestClient;
 import com.example.caminoalba.services.Service;
 import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterPhotos;
 import com.google.gson.Gson;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddPublicationFragment extends Fragment {
 
     private static final int MAX_PHOTOS = 5; // maximum number of photos allowed
 
-    // ------ Vistas   -------
-    private TextView tvName, tvTimeDisplayed;
     private EditText etTitle, etDescription;
     private ImageView imageView;
     private Button btnImage, btnAddPublication;
-    private LocalDateTime currentTime;
 
     // ------ Para obtener el blog y publicacion  -------
     private List<Blog> blogs;
     private Profile profile;
+    private IAPIservice iapiService;
     private Blog blog;
     private Publication publication;
-    private List<Publication> publicationList;
+    private String description, title;
     // ------ Para obtener el recyclerview    -------
     private RecyclerAdapterPhotos adapter;
     private RecyclerView recyclerView;
     // ------ Otras referencias    -------
     private Service service;
     private List<Uri> uriList;
-    private SharedPreferences preferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,92 +79,109 @@ public class AddPublicationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // ------ Inicializamos vistas   -------
-        tvName = view.findViewById(R.id.authorName);
+        // ------ Vistas   -------
+        TextView tvName = view.findViewById(R.id.authorName);
         etTitle = view.findViewById(R.id.etTitleField);
         etDescription = view.findViewById(R.id.etDescriptionField);
         btnImage = view.findViewById(R.id.addPhotoButton);
         imageView = view.findViewById(R.id.authorPhoto);
-        tvTimeDisplayed = view.findViewById(R.id.tvTimeDisplayed);
+        TextView tvTimeDisplayed = view.findViewById(R.id.tvTimeDisplayed);
         btnAddPublication = view.findViewById(R.id.btnAddPublication);
         // ------ Inicializamos variables  -------
+        blogs = new ArrayList<>();
+        blog = new Blog();
         uriList = new ArrayList<>();
         publication = new Publication();
+        iapiService = RestClient.getInstance();
         service = new Service();
-        currentTime = LocalDateTime.now();
         recyclerView = view.findViewById(R.id.rvPhotoGrid);
-        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        getBlog();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        // ------ Obtenemos el blog actual  -------
+        Gson gson = new Gson();
+
+
         // ------  RecyclerView   -------
         adapter = new RecyclerAdapterPhotos(uriList, requireContext());
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         addPhotos();
-        addPublication();
 
-    }
-
-    public void showAuthorInfo() {
-        tvName.setText(profile.getFirstName());
-        publication.setDatePublished(LocalDateTime.now());
-        tvTimeDisplayed.setText(publication.getDatePublished());
-        if (profile.getPhoto() != null) {
-            imageView.setImageURI(Uri.parse(profile.getPhoto()));
-        }
-    }
-
-
-    public void getBlog() {
-        Gson gson = new Gson();
+        //SHOW BLOG INFO + PUBLICATION DATA
         String profileStr = preferences.getString("profile", "");
         profile = gson.fromJson(profileStr, Profile.class);
-        showAuthorInfo();
-        blogs = new ArrayList<>();
-        blog = new Blog();
+        tvName.setText(profile.getFirstName());
+        LocalDateTime datePublished = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = datePublished.format(formatter);
+        tvTimeDisplayed.setText(formattedDate);
+
+
         service.getBlogsFromRest(new Service.APICallback() {
             @Override
             public void onSuccess() {
                 blogs = service.getBlogs();
-                System.out.println("esto es blogs " + blogs);
+                Blog blog1 = new Blog();
+
                 for (int i = 0; i < blogs.size(); i++) {
                     if (blogs.get(i).getBlog_id() == profile.getProfile_id()) {
-                        blog = blogs.get(i);
+                        blog1 = blogs.get(i);
                     }
                 }
-                System.out.println("esto es blog seleccionado " + blog);
+
+                blog = blog1;
+
+                if (profile.getPhoto() != null) {
+                    imageView.setImageURI(Uri.parse(profile.getPhoto()));
+                }
+
+                List<String> photos = new ArrayList<>();
+                for (Uri uri : uriList) {
+                    photos.add(uri.toString());
+                }
+
+
+//                publication.setBlog(blog);
+
+                btnAddPublication.setOnClickListener(v -> {
+                    if (!title() || !description()) {
+                        // handle validation errors
+                        return;
+                    }
+
+                    List<Publication> publicationList = new ArrayList<>();
+                    publicationList.add(publication);
+                    blog.setPublications(publicationList);
+
+                    publication.setTitle(title);
+                    publication.setDescription(description);
+                    publication.setPhotos(photos);
+                    publication.setDatePublished(formattedDate);
+
+                    Call<Publication> call = iapiService.addPublication((long) blog.getBlog_id(), publication);
+                    call.enqueue(new Callback<Publication>() {
+
+                        @Override
+                        public void onResponse(Call<Publication> call, Response<Publication> response) {
+                            Toast.makeText(getContext(), "Publication has been sent sucessfully", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Publication> call, Throwable t) {
+
+                        }
+                    });
+                });
+
             }
 
             @Override
             public void onFailure(String error) {
-                System.out.println("esto es blog seleccionado desde fallo " + blog);
+                Toast.makeText(getContext(), "Publication falied", Toast.LENGTH_SHORT).show();
             }
         });
 
-    }
 
-
-    public void addPublication() {
-        publication.setDescription(etDescription.getText().toString());
-        List<String> photos = new ArrayList<>();
-        for (Uri uri: uriList) {
-            photos.add(uri.toString());
-        }
-        publication.setPhotos(photos);
-        publication.setTitle(etTitle.getText().toString());
-
-        btnAddPublication.setOnClickListener(v -> {
-            service.addPublication(new Service.APICallback() {
-                @Override
-                public void onSuccess() {
-                    Toast.makeText(getContext(), "Publication saved successfully", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    Toast.makeText(getContext(), "Publication couldn't be saved successfully", Toast.LENGTH_SHORT).show();
-                }
-            }, publication);
-        });
     }
 
 
@@ -208,5 +226,31 @@ public class AddPublicationFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
+
+
+    public boolean description() {
+        String descriptionStr = etDescription.getText().toString();
+        if (descriptionStr.isEmpty()) {
+            etDescription.setError("Cannot be empty");
+            return false;
+        } else {
+            etDescription.setError(null);
+            description = descriptionStr;
+            return true;
+        }
+    }
+
+    public boolean title() {
+        String titleStr = etTitle.getText().toString();
+        if (titleStr.isEmpty()) {
+            etTitle.setError("Cannot be empty");
+            return false;
+        } else {
+            etTitle.setError(null);
+            title = titleStr;
+            return true;
+        }
+    }
+
 
 }

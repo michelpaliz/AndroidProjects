@@ -77,9 +77,10 @@ public class RegistrationActivity extends AppCompatActivity {
             User user = new User(id, edFirstName.getText().toString(), edLastName.getText().toString(), edEmail.getText().toString(),
                     edPassword.getText().toString(), "user", Utils.generateVerificationCode(), false, AccountStatus.ACTIVE);
 
-            Blog blog = new Blog(id, null, true, 0, 0);
-
             Profile profile = new Profile(id, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null, user);
+
+            Blog blog = new Blog(id, null, true, 0, 0,  null,null,null,profile);
+
             UserAndProfileBlogRequest userWithProfileBlog = new UserAndProfileBlogRequest(user, profile, blog);
 
             Call<UserAndProfileBlogRequest> call = iapIservice.createUserWithProfileBlog(userWithProfileBlog);

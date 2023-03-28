@@ -1,42 +1,36 @@
 package com.example.caminoalba.models.dto;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import com.example.caminoalba.models.Blog;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class Publication {
+public class Publication implements Serializable {
 
     private String title;
     private String description;
     private String datePublished;
     private List<String> photos;
+    private Blog blog;
 
     public Publication() {
     }
 
-    public Publication(String title, String description, LocalDateTime datePublished, List<String> photos) {
+    public Publication(String title, String description, String datePublished, List<String> photos, Blog blog) {
         this.title = title;
         this.description = description;
-        this.datePublished = getFormattedDate(datePublished);
+        this.datePublished = datePublished;
         this.photos = photos;
-    }
-
-    public Publication(String title, String description, String datePublished, List<String> photos) {
-        this.title = title;
-        this.description = description;
-        this.datePublished = datePublished;;
-        this.photos = photos;
+        this.blog = blog;
     }
 
 
-    public void setDatePublished(LocalDateTime datePublished) {
-        this.datePublished = getFormattedDate(datePublished);
+    public Blog getBlog() {
+        return blog;
     }
 
-    public String getFormattedDate(LocalDateTime formattedDate){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return formattedDate.format(formatter);
+    public void setBlog(Blog blog) {
+        this.blog = blog;
     }
 
     public String getTitle() {
@@ -55,6 +49,22 @@ public class Publication {
         this.description = description;
     }
 
+    public String getDatePublished() {
+        return datePublished;
+    }
+
+    public void setDatePublished(String datePublished) {
+        this.datePublished = datePublished;
+    }
+
+    //    public LocalDateTime getDatePublished() {
+//        return datePublished;
+//    }
+//
+//    public void setDatePublished(LocalDateTime datePublished) {
+//        this.datePublished = datePublished;
+//    }
+
     public List<String> getPhotos() {
         return photos;
     }
@@ -62,12 +72,6 @@ public class Publication {
     public void setPhotos(List<String> photos) {
         this.photos = photos;
     }
-
-    public String getDatePublished() {
-        return datePublished;
-    }
-
-
 
     @Override
     public String toString() {

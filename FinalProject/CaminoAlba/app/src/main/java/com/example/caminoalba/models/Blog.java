@@ -1,8 +1,11 @@
 package com.example.caminoalba.models;
 
+import com.example.caminoalba.models.dto.Publication;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class Blog {
+public class Blog implements Serializable {
 
     private int blog_id;
     private String description;
@@ -11,16 +14,39 @@ public class Blog {
     private int points;
     private List<Blog> followers;
     private List<Blog> following;
+    private List<Publication> publications;
+    private Profile profile;
+
 
     public Blog() {
     }
 
-    public Blog(int blog_id, String description, boolean enableInfo, double kmlRunned, int points) {
+    public Blog(int blog_id, String description, boolean enableInfo, double kmlRunned, int points, List<Blog> followers, List<Blog> following, List<Publication> publications, Profile profile) {
         this.blog_id = blog_id;
         this.description = description;
         this.enableInfo = enableInfo;
         this.kmlRunned = kmlRunned;
         this.points = points;
+        this.followers = followers;
+        this.following = following;
+        this.publications = publications;
+        this.profile = profile;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public List<Publication> getPublications() {
+        return publications;
+    }
+
+    public void setPublications(List<Publication> publications) {
+        this.publications = publications;
     }
 
     public int getBlog_id() {

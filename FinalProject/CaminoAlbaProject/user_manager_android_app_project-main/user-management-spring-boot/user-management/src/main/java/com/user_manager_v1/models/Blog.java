@@ -1,8 +1,8 @@
 package com.user_manager_v1.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Entity
@@ -15,11 +15,13 @@ public class Blog {
     private boolean enableInfo;
     private double kmlRunned;
     private int points;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Blog> followers;
-    @ManyToMany(mappedBy = "followers")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "followers")
     private List<Blog> following;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "blog_id")
+//    @Fetch(value = FetchMode.JOIN)
     private List<Publication> publications;
     @OneToOne
     @PrimaryKeyJoinColumn
@@ -40,6 +42,7 @@ public class Blog {
         this.publications = publications;
         this.profile = profile;
     }
+
 
     public List<Publication> getPublications() {
         return publications;

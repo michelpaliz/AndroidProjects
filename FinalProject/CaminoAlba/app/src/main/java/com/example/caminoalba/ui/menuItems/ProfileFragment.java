@@ -17,7 +17,6 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -436,26 +435,6 @@ public class ProfileFragment extends Fragment {
             profile.setLastName(lastName);
             return true;
         }
-    }
-
-    public void btnValidateGender() {
-        spinnerGender.setPrompt("Select gender");
-        spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                // Do something with the selected gender, such as save it to a variable or display it in a TextView
-                gender = (String) adapterView.getItemAtPosition(position);
-                if (gender != null && !gender.isEmpty() && !gender.equalsIgnoreCase(profile.getGender())) {
-                    profile.setGender(gender);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
     }
 
     public boolean validateDate() {

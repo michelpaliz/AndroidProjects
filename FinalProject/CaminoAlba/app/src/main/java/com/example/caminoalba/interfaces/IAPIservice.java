@@ -1,5 +1,7 @@
 package com.example.caminoalba.interfaces;
 
+import androidx.annotation.LongDef;
+
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
@@ -17,6 +19,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface IAPIservice {
 
@@ -41,6 +44,8 @@ public interface IAPIservice {
     @PUT("/user/update")
     Call<Boolean> updateUser(@Body User user);
 
+    @POST("blog/add/{blogId}/publications")
+    Call<Publication> addPublication(@Path("blogId") Long blogId, @Body Publication publication);
     @Multipart
     @POST("/upload-image")
     Call<ResponseBody> uploadImage(@Part MultipartBody.Part file);

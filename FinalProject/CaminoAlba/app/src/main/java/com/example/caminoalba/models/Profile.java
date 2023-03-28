@@ -1,10 +1,11 @@
 package com.example.caminoalba.models;
 
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Profile {
+public class Profile  {
 
     private int profile_id;
     private String firstName;
