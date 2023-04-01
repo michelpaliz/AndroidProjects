@@ -1,21 +1,13 @@
-package com.example.caminoalba.ui.menuItems;
+package com.example.caminoalba.ui.menuItems.Profile;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +30,6 @@ import com.example.caminoalba.R;
 import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
-import com.example.caminoalba.ui.others.ConfirmEmailFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,14 +42,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.UUID;
 
 public class ProfileFragment extends Fragment {
 
@@ -125,12 +109,6 @@ public class ProfileFragment extends Fragment {
             profile = gson.fromJson(profileStr, Profile.class);
             profileUpdated = true;
         }
-
-//        String profileStr = prefs.getString("profile", "");
-//        Profile profile1 = gson.fromJson(profileStr, Profile.class);
-//        if (profile1 != null) {
-//            profile = profile1;
-//        }
 
 
         //Podemos actualizar el perfil en cualquier momento
@@ -238,63 +216,6 @@ public class ProfileFragment extends Fragment {
         });
 
 
-    }
-
-
-    /**
-     * The getImageUri() method is used to convert a Bitmap image to a Uri that can be used to store or share the image.
-     * The method first checks the type of the Drawable in the imgProfile ImageView, whether it is a BitmapDrawable or a VectorDrawable.
-     * If it is a BitmapDrawable, the Bitmap is retrieved from the Drawable and passed to the getImageUri(Bitmap) method.
-     * If it is a VectorDrawable, a new Bitmap is created with the same dimensions as the VectorDrawable, and the VectorDrawable is drawn onto the Canvas of the Bitmap.
-     * The resulting Bitmap is then passed to the getImageUri(Bitmap) method.
-     */
-    public String getImageUri() {
-        Uri imageUri = null;
-        Drawable drawable = imgProfile.getDrawable();
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-            imageUri = getImageUri(bitmap);
-        } else if (drawable instanceof VectorDrawable) {
-            VectorDrawable vectorDrawable = (VectorDrawable) drawable;
-            Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            vectorDrawable.draw(canvas);
-            imageUri = getImageUri(bitmap);
-        }
-        return imageUri != null ? imageUri.toString() : null;
-    }
-
-    /**
-     * @param bitmap
-     * @return This method creates a new ContentValues object and sets the display name and MIME type for the image.
-     * It then uses the getContentResolver method to insert the image into the MediaStore database and get its Uri.
-     * Finally, it opens an output stream to the Uri and writes the Bitmap to it.
-     * We ensure that the file is being saved has a unique name using timestamp or a unique identifier to the file name to make it unique.
-     */
-
-
-    public Uri getImageUri(Bitmap bitmap) {
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String fileName = "profile_" + timestamp + ".jpg";
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-
-        Uri uri = requireContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-        OutputStream outputStream;
-        try {
-            outputStream = requireContext().getContentResolver().openOutputStream(uri);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-            Objects.requireNonNull(outputStream).close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        return uri;
     }
 
 

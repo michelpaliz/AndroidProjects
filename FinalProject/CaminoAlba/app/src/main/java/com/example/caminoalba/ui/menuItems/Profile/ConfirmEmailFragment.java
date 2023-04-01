@@ -1,4 +1,4 @@
-package com.example.caminoalba.ui.others;
+package com.example.caminoalba.ui.menuItems.Profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,15 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.caminoalba.R;
-import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.User;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ConfirmEmailFragment extends Fragment {
 
