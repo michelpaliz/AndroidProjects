@@ -52,16 +52,16 @@ public class ProfileFragment extends Fragment {
     private EditText edFirstName, edLastName, edBirthdate;
     private Spinner spinnerGender;
     private TextView tvEmailVerfication;
-    private Profile profile;
     private ImageView imgProfile;
     private Button btnSave;
     private Context context;
-    private SharedPreferences prefs;
     // ------ Otras referencias    -------
     private Gson gson;
     private SharedPreferences.Editor editor;
+    private SharedPreferences prefs;
 
     //  *----- Variables de funcionalidad globales ------*
+    private Profile profile;
     private User user;
     private boolean profileUpdated = false;
 
@@ -114,7 +114,7 @@ public class ProfileFragment extends Fragment {
         //Podemos actualizar el perfil en cualquier momento
         validateGender();
         getUpdatedProfile();
-        showEmailVerificationStatus();
+        btnVerifyEmail();
         btnUpdatePhoto();
         btnUpdateProfile();
 
@@ -147,7 +147,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    public void showEmailVerificationStatus() {
+    public void btnVerifyEmail() {
 
         if (profile.getUser().getEnabled()) {
             tvEmailVerfication.setText("Email has been verified successfully");

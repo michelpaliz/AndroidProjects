@@ -3,6 +3,7 @@ package com.example.caminoalba.models;
 import com.example.caminoalba.models.dto.Publication;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Blog implements Serializable {
@@ -103,6 +104,18 @@ public class Blog implements Serializable {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public void addPublication(Publication publication) {
+        // First, we check if the blog object already has a list of publications
+        List<Publication> publications = this.getPublications();
+        if (publications == null) {
+            // If the blog object does not have a list of publications, we create a new one
+            publications = new ArrayList<>();
+            this.setPublications(publications);
+        }
+        // Add the new publication to the list of publications for this blog
+        publications.add(publication);
     }
 
     @Override

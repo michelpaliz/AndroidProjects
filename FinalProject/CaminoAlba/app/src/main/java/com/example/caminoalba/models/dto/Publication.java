@@ -3,10 +3,12 @@ package com.example.caminoalba.models.dto;
 import com.example.caminoalba.models.Blog;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Publication implements Serializable {
 
+    private String publication_id;
     private String title;
     private String description;
     private String datePublished;
@@ -14,9 +16,11 @@ public class Publication implements Serializable {
     private Blog blog;
 
     public Publication() {
+        photos = new ArrayList<>();
     }
 
-    public Publication(String title, String description, String datePublished, List<String> photos, Blog blog) {
+    public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog) {
+        this.publication_id = publication_id;
         this.title = title;
         this.description = description;
         this.datePublished = datePublished;
@@ -24,6 +28,13 @@ public class Publication implements Serializable {
         this.blog = blog;
     }
 
+    public String getPublication_id() {
+        return publication_id;
+    }
+
+    public void setPublication_id(String publication_id) {
+        this.publication_id = publication_id;
+    }
 
     public Blog getBlog() {
         return blog;

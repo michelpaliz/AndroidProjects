@@ -6,7 +6,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.caminoalba.config.Config;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,13 +41,14 @@ public class MainActivity extends AppCompatActivity {
     public void goToSingIn() {
         btnSingIn.setOnClickListener(v -> {
 
-            if (Config.USER_SAVED) {
-                //Si no es primera vez que el usuario ya ha entrado se guarda sesion.
-                intent = new Intent(MainActivity.this, NavigationDrawerActivity.class);
-            } else {
-                //Si no pues tendra que logearse.
-                intent = new Intent(MainActivity.this, LoginActivity.class);
-            }
+//            if (Config.USER_SAVED) {
+//                //Si no es primera vez que el usuario ya ha entrado se guarda sesion.
+//                intent = new Intent(MainActivity.this, NavigationDrawerActivity.class);
+//            } else {
+//                //Si no pues tendra que logearse.
+//                intent = new Intent(MainActivity.this, LoginActivity.class);
+//            }
+            intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +17,16 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
 import com.example.caminoalba.R;
+import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 public class BlogFragment extends Fragment {
@@ -26,6 +35,7 @@ public class BlogFragment extends Fragment {
     private FrameLayout frameLayout;
     private SharedPreferences preferences;
     private User user;
+    private Blog blog;
     private Profile profile;
     private ImageView imgHome, imgBlog, imgAddPublication;
 
@@ -54,6 +64,7 @@ public class BlogFragment extends Fragment {
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         user = new User();
         profile = new Profile();
+        blog = new Blog();
         Gson gson = new Gson();
         String userStr = preferences.getString("user", "");
         String profileStr = preferences.getString("profile", "");
@@ -77,8 +88,10 @@ public class BlogFragment extends Fragment {
 
         imgAddPublication.setOnClickListener(v -> {
             //Create varibles to pass to my child fragment
+            getBlog();
             Bundle args = new Bundle();
             args.putSerializable("profile", profile);
+            args.putSerializable("blog", blog);
             // Create an instance of the child fragment
             AddPublicationFragment addPublicationFragment = new AddPublicationFragment();
             //Pass the args already created to the child fragment
@@ -92,6 +105,29 @@ public class BlogFragment extends Fragment {
         });
 
     }
+
+    public void getBlog(){
+        // Get the current user from FirebaseAuth
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            DatabaseReference blogRef = FirebaseDatabase.getInstance().getReference("blogs").child(uid);
+            blogRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    blog = dataSnapshot.getValue(Blog.class);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getContext(), "Couldn't get the profile", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+
 
 
 }
