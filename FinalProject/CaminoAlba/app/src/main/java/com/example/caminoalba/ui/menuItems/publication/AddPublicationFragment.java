@@ -27,40 +27,30 @@ import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.dto.Publication;
-import com.example.caminoalba.rest.RestClient;
-import com.example.caminoalba.services.Service;
 import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterPhotos;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class AddPublicationFragment extends Fragment {
 
     private static final int MAX_PHOTOS = 5; // maximum number of photos allowed
 
     private EditText etTitle, etDescription;
-    private ImageView imageView;
-    private Button btnImage, btnAddPublication;
+    private Button btnImage;
 
     // ------ Para obtener el blog y publicacion  -------
     private List<Blog> blogs;
     private Profile profile;
-    private IAPIservice iapiService;
-    private Blog blog;
-    private Publication publication;
     private String description, title;
     // ------ Para obtener el recyclerview    -------
     private RecyclerAdapterPhotos adapter;
     private RecyclerView recyclerView;
     // ------ Otras referencias    -------
-    private Service service;
     private List<Uri> uriList;
 
     @Override
@@ -84,16 +74,14 @@ public class AddPublicationFragment extends Fragment {
         etTitle = view.findViewById(R.id.etTitleField);
         etDescription = view.findViewById(R.id.etDescriptionField);
         btnImage = view.findViewById(R.id.addPhotoButton);
-        imageView = view.findViewById(R.id.authorPhoto);
+        ImageView imageView = view.findViewById(R.id.authorPhoto);
         TextView tvTimeDisplayed = view.findViewById(R.id.tvTimeDisplayed);
-        btnAddPublication = view.findViewById(R.id.btnAddPublication);
+        Button btnAddPublication = view.findViewById(R.id.btnAddPublication);
         // ------ Inicializamos variables  -------
         blogs = new ArrayList<>();
-        blog = new Blog();
+        Blog blog = new Blog();
         uriList = new ArrayList<>();
-        publication = new Publication();
-        iapiService = RestClient.getInstance();
-        service = new Service();
+        Publication publication = new Publication();
         recyclerView = view.findViewById(R.id.rvPhotoGrid);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         // ------ Obtenemos el blog actual  -------
@@ -105,7 +93,7 @@ public class AddPublicationFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        addPhotos();
+
 
         //SHOW BLOG INFO + PUBLICATION DATA
         String profileStr = preferences.getString("profile", "");
@@ -115,71 +103,78 @@ public class AddPublicationFragment extends Fragment {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = datePublished.format(formatter);
         tvTimeDisplayed.setText(formattedDate);
+        Picasso.get().load(profile.getPhoto()).into(imageView);
 
 
-        service.getBlogsFromRest(new Service.APICallback() {
-            @Override
-            public void onSuccess() {
-                blogs = service.getBlogs();
-                Blog blog1 = new Blog();
+        addPhotos();
 
-                for (int i = 0; i < blogs.size(); i++) {
-                    if (blogs.get(i).getBlog_id() == profile.getProfile_id()) {
-                        blog1 = blogs.get(i);
-                    }
-                }
-
-                blog = blog1;
-
-                if (profile.getPhoto() != null) {
-                    imageView.setImageURI(Uri.parse(profile.getPhoto()));
-                }
-
-                List<String> photos = new ArrayList<>();
-                for (Uri uri : uriList) {
-                    photos.add(uri.toString());
-                }
-
-
+//        service.getBlogsFromRest(new Service.APICallback() {
+//            @Override
+//            public void onSuccess() {
+//                blogs = service.getBlogs();
+//                Blog blog1 = new Blog();
+//
+//                for (int i = 0; i < blogs.size(); i++) {
+//                    if (blogs.get(i).getBlog_id() == profile.getProfile_id()) {
+//                        blog1 = blogs.get(i);
+//                    }
+//                }
+//
+//                blog = blog1;
+//
+//                if (profile.getPhoto() != null) {
+//                    imageView.setImageURI(Uri.parse(profile.getPhoto()));
+//                }
+//
+//
 //                publication.setBlog(blog);
-
-                btnAddPublication.setOnClickListener(v -> {
-                    if (!title() || !description()) {
-                        // handle validation errors
-                        return;
-                    }
-
-                    List<Publication> publicationList = new ArrayList<>();
-                    publicationList.add(publication);
-                    blog.setPublications(publicationList);
-
-                    publication.setTitle(title);
-                    publication.setDescription(description);
-                    publication.setPhotos(photos);
-                    publication.setDatePublished(formattedDate);
-
-                    Call<Publication> call = iapiService.addPublication((long) blog.getBlog_id(), publication);
-                    call.enqueue(new Callback<Publication>() {
-
-                        @Override
-                        public void onResponse(Call<Publication> call, Response<Publication> response) {
-                            Toast.makeText(getContext(), "Publication has been sent sucessfully", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<Publication> call, Throwable t) {
-
-                        }
-                    });
-                });
-
-            }
-
-            @Override
-            public void onFailure(String error) {
-                Toast.makeText(getContext(), "Publication falied", Toast.LENGTH_SHORT).show();
-            }
-        });
+//
+//                btnAddPublication.setOnClickListener(v -> {
+//
+//                    if (uriList.isEmpty()) {
+//                        Toast.makeText(requireContext(), "Please select at least one photo", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//
+//                    if (!title() || !description()) {
+//                        // handle validation errors
+//                        return;
+//                    }
+//
+//                    List<Publication> publicationList = new ArrayList<>();
+//                    publicationList.add(publication);
+//                    blog.setPublications(publicationList);
+//                    List<String> photos = new ArrayList<>();
+//                    for (Uri uri : uriList) {
+//                        photos.add(uri.toString());
+//                    }
+//                    publication.setPhotos(photos);
+//                    publication.setTitle(title);
+//                    publication.setDescription(description);
+//                    publication.setDatePublished(formattedDate);
+//
+//                    Call<Publication> call = iapiService.addPublication((long) blog.getBlog_id(), publication);
+//                    call.enqueue(new Callback<Publication>() {
+//
+//                        @Override
+//                        public void onResponse(Call<Publication> call, Response<Publication> response) {
+//                            Toast.makeText(getContext(), "Publication has been sent sucessfully", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<Publication> call, Throwable t) {
+//
+//                        }
+//                    });
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onFailure(String error) {
+//                Toast.makeText(getContext(), "Publication falied", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
     }
@@ -190,10 +185,6 @@ public class AddPublicationFragment extends Fragment {
 
     public void addPhotos() {
         btnImage.setOnClickListener(v -> {
-            if (uriList.size() >= MAX_PHOTOS) {
-                Toast.makeText(requireContext(), "Maximum number of photos reached", Toast.LENGTH_SHORT).show();
-                return;
-            }
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -213,18 +204,26 @@ public class AddPublicationFragment extends Fragment {
                 int count = Math.min(MAX_PHOTOS - uriList.size(), clipData.getItemCount()); // limit number of photos to be added
                 for (int i = 0; i < count; i++) {
                     Uri uri = clipData.getItemAt(i).getUri();
-                    uriList.add(uri);
+                    updateUriList(uri);
                 }
             } else {
                 // single photo selected
                 Uri uri = data.getData();
-                uriList.add(uri);
+                updateUriList(uri);
             }
         }
-        System.out.println("Selected URIs: " + uriList);
-        System.out.println("Number of URIs: " + uriList.size());
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+    }
+
+
+//    The updateUriList() method is called from the onActivityResult() method to update the uriList variable.
+//    The addPhotos() method is modified to remove the check for the maximum number of photos, as this is now handled in the updateUriList()
+    public void updateUriList(Uri uri) {
+        if (uriList.size() < MAX_PHOTOS) {
+            uriList.add(uri);
+            adapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(requireContext(), "Maximum number of photos reached", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         goToSingUp();
     }
 
+
+
     //cargamos datos
     public void init() {
         btnSingUp = findViewById(R.id.btnSing_up_register);

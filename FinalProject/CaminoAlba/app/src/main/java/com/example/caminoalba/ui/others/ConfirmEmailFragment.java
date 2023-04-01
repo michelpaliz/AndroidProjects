@@ -16,7 +16,6 @@ import androidx.fragment.app.FragmentManager;
 import com.example.caminoalba.R;
 import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.User;
-import com.example.caminoalba.rest.RestClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +26,6 @@ public class ConfirmEmailFragment extends Fragment {
     private EditText etConfirmCode;
     private Button btnConfirmCode;
     private User user;
-    private IAPIservice iapIservice;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,6 @@ public class ConfirmEmailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         etConfirmCode = view.findViewById(R.id.edInsertCodeNumber);
         btnConfirmCode = view.findViewById(R.id.btnConfirmCode);
-        iapIservice = RestClient.getInstance();
         //Retrieve the args that we've passed from our parent fragment
         assert getArguments() != null;
         user = (User) getArguments().getSerializable("user");
@@ -54,29 +51,29 @@ public class ConfirmEmailFragment extends Fragment {
     }
 
 
-    public void updateUser(User user) {
-        Call<Boolean> call = iapIservice.updateUser(user);
-        System.out.println("esto es user desde childfragment " + user);
-        call.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Toast.makeText(getActivity(), "Email verified successfully !!! ", Toast.LENGTH_SHORT).show();
-                // In the child fragment, get a reference to the FragmentManager
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                // Pop the back stack to go back to the parent fragment
-                fragmentManager.popBackStack();
-            }
-
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Toast.makeText(getContext(), "Update unsuccessfully", Toast.LENGTH_SHORT).show();
-                // In the child fragment, get a reference to the FragmentManager
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                // Pop the back stack to go back to the parent fragment
-                fragmentManager.popBackStack();
-            }
-        });
-    }
+//    public void updateUser(User user) {
+//        Call<Boolean> call = iapIservice.updateUser(user);
+//        System.out.println("esto es user desde childfragment " + user);
+//        call.enqueue(new Callback<Boolean>() {
+//            @Override
+//            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+//                Toast.makeText(getActivity(), "Email verified successfully !!! ", Toast.LENGTH_SHORT).show();
+//                // In the child fragment, get a reference to the FragmentManager
+//                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//                // Pop the back stack to go back to the parent fragment
+//                fragmentManager.popBackStack();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Boolean> call, Throwable t) {
+//                Toast.makeText(getContext(), "Update unsuccessfully", Toast.LENGTH_SHORT).show();
+//                // In the child fragment, get a reference to the FragmentManager
+//                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//                // Pop the back stack to go back to the parent fragment
+//                fragmentManager.popBackStack();
+//            }
+//        });
+//    }
 
 
     public void confirmationPassword() {
@@ -84,7 +81,7 @@ public class ConfirmEmailFragment extends Fragment {
             if (etConfirmCode.getText().toString().equalsIgnoreCase(user.getVerificationCode())) {
                 user.setEnabled(true);
                 System.out.println("esto es user desde method  " + user);
-                updateUser(user);
+//                updateUser(user);
             } else {
                 Toast.makeText(getActivity(), "Sorry, the email hasn't beend verified successfully !!! ", Toast.LENGTH_SHORT).show();
             }

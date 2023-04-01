@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Blog implements Serializable {
 
-    private int blog_id;
+    private String blog_id;
     private String description;
     private boolean enableInfo;
     private double kmlRunned;
@@ -21,7 +21,7 @@ public class Blog implements Serializable {
     public Blog() {
     }
 
-    public Blog(int blog_id, String description, boolean enableInfo, double kmlRunned, int points, List<Blog> followers, List<Blog> following, List<Publication> publications, Profile profile) {
+    public Blog(String blog_id, String description, boolean enableInfo, double kmlRunned, int points, List<Blog> followers, List<Blog> following, List<Publication> publications, Profile profile) {
         this.blog_id = blog_id;
         this.description = description;
         this.enableInfo = enableInfo;
@@ -49,11 +49,11 @@ public class Blog implements Serializable {
         this.publications = publications;
     }
 
-    public int getBlog_id() {
+    public String getBlog_id() {
         return blog_id;
     }
 
-    public void setBlog_id(int blog_id) {
+    public void setBlog_id(String blog_id) {
         this.blog_id = blog_id;
     }
 

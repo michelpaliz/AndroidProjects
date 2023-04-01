@@ -1,34 +1,38 @@
 package com.example.caminoalba;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.caminoalba.helpers.EmailHelper;
 import com.example.caminoalba.helpers.Utils;
-import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.AccountStatus;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
-import com.example.caminoalba.models.dto.UserAndProfileBlogRequest;
-import com.example.caminoalba.rest.RestClient;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     private Button btnSingUp, btnHome;
     private EditText edFirstName, edLastName, edEmail, edPassword, edConfirm;
     private Intent intent;
-    private int cont = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,43 +65,94 @@ public class RegistrationActivity extends AppCompatActivity {
 
         btnSingUp.setOnClickListener(v -> {
 
-            IAPIservice iapIservice = RestClient.getInstance();
-
             if (!validateFirstName() || !validateLastName()
                     || !validateEmail() || !validatePassword()) {
                 return;
             }
 
-            int id = cont++;
+            String email = edEmail.getText().toString();
+            String password = edPassword.getText().toString();
 
-//            String verificationCode =
-//
-//            System.out.println("Esto es la verificacion " + verificationCode);
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if (user != null) {
+                                String uid = user.getUid();
+                                User newUser = new User(uid, email, password, "user", Utils.generateVerificationCode(), false, AccountStatus.ACTIVE);
+                                Profile profile = new Profile(uid, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null, newUser);
+                                Blog blog = new Blog(uid, null, true, 0, 0, null, null, null, profile);
 
-            User user = new User(id, edFirstName.getText().toString(), edLastName.getText().toString(), edEmail.getText().toString(),
-                    edPassword.getText().toString(), "user", Utils.generateVerificationCode(), false, AccountStatus.ACTIVE);
+                                // Set the user ID in the objects
+                                profile.getUser().setUser_id(uid);
+                                blog.setBlog_id(uid);
 
-            Profile profile = new Profile(id, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null, user);
-
-            Blog blog = new Blog(id, null, true, 0, 0,  null,null,null,profile);
-
-            UserAndProfileBlogRequest userWithProfileBlog = new UserAndProfileBlogRequest(user, profile, blog);
-
-            Call<UserAndProfileBlogRequest> call = iapIservice.createUserWithProfileBlog(userWithProfileBlog);
-            call.enqueue(new Callback<UserAndProfileBlogRequest>() {
-                @Override
-                public void onResponse(Call<UserAndProfileBlogRequest> call, Response<UserAndProfileBlogRequest> response) {
-                    Toast.makeText(RegistrationActivity.this, "Registration successfully", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<UserAndProfileBlogRequest> call, Throwable t) {
-                    Toast.makeText(RegistrationActivity.this, "Registrarion unsuccessfully", Toast.LENGTH_SHORT).show();
-                }
-            });
+                                // Register the user in Firebase Realtime Database
+                                registerUserFirebase(newUser, profile, blog);
+                            } else {
+                                Toast.makeText(this, "User couldn't be registered.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(this, "Registration failed.", Toast.LENGTH_SHORT).show();
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        }
+                    });
 
         });
     }
+
+
+    public void registerUserFirebase(User user, Profile profile, Blog blog) {
+
+        // Check if the Firebase app has already been initialized
+        if (FirebaseApp.getApps(this).isEmpty()) {
+            // Initialize FirebaseApp with options
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setApiKey("236275525323")
+                    .setApplicationId("caminoalba-3ee10")
+                    .setDatabaseUrl("https://caminoalba-3ee10-default-rtdb.europe-west1.firebasedatabase.app")
+                    .build();
+            FirebaseApp.initializeApp(getApplicationContext(), options);
+        }
+
+        // Get reference to the database
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        // Convert user_id to String
+        String user_id = (user.getUser_id());
+
+        // Save user object to Firebase
+        databaseReference.child("users").child(user_id).setValue(user);
+
+        // Save profile object to Firebase
+        databaseReference.child("profiles").child(user_id).setValue(profile);
+
+        // Save blog object to Firebase
+        databaseReference.child("blogs").child(user_id).setValue(blog);
+
+        // Attach a listener to check if the user has been saved
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // User has been saved to Firebase
+                    Log.d(TAG, "User saved to Firebase!");
+                    Toast.makeText(RegistrationActivity.this, "Firebase has register your user", Toast.LENGTH_SHORT).show();
+                } else {
+                    // User has not been saved to Firebase
+                    Toast.makeText(RegistrationActivity.this, "Firebase hasn't register your user", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "User not saved to Firebase!");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error
+                Log.e(TAG, "Error saving user to Firebase: " + error.getMessage());
+            }
+        });
+    }
+
 
 
     //    ******** VALIDATION ***********
@@ -151,6 +206,9 @@ public class RegistrationActivity extends AppCompatActivity {
             return false;
         } else if (!password.equals(passwordConfirm)) {
             edPassword.setError("Passwords do not match");
+            return false;
+        } else if (password.length() < 6) {
+            edPassword.setError("Password must be at least 6 characters long");
             return false;
         } else {
             edPassword.setError(null);

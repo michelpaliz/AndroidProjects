@@ -41,6 +41,9 @@ public interface IAPIservice {
     @PUT("/profile/update")
     Call<Profile> updateProfile(@Body Profile profile);
 
+    @GET("/users/find/{id}")
+    Call<User> getUserById(@Path("id") Long id);
+
     @PUT("/user/update")
     Call<Boolean> updateUser(@Body User user);
 

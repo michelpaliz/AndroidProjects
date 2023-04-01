@@ -78,7 +78,7 @@ public class BlogFragment extends Fragment {
         imgAddPublication.setOnClickListener(v -> {
             //Create varibles to pass to my child fragment
             Bundle args = new Bundle();
-            args.putSerializable("user", user);
+            args.putSerializable("profile", profile);
             // Create an instance of the child fragment
             AddPublicationFragment addPublicationFragment = new AddPublicationFragment();
             //Pass the args already created to the child fragment

@@ -27,13 +27,23 @@ public class User {
     private String verificationCode;
     private boolean enabled;
 
-
     private AccountStatus accountStatus;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     @JsonManagedReference
     private Profile profile;
+
+    public User(String uid, String first_name, String last_name, String email, String type, String verificationCode, boolean enabled, AccountStatus accountStatus) {
+        this.user_id = Integer.parseInt(String.valueOf(uid));
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.type = type;
+        this.verificationCode = verificationCode;
+        this.enabled = enabled;
+        this.accountStatus = accountStatus;
+    }
 
 
     public User(int user_id, String first_name, String last_name, String email, String password, String type, String verificationCode, boolean enabled, AccountStatus accountStatus, Profile profile) {
@@ -52,6 +62,8 @@ public class User {
     public User() {
 
     }
+
+
 
     public AccountStatus getAccountStatus() {
         return accountStatus;

@@ -1,6 +1,7 @@
 package com.user_manager_v1.models.dto;
 
 import com.user_manager_v1.models.Blog;
+import com.user_manager_v1.models.Profile;
 import com.user_manager_v1.models.Publication;
 import org.hibernate.Hibernate;
 
@@ -18,7 +19,21 @@ public class BlogDTO {
     private List<Integer> followingIds;
     private List<Integer> publicationIds;
 
+    private Profile profile;
+
     public BlogDTO() {
+    }
+
+    public BlogDTO(int blog_id, String description, boolean enableInfo, double kmlRunned, int points, List<Integer> followerIds, List<Integer> followingIds, List<Integer> publicationIds, Profile profile) {
+        this.blog_id = blog_id;
+        this.description = description;
+        this.enableInfo = enableInfo;
+        this.kmlRunned = kmlRunned;
+        this.points = points;
+        this.followerIds = followerIds;
+        this.followingIds = followingIds;
+        this.publicationIds = publicationIds;
+        this.profile = profile;
     }
 
     // Constructor
@@ -31,6 +46,14 @@ public class BlogDTO {
         this.followerIds = blog.getFollowers().stream().map(Blog::getBlog_id).collect(Collectors.toList());
         this.followingIds = blog.getFollowing().stream().map(Blog::getBlog_id).collect(Collectors.toList());
         this.publicationIds = blog.getPublications().stream().map(Publication::getId).collect(Collectors.toList());
+    }
+
+    public Profile getProfileDTO() {
+        return profile;
+    }
+
+    public void setProfileDTO(Profile profileDTO) {
+        this.profile = profileDTO;
     }
 
     public int getBlog_id() {

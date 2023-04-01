@@ -1,10 +1,7 @@
 package com.user_manager_v1.controllers;
 
-import com.user_manager_v1.models.Profile;
-import com.user_manager_v1.models.Publication;
 import com.user_manager_v1.models.User;
 import com.user_manager_v1.models.dto.UserAndProfileBlogRequest;
-import com.user_manager_v1.models.dto.UserAndProfileRequest;
 import com.user_manager_v1.repository.UserRepository;
 import com.user_manager_v1.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
 public class UserApiController {
-
 
     @Autowired
     UserService userService;
@@ -40,6 +37,14 @@ public class UserApiController {
     public UserAndProfileBlogRequest createUserWithProfileAndBlog(@RequestBody UserAndProfileBlogRequest userAndProfileBlogRequest) {
         return userService.createUserWithProfileAndBlog(userAndProfileBlogRequest);
     }
+
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(Math.toIntExact(id));
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 
     @PutMapping("/update")
     public ResponseEntity<User> updateProfile(@RequestBody User user) {

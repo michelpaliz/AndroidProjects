@@ -5,9 +5,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Profile  {
+public class Profile implements Serializable {
 
-    private int profile_id;
+    private String profile_id;
     private String firstName;
     private String lastName;
     private String birthDate;
@@ -18,7 +18,7 @@ public class Profile  {
     public Profile() {
     }
 
-    public Profile(int profile_id, String firstName, String lastName, String birthDate, String gender, String photo, User user) {
+    public Profile(String profile_id, String firstName, String lastName, String birthDate, String gender, String photo, User user) {
         this.profile_id = profile_id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,11 +36,11 @@ public class Profile  {
         this.user = user;
     }
 
-    public int getProfile_id() {
+    public String getProfile_id() {
         return profile_id;
     }
 
-    public void setProfile_id(int profile_id) {
+    public void setProfile_id(String profile_id) {
         this.profile_id = profile_id;
     }
 

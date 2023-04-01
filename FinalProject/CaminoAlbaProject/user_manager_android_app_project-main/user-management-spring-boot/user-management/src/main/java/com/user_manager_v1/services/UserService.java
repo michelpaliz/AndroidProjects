@@ -3,9 +3,7 @@ package com.user_manager_v1.services;
 import com.user_manager_v1.models.Blog;
 import com.user_manager_v1.models.Profile;
 import com.user_manager_v1.models.User;
-import com.user_manager_v1.models.dto.BlogDTO;
-import com.user_manager_v1.models.dto.UserAndProfileBlogRequest;
-import com.user_manager_v1.models.dto.UserAndProfileRequest;
+import com.user_manager_v1.models.dto.*;
 import com.user_manager_v1.repository.BlogRepository;
 import com.user_manager_v1.repository.ProfileRepository;
 import com.user_manager_v1.repository.UserRepository;
@@ -40,6 +38,7 @@ public class UserService {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     @Autowired
     UserRepository userRepository;
+
 
     @Autowired
     private JavaMailSender javaMailSender;

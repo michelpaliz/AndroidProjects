@@ -1,7 +1,9 @@
 package com.example.caminoalba.ui.menuItems;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.ContentValues.TAG;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +16,11 @@ import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,33 +36,29 @@ import androidx.preference.PreferenceManager;
 
 import com.example.caminoalba.R;
 import com.example.caminoalba.helpers.Utils;
-import com.example.caminoalba.interfaces.IAPIservice;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
-import com.example.caminoalba.rest.RestClient;
-import com.example.caminoalba.services.Service;
 import com.example.caminoalba.ui.others.ConfirmEmailFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.UUID;
 
 public class ProfileFragment extends Fragment {
 
@@ -72,17 +72,13 @@ public class ProfileFragment extends Fragment {
     private ImageView imgProfile;
     private Button btnSave;
     private Context context;
-    private IAPIservice iapiService;
     private SharedPreferences prefs;
     // ------ Otras referencias    -------
     private Gson gson;
     private SharedPreferences.Editor editor;
 
     //  *----- Variables de funcionalidad globales ------*
-    private Service service;
     private User user;
-    private List<Profile> profileList;
-    private String gender;
     private boolean profileUpdated = false;
 
     @Override
@@ -95,6 +91,11 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -111,9 +112,6 @@ public class ProfileFragment extends Fragment {
         spinnerGender = view.findViewById(R.id.spinnerGender);
 
         // ------ Inicializamos variables  -------
-        iapiService = RestClient.getInstance();
-        service = new Service();
-        profileList = new ArrayList<>();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         gson = new Gson();
 
@@ -136,13 +134,14 @@ public class ProfileFragment extends Fragment {
 
 
         //Podemos actualizar el perfil en cualquier momento
+        validateGender();
         getUpdatedProfile();
-        showProfileData(profile);
         showEmailVerificationStatus();
         btnUpdatePhoto();
         btnUpdateProfile();
 
     }
+
 
 //    ********* MOSTRAR DATOS DEL USUARIO ************
 
@@ -150,13 +149,13 @@ public class ProfileFragment extends Fragment {
 
         // Load the photo into the ImageView using Picasso
         editor = prefs.edit();
+
         if (profile.getPhoto() != null && !profile.getPhoto().isEmpty()) {
             Picasso.get().load(profile.getPhoto()).into(imgProfile);
         } else {
             Picasso.get().load(R.drawable.default_image).into(imgProfile);
-            // Load the photo into the ImageView using Glide
-            //Glide.with(context).load(photo).into(imgProfile);
         }
+
 
         edFirstName.setText(profile.getFirstName());
         edLastName.setText(profile.getLastName());
@@ -172,7 +171,7 @@ public class ProfileFragment extends Fragment {
 
     public void showEmailVerificationStatus() {
 
-        if (user.getEnabled()) {
+        if (profile.getUser().getEnabled()) {
             tvEmailVerfication.setText("Email has been verified successfully");
         } else {
             tvEmailVerfication.setText("Email hasn't been verifed, click here to verify it");
@@ -198,44 +197,30 @@ public class ProfileFragment extends Fragment {
     }
 
 
-//    ******* MANIPULACION DE DATOS PARA EL PERFIL ******
+    //    ******* MANIPULACION DE DATOS PARA EL PERFIL ******
 
     public void getUpdatedProfile() {
-        service.getProfilesFromRest(new Service.APICallback() {
-            @Override
-            public void onSuccess() {
-                // Data is available, do something with it
-                profileList = service.getProfiles();
-                // Manipulate the users data here
-                getProfileById(profileList);
-            }
+        // Get the current user from FirebaseAuth
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("profiles").child(uid);
+            profileRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    profile = dataSnapshot.getValue(Profile.class);
+                    assert profile != null;
+                    showProfileData(profile);
+                    // do something with the retrieved profile
+                }
 
-            @Override
-            public void onFailure(String error) {
-                System.out.println(error);
-                // Handle error
-            }
-        });
-
-    }
-
-    //    ******* MANIPULACION DE DATOS PARA EL FOTO DEL PERFIL ******
-
-    public void getProfileById(List<Profile> profileList) {
-        //Si el perfil ya esta cargado no es necesario generar otra instancia de perfil nuevo
-        if (profile == null) {
-            profile = new Profile();
-        }
-        for (int i = 0; i < profileList.size(); i++) {
-            System.out.println("Item one by one " + profileList.get(i));
-            if (profileList.get(i).getProfile_id() == user.getUser_id()) {
-                profile = profileList.get(i);
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getContext(), "Couldn't get the profile", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
-        // TENEMOS QUE TENER CARGADO EL PERFIL PARA EFECTUAR CAMBIOS
-        showProfileData(profile);
-//        btnUpdateProfile();
     }
 
     /**
@@ -255,66 +240,6 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    /**
-     * The createPhotoRestPoint() method is used to create a REST endpoint for uploading the user's profile photo.
-     * The method first converts the ImageView's drawable to a bitmap and then saves it as a file in the app's cache directory.
-     * It then creates a RequestBody object with the image file and creates a MultipartBody.Part object to upload the file to the server using a Retrofit service.
-     */
-    public void createPhotoRestPoint() {
-        // Get the image from the ImageView
-        Drawable drawable = imgProfile.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-
-        // Create a temporary file to store the image
-        File file = null;
-        try {
-            file = File.createTempFile("image", ".jpg", requireContext().getCacheDir());
-            OutputStream outputStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-            outputStream.flush();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Create the request body and file part
-        assert file != null;
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
-
-        // Call the API to upload the file
-        service.savePhotoLocalServer(new Service.APICallback() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(getContext(), "Photo sent successfully", Toast.LENGTH_SHORT).show();
-                btnUpdateProfile();
-            }
-
-            @Override
-            public void onFailure(String error) {
-                if (error.contains("maximum allowed size")) {
-                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "Photo sent unsuccessfully", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, filePart);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == GALLERY_REQ_CODE && data != null) {
-            createPhotoRestPoint();
-            // Get the selected image URI
-            Uri uri = data.getData();
-            // Display the image in your app
-            imgProfile.setImageURI(uri);
-            profile.setPhoto(getImageUri());
-            editor.putString("photo", profile.getPhoto());
-
-        }
-    }
 
     /**
      * The getImageUri() method is used to convert a Bitmap image to a Uri that can be used to store or share the image.
@@ -349,6 +274,7 @@ public class ProfileFragment extends Fragment {
      * We ensure that the file is being saved has a unique name using timestamp or a unique identifier to the file name to make it unique.
      */
 
+
     public Uri getImageUri(Bitmap bitmap) {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String fileName = "profile_" + timestamp + ".jpg";
@@ -371,41 +297,102 @@ public class ProfileFragment extends Fragment {
         return uri;
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == GALLERY_REQ_CODE && data != null) {
+            // Get the selected image URI
+            Uri uri = data.getData();
+            // Display the image in your app
+            imgProfile.setImageURI(uri);
+//            profile.setPhoto(getImageUri());
+            uploadPhoto(uri);
+        }
+    }
+
+
     //********** ACTUALIZAR LOS DATOS DEL PERFIL ************
+
 
     public void btnUpdateProfile() {
 
         btnSave.setOnClickListener(v -> {
+
             if (!validateFirstName() || !validateLastName() || !validateDate()) {
                 return;
             }
 
-            Call<Profile> call = iapiService.updateProfile(profile);
-            call.enqueue(new Callback<Profile>() {
-                @Override
-                public void onResponse(Call<Profile> call, Response<Profile> response) {
-                    Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
 
-                    Profile profile1 = profile;
-                    // Convert the JSON string to a Java object using Gson
-                    // Convert the updated profile object to a JSON string using Gson
-                    String profileStr = gson.toJson(profile1);
-                    // Store the updated profile JSON string as a preference
-                    editor.putString("profile", profileStr);
-                    editor.apply();
+            if (profile.getPhoto() != null) {
+                if (profile.getPhoto().isEmpty()) {
+                    Toast.makeText(getContext(), "Please add at least one photo to update the profile",
+                            Toast.LENGTH_SHORT).show();
+                    return;
                 }
+            }
 
-                @Override
-                public void onFailure(Call<Profile> call, Throwable t) {
-                    System.out.println(t.getMessage());
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
 
-            });
+            // ================== FIREBASE =================== //
+            // Get a reference to the Firebase database
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            // Get a reference to the profile you want to update
+            DatabaseReference profileRef = database.getReference("profiles/" + profile.getProfile_id());
+            // Set the value of the profile object
+            profileRef.setValue(profile);
+            Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
+            //Send the data to the other fragment
+            Profile profile1 = profile;
+            // Convert the JSON string to a Java object using Gson
+            // Convert the updated profile object to a JSON string using Gson
+            String profileStr = gson.toJson(profile1);
+            // Store the updated profile JSON string as a preference
+            editor.putString("profile", profileStr);
+            editor.apply();
 
         });
+    }
 
 
+    public void uploadPhoto(Uri uri) {
+        // Get the Firebase Storage reference with your bucket name
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-3ee10.appspot.com/");
+        StorageReference storageRef = storage.getReference();
+
+        // Upload the image to Firebase Storage
+        StorageReference imageRef = storageRef.child("profiles/" + profile.getProfile_id());
+
+        imageRef.putFile(uri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Image uploaded successfully, get the download URL
+                    imageRef.getDownloadUrl().addOnSuccessListener(uri1 -> {
+                        // Store the download URL in the photo attribute of the Profile object
+                        String downloadUrl = uri1.toString();
+                        profile.setPhoto(downloadUrl);
+                        // Load the image into the ImageView using Picasso or Glide
+                        Picasso.get().load(downloadUrl).into(imgProfile);
+                        // ================== FIREBASE =================== //
+                        // Get a reference to the Firebase database
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        // Get a reference to the profile you want to update
+                        DatabaseReference profileRef = database.getReference("profiles/" + profile.getProfile_id());
+                        // Set the value of the profile object
+                        profileRef.setValue(profile);
+                        Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
+                        //Send the data to the other fragment
+                        Profile profile1 = profile;
+                        // Convert the JSON string to a Java object using Gson
+                        // Convert the updated profile object to a JSON string using Gson
+                        String profileStr = gson.toJson(profile1);
+                        // Store the updated profile JSON string as a preference
+                        editor.putString("profile", profileStr);
+                        editor.apply();
+                    });
+                })
+                .addOnFailureListener(exception -> {
+                    // Handle errors
+                    Log.e(TAG, "Error uploading image to Firebase Storage: " + exception.getMessage());
+                });
     }
 
 
@@ -454,5 +441,23 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+
+    public void validateGender() {
+        spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedGender = (String) parent.getItemAtPosition(position);
+                if (profile != null) {
+                    profile.setGender(selectedGender);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
+    }
 
 }

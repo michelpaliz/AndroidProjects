@@ -1,35 +1,36 @@
 package com.example.caminoalba;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.caminoalba.config.Config;
 import com.example.caminoalba.helpers.EmailHelper;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
-import com.example.caminoalba.services.Service;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -37,11 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnSingIn, btnHome;
     private EditText edEmail, edPassword;
     private Intent intent;
-    private Service service;
     private ProgressBar progressBar;
-    private List<User> userList;
-    private User user;
-    private Profile profile;
     private String email;
     private SharedPreferences prefs;
     // ------ Otras referencias    -------
@@ -52,6 +49,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        if (FirebaseApp.getApps(this).isEmpty()) {
+            FirebaseApp.initializeApp(this);
+        }
         init();
         backHome();
         authenticateUser();
@@ -67,12 +67,9 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         // ------ Inicializamos variables  -------
         // ------ Para obtener todos los datos del usuario  -------
-        service = new Service();
-        user = new User();
-        profile = new Profile();
-        userList = new ArrayList<>();
         gson = new Gson();
     }
+
 
     public void authenticateUser() {
         btnSingIn.setOnClickListener(v -> {
@@ -85,154 +82,138 @@ public class LoginActivity extends AppCompatActivity {
             email = edEmail.getText().toString();
             String password = edPassword.getText().toString();
 
-            // Set Parameters
-            Map<String, String> params = new HashMap<>();
-            params.put("email", email);
-            params.put("password", password);
+            logIn(email, password);
 
-            // Set JSON request Object
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Config.LOGIN_API, new JSONObject(params), response -> {
-                try {
-                    Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
-
-                    // Get values from Response Object
-                    email = (String) response.get("email");
-                    getCurrentUser();
-                    Config.USER_SAVED = true;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    System.out.println(e.getMessage());
-                } finally {
-                    progressBar.setVisibility(View.GONE);
-                }
-            }, error -> {
-                error.printStackTrace();
-                System.out.println(error.getMessage());
-                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
-            });
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(jsonObjectRequest);
         });
 
     }
 
-    //    ******** OBTENER TODOS LOS DATOS DEL USUARIO ***********
-    //    ******** MANIPULACION DE DATOS PARA EL USUARIO ***********
+    public void logIn(String email, String password) {
+//        ProgressDialog progressDialog = ProgressDialog.show(this, "", "Logging in...", true);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    public void getCurrentUser() {
-        service.getUsersFromRest(new Service.APICallback() {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser firebaseUser = auth.getCurrentUser();
+                if (firebaseUser != null) {
+                    String userEmail = firebaseUser.getEmail();
+                    DatabaseReference userRef = database.getReference("users");
 
-            @Override
-            public void onSuccess() {
-                userList = service.getUsers();
+                    Query query = userRef.orderByChild("email").equalTo(userEmail);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                    User user = userSnapshot.getValue(User.class);
+                                    if (user != null) {
+                                        // Save user data to SharedPreferences
+                                        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                        editor = prefs.edit();
+                                        String userStr = gson.toJson(user);
+                                        editor.putString("user", userStr);
+                                        editor.putString("email", user.getEmail());
+                                        editor.apply();
 
-                User userSelected = new User();
-                for (int i = 0; i < userList.size(); i++) {
-                    if (userList.get(i).getEmail().equalsIgnoreCase(email)) {
-                        userSelected = userList.get(i);
-                        System.out.println("esto es user " + userSelected);
-                    }
-                }
-                user = userSelected;
-                //Pass Values to profile activity
-                prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                editor = prefs.edit();
-                String userStr = gson.toJson(userSelected);
-                editor.putString("user", userStr);
-                editor.putString("email", userSelected.getEmail());
+                                        // Get profile data for the user
+                                        DatabaseReference profileRef = database.getReference("profiles").child(String.valueOf(user.getUser_id()));
 
+                                        profileRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                Profile profile = snapshot.getValue(Profile.class);
+                                                if (profile != null) {
+                                                    // Save profile data to SharedPreferences
+                                                    String profileStr = gson.toJson(profile);
+                                                    editor.putString("profile", profileStr);
+                                                    editor.apply();
 
-                service.getProfilesFromRest(new Service.APICallback() {
-                    @Override
-                    public void onSuccess() {
-                        List<Profile> profileList = service.getProfiles();
-                        // Manipulate the users data here
-                        Profile profileSelected = new Profile();
-                        System.out.println("Item one by one " + profileList);
-                        for (int i = 0; i < profileList.size(); i++) {
-                            if (profileList.get(i).getProfile_id() == user.getUser_id()) {
-                                profileSelected = profileList.get(i);
+                                                    // Start main activity
+                                                    Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(LoginActivity.this, "Profile not found for this user.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Toast.makeText(LoginActivity.this, "Error loading profile data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Log.w(TAG, "loadProfile:onCancelled", error.toException());
+                                            }
+                                        });
+                                        return;
+                                    }
+                                }
+                                Toast.makeText(LoginActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
                             }
                         }
-                        profile = profileSelected;
-                        // Save profile data to SharedPreferences
-                        String profileStr = gson.toJson(profile);
-                        editor.putString("profile", profileStr);
-                        editor.apply();
-                        //Set Intent Actions;
-                        progressBar.setVisibility(View.GONE);
-                        intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
-                        //Start Activity
-                        startActivity(intent);
-                        finish();
-                    }
 
-                    @Override
-                    public void onFailure(String error) {
-                        System.out.println(error);
-                        // Handle error
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(String error) {
-
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(LoginActivity.this, "Error loading user data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.w(TAG, "loadUser:onCancelled", error.toException());
+                        }
+                    });
+                }
+            } else {
+                Toast.makeText(LoginActivity.this, "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+        //    ******** VALIDATION ***********
 
-    //    ******** VALIDATION ***********
+        public boolean validateEmail () {
+            String strEmail = edEmail.getText().toString();
+            if (strEmail.isEmpty()) {
+                edEmail.setError("Cannot be empty");
+                return false;
+            } else if (!EmailHelper.isValidEmail(strEmail)) {
+                edEmail.setError("Email not valid");
+                return false;
+            } else {
+                edEmail.setError(null);
+                return true;
+            }
 
-    public boolean validateEmail() {
-        String strEmail = edEmail.getText().toString();
-        if (strEmail.isEmpty()) {
-            edEmail.setError("Cannot be empty");
-            return false;
-        } else if (!EmailHelper.isValidEmail(strEmail)) {
-            edEmail.setError("Email not valid");
-            return false;
-        } else {
-            edEmail.setError(null);
-            return true;
         }
 
-    }
-
-
-    public boolean validatePassword() {
-        String password = edPassword.getText().toString();
-        if (password.isEmpty()) {
-            edPassword.setError("Cannot be empty");
-            return false;
-        } else {
-            edPassword.setError(null);
-            return true;
+        public boolean validatePassword () {
+            String password = edPassword.getText().toString();
+            if (password.isEmpty()) {
+                edPassword.setError("Cannot be empty");
+                return false;
+            } else if (password.length() < 6) {
+                edPassword.setError("Password must be at least 6 characters long");
+                return false;
+            } else {
+                edPassword.setError(null);
+                return true;
+            }
         }
-
-    }
-
 
 //    ********** Button Actions **********
 
-    public void backHome() {
-        btnHome.setOnClickListener(v -> {
-            intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        public void backHome () {
+            btnHome.setOnClickListener(v -> {
+                intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
+
+        public void goToSingInAcct () {
+            btnSingIn.setOnClickListener(v -> {
+                intent = new Intent(this, RegistrationActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
+
+
     }
-
-    public void goToSingInAcct() {
-        btnSingIn.setOnClickListener(v -> {
-            intent = new Intent(this, RegistrationActivity.class);
-            startActivity(intent);
-            finish();
-        });
-    }
-
-
-}
