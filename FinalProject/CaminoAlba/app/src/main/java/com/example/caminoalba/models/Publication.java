@@ -1,6 +1,4 @@
-package com.example.caminoalba.models.dto;
-
-import com.example.caminoalba.models.Blog;
+package com.example.caminoalba.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,16 +66,20 @@ public class Publication implements Serializable {
         this.datePublished = datePublished;
     }
 
-    //    public LocalDateTime getDatePublished() {
-//        return datePublished;
-//    }
-//
-//    public void setDatePublished(LocalDateTime datePublished) {
-//        this.datePublished = datePublished;
-//    }
-
     public List<String> getPhotos() {
         return photos;
+    }
+
+    public void addPhotos(String photos) {
+        // First, we check if the blog object already has a list of photosSaved
+        List<String> photosSaved = this.getPhotos();
+        if (photosSaved == null) {
+            // If the blog object does not have a list of photosSaved, we create a new one
+            photosSaved = new ArrayList<>();
+            this.setPhotos(photosSaved);
+        }
+        // Add the new publication to the list of photosSaved for this blog
+        photosSaved.add(photos);
     }
 
     public void setPhotos(List<String> photos) {
@@ -87,10 +89,12 @@ public class Publication implements Serializable {
     @Override
     public String toString() {
         return "Publication{" +
-                "title='" + title + '\'' +
+                "publication_id='" + publication_id + '\'' +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", datePublished=" + datePublished +
+                ", datePublished='" + datePublished + '\'' +
                 ", photos=" + photos +
+                ", blog=" + blog +
                 '}';
     }
 }

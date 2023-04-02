@@ -281,7 +281,7 @@ public class ProfileFragment extends Fragment {
         StorageReference storageRef = storage.getReference();
 
         // Upload the image to Firebase Storage
-        StorageReference imageRef = storageRef.child("profiles/" + profile.getProfile_id());
+        StorageReference imageRef = storageRef.child("profiles/" + profile.getProfile_id() + "/" + profile.getProfile_id());
 
         imageRef.putFile(uri)
                 .addOnSuccessListener(taskSnapshot -> {

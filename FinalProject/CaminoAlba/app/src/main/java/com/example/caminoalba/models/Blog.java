@@ -1,7 +1,5 @@
 package com.example.caminoalba.models;
 
-import com.example.caminoalba.models.dto.Publication;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,13 +119,15 @@ public class Blog implements Serializable {
     @Override
     public String toString() {
         return "Blog{" +
-                "id=" + blog_id +
+                "blog_id='" + blog_id + '\'' +
                 ", description='" + description + '\'' +
                 ", enableInfo=" + enableInfo +
                 ", kmlRunned=" + kmlRunned +
                 ", points=" + points +
                 ", followers=" + followers +
                 ", following=" + following +
+                ", publications=" + publications +
+                ", profile=" + profile +
                 '}';
     }
 }

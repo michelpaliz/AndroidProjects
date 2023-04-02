@@ -18,7 +18,6 @@ import com.example.caminoalba.models.AccountStatus;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
-import com.example.caminoalba.models.dto.Publication;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,7 +81,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user != null) {
                                 String uid = user.getUid();
-                                User newUser = new User(uid, email, password, "user", Utils.generateVerificationCode(), false, AccountStatus.ACTIVE);
+                                User newUser = new User(uid, email, "user", Utils.generateVerificationCode(), false, AccountStatus.ACTIVE);
                                 Profile profile = new Profile(uid, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null, newUser);
                                 Blog blog = new Blog(uid, null, true, 0, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), profile);
 

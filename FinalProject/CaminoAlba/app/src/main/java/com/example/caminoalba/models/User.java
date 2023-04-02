@@ -8,7 +8,6 @@ public class User implements Serializable {
 
     private String user_id;
     private String email;
-    private String password;
     private String type;
     private String verificationCode;
     private Boolean enabled;
@@ -19,10 +18,9 @@ public class User implements Serializable {
     }
 
 
-    public User(String user_id, String email, String password, String type, String verificationCode, Boolean enabled, AccountStatus accountStatus) {
+    public User(String user_id, String email,String type, String verificationCode, Boolean enabled, AccountStatus accountStatus) {
         this.user_id = user_id;
         this.email = email;
-        this.password = password;
         this.type = type;
         this.verificationCode = verificationCode;
         this.enabled = enabled;
@@ -62,14 +60,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Boolean getEnabled() {
         return enabled;
     }
@@ -91,7 +81,6 @@ public class User implements Serializable {
         return "User{" +
                 "user_id='" + user_id + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", type='" + type + '\'' +
                 ", verificationCode='" + verificationCode + '\'' +
                 ", enabled=" + enabled +

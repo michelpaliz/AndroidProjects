@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +25,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
-import com.example.caminoalba.models.dto.Publication;
+import com.example.caminoalba.models.Publication;
 import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterPhotos;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +44,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -125,24 +131,7 @@ public class AddPublicationFragment extends Fragment {
 
         btnAddPublication.setOnClickListener(v -> {
 
-            if (uriList.isEmpty()) {
-                Toast.makeText(requireContext(), "Please select at least one photo", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!title() || !description()) {
-                // handle validation errors
-                return;
-            }
-
-            //Add publication here
-            createNewPublication();
-            // In the child fragment:
-            // Get the parent FragmentManager instance
-            FragmentManager parentFragmentManager = getParentFragmentManager();
-
-            // Remove the current fragment from the back stack
-            parentFragmentManager.popBackStack();
+            createPublication();
 
         });
 
@@ -184,22 +173,35 @@ public class AddPublicationFragment extends Fragment {
         }
     }
 
+    public void createPublication() {
+        // Convert the list of Uri to a list of Strings
+        List<String> photoUrls = new ArrayList<>();
+        for (Uri uri : uriList) {
+            photoUrls.add(uri.toString());
+        }
 
-    public void createNewPublication() {
-        // Create a new unique ID for the publication
+        if (photoUrls.isEmpty()) {
+            Toast.makeText(requireContext(), "Please select at least one photo", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!title() || !description()) {
+            // handle validation errors
+            return;
+        }
+
+        // Create a new Publication object
+        Publication publication = new Publication();
+
+        // Set the attributes of the Publication object
         String publicationId = databaseReference.child("publications").push().getKey();
         publication.setPublication_id(publicationId);
         publication.setTitle(title);
         publication.setDescription(description);
         publication.setDatePublished(formattedDate);
 
-        if (publication.getPhotos().size() > MAX_PHOTOS) {
-            publication.getPhotos().subList(MAX_PHOTOS, publication.getPhotos().size()).clear();
-        }
-
-        List<String> firstHalf = publication.getPhotos().subList(0, publication.getPhotos().size() / 2);
-
-        publication.setPhotos(firstHalf);
+        // Add the photos to the Publication object
+//        publication.setPhotos(photoUrls);
 
         // Get a reference to the blog in the database
         DatabaseReference blogRef = databaseReference.getDatabase().getReference("blogs/" + profile.getProfile_id());
@@ -226,12 +228,8 @@ public class AddPublicationFragment extends Fragment {
                         existingBlog.getPublications().get(index).setPublication_id(publicationId);
                     }
 
-                    // Save the updated publication object to Firebase Realtime Database
-                    DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publicationId);
-                    publicationRef.setValue(publication);
+                    uploadPhotos(uriList, publicationId);
 
-                    // Update the UI to show the new publication
-                    adapter.notifyDataSetChanged();
                 } else {
                     // Handle the case where the blog does not exist in the database
                     Toast.makeText(getContext(), "Blog not found", Toast.LENGTH_SHORT).show();
@@ -245,7 +243,6 @@ public class AddPublicationFragment extends Fragment {
                 Log.e(TAG, "Error retrieving blog from Firebase Realtime Database: " + error.getMessage());
             }
         });
-
     }
 
 
@@ -254,8 +251,12 @@ public class AddPublicationFragment extends Fragment {
             // Check if the uri already exists in the list
             if (!uriList.contains(uri)) {
                 uriList.add(uri);
+//                List<String> stringList = uriList.stream()
+//                        .map(Uri::toString)
+//                        .collect(Collectors.toList());
+//                publication.setPhotos(stringList);
                 adapter.notifyDataSetChanged();
-                uploadPhotos(uriList);
+//                uploadPhotos(uriList);
             } else {
                 Toast.makeText(requireContext(), "Photo already added", Toast.LENGTH_SHORT).show();
             }
@@ -264,7 +265,7 @@ public class AddPublicationFragment extends Fragment {
         }
     }
 
-    public void uploadPhotos(List<Uri> uris) {
+    public void uploadPhotos(List<Uri> uris, String publicationId) {
         // Get the Firebase Storage reference with your bucket name
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-3ee10.appspot.com/");
         StorageReference storageRef = storage.getReference();
@@ -275,7 +276,7 @@ public class AddPublicationFragment extends Fragment {
             String imageName = String.valueOf(System.currentTimeMillis());
 
             // Upload the image to Firebase Storage
-            StorageReference imageRef = storageRef.child("publications/" + publication.getPublication_id() + "/" + imageName);
+            StorageReference imageRef = storageRef.child("publications/" + publicationId + "/" + imageName);
 
             imageRef.putFile(uri)
                     .addOnSuccessListener(taskSnapshot -> {
@@ -283,11 +284,15 @@ public class AddPublicationFragment extends Fragment {
                         imageRef.getDownloadUrl().addOnSuccessListener(uri1 -> {
                             // Store the download URL in the photos attribute of the Publication object
                             String downloadUrl = uri1.toString();
-                            publication.getPhotos().add(downloadUrl);
-                            // Save the updated publication object to Firebase Realtime Database
-//                            DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publication.getPublication_id());
-//                            publicationRef.setValue(publication);
+                            publication.addPhotos(downloadUrl);
                             Toast.makeText(requireContext(), "Photos updated successfully", Toast.LENGTH_SHORT).show();
+                            // Save the updated publication object to Firebase Realtime Database
+                            DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publicationId);
+                            publicationRef.setValue(publication);
+                            // Update the UI to show the new publication
+                            adapter.notifyDataSetChanged();
+
+
                         });
                     })
                     .addOnFailureListener(exception -> {
@@ -295,6 +300,28 @@ public class AddPublicationFragment extends Fragment {
                         Log.e(TAG, "Error uploading image to Firebase Storage: " + exception.getMessage());
                     });
         }
+
+
+        //Add publication here
+        // In the child fragment:
+        // Get the parent FragmentManager instance
+        FragmentManager parentFragmentManager = getParentFragmentManager();
+
+        // Define enter and exit animations for the fragment transition
+        int enterAnim = R.anim.slide_in_right;
+        int exitAnim = R.anim.slide_out_left;
+
+        // Create and set the fragment transition animation object
+        Transition fragmentTransition = new Slide(Gravity.START);
+        fragmentTransition.setDuration(1000);
+        FragmentTransaction fragmentTransaction = parentFragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.setCustomAnimations(enterAnim, exitAnim);
+        fragmentTransaction.replace(R.id.fragment_add_publication , new BlogFragment());
+        fragmentTransaction.addToBackStack(null);
+        Toast.makeText(requireContext(), "Publication Uploaded successfully", Toast.LENGTH_SHORT).show();
+        // Commit the fragment transaction
+        fragmentTransaction.commit();
     }
 
 
