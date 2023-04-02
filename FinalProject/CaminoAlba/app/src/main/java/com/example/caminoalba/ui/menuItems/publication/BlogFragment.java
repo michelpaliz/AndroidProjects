@@ -15,11 +15,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.User;
+import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerPublicationAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +41,7 @@ public class BlogFragment extends Fragment {
     private Blog blog;
     private Profile profile;
     private ImageView imgHome, imgBlog, imgAddPublication;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class BlogFragment extends Fragment {
         imgHome = view.findViewById(R.id.imgHome);
         imgBlog = view.findViewById(R.id.imgBlog);
         imgAddPublication = view.findViewById(R.id.imgAddPublication);
+        recyclerView = view.findViewById(R.id.rvPublications);
         // ------ Inicializamos variables  -------
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         user = new User();
@@ -71,42 +76,13 @@ public class BlogFragment extends Fragment {
         user = gson.fromJson(userStr, User.class);
         profile = gson.fromJson(profileStr, Profile.class);
 
-        handleFragments();
-    }
+        eventHandler();
 
-    public void handleFragments() {
-
-
-
-        imgBlog.setOnClickListener(v -> {
-
-        });
-
-        imgHome.setOnClickListener(v -> {
-
-        });
-
-        imgAddPublication.setOnClickListener(v -> {
-            //Create varibles to pass to my child fragment
-            getBlog();
-            Bundle args = new Bundle();
-            args.putSerializable("profile", profile);
-            args.putSerializable("blog", blog);
-            // Create an instance of the child fragment
-            AddPublicationFragment addPublicationFragment = new AddPublicationFragment();
-            //Pass the args already created to the child fragment
-            addPublicationFragment.setArguments(args);
-            // Begin a new FragmentTransaction using the getChildFragmentManager() method
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            // Add the child fragment to the transaction and specify a container view ID in the parent layout
-            transaction.add(R.id.fragment_blog, addPublicationFragment);
-            transaction.addToBackStack(null); // Add the fragment to the back stack
-            transaction.commit();
-        });
 
     }
 
-    public void getBlog(){
+
+    public void eventHandler(){
         // Get the current user from FirebaseAuth
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -116,6 +92,41 @@ public class BlogFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     blog = dataSnapshot.getValue(Blog.class);
+                    assert blog != null;
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
+                    RecyclerPublicationAdapter recyclerPublicationAdapter = new RecyclerPublicationAdapter(blog.getPublications(), requireContext());
+                    recyclerView.setAdapter(recyclerPublicationAdapter);
+                    recyclerPublicationAdapter.notifyDataSetChanged();
+
+                    imgAddPublication.setOnClickListener(v -> {
+                        //Create varibles to pass to my child fragment
+                        Bundle args = new Bundle();
+                        args.putSerializable("profile", profile);
+                        args.putSerializable("blog", blog);
+                        // Create an instance of the child fragment
+                        AddPublicationFragment addPublicationFragment = new AddPublicationFragment();
+                        //Pass the args already created to the child fragment
+                        addPublicationFragment.setArguments(args);
+                        // Begin a new FragmentTransaction using the getChildFragmentManager() method
+                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                        // Add the child fragment to the transaction and specify a container view ID in the parent layout
+                        transaction.add(R.id.fragment_blog, addPublicationFragment);
+                        transaction.addToBackStack(null); // Add the fragment to the back stack
+                        transaction.commit();
+
+                    });
+
+                    imgBlog.setOnClickListener(v -> {
+
+                    });
+
+                    imgHome.setOnClickListener(v -> {
+
+                    });
+
 
                 }
 
@@ -126,6 +137,11 @@ public class BlogFragment extends Fragment {
             });
         }
     }
+
+
+
+
+
 
 
 

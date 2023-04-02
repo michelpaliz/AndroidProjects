@@ -40,6 +40,9 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        if (FirebaseApp.getApps(this).isEmpty()) {
+            FirebaseApp.initializeApp(this);
+        }
         init();
         backHome();
         authenticateUser();
@@ -72,12 +75,15 @@ public class RegistrationActivity extends AppCompatActivity {
                 return;
             }
 
-            String email = edEmail.getText().toString();
+            String email = edEmail
+                    .getText().toString();
             String password = edPassword.getText().toString();
 
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
-                        if (task.isSuccessful()) {
+
+                        if (task.isSuccessful()){
+
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user != null) {
                                 String uid = user.getUid();
@@ -88,16 +94,17 @@ public class RegistrationActivity extends AppCompatActivity {
                                 // Set the user ID in the objects
                                 profile.getUser().setUser_id(uid);
                                 blog.setBlog_id(uid);
-
                                 // Register the user in Firebase Realtime Database
                                 registerUserFirebase(newUser, profile, blog);
+                                Toast.makeText(RegistrationActivity.this, "Firebase has register your user", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(this, "User couldn't be registered.", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(this, "Registration failed.", Toast.LENGTH_SHORT).show();
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+
                         }
+                    }).addOnFailureListener(e -> {
+                        Log.w(TAG, "createUserWithEmail:failure", e);
+
                     });
 
         });
@@ -106,51 +113,75 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registerUserFirebase(User user, Profile profile, Blog blog) {
 
-        // Check if the Firebase app has already been initialized
-        if (FirebaseApp.getApps(this).isEmpty()) {
-            // Initialize FirebaseApp with options
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setApiKey("236275525323")
-                    .setApplicationId("caminoalba-3ee10")
-                    .setDatabaseUrl("https://caminoalba-3ee10-default-rtdb.europe-west1.firebasedatabase.app")
-                    .build();
-            FirebaseApp.initializeApp(getApplicationContext(), options);
-        }
-
         // Get reference to the database
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         // Convert user_id to String
-        String user_id = (user.getUser_id());
+        String user_id = user.getUser_id();
 
         // Save user object to Firebase
-        databaseReference.child("users").child(user_id).setValue(user);
+        DatabaseReference userRef = databaseReference.child("users").child(user_id);
+        userRef.setValue(user, (error, ref) -> {
+            if (error != null) {
+                // Handle error
+                Log.e(TAG, "Error saving user to Firebase: " + error.getMessage());
+                Toast.makeText(RegistrationActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        // Save profile object to Firebase
-        databaseReference.child("profiles").child(user_id).setValue(profile);
+            // Save profile object to Firebase
+            DatabaseReference profileRef = databaseReference.child("profiles").child(user_id);
+            profileRef.setValue(profile, (error1, ref1) -> {
+                if (error1 != null) {
+                    // Handle error
+                    Log.e(TAG, "Error saving profile to Firebase: " + error1.getMessage());
+                    Toast.makeText(RegistrationActivity.this, error1.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Rollback the user write
+                    userRef.removeValue();
+                    return;
+                }
 
-        // Save blog object to Firebase
-        databaseReference.child("blogs").child(user_id).setValue(blog);
+                // Save blog object to Firebase
+                DatabaseReference blogRef = databaseReference.child("blogs").child(user_id);
+                blogRef.setValue(blog, (error2, ref2) -> {
+                    if (error2 != null) {
+                        // Handle error
+                        Log.e(TAG, "Error saving blog to Firebase: " + error2.getMessage());
+                        Toast.makeText(RegistrationActivity.this, error2.getMessage(), Toast.LENGTH_SHORT).show();
+                        // Rollback the user and profile writes
+                        userRef.removeValue();
+                        profileRef.removeValue();
+                        return;
+                    }
 
-        // Attach a listener to check if the user has been saved
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    // All data saved successfully
+                    Toast.makeText(RegistrationActivity.this, "Firebase has registered your user", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "User saved to Firebase!");
+                });
+            });
+        });
+
+        // Attach a listener to check if the user has permission to write to the database
+        DatabaseReference permissionRef = databaseReference.child(".info/authenticated");
+        permissionRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // User has been saved to Firebase
-                    Log.d(TAG, "User saved to Firebase!");
-                    Toast.makeText(RegistrationActivity.this, "Firebase has register your user", Toast.LENGTH_SHORT).show();
+                if (snapshot.exists() && snapshot.getValue(Boolean.class)) {
+                    // User has permission to write to the database
+                    Toast.makeText(RegistrationActivity.this, "User has permission to write to the database", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "User has permission to write to the database");
                 } else {
-                    // User has not been saved to Firebase
-                    Toast.makeText(RegistrationActivity.this, "Firebase hasn't register your user", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "User not saved to Firebase!");
+                    // User does not have permission to write to the database
+                    Toast.makeText(RegistrationActivity.this, "User does not have permission to write to the database", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "User does not have permission to write to the database");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Handle error
-                Log.e(TAG, "Error saving user to Firebase: " + error.getMessage());
+                Log.e(TAG, "Error checking database permission: " + error.getMessage());
+                Toast.makeText(RegistrationActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

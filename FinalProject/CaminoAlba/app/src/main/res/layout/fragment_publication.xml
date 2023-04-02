@@ -8,9 +8,8 @@
     <FrameLayout
         android:id="@+id/fragment_publication"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/my_dark_blue"
+        android:layout_height="wrap_content"
+        android:background="@drawable/alt_btn_styling"
         tools:context=".ui.menuItems.publication.AddPublicationFragment">
 
         <RelativeLayout
@@ -38,73 +37,84 @@
                 <!-- Author name -->
                 <TextView
                     android:id="@+id/tvAuthorName_frg_publication"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
                     android:text="John Doe"
                     android:textColor="@color/my_light_blue"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tvTimeDisplayed_frg_publication"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="100dp"
+                    android:layout_marginStart="90dp"
                     android:text="Time"
                     android:textColor="@color/my_light_blue"
-                    android:textSize="13sp" />
+                    android:textSize="7.8sp" />
 
 
             </LinearLayout>
 
             <!-- Title field -->
+
             <TextView
                 android:id="@+id/tvTitleField_frg_publication"
-                android:textColorHint="@color/my_dark_grey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/authorField_frg_publication"
-                android:background="@drawable/input_text_field_styling"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="20dp"
                 android:hint="Title"
                 android:padding="16dp"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColorHint="@color/my_dark_grey"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <!-- Description field -->
             <TextView
                 android:id="@+id/etDescriptionField_frg_publication"
-                android:textColorHint="@color/my_dark_grey"
-                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvTitleField_frg_publication"
-                android:background="@drawable/input_text_field_styling"
                 android:hint="Description"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="25dp"
                 android:padding="16dp"
-                android:textSize="18sp" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/my_dark_grey"
+                android:textSize="15sp" />
 
             <!-- Photo field -->
             <LinearLayout
                 android:id="@+id/photoField_frg_publication"
                 android:layout_width="match_parent"
-                android:layout_height="490dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/etDescriptionField_frg_publication"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <TextView
                     android:layout_width="match_parent"
+                    android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:text="Photos"
                     android:textColor="@color/my_light_blue"
-                    android:textSize="18sp" />
+                    android:textSize="15sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvPhotoGrid_frg_publication"
                     android:layout_width="match_parent"
-                    android:layout_height="372dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:orientation="horizontal"
@@ -118,38 +128,6 @@
 
     </FrameLayout>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/my_light_blue"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="horizontal">-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/imgBlog_frg_publication"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginEnd="26dp"-->
-<!--            android:padding="16dp"-->
-<!--            android:src="@drawable/ic_baseline_card_travel_24" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/imgHome_frg_publication"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginEnd="26dp"-->
-<!--            android:padding="16dp"-->
-<!--            android:src="@drawable/ic_baseline_home_24" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/imgAddPublication_frg_publication"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginEnd="26dp"-->
-<!--            android:padding="16dp"-->
-<!--            android:src="@drawable/ic_baseline_post_add_24" />-->
-
-<!--    </LinearLayout>-->
 
 
 </LinearLayout>

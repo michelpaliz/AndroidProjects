@@ -26,7 +26,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
@@ -40,10 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     private Intent intent;
     private ProgressBar progressBar;
     private String email;
-    private SharedPreferences prefs;
     // ------ Otras referencias    -------
     private Gson gson;
-    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,131 +86,130 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void logIn(String email, String password) {
-//        ProgressDialog progressDialog = ProgressDialog.show(this, "", "Logging in...", true);
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser firebaseUser = auth.getCurrentUser();
-                if (firebaseUser != null) {
-                    String userEmail = firebaseUser.getEmail();
-                    DatabaseReference userRef = database.getReference("users");
-
-                    Query query = userRef.orderByChild("email").equalTo(userEmail);
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                                    User user = userSnapshot.getValue(User.class);
-                                    if (user != null) {
-                                        // Save user data to SharedPreferences
-                                        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                                        editor = prefs.edit();
-                                        String userStr = gson.toJson(user);
-                                        editor.putString("user", userStr);
-                                        editor.putString("email", user.getEmail());
-                                        editor.apply();
-
-                                        // Get profile data for the user
-                                        DatabaseReference profileRef = database.getReference("profiles").child(String.valueOf(user.getUser_id()));
-
-                                        profileRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                Profile profile = snapshot.getValue(Profile.class);
-                                                if (profile != null) {
-                                                    // Save profile data to SharedPreferences
-                                                    String profileStr = gson.toJson(profile);
-                                                    editor.putString("profile", profileStr);
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser firebaseUser = auth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
+                            userRef.orderByChild("email").equalTo(firebaseUser.getEmail())
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if (snapshot.exists()) {
+                                                User user = null;
+                                                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                                    user = userSnapshot.getValue(User.class);
+                                                    if (user != null) {
+                                                        break;
+                                                    }
+                                                }
+                                                if (user != null) {
+                                                    // Save user data to SharedPreferences
+                                                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                                    SharedPreferences.Editor editor = prefs.edit();
+                                                    String userStr = gson.toJson(user);
+                                                    editor.putString("user", userStr);
+                                                    editor.putString("email", user.getEmail());
                                                     editor.apply();
 
-                                                    // Start main activity
-                                                    Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
+                                                    // Get profile data for the user
+                                                    DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("profiles").child(user.getUser_id());
+                                                    profileRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            Profile profile = snapshot.getValue(Profile.class);
+                                                            if (profile != null) {
+                                                                // Save profile data to SharedPreferences
+                                                                String profileStr = gson.toJson(profile);
+                                                                editor.putString("profile", profileStr);
+                                                                editor.apply();
+
+                                                                // Start main activity
+                                                                startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
+                                                                finish();
+                                                            } else {
+                                                                Toast.makeText(LoginActivity.this, "Profile not found for this user.", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+                                                            Toast.makeText(LoginActivity.this, "Error loading profile data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                                            Log.w(TAG, "loadProfile:onCancelled", error.toException());
+                                                        }
+                                                    });
                                                 } else {
-                                                    Toast.makeText(LoginActivity.this, "Profile not found for this user.", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(LoginActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
                                                 }
+                                            } else {
+                                                Toast.makeText(LoginActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
                                             }
+                                        }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                Toast.makeText(LoginActivity.this, "Error loading profile data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                                                Log.w(TAG, "loadProfile:onCancelled", error.toException());
-                                            }
-                                        });
-                                        return;
-                                    }
-                                }
-                                Toast.makeText(LoginActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
-                            }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Toast.makeText(LoginActivity.this, "Error loading user data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Log.w(TAG, "loadUser:onCancelled", error.toException());
+                                        }
+                                    });
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(LoginActivity.this, "Error loading user data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                            Log.w(TAG, "loadUser:onCancelled", error.toException());
-                        }
-                    });
-                }
-            } else {
-                Toast.makeText(LoginActivity.this, "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-        //    ******** VALIDATION ***********
 
-        public boolean validateEmail () {
-            String strEmail = edEmail.getText().toString();
-            if (strEmail.isEmpty()) {
-                edEmail.setError("Cannot be empty");
-                return false;
-            } else if (!EmailHelper.isValidEmail(strEmail)) {
-                edEmail.setError("Email not valid");
-                return false;
-            } else {
-                edEmail.setError(null);
-                return true;
-            }
+    //    ******** VALIDATION ***********
 
+    public boolean validateEmail() {
+        String strEmail = edEmail.getText().toString();
+        if (strEmail.isEmpty()) {
+            edEmail.setError("Cannot be empty");
+            return false;
+        } else if (!EmailHelper.isValidEmail(strEmail)) {
+            edEmail.setError("Email not valid");
+            return false;
+        } else {
+            edEmail.setError(null);
+            return true;
         }
 
-        public boolean validatePassword () {
-            String password = edPassword.getText().toString();
-            if (password.isEmpty()) {
-                edPassword.setError("Cannot be empty");
-                return false;
-            } else if (password.length() < 6) {
-                edPassword.setError("Password must be at least 6 characters long");
-                return false;
-            } else {
-                edPassword.setError(null);
-                return true;
-            }
+    }
+
+    public boolean validatePassword() {
+        String password = edPassword.getText().toString();
+        if (password.isEmpty()) {
+            edPassword.setError("Cannot be empty");
+            return false;
+        } else if (password.length() < 6) {
+            edPassword.setError("Password must be at least 6 characters long");
+            return false;
+        } else {
+            edPassword.setError(null);
+            return true;
         }
+    }
 
 //    ********** Button Actions **********
 
-        public void backHome () {
-            btnHome.setOnClickListener(v -> {
-                intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            });
-        }
-
-        public void goToSingInAcct () {
-            btnSingIn.setOnClickListener(v -> {
-                intent = new Intent(this, RegistrationActivity.class);
-                startActivity(intent);
-                finish();
-            });
-        }
-
-
+    public void backHome() {
+        btnHome.setOnClickListener(v -> {
+            intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
+
+    public void goToSingInAcct() {
+        btnSingIn.setOnClickListener(v -> {
+            intent = new Intent(this, RegistrationActivity.class);
+            startActivity(intent);
+            finish();
+        });
+    }
+
+
+}

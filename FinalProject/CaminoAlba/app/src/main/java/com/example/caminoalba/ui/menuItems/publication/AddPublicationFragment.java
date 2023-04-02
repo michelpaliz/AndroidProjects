@@ -59,10 +59,10 @@ public class AddPublicationFragment extends Fragment {
 
     // ------ Para obtener el blog y publicacion  -------
     private Profile profile;
+    private Blog blog;
     private String description, title;
     // ------ Para obtener el recyclerview    -------
     private RecyclerAdapterPhotos adapter;
-    private RecyclerView recyclerView;
     // ------ Otras referencias    -------
     private List<Uri> uriList;
     private Publication publication;
@@ -97,7 +97,7 @@ public class AddPublicationFragment extends Fragment {
         // ------ Inicializamos variables  -------
         publication = new Publication();
         uriList = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.rvPhotoGrid);
+        RecyclerView recyclerView = view.findViewById(R.id.rvPhotoGrid);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         // ------ Obtenemos el blog actual  -------
         Gson gson = new Gson();
@@ -120,6 +120,12 @@ public class AddPublicationFragment extends Fragment {
         formattedDate = datePublished.format(formatter);
         tvTimeDisplayed.setText(formattedDate);
         Picasso.get().load(profile.getPhoto()).into(imageView);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            blog = (Blog) args.getSerializable("blog");
+        }
+
 
         //ADD BUTTONS
         bntAddPhotos();
@@ -199,6 +205,7 @@ public class AddPublicationFragment extends Fragment {
         publication.setTitle(title);
         publication.setDescription(description);
         publication.setDatePublished(formattedDate);
+        publication.setBlog(blog);
 
         // Add the photos to the Publication object
 //        publication.setPhotos(photoUrls);
@@ -251,10 +258,6 @@ public class AddPublicationFragment extends Fragment {
             // Check if the uri already exists in the list
             if (!uriList.contains(uri)) {
                 uriList.add(uri);
-//                List<String> stringList = uriList.stream()
-//                        .map(Uri::toString)
-//                        .collect(Collectors.toList());
-//                publication.setPhotos(stringList);
                 adapter.notifyDataSetChanged();
 //                uploadPhotos(uriList);
             } else {
