@@ -1,4 +1,4 @@
-package com.example.caminoalba.ui.menuItems.Profile;
+package com.example.caminoalba.ui.menuItems.profile;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;

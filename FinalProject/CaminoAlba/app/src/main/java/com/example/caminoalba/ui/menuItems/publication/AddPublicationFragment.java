@@ -34,7 +34,7 @@ import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
-import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterPhotos;
+import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterAddPhotos;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +50,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.internal.cache.DiskLruCache;
+
 public class AddPublicationFragment extends Fragment {
 
     private static final int MAX_PHOTOS = 5; // maximum number of photos allowed
@@ -62,7 +64,7 @@ public class AddPublicationFragment extends Fragment {
     private Blog blog;
     private String description, title;
     // ------ Para obtener el recyclerview    -------
-    private RecyclerAdapterPhotos adapter;
+    private RecyclerAdapterAddPhotos adapter;
     // ------ Otras referencias    -------
     private List<Uri> uriList;
     private Publication publication;
@@ -104,7 +106,7 @@ public class AddPublicationFragment extends Fragment {
 
 
         // ------  RecyclerView   -------
-        adapter = new RecyclerAdapterPhotos(uriList, requireContext());
+        adapter = new RecyclerAdapterAddPhotos(uriList, requireContext(), null);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -132,6 +134,8 @@ public class AddPublicationFragment extends Fragment {
 
         if (profile.getPhoto() != null) {
             imageView.setImageURI(Uri.parse(profile.getPhoto()));
+        }else{
+            imageView.setImageResource(R.drawable.default_image);
         }
 
 
@@ -197,18 +201,15 @@ public class AddPublicationFragment extends Fragment {
         }
 
         // Create a new Publication object
-        Publication publication = new Publication();
+        Publication newPublication = new Publication();
 
         // Set the attributes of the Publication object
         String publicationId = databaseReference.child("publications").push().getKey();
-        publication.setPublication_id(publicationId);
-        publication.setTitle(title);
-        publication.setDescription(description);
-        publication.setDatePublished(formattedDate);
-        publication.setBlog(blog);
-
-        // Add the photos to the Publication object
-//        publication.setPhotos(photoUrls);
+        newPublication.setPublication_id(publicationId);
+        newPublication.setTitle(title);
+        newPublication.setDescription(description);
+        newPublication.setDatePublished(formattedDate);
+        newPublication.setBlog(blog);
 
         // Get a reference to the blog in the database
         DatabaseReference blogRef = databaseReference.getDatabase().getReference("blogs/" + profile.getProfile_id());
@@ -219,23 +220,8 @@ public class AddPublicationFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Check if the blog exists in the database
                 if (snapshot.exists()) {
-                    // Get the blog object from the database
-                    Blog existingBlog = snapshot.getValue(Blog.class);
 
-                    // Update the existing blog object with the new publication
-                    assert existingBlog != null;
-                    existingBlog.addPublication(publication);
-
-                    // Save the updated blog object to Firebase Realtime Database
-                    blogRef.setValue(existingBlog);
-
-                    // Update the publication object in the publications array of the blog with the correct ID
-                    int index = existingBlog.getPublications().indexOf(publication);
-                    if (index != -1) {
-                        existingBlog.getPublications().get(index).setPublication_id(publicationId);
-                    }
-
-                    uploadPhotos(uriList, publicationId);
+                    uploadPhotos(uriList, publicationId , newPublication, snapshot, blogRef);
 
                 } else {
                     // Handle the case where the blog does not exist in the database
@@ -259,7 +245,6 @@ public class AddPublicationFragment extends Fragment {
             if (!uriList.contains(uri)) {
                 uriList.add(uri);
                 adapter.notifyDataSetChanged();
-//                uploadPhotos(uriList);
             } else {
                 Toast.makeText(requireContext(), "Photo already added", Toast.LENGTH_SHORT).show();
             }
@@ -268,7 +253,7 @@ public class AddPublicationFragment extends Fragment {
         }
     }
 
-    public void uploadPhotos(List<Uri> uris, String publicationId) {
+    public void uploadPhotos(List<Uri> uris, String publicationId , Publication publication, DataSnapshot snapshot , DatabaseReference blogRef) {
         // Get the Firebase Storage reference with your bucket name
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-3ee10.appspot.com/");
         StorageReference storageRef = storage.getReference();
@@ -294,6 +279,23 @@ public class AddPublicationFragment extends Fragment {
                             publicationRef.setValue(publication);
                             // Update the UI to show the new publication
                             adapter.notifyDataSetChanged();
+
+                            // Get the blog object from the database
+                            Blog existingBlog = snapshot.getValue(Blog.class);
+
+                            // Save the updated blog object to Firebase Realtime Database
+                            blogRef.setValue(existingBlog);
+
+                            // Update the existing blog object with the new publication
+                            assert existingBlog != null;
+                            existingBlog.addPublication(publication);
+
+                            // Update the publication object in the publications array of the blog with the correct ID
+                            int index = existingBlog.getPublications().indexOf(publication);
+                            if (index != -1) {
+                                existingBlog.getPublications().get(index).setPublication_id(publicationId);
+                            }
+//                            newPublication.setPhotos(publication.getPhotos());
 
 
                         });

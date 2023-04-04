@@ -23,7 +23,7 @@
             android:name=".NavigationDrawerActivity"
             android:exported="false"
             android:label="@string/title_activity_navigation_drawer"
-            android:theme="@style/Theme.CaminoAlba.NoActionBar">
+      >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

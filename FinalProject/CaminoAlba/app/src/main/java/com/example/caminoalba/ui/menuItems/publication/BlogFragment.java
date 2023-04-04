@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
+import com.example.caminoalba.models.Publication;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerPublicationAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,8 +30,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlogFragment extends Fragment {
 
@@ -60,7 +65,7 @@ public class BlogFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // ------ Inicializamos vistas   -------
         etSearchBar = view.findViewById(R.id.etSearch_bar);
-        frameLayout = view.findViewById(R.id.recycler_view_container);
+        frameLayout = view.findViewById(R.id.fragment_blog);
         imgHome = view.findViewById(R.id.imgHome);
         imgBlog = view.findViewById(R.id.imgBlog);
         imgAddPublication = view.findViewById(R.id.imgAddPublication);
@@ -75,11 +80,45 @@ public class BlogFragment extends Fragment {
         String profileStr = preferences.getString("profile", "");
         user = gson.fromJson(userStr, User.class);
         profile = gson.fromJson(profileStr, Profile.class);
-
         eventHandler();
 
 
     }
+
+
+
+
+    public void getPublications(Blog blog){
+        String blogId = blog.getBlog_id(); // replace with actual blog ID
+
+        DatabaseReference blogRef = FirebaseDatabase.getInstance().getReference("blogs").child(blogId).child("publications");
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Publication> publications = new ArrayList<>();
+                for (DataSnapshot publicationSnapshot : dataSnapshot.getChildren()) {
+                    Publication publication = publicationSnapshot.getValue(Publication.class);
+                    if (publication != null && publication.getPublication_id().equals(publicationSnapshot.getKey())) {
+                        publications.add(publication);
+                    }
+                }
+                // do something with publications list
+                RecyclerPublicationAdapter recyclerPublicationAdapter = new RecyclerPublicationAdapter(publications, requireContext());
+                recyclerView.setAdapter(recyclerPublicationAdapter);
+                recyclerPublicationAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // handle error
+            }
+        };
+
+        blogRef.addListenerForSingleValueEvent(listener);
+    }
+
+
 
 
     public void eventHandler(){
@@ -96,10 +135,13 @@ public class BlogFragment extends Fragment {
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+                     getPublications(blog);
 
-                    RecyclerPublicationAdapter recyclerPublicationAdapter = new RecyclerPublicationAdapter(blog.getPublications(), requireContext());
-                    recyclerView.setAdapter(recyclerPublicationAdapter);
-                    recyclerPublicationAdapter.notifyDataSetChanged();
+
+//                    RecyclerPublicationAdapter recyclerPublicationAdapter = new RecyclerPublicationAdapter(blog.getPublications(), requireContext());
+//                    recyclerView.setAdapter(recyclerPublicationAdapter);
+//                    recyclerPublicationAdapter.notifyDataSetChanged();
+
 
                     imgAddPublication.setOnClickListener(v -> {
                         //Create varibles to pass to my child fragment

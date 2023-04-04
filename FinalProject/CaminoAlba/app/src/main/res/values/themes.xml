@@ -1,8 +1,8 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.MyApp" parent="Theme.MaterialComponents.Light.Bridge">
-<!--    <style name="Theme.CaminoAlba" parent="Theme.MaterialComponents.DayNight.DarkActionBar">-->
-        <!--    <style name="Theme.CaminoAlba" parent="Theme.MaterialComponents.NoActionBar">-->
+    <!--    <style name="Theme.MyApp" parent="Theme.MaterialComponents.Light.Bridge">-->
+    <style name="Theme.CaminoAlba" parent="Theme.MaterialComponents.Light">
+<!--            <style name="Theme.CaminoAlba" parent="Theme.MaterialComponents.NoActionBar">-->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -14,24 +14,16 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-    </style>
-
-    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxStrokeColor">#296D98</item>
-        <item name="boxStrokeWidth">1dp</item>
-    </style>
-
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/round_drawable</item>
-    </style>
-
-    <style name="Theme.CaminoAlba.NoActionBar">
+        <!-- Add these two lines to disable the windowActionBar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <!-- Original AppCompat attributes. -->
+
     </style>
 
     <style name="Theme.CaminoAlba.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.CaminoAlba.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>

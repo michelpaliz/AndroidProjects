@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_blog" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.caminoalba.ui.menuItems.Profile.ProfileFragment"
+        android:name="com.example.caminoalba.ui.menuItems.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment

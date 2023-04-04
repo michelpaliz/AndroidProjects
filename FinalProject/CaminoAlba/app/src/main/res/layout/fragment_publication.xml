@@ -1,133 +1,137 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView android:id="@+id/card"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        android:id="@+id/fragment_publication"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:background="@color/my_dark_grey"
         android:layout_height="wrap_content"
-        android:background="@drawable/alt_btn_styling"
-        tools:context=".ui.menuItems.publication.AddPublicationFragment">
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/main_body"
+        <!-- Author field -->
+        <LinearLayout
+            android:background="@color/black"
+            android:id="@+id/authorField_frg_publication"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-            <!-- Author field -->
-            <LinearLayout
-                android:id="@+id/authorField_frg_publication"
-                android:layout_width="match_parent"
+            <!-- Author profile photo -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/authorPhoto_frg_publication"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerCrop"
+                android:src="@drawable/circle" />
+
+            <!-- Author name -->
+            <TextView
+                android:id="@+id/tvAuthorName_frg_publication"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:text="John Doe"
+                android:textColor="@color/my_light_blue"
+                android:textSize="15sp" />
 
-                <!-- Author profile photo -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/authorPhoto_frg_publication"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/circle" />
-
-                <!-- Author name -->
-                <TextView
-                    android:id="@+id/tvAuthorName_frg_publication"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="16dp"
-                    android:text="John Doe"
-                    android:textColor="@color/my_light_blue"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tvTimeDisplayed_frg_publication"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="90dp"
-                    android:text="Time"
-                    android:textColor="@color/my_light_blue"
-                    android:textSize="7.8sp" />
+            <TextView
+                android:id="@+id/tvTimeDisplayed_frg_publication"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="90dp"
+                android:text="Time"
+                android:textColor="@color/my_light_blue"
+                android:textSize="7.8sp" />
 
 
-            </LinearLayout>
+        </LinearLayout>
 
-            <!-- Title field -->
+        <!-- Media -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPhotoGrid_frg_publication"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:scrollbars="horizontal" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title, secondary and supporting text -->
             <TextView
                 android:id="@+id/tvTitleField_frg_publication"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/authorField_frg_publication"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="20dp"
-                android:hint="Title"
-                android:padding="16dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/my_dark_grey"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:text="asdfsaf"
+                android:textAppearance="?attr/textAppearanceHeadline6"/>
 
-            <!-- Description field -->
             <TextView
                 android:id="@+id/etDescriptionField_frg_publication"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvTitleField_frg_publication"
-                android:hint="Description"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="25dp"
-                android:layout_marginBottom="25dp"
-                android:padding="16dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/my_dark_grey"
-                android:textSize="15sp" />
+                android:layout_marginTop="8dp"
+                android:text="dfasff"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"/>
 
-            <!-- Photo field -->
+
+        </LinearLayout>
+
+        <!-- Buttons -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/tropical_blue">
+
             <LinearLayout
-                android:id="@+id/photoField_frg_publication"
+                android:id="@+id/interactions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/etDescriptionField_frg_publication"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_margin="16dp"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:textStyle="bold"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Photos"
-                    android:textColor="@color/my_light_blue"
-                    android:textSize="15sp" />
+                    android:src="@drawable/ic_baseline_favorite_border_24"
+                    android:layout_marginEnd="110dp"
+                    android:contentDescription="favorite icon" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvPhotoGrid_frg_publication"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="horizontal"
-                    android:paddingTop="16dp"
-                    android:scrollbars="horizontal" />
+                    android:contentDescription="favorite c"
+                    android:src="@drawable/ic_baseline_mode_comment_24" />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_share_24"
+                    android:contentDescription="share icon" />
 
             </LinearLayout>
-
-        </RelativeLayout>
-
-    </FrameLayout>
+        </LinearLayout>
 
 
 
-</LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

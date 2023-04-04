@@ -16,41 +16,64 @@ import com.example.caminoalba.R;
 
 import java.util.List;
 
-public class RecyclerAdapterPhotos extends RecyclerView.Adapter<RecyclerAdapterPhotos.ViewHolder> {
+public class RecyclerAdapterAddPhotos extends RecyclerView.Adapter<RecyclerAdapterAddPhotos.ViewHolder> {
 
     private final List<Uri> uriList;
     private final Drawable defaultImage;
+    private  List<String> photos;
 
-    public RecyclerAdapterPhotos(List<Uri> uriList, Context context) {
+    public RecyclerAdapterAddPhotos(List<Uri> uriList, Context context, List<String> photos) {
         this.uriList = uriList;
         this.defaultImage = context.getResources().getDrawable(R.drawable.default_image);
+        this.photos = photos;
     }
 
 
     @NonNull
     @Override
-    public RecyclerAdapterPhotos.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerAdapterAddPhotos.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_photo, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapterPhotos.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerAdapterAddPhotos.ViewHolder holder, int position) {
 //        holder.imageView.setImageURI(uriList.get(position));
-        if (uriList.size() == 0) {
-            holder.imageView.setImageDrawable(defaultImage);
-        } else {
-            holder.imageView.setImageURI(uriList.get(position));
+        if (uriList != null){
+            if (uriList.size() == 0) {
+                holder.imageView.setImageDrawable(defaultImage);
+            } else {
+                holder.imageView.setImageURI(uriList.get(position));
+            }
         }
+        else if (photos != null){
+            holder.imageView.setImageURI(Uri.parse(photos.get(position)));
+        }
+
+    }
+
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
     }
 
     @Override
     public int getItemCount() {
-        if (uriList.size() == 0) {
-            return 1;
+        int cuantity = 0;
+
+        if (uriList != null){
+            if (uriList.size() == 0) {
+                return 1;
+            }else{
+                cuantity = uriList.size();
+            }
         }
-        return uriList.size();
+
+        else if (photos != null){
+            cuantity = photos.size();
+        }
+
+        return cuantity;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

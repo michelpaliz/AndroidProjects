@@ -1,4 +1,4 @@
-package com.example.caminoalba.ui.menuItems.Profile;
+package com.example.caminoalba.ui.menuItems.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

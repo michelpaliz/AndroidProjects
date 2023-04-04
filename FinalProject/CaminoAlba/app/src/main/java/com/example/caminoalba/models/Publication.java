@@ -14,7 +14,6 @@ public class Publication implements Serializable {
     private Blog blog;
 
     public Publication() {
-        photos = new ArrayList<>();
     }
 
     public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog) {

@@ -5,7 +5,7 @@
     android:id="@+id/fragment_confirm"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.menuItems.Profile.ConfirmEmailFragment">
+    tools:context=".ui.menuItems.profile.ConfirmEmailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout"

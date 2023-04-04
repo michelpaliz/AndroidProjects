@@ -73,12 +73,9 @@ public class LoginActivity extends AppCompatActivity {
             if (!validateEmail() || !validatePassword()) {
                 return;
             }
-
-            progressBar.setVisibility(View.VISIBLE);
-
             email = edEmail.getText().toString();
             String password = edPassword.getText().toString();
-
+            progressBar.setVisibility(View.VISIBLE);
             logIn(email, password);
 
         });
@@ -90,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        progressBar.setVisibility(View.GONE);
                         FirebaseUser firebaseUser = auth.getCurrentUser();
                         if (firebaseUser != null) {
                             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
@@ -156,6 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                                     });
                         }
                     } else {
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(LoginActivity.this, "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
