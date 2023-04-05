@@ -11,8 +11,6 @@ public class Blog implements Serializable {
     private boolean enableInfo;
     private double kmlRunned;
     private int points;
-    private List<Blog> followers;
-    private List<Blog> following;
     private List<Publication> publications;
     private Profile profile;
 
@@ -26,8 +24,6 @@ public class Blog implements Serializable {
         this.enableInfo = enableInfo;
         this.kmlRunned = kmlRunned;
         this.points = points;
-        this.followers = followers;
-        this.following = following;
         this.publications = publications;
         this.profile = profile;
     }
@@ -62,22 +58,6 @@ public class Blog implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Blog> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(List<Blog> followers) {
-        this.followers = followers;
-    }
-
-    public List<Blog> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(List<Blog> following) {
-        this.following = following;
     }
 
     public boolean isEnableInfo() {
@@ -124,8 +104,6 @@ public class Blog implements Serializable {
                 ", enableInfo=" + enableInfo +
                 ", kmlRunned=" + kmlRunned +
                 ", points=" + points +
-                ", followers=" + followers +
-                ", following=" + following +
                 ", publications=" + publications +
                 ", profile=" + profile +
                 '}';

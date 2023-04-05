@@ -9,13 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.R;
-import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,17 +39,6 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
     @Override
     public void onBindViewHolder(@NonNull PublicationViewHolder holder, int position) {
         Publication publication = publicationList.get(position);
-        if (publication.getPhotos() == null){
-            throw new NullPointerException();
-        }
-
-        // set photo adapter and layout manager
-        // convert to list of URIs
-//        List<Uri> uriList = new ArrayList<>();
-//        for (String uriString : publication.getPhotos()) {
-//            Uri uri = Uri.parse(uriString);
-//            uriList.add(uri);
-//        }
         holder.init(publication);
     }
 
@@ -70,6 +58,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
         private final TextView tvTitleField;
         private final TextView etDescriptionField;
         private final RecyclerView rvPhotoGrid;
+        private RecyclerAdapterPublicationPhotos recyclerAdapterPublicationPhotos;
 
         public PublicationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,22 +69,21 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
             etDescriptionField = itemView.findViewById(R.id.etDescriptionField_frg_publication);
             rvPhotoGrid = itemView.findViewById(R.id.rvPhotoGrid_frg_publication);
             // create and set the adapter for the inner RecyclerView
-            RecyclerAdapterAddPhotos recyclerAdapterAddPhotos = new RecyclerAdapterAddPhotos(null, context, new ArrayList<>());
-            rvPhotoGrid.setAdapter(recyclerAdapterAddPhotos);
+            recyclerAdapterPublicationPhotos = new RecyclerAdapterPublicationPhotos(new ArrayList<>());
+            rvPhotoGrid.setAdapter(recyclerAdapterPublicationPhotos);
             rvPhotoGrid.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
         }
 
-        public void init(Publication publication){
+        public void init(Publication publication) {
 
             // update the adapter for the inner RecyclerView with the new list of URIs
-            RecyclerAdapterAddPhotos recyclerAdapterAddPhotos = (RecyclerAdapterAddPhotos) rvPhotoGrid.getAdapter();
-            assert recyclerAdapterAddPhotos != null;
-            recyclerAdapterAddPhotos.setPhotos(publication.getPhotos());
 
             if (publication.getBlog().getProfile().getPhoto() != null) {
-                Uri photo = Uri.parse(publication.getBlog().getProfile().getPhoto());
-                authorPhoto.setImageURI(photo);
+                Picasso.get().load(publication.getBlog().getProfile().getPhoto()).into(authorPhoto);
             }
+            recyclerAdapterPublicationPhotos.setPhotos(publication.getPhotos());
+            recyclerAdapterPublicationPhotos = (RecyclerAdapterPublicationPhotos) rvPhotoGrid.getAdapter();
+            recyclerAdapterPublicationPhotos.notifyDataSetChanged();
             tvAuthorName.setText(publication.getBlog().getProfile().getFirstName());
             tvTimeDisplayed.setText(publication.getDatePublished());
             tvTitleField.setText(publication.getTitle());

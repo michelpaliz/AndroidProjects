@@ -20,12 +20,10 @@ public class RecyclerAdapterAddPhotos extends RecyclerView.Adapter<RecyclerAdapt
 
     private final List<Uri> uriList;
     private final Drawable defaultImage;
-    private  List<String> photos;
 
-    public RecyclerAdapterAddPhotos(List<Uri> uriList, Context context, List<String> photos) {
+    public RecyclerAdapterAddPhotos(List<Uri> uriList, Context context) {
         this.uriList = uriList;
         this.defaultImage = context.getResources().getDrawable(R.drawable.default_image);
-        this.photos = photos;
     }
 
 
@@ -40,39 +38,27 @@ public class RecyclerAdapterAddPhotos extends RecyclerView.Adapter<RecyclerAdapt
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapterAddPhotos.ViewHolder holder, int position) {
 //        holder.imageView.setImageURI(uriList.get(position));
-        if (uriList != null){
-            if (uriList.size() == 0) {
-                holder.imageView.setImageDrawable(defaultImage);
-            } else {
-                holder.imageView.setImageURI(uriList.get(position));
-            }
+        if (uriList.size() == 0) {
+            holder.imageView.setImageDrawable(defaultImage);
+        } else {
+            holder.imageView.setImageURI(uriList.get(position));
         }
-        else if (photos != null){
-            holder.imageView.setImageURI(Uri.parse(photos.get(position)));
-        }
+
 
     }
 
-    public void setPhotos(List<String> photos) {
-        this.photos = photos;
-    }
 
     @Override
     public int getItemCount() {
         int cuantity = 0;
 
-        if (uriList != null){
+        if (uriList != null) {
             if (uriList.size() == 0) {
                 return 1;
-            }else{
+            } else {
                 cuantity = uriList.size();
             }
         }
-
-        else if (photos != null){
-            cuantity = photos.size();
-        }
-
         return cuantity;
     }
 

@@ -67,7 +67,6 @@ public class AddPublicationFragment extends Fragment {
     private RecyclerAdapterAddPhotos adapter;
     // ------ Otras referencias    -------
     private List<Uri> uriList;
-    private Publication publication;
     private String formattedDate;
     // get a reference to your Firebase database
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -97,7 +96,7 @@ public class AddPublicationFragment extends Fragment {
         TextView tvTimeDisplayed = view.findViewById(R.id.tvTimeDisplayed);
         Button btnAddPublication = view.findViewById(R.id.btnAddPublication);
         // ------ Inicializamos variables  -------
-        publication = new Publication();
+        Publication publication = new Publication();
         uriList = new ArrayList<>();
         RecyclerView recyclerView = view.findViewById(R.id.rvPhotoGrid);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -106,7 +105,7 @@ public class AddPublicationFragment extends Fragment {
 
 
         // ------  RecyclerView   -------
-        adapter = new RecyclerAdapterAddPhotos(uriList, requireContext(), null);
+        adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -126,6 +125,7 @@ public class AddPublicationFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             blog = (Blog) args.getSerializable("blog");
+            blog.setProfile(profile);
         }
 
 
@@ -283,11 +283,14 @@ public class AddPublicationFragment extends Fragment {
                             // Get the blog object from the database
                             Blog existingBlog = snapshot.getValue(Blog.class);
 
+
+
                             // Save the updated blog object to Firebase Realtime Database
                             blogRef.setValue(existingBlog);
 
                             // Update the existing blog object with the new publication
                             assert existingBlog != null;
+
                             existingBlog.addPublication(publication);
 
                             // Update the publication object in the publications array of the blog with the correct ID
@@ -295,6 +298,7 @@ public class AddPublicationFragment extends Fragment {
                             if (index != -1) {
                                 existingBlog.getPublications().get(index).setPublication_id(publicationId);
                             }
+
 //                            newPublication.setPhotos(publication.getPhotos());
 
 

@@ -85,6 +85,8 @@ public class Publication implements Serializable {
         this.photos = photos;
     }
 
+
+
     @Override
     public String toString() {
         return "Publication{" +
