@@ -19,6 +19,7 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.caminoalba.FragmentMap;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
@@ -43,7 +44,7 @@ public class BlogFragment extends Fragment {
     private User user;
     private Blog blog;
     private Profile profile;
-    private ImageView imgHome, imgBlog, imgAddPublication;
+    private ImageView imgHome, imgMap, imgAddPublication;
     private RecyclerView recyclerView;
     private Context context;
 
@@ -67,7 +68,7 @@ public class BlogFragment extends Fragment {
         EditText etSearchBar = view.findViewById(R.id.etSearch_bar);
         FrameLayout frameLayout = view.findViewById(R.id.fragment_blog);
         imgHome = view.findViewById(R.id.imgHome);
-        imgBlog = view.findViewById(R.id.imgBlog);
+        imgMap = view.findViewById(R.id.imgMap);
         imgAddPublication = view.findViewById(R.id.imgAddPublication);
         recyclerView = view.findViewById(R.id.rvPublications);
         // ------ Inicializamos variables  -------
@@ -166,8 +167,15 @@ public class BlogFragment extends Fragment {
 
                     });
 
-                    imgBlog.setOnClickListener(v -> {
-
+                    imgMap.setOnClickListener(v -> {
+                        // Create an instance of the child fragment
+                        FragmentMap fragmentMap = new FragmentMap();
+                        // Begin a new FragmentTransaction using the getChildFragmentManager() method
+                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                        // Add the child fragment to the transaction and specify a container view ID in the parent layout
+                        transaction.add(R.id.fragment_blog, fragmentMap);
+                        transaction.addToBackStack(null); // Add the fragment to the back stack
+                        transaction.commit();
                     });
 
                     imgHome.setOnClickListener(v -> {
