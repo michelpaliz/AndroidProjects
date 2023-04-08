@@ -12,17 +12,27 @@ public class Publication implements Serializable {
     private String datePublished;
     private List<String> photos;
     private Blog blog;
+    private String placemarkID;
 
     public Publication() {
     }
 
-    public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog) {
+    public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog, String placemarkID) {
         this.publication_id = publication_id;
         this.title = title;
         this.description = description;
         this.datePublished = datePublished;
         this.photos = photos;
         this.blog = blog;
+        this.placemarkID = placemarkID;
+    }
+
+    public String getPlacemarkID() {
+        return placemarkID;
+    }
+
+    public void setPlacemarkID(String placemarkID) {
+        this.placemarkID = placemarkID;
     }
 
     public String getPublication_id() {
@@ -86,7 +96,6 @@ public class Publication implements Serializable {
     }
 
 
-
     @Override
     public String toString() {
         return "Publication{" +
@@ -96,6 +105,7 @@ public class Publication implements Serializable {
                 ", datePublished='" + datePublished + '\'' +
                 ", photos=" + photos +
                 ", blog=" + blog +
+                ", placemarkID='" + placemarkID + '\'' +
                 '}';
     }
 }
