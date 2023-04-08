@@ -1,26 +1,36 @@
 package com.example.caminoalba;
 
+
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.data.Geometry;
+import com.google.maps.android.data.Point;
 import com.google.maps.android.data.kml.KmlLayer;
+import com.google.maps.android.data.kml.KmlPlacemark;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentMap extends SupportMapFragment implements OnMapReadyCallback {
 
     private GoogleMap map;
+//    private LocationManager locationManager;
+//    private LocationListener locationListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,37 +38,58 @@ public class FragmentMap extends SupportMapFragment implements OnMapReadyCallbac
         getMapAsync(this);
     }
 
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         // Save the GoogleMap object to the member variable.
         map = googleMap;
-
         // Use the map object to add markers or manipulate the map.
-        // ...
+        loadKmlMarkers(map);
 
-        // Add a marker in Sydney, Australia and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    
+    public void loadKmlMarkers(GoogleMap map) {
+
+        // Add a marker in Xabia and move the camera
+        LatLng xabia = new LatLng(38.7891, 0.1663);
+        map.addMarker(new MarkerOptions().position(xabia).title("Marker in Xabia"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(xabia, 15f));
 
         try {
             // Read KML file from assets.
             InputStream is = requireActivity().getAssets().open("mapa.kml");
 
             // Parse KML file and add markers to the map.
-            KmlLayer layer = new KmlLayer(map, is, requireContext() );
+            KmlLayer layer = new KmlLayer(map, is, requireContext());
             layer.addLayerToMap();
-        } catch (XmlPullParserException e) {
+
+            List<LatLng> breakpoints = new ArrayList<>();
+
+            // Check if layer has finished loading before setting click listener.
+            if (layer.isLayerOnMap()) {
+
+                // Iterate over the placemarks in the layer.
+                for (KmlPlacemark placemark : layer.getPlacemarks()) {
+                    // Access placemark properties and geometry here.
+                    String name = placemark.getProperty("name");
+                    Geometry<?> geometry = placemark.getGeometry();
+
+                    // Check if this is a breakpoint marker.
+                    if (geometry.getGeometryType().equals("Point") && name != null && name.contains("breakpoint")) {
+                        LatLng position = ((Point) geometry).getGeometryObject();
+                        breakpoints.add(position);
+                    }
+                }
+                Toast.makeText(requireContext(), "Number of breakpoints: " + breakpoints.size(), Toast.LENGTH_SHORT).show();
+                System.out.println("These are my breakpoints list " + breakpoints);
+
+            } else {
+                Toast.makeText(requireContext(), "KML layer failed to load", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
-            Log.e("KML Error", "XML Parsing Error: " + e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("KML Error", "IO Error: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("KML Error", "Error: " + e.getMessage());
         }
     }
-
-
 }
