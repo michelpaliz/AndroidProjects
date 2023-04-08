@@ -39,7 +39,7 @@ android {
 
 dependencies {
 
-//    implementation 'com.google.android.gms:play-services-maps:20.4.0'
+    implementation 'com.google.android.gms:play-services-maps:<version>'
     implementation 'com.google.maps.android:android-maps-utils:2.2.3'
     implementation 'com.google.maps.android:maps-ktx:3.2.1'
     implementation 'com.google.maps.android:maps-utils-ktx:3.2.1'

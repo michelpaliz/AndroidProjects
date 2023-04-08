@@ -4,10 +4,7 @@ package com.example.caminoalba;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,7 +19,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -45,6 +41,7 @@ public class FragmentMap extends SupportMapFragment implements OnMapReadyCallbac
     private List<LatLng> breakpoints;
     private int currentBreakpointIndex = 0;
     private LocationManager locationManager;
+    private boolean reachedDestination = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,18 +115,12 @@ public class FragmentMap extends SupportMapFragment implements OnMapReadyCallbac
                         LatLng position = ((Point) geometry).getGeometryObject();
                         breakpoints.add(position);
                     }
+
                 }
 
                 Toast.makeText(requireContext(), "Number of breakpoints: " + breakpoints.size(), Toast.LENGTH_SHORT).show();
                 System.out.println("These are my breakpoints list " + breakpoints);
 
-
-                // Draw the path on the map.
-                PolylineOptions polylineOptions = new PolylineOptions();
-                polylineOptions.color(Color.BLUE);
-                polylineOptions.width(5);
-                polylineOptions.addAll(breakpoints);
-                map.addPolyline(polylineOptions);
 
             } else {
                 Toast.makeText(requireContext(), "KML layer failed to load", Toast.LENGTH_SHORT).show();
@@ -139,7 +130,6 @@ public class FragmentMap extends SupportMapFragment implements OnMapReadyCallbac
             e.printStackTrace();
         }
     }
-
 
 
     @Override
@@ -162,13 +152,23 @@ public class FragmentMap extends SupportMapFragment implements OnMapReadyCallbac
             if (currentBreakpointIndex == breakpoints.size()) { // If user has reached final breakpoint.
                 // Display message to user and stop requesting location updates.
                 Toast.makeText(requireContext(), "You have reached your destination", Toast.LENGTH_SHORT).show();
+                reachedDestination = true;
                 locationManager.removeUpdates(this);
             }
+        } else {
+            // Draw a polyline between current location and next breakpoint.
+            PolylineOptions polylineOptions = new PolylineOptions();
+            polylineOptions.color(Color.BLUE);
+            polylineOptions.width(5);
+            polylineOptions.add(currentLocation);
+            polylineOptions.add(breakpoints.get(currentBreakpointIndex));
+            map.addPolyline(polylineOptions);
         }
 
         // Move camera to current user location.
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 17));
     }
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
