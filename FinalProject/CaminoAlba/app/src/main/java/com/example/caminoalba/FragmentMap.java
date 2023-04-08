@@ -9,6 +9,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +25,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.Point;
@@ -43,6 +45,26 @@ public class FragmentMap extends SupportMapFragment implements OnMapReadyCallbac
     private int currentBreakpointIndex = 0;
     private LocationManager locationManager;
     private boolean reachedDestination = false;
+
+    @NonNull
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Call the superclass onCreateView method
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+//        View view = inflater.inflate(R.layout.fragment_map, container, false);
+//        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        // Restore the value of currentBreakpointIndex if the fragment is being re-created.
+        if (savedInstanceState != null) {
+            currentBreakpointIndex = savedInstanceState.getInt("currentBreakpointIndex");
+        }
+        return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentBreakpointIndex", currentBreakpointIndex);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
