@@ -144,44 +144,48 @@ public class FragmentMap extends SupportMapFragment implements OnMapReadyCallbac
                 .title("Current Location")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-        // Find the closest breakpoint to the user's current location
-        LatLng closestBreakpoint = null;
-        double closestDistance = Double.MAX_VALUE;
+        if (!reachedDestination) { // Only continue if user has not reached final destination.
 
-        for (LatLng breakpoint : breakpoints) {
-            Location.distanceBetween(currentLocation.latitude, currentLocation.longitude,
-                    breakpoint.latitude, breakpoint.longitude, distance);
+            // Find the closest breakpoint to the user's current location
+            LatLng closestBreakpoint = null;
+            double closestDistance = Double.MAX_VALUE;
 
-            if (distance[0] < closestDistance) {
-                closestBreakpoint = breakpoint;
-                closestDistance = distance[0];
+            for (LatLng breakpoint : breakpoints) {
+                Location.distanceBetween(currentLocation.latitude, currentLocation.longitude,
+                        breakpoint.latitude, breakpoint.longitude, distance);
+
+                if (distance[0] < closestDistance) {
+                    closestBreakpoint = breakpoint;
+                    closestDistance = distance[0];
+                }
             }
-        }
 
-        if (closestDistance < 50) { // If user is within 50 meters of closest breakpoint.
-            // Update currentBreakpointIndex to the index of the closest breakpoint.
-            currentBreakpointIndex = breakpoints.indexOf(closestBreakpoint);
-
-            if (currentBreakpointIndex == breakpoints.size() - 1) { // If user has reached final breakpoint.
-                // Display message to user and stop requesting location updates.
-                Toast.makeText(requireContext(), "You have reached your destination", Toast.LENGTH_SHORT).show();
-                reachedDestination = true;
-                locationManager.removeUpdates(this);
+            if (closestDistance < 50) { // If user is within 50 meters of closest breakpoint.
+                // Update currentBreakpointIndex to the index of the closest breakpoint.
+                int nextBreakpointIndex = currentBreakpointIndex + 1;
+                if (nextBreakpointIndex >= breakpoints.size()) {
+                    // User has reached final destination.
+                    Toast.makeText(requireContext(), "You have reached your destination", Toast.LENGTH_SHORT).show();
+                    reachedDestination = true;
+                    locationManager.removeUpdates(this);
+                } else {
+                    currentBreakpointIndex = nextBreakpointIndex;
+                }
             }
+
+            // Draw a polyline between current location and the closest breakpoint.
+            PolylineOptions polylineOptions = new PolylineOptions();
+            polylineOptions.color(Color.BLUE);
+            polylineOptions.width(5);
+            polylineOptions.add(currentLocation);
+            polylineOptions.add(breakpoints.get(currentBreakpointIndex));
+            map.addPolyline(polylineOptions);
+
+            // Move camera to current user location.
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 17));
         }
-
-        // Draw a polyline between current location and the closest breakpoint.
-        PolylineOptions polylineOptions = new PolylineOptions();
-        polylineOptions.color(Color.BLUE);
-        polylineOptions.width(5);
-        polylineOptions.add(currentLocation);
-        assert closestBreakpoint != null;
-        polylineOptions.add(closestBreakpoint);
-        map.addPolyline(polylineOptions);
-
-        // Move camera to current user location.
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 17));
     }
+
 
 
 
