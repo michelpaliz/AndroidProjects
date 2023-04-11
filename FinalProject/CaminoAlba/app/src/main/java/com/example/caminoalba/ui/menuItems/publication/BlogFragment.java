@@ -19,7 +19,6 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.caminoalba.FragmentMap;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
