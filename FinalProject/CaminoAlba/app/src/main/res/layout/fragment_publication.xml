@@ -104,7 +104,7 @@
             <LinearLayout
                 android:id="@+id/interactions"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_margin="16dp"
                 android:orientation="horizontal">
 
@@ -112,12 +112,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_favorite_border_24"
-                    android:layout_marginEnd="110dp"
+                    android:layout_marginEnd="80dp"
                     android:contentDescription="favorite icon" />
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_marginEnd="100dp"
+                    android:layout_marginEnd="80dp"
                     android:layout_height="wrap_content"
                     android:contentDescription="favorite c"
                     android:src="@drawable/ic_baseline_mode_comment_24" />

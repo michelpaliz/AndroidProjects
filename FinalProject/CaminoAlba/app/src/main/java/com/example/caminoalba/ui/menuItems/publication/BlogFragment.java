@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -43,7 +44,8 @@ public class BlogFragment extends Fragment {
     private User user;
     private Blog blog;
     private Profile profile;
-    private ImageView imgHome, imgMap, imgAddPublication;
+    private ImageView imgHome, imgMap;
+    private Button imgAddPublication;
     private RecyclerView recyclerView;
     private Context context;
 
@@ -64,7 +66,6 @@ public class BlogFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // ------ Inicializamos vistas   -------
-        EditText etSearchBar = view.findViewById(R.id.etSearch_bar);
         FrameLayout frameLayout = view.findViewById(R.id.fragment_blog);
         imgHome = view.findViewById(R.id.imgHome);
         imgMap = view.findViewById(R.id.imgMap);

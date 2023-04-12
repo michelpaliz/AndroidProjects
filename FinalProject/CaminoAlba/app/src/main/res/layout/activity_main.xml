@@ -48,6 +48,7 @@
         android:id="@+id/btnSingIn_register"
         android:layout_width="291dp"
         android:layout_height="56dp"
+        android:textColor="@color/white"
         android:layout_marginTop="16dp"
         android:background="@drawable/alt_btn_styling"
         android:text="Sign in"

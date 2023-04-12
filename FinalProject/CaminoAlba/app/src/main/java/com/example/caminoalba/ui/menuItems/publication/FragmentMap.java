@@ -20,17 +20,20 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.caminoalba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
+import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.StreetViewPanoramaView;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.SphericalUtil;
 import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.Point;
 import com.google.maps.android.data.kml.KmlLayer;
@@ -50,6 +53,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     private int currentBreakpointIndex = 0;
     private LocationManager locationManager;
     private boolean reachedDestination = false;
+    private KmlLayer layer;
     private Button btnStreetView;
     private Location currentLocation;
 
@@ -64,7 +68,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
 
-        btnStreetView = view.findViewById(R.id.street_view_button);
 
         // Restore the value of currentBreakpointIndex if the fragment is being re-created.
         if (savedInstanceState != null) {
@@ -72,8 +75,8 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
         }
 
         // Get the map asynchronously
-
         mapView.getMapAsync(this);
+
 
         return view;
     }
@@ -111,34 +114,13 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
-    public void btnStreetView() {
-        btnStreetView.setVisibility(View.VISIBLE);
-        btnStreetView.setOnClickListener(v -> {
-            btnStreetView.setVisibility(View.GONE);
-            if (map != null && breakpoints != null && !breakpoints.isEmpty() && currentLocation != null) {
-                LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-
-                // Collect all the breakpoint locations in an array.
-                LatLng[] breakpointLocations = breakpoints.toArray(new LatLng[0]);
-
-                // Open the street view fragment and pass the breakpoint locations.
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_map, FragmentStreetview.newInstance(currentLatLng.latitude, currentLatLng.longitude, breakpointLocations));
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
-    }
-
-
-
     public void loadKmlMarkers(GoogleMap map) {
         try {
             // Read KML file from assets.
             InputStream is = requireActivity().getAssets().open("mapa.kml");
 
             // Parse KML file and add markers to the map.
-            KmlLayer layer = new KmlLayer(map, is, requireContext());
+            layer = new KmlLayer(map, is, requireContext());
             layer.addLayerToMap();
 
             breakpoints = new ArrayList<>();
@@ -175,39 +157,42 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
 
     public void onLocationChanged(Location location) {
-
         // Get current user location.
         LatLng currentLocationLocal = new LatLng(location.getLatitude(), location.getLongitude());
 
-        //For the button
-        currentLocation = location;
-        btnStreetView();
-
         // Add marker for current location with red color label.
-        float[] distance = new float[1];
-
         if (map != null) {
             map.addMarker(new MarkerOptions()
                     .position(currentLocationLocal)
                     .title("Current Location")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-
-            if (!reachedDestination) { // Only continue if user has not reached final destination.
-
-                // Find the closest breakpoint to the user's current location
+            if (!reachedDestination) {
+                // Find the closest breakpoint to the user's current location.
                 double closestDistance = Double.MAX_VALUE;
-
+                LatLng closestBreakpoint = null;
                 for (LatLng breakpoint : breakpoints) {
+                    float[] distance = new float[1];
                     Location.distanceBetween(currentLocationLocal.latitude, currentLocationLocal.longitude,
                             breakpoint.latitude, breakpoint.longitude, distance);
 
                     if (distance[0] < closestDistance) {
                         closestDistance = distance[0];
+                        closestBreakpoint = breakpoint;
                     }
                 }
 
-                if (closestDistance < 50) { // If user is within 50 meters of closest breakpoint.
+                // If user is within 50 meters of closest breakpoint, display the name of the breakpoint.
+                if (closestDistance < 50) {
+                    String name = null;
+                    for (KmlPlacemark placemark : layer.getPlacemarks()) {
+                        if (placemark.getGeometry().getGeometryType().equals("Point") && placemark.getGeometry().getGeometryObject().equals(closestBreakpoint)) {
+                            name = placemark.getProperty("name");
+                            break;
+                        }
+                    }
+                    Toast.makeText(requireContext(), "You have reached breakpoint " + name, Toast.LENGTH_SHORT).show();
+
                     // Update currentBreakpointIndex to the index of the closest breakpoint.
                     int nextBreakpointIndex = currentBreakpointIndex + 1;
                     if (nextBreakpointIndex >= breakpoints.size()) {
@@ -220,20 +205,13 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                     }
                 }
 
-                // Draw a polyline between current location and the closest breakpoint.
-                PolylineOptions polylineOptions = new PolylineOptions();
-                polylineOptions.color(Color.BLUE);
-                polylineOptions.width(5);
-                polylineOptions.add(currentLocationLocal);
-                polylineOptions.add(breakpoints.get(currentBreakpointIndex));
-                map.addPolyline(polylineOptions);
-
                 // Move camera to current user location.
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLocal, 17));
             }
         }
-
     }
+
+
 
 
     @Override
@@ -260,6 +238,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
     }
@@ -271,5 +250,4 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onProviderDisabled(String provider) {
     }
-
 }
