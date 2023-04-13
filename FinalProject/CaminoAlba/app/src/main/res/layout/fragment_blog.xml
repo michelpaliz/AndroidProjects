@@ -75,7 +75,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/imgAddPublication"
             android:layout_width="41dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_marginBottom="7dp"
             android:background="@drawable/circle"
             android:gravity="center"
@@ -85,7 +85,8 @@
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/footer_menu"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/textView2"
@@ -126,6 +127,22 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tvPathName"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="16dp"
+            android:text=""
+            android:textColor="@color/my_dark_grey"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/footer_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPathName"
+            app:layout_constraintVertical_bias="0.049" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

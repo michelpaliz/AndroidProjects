@@ -40,7 +40,6 @@ import java.util.List;
 public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
 
     private SharedPreferences preferences;
-    private boolean isEnabled;
     private String placemarkName;
     private User user;
     private Blog blog;
@@ -49,6 +48,7 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
     private ImageView imgHome, imgMap;
     private Button btnAddPublication;
     private RecyclerView recyclerView;
+    private TextView tvMessage;
     private Context context;
 
 
@@ -74,6 +74,7 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
         imgMap = view.findViewById(R.id.imgMap);
         btnAddPublication = view.findViewById(R.id.imgAddPublication);
         recyclerView = view.findViewById(R.id.rvPublications);
+        tvMessage = view.findViewById(R.id.tvMessage);
         // ------ Inicializamos variables  -------
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         user = new User();
@@ -85,6 +86,7 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
         user = gson.fromJson(userStr, User.class);
         profile = gson.fromJson(profileStr, Profile.class);
         btnAddPublication.setVisibility(View.GONE);
+        tvMessage.setText("Please go to the map section to set your current location.");
 
         imgMap.setOnClickListener(v -> {
             // Create an instance of the child fragment
@@ -103,17 +105,15 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
     @Override
     public void onDataPass(String placemarkName, boolean isEnabled) {
         this.placemarkName = placemarkName;
-        this.isEnabled = isEnabled;
 
         if (isEnabled) {
+            tvMessage.setVisibility(View.GONE);
             tvPathName.setText(placemarkName);
             btnAddPublication.setVisibility(View.VISIBLE);
             eventHandler();
         } else {
-            Toast.makeText(getContext(), "Make sure to be less than 50 meters in one placemark in order to see publications ",
-                    Toast.LENGTH_SHORT).show();
+            tvMessage.setText("Make sure to be less than 50 meters in one placemark in order to see the publications");
             tvPathName.setText("");
-
         }
     }
 

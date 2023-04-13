@@ -32,4 +32,5 @@
         android:label="fragment_log_out"
         tools:layout="@layout/fragment_log_out" />
 
+
 </navigation>

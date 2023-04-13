@@ -21,6 +21,7 @@
             android:id="@+id/partnerFragment"
             android:icon="@drawable/icon_socio"
             android:title="@string/menu_socio" />
+
     </group>
 
     <item android:title="Others">
