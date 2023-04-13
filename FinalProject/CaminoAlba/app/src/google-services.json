@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "563292198215",
+    "firebase_url": "https://caminoalba-c6843-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "caminoalba-c6843",
+    "storage_bucket": "caminoalba-c6843.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563292198215:android:6839ab3b3ef647f43b2862",
+        "android_client_info": {
+          "package_name": "com.example.caminoalba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563292198215-3tp5s73ni82f8968ovs381117n4ou42q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuU-bUP4NwldVvfj8zKtUIBqMX9JMERfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563292198215-3tp5s73ni82f8968ovs381117n4ou42q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

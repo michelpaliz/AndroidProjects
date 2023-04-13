@@ -2,7 +2,7 @@ package com.example.caminoalba;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,9 +11,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+
 import com.example.caminoalba.databinding.ActivityNavigationDrawerBinding;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+
 
 public class NavigationDrawerActivity extends AppCompatActivity {
 

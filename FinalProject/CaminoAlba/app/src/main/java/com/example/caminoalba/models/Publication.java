@@ -17,6 +17,15 @@ public class Publication implements Serializable {
     public Publication() {
     }
 
+    public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog) {
+        this.publication_id = publication_id;
+        this.title = title;
+        this.description = description;
+        this.datePublished = datePublished;
+        this.photos = photos;
+        this.blog = blog;
+    }
+
     public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog, String placemarkID) {
         this.publication_id = publication_id;
         this.title = title;

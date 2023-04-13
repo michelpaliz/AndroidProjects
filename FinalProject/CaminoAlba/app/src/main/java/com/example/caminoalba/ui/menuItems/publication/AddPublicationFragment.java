@@ -1,7 +1,6 @@
 package com.example.caminoalba.ui.menuItems.publication;
 
 import static android.content.ContentValues.TAG;
-
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -50,14 +49,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.internal.cache.DiskLruCache;
-
 public class AddPublicationFragment extends Fragment {
 
     private static final int MAX_PHOTOS = 5; // maximum number of photos allowed
 
     private EditText etTitle, etDescription;
     private Button btnImage;
+    private String placemarkName;
 
     // ------ Para obtener el blog y publicacion  -------
     private Profile profile;
@@ -69,7 +67,7 @@ public class AddPublicationFragment extends Fragment {
     private List<Uri> uriList;
     private String formattedDate;
     // get a reference to your Firebase database
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +94,6 @@ public class AddPublicationFragment extends Fragment {
         TextView tvTimeDisplayed = view.findViewById(R.id.tvTimeDisplayed);
         Button btnAddPublication = view.findViewById(R.id.btnAddPublication);
         // ------ Inicializamos variables  -------
-        Publication publication = new Publication();
         uriList = new ArrayList<>();
         RecyclerView recyclerView = view.findViewById(R.id.rvPhotoGrid);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -126,6 +123,7 @@ public class AddPublicationFragment extends Fragment {
         if (args != null) {
             blog = (Blog) args.getSerializable("blog");
             blog.setProfile(profile);
+            placemarkName =  args.getString("placemark");
         }
 
 
@@ -210,6 +208,8 @@ public class AddPublicationFragment extends Fragment {
         newPublication.setDescription(description);
         newPublication.setDatePublished(formattedDate);
         newPublication.setBlog(blog);
+        newPublication.setPlacemarkID(placemarkName);
+
 
         // Get a reference to the blog in the database
         DatabaseReference blogRef = databaseReference.getDatabase().getReference("blogs/" + profile.getProfile_id());
@@ -255,7 +255,7 @@ public class AddPublicationFragment extends Fragment {
 
     public void uploadPhotos(List<Uri> uris, String publicationId , Publication publication, DataSnapshot snapshot , DatabaseReference blogRef) {
         // Get the Firebase Storage reference with your bucket name
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-3ee10.appspot.com/");
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-c6843.appspot.com");
         StorageReference storageRef = storage.getReference();
 
         // Loop over each photo URI and upload it to Firebase Storage

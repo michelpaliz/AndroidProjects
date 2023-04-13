@@ -166,7 +166,7 @@ public class RegistrationActivity extends AppCompatActivity {
         permissionRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists() && snapshot.getValue(Boolean.class)) {
+                if (snapshot.exists() && Boolean.TRUE.equals(snapshot.getValue(Boolean.class))) {
                     // User has permission to write to the database
                     Toast.makeText(RegistrationActivity.this, "User has permission to write to the database", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "User has permission to write to the database");

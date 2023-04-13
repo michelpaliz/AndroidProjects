@@ -1,5 +1,4 @@
 package com.example.caminoalba.ui.menuItems.publication;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,16 +37,20 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlogFragment extends Fragment {
+public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
 
     private SharedPreferences preferences;
+    private boolean isEnabled;
+    private String placemarkName;
     private User user;
     private Blog blog;
     private Profile profile;
+    private TextView tvPathName;
     private ImageView imgHome, imgMap;
-    private Button imgAddPublication;
+    private Button btnAddPublication;
     private RecyclerView recyclerView;
     private Context context;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,10 +69,10 @@ public class BlogFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // ------ Inicializamos vistas   -------
-        FrameLayout frameLayout = view.findViewById(R.id.fragment_blog);
+        tvPathName = view.findViewById(R.id.tvPathName);
         imgHome = view.findViewById(R.id.imgHome);
         imgMap = view.findViewById(R.id.imgMap);
-        imgAddPublication = view.findViewById(R.id.imgAddPublication);
+        btnAddPublication = view.findViewById(R.id.imgAddPublication);
         recyclerView = view.findViewById(R.id.rvPublications);
         // ------ Inicializamos variables  -------
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
@@ -81,10 +84,39 @@ public class BlogFragment extends Fragment {
         String profileStr = preferences.getString("profile", "");
         user = gson.fromJson(userStr, User.class);
         profile = gson.fromJson(profileStr, Profile.class);
-        eventHandler();
+        btnAddPublication.setVisibility(View.GONE);
 
+        imgMap.setOnClickListener(v -> {
+            // Create an instance of the child fragment
+            FragmentMap fragmentMap = new FragmentMap();
+            // Begin a new FragmentTransaction using the getChildFragmentManager() method
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            // Add the child fragment to the transaction and specify a container view ID in the parent layout
+            transaction.add(R.id.fragment_blog, fragmentMap);
+            transaction.addToBackStack(null); // Add the fragment to the back stack
+            transaction.commit();
+        });
 
     }
+
+
+    @Override
+    public void onDataPass(String placemarkName, boolean isEnabled) {
+        this.placemarkName = placemarkName;
+        this.isEnabled = isEnabled;
+
+        if (isEnabled) {
+            tvPathName.setText(placemarkName);
+            btnAddPublication.setVisibility(View.VISIBLE);
+            eventHandler();
+        } else {
+            Toast.makeText(getContext(), "Make sure to be less than 50 meters in one placemark in order to see publications ",
+                    Toast.LENGTH_SHORT).show();
+            tvPathName.setText("");
+
+        }
+    }
+
 
 
     public void getPublications(Blog blog) {
@@ -146,14 +178,14 @@ public class BlogFragment extends Fragment {
                     layoutManager.setReverseLayout(true);
                     recyclerView.setLayoutManager(layoutManager);
 
-
                     getPublications(blog);
 
-                    imgAddPublication.setOnClickListener(v -> {
+                    btnAddPublication.setOnClickListener(v -> {
                         //Create varibles to pass to my child fragment
                         Bundle args = new Bundle();
                         args.putSerializable("profile", profile);
                         args.putSerializable("blog", blog);
+                        args.putString("placemark", placemarkName);
                         // Create an instance of the child fragment
                         AddPublicationFragment addPublicationFragment = new AddPublicationFragment();
                         //Pass the args already created to the child fragment
@@ -167,16 +199,7 @@ public class BlogFragment extends Fragment {
 
                     });
 
-                    imgMap.setOnClickListener(v -> {
-                        // Create an instance of the child fragment
-                        FragmentMap fragmentMap = new FragmentMap();
-                        // Begin a new FragmentTransaction using the getChildFragmentManager() method
-                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                        // Add the child fragment to the transaction and specify a container view ID in the parent layout
-                        transaction.add(R.id.fragment_blog, fragmentMap);
-                        transaction.addToBackStack(null); // Add the fragment to the back stack
-                        transaction.commit();
-                    });
+
 
                     imgHome.setOnClickListener(v -> {
 
@@ -192,6 +215,7 @@ public class BlogFragment extends Fragment {
             });
         }
     }
+
 
 
 }

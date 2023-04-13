@@ -4,7 +4,6 @@ package com.example.caminoalba.ui.menuItems.publication;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,28 +11,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.caminoalba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
-import com.google.android.gms.maps.StreetViewPanorama;
-import com.google.android.gms.maps.StreetViewPanoramaView;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.SphericalUtil;
 import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.Point;
 import com.google.maps.android.data.kml.KmlLayer;
@@ -48,14 +42,53 @@ import java.util.List;
 
 public class FragmentMap extends Fragment implements OnMapReadyCallback, LocationListener {
 
+    public boolean isEnabled;
+    public String placemarkName;
+    private OnDataPass dataPasser;
     private GoogleMap map;
     private List<LatLng> breakpoints;
     private int currentBreakpointIndex = 0;
     private LocationManager locationManager;
     private boolean reachedDestination = false;
     private KmlLayer layer;
-    private Button btnStreetView;
-    private Location currentLocation;
+    private ImageView imgHome;
+
+
+    public interface OnDataPass {
+        void onDataPass(String placemarkName, boolean isEnabled);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment instanceof OnDataPass) {
+            dataPasser = (OnDataPass) parentFragment;
+        } else {
+            assert parentFragment != null;
+            throw new ClassCastException(parentFragment + " must implement OnDataPass");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        dataPasser = null;
+    }
+
+    private void passDataToParent(String data, boolean isEnabled) {
+        if (dataPasser != null) {
+            dataPasser.onDataPass(data, isEnabled);
+        }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentBreakpointIndex", currentBreakpointIndex);
+    }
+
 
     @NonNull
     @Override
@@ -63,8 +96,10 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
+        imgHome = view.findViewById(R.id.imgHome);
+
         // Get the MapView from the layout
-        MapView mapView = (MapView) view.findViewById(R.id.map_view);
+        MapView mapView = view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
 
@@ -82,16 +117,18 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void goHome() {
 
-    }
+        imgHome.setOnClickListener(v -> {
+            // In the child fragment, get the FragmentManager
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("currentBreakpointIndex", currentBreakpointIndex);
+            // Pop the back stack to return to the parent fragment
+            fragmentManager.popBackStack();
+
+            passDataToParent(placemarkName, isEnabled);
+        });
+
     }
 
 
@@ -157,6 +194,10 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
 
     public void onLocationChanged(Location location) {
+
+        placemarkName = "";
+        isEnabled = false;
+
         // Get current user location.
         LatLng currentLocationLocal = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -193,6 +234,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                     }
                     Toast.makeText(requireContext(), "You have reached breakpoint " + name, Toast.LENGTH_SHORT).show();
 
+
+                    placemarkName = name;
+                    isEnabled = true;
+
+
                     // Update currentBreakpointIndex to the index of the closest breakpoint.
                     int nextBreakpointIndex = currentBreakpointIndex + 1;
                     if (nextBreakpointIndex >= breakpoints.size()) {
@@ -205,13 +251,13 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                     }
                 }
 
+                goHome();
+
                 // Move camera to current user location.
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLocal, 17));
             }
         }
     }
-
-
 
 
     @Override
@@ -220,13 +266,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Request location updates.
                 if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, this);
@@ -236,7 +275,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
             }
         }
     }
-
 
 
     @Override
