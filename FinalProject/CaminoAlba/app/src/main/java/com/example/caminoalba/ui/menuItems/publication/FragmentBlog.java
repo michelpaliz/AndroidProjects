@@ -1,13 +1,13 @@
 package com.example.caminoalba.ui.menuItems.publication;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,20 +37,20 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
+public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
     private SharedPreferences preferences;
     private String placemarkName;
     private User user;
     private Blog blog;
     private Profile profile;
-    private TextView tvPathName;
+    private TextView tvPathName, tvRuta;
     private ImageView imgHome, imgMap;
-    private Button btnAddPublication;
+    private ImageView btnAddPublication;
     private RecyclerView recyclerView;
-    private TextView tvMessage;
+    private TextView tvMessage, tvTitle;
     private Context context;
-
+    private boolean isAdmin = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,11 +70,14 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
         super.onViewCreated(view, savedInstanceState);
         // ------ Inicializamos vistas   -------
         tvPathName = view.findViewById(R.id.tvPathName);
+        tvRuta = view.findViewById(R.id.tvRuta);
         imgHome = view.findViewById(R.id.imgHome);
         imgMap = view.findViewById(R.id.imgMap);
         btnAddPublication = view.findViewById(R.id.imgAddPublication);
         recyclerView = view.findViewById(R.id.rvPublications);
         tvMessage = view.findViewById(R.id.tvMessage);
+        tvTitle = view.findViewById(R.id.tvTitle);
+        LinearLayout footerMenu = view.findViewById(R.id.footer_menu);
         // ------ Inicializamos variables  -------
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         user = new User();
@@ -86,7 +89,24 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
         user = gson.fromJson(userStr, User.class);
         profile = gson.fromJson(profileStr, Profile.class);
         btnAddPublication.setVisibility(View.GONE);
+        tvTitle.setText("PUBLICACIONES");
         tvMessage.setText("Please go to the map section to set your current location.");
+        if (getArguments() != null) {
+            isAdmin = getArguments().getBoolean("isAdmin", false);
+        }
+
+        if (isAdmin) {
+            tvTitle.setText("NOTICIAS");
+            footerMenu.setVisibility(View.GONE);
+            tvRuta.setVisibility(View.GONE);
+            tvMessage.setVisibility(View.GONE);
+            tvPathName.setText(placemarkName);
+            eventHandler();
+            if (user.getType().equalsIgnoreCase("admin")) {
+                btnAddPublication.setVisibility(View.VISIBLE);
+            }
+        }
+
 
         imgMap.setOnClickListener(v -> {
             // Create an instance of the child fragment
@@ -105,8 +125,8 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
     @Override
     public void onDataPass(String placemarkName, boolean isEnabled) {
         this.placemarkName = placemarkName;
-
         if (isEnabled) {
+            tvRuta.setVisibility(View.GONE);
             tvMessage.setVisibility(View.GONE);
             tvPathName.setText(placemarkName);
             btnAddPublication.setVisibility(View.VISIBLE);
@@ -116,7 +136,6 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
             tvPathName.setText("");
         }
     }
-
 
 
     public void getPublications(Blog blog) {
@@ -135,18 +154,34 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
 
                 // Here, you can do something with the list of publications.
                 List<Publication> publicationsById = new ArrayList<>();
+                RecyclerPublicationAdapter recyclerPublicationAdapter = null;
 
                 Blog blog1 = new Blog();
                 blog1.setProfile(profile);
-                for (Publication publication : publicationsList) {
-                    if (publication.getBlog().getBlog_id().equalsIgnoreCase(blog.getBlog_id())) {
-                        publication.getBlog().setProfile(blog1.getProfile());
-                        publicationsById.add(publication);
+
+                recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsList, context);
+
+
+                //for (Publication publication : publicationsList) {
+//                        if (publication.getBlog().getBlog_id().equalsIgnoreCase(blog.getBlog_id())) {
+//                            publication.getBlog().setProfile(blog1.getProfile());
+//                            publicationsById.add(publication);
+//                        }
+//                    }
+
+
+                if (placemarkName != null && !isAdmin) {
+                    for (Publication publication : publicationsList) {
+                        if (placemarkName.equalsIgnoreCase(publication.getPlacemarkID())) {
+                            publication.getBlog().setProfile(blog1.getProfile());
+                            publicationsById.add(publication);
+                        }
                     }
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsById, context);
+
                 }
 
 
-                RecyclerPublicationAdapter recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsById, context);
                 recyclerView.setAdapter(recyclerPublicationAdapter);
                 recyclerPublicationAdapter.notifyDataSetChanged();
 
@@ -175,7 +210,7 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
                     //recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                     //TODO order by date
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    layoutManager.setReverseLayout(true);
+//                    layoutManager.setReverseLayout(true);
                     recyclerView.setLayoutManager(layoutManager);
 
                     getPublications(blog);
@@ -186,19 +221,19 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
                         args.putSerializable("profile", profile);
                         args.putSerializable("blog", blog);
                         args.putString("placemark", placemarkName);
+                        args.putBoolean("isAdmin", isAdmin);
                         // Create an instance of the child fragment
-                        AddPublicationFragment addPublicationFragment = new AddPublicationFragment();
+                        FragmentAddPublication fragmentAddPublication = new FragmentAddPublication();
                         //Pass the args already created to the child fragment
-                        addPublicationFragment.setArguments(args);
+                        fragmentAddPublication.setArguments(args);
                         // Begin a new FragmentTransaction using the getChildFragmentManager() method
                         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                         // Add the child fragment to the transaction and specify a container view ID in the parent layout
-                        transaction.add(R.id.fragment_blog, addPublicationFragment);
+                        transaction.add(R.id.fragment_blog, fragmentAddPublication);
                         transaction.addToBackStack(null); // Add the fragment to the back stack
                         transaction.commit();
 
                     });
-
 
 
                     imgHome.setOnClickListener(v -> {
@@ -215,7 +250,6 @@ public class BlogFragment extends Fragment implements FragmentMap.OnDataPass {
             });
         }
     }
-
 
 
 }

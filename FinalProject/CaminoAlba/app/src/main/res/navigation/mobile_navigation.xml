@@ -7,28 +7,28 @@
 
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.example.caminoalba.ui.menuItems.NewsFragment"
+        android:name="com.example.caminoalba.ui.menuItems.FragmentNews"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
 
     <fragment
         android:id="@+id/blogFragment"
-        android:name="com.example.caminoalba.ui.menuItems.publication.BlogFragment"
+        android:name="com.example.caminoalba.ui.menuItems.publication.FragmentBlog"
         android:label="fragment_blog"
         tools:layout="@layout/fragment_blog" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.caminoalba.ui.menuItems.profile.ProfileFragment"
+        android:name="com.example.caminoalba.ui.menuItems.profile.FragmentProfile"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/partnerFragment"
-        android:name="com.example.caminoalba.ui.menuItems.PartnerFragment"
+        android:name="com.example.caminoalba.ui.menuItems.FragmentPartner"
         android:label="fragment_partner"
         tools:layout="@layout/fragment_partner" />
     <fragment
         android:id="@+id/logOutFragment"
-        android:name="com.example.caminoalba.ui.menuItems.LogOutFragment"
+        android:name="com.example.caminoalba.ui.menuItems.FragmentLogOut"
         android:label="fragment_log_out"
         tools:layout="@layout/fragment_log_out" />
 

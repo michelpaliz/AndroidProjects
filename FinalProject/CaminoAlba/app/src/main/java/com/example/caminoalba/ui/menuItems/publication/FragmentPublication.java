@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.caminoalba.R;
 
-public class PublicationFragment extends Fragment {
+public class FragmentPublication extends Fragment {
 
 
     @Override

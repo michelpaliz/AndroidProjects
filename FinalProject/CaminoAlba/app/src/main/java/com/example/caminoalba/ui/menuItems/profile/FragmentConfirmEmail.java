@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.User;
 
-public class ConfirmEmailFragment extends Fragment {
+public class FragmentConfirmEmail extends Fragment {
 
     private EditText etConfirmCode;
     private Button btnConfirmCode;

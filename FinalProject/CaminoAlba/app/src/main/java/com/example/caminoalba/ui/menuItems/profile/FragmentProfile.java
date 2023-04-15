@@ -44,7 +44,7 @@ import com.squareup.picasso.Picasso;
 
 import java.time.LocalDate;
 
-public class ProfileFragment extends Fragment {
+public class FragmentProfile extends Fragment {
 
     private final int GALLERY_REQ_CODE = 1000;
 
@@ -159,13 +159,13 @@ public class ProfileFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putSerializable("user", user);
                 // Create an instance of the child fragment
-                ConfirmEmailFragment confirmEmailFragment = new ConfirmEmailFragment();
+                FragmentConfirmEmail fragmentConfirmEmail = new FragmentConfirmEmail();
                 //Pass the args already created to the child fragment
-                confirmEmailFragment.setArguments(args);
+                fragmentConfirmEmail.setArguments(args);
                 // Begin a new FragmentTransaction using the getChildFragmentManager() method
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 // Add the child fragment to the transaction and specify a container view ID in the parent layout
-                transaction.add(R.id.child_fragment_container, confirmEmailFragment);
+                transaction.add(R.id.child_fragment_container, fragmentConfirmEmail);
                 transaction.addToBackStack(null); // Add the fragment to the back stack
                 transaction.commit();
 
@@ -261,7 +261,7 @@ public class ProfileFragment extends Fragment {
             DatabaseReference profileRef = database.getReference("profiles/" + profile.getProfile_id());
             // Set the value of the profile object
             profileRef.setValue(profile);
-            Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Profile information updated sucessfully", Toast.LENGTH_SHORT).show();
             //Send the data to the other fragment
             Profile profile1 = profile;
             // Convert the JSON string to a Java object using Gson
@@ -277,7 +277,7 @@ public class ProfileFragment extends Fragment {
 
     public void uploadPhoto(Uri uri) {
         // Get the Firebase Storage reference with your bucket name
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-3ee10.appspot.com/");
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-c6843.appspot.com/");
         StorageReference storageRef = storage.getReference();
 
         // Upload the image to Firebase Storage
@@ -299,7 +299,7 @@ public class ProfileFragment extends Fragment {
                         DatabaseReference profileRef = database.getReference("profiles/" + profile.getProfile_id());
                         // Set the value of the profile object
                         profileRef.setValue(profile);
-                        Toast.makeText(getContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Photo updated sucessfully", Toast.LENGTH_SHORT).show();
                         //Send the data to the other fragment
                         Profile profile1 = profile;
                         // Convert the JSON string to a Java object using Gson

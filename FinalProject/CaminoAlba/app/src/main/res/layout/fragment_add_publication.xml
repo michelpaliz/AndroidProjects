@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/my_dark_blue"
-        tools:context=".ui.menuItems.publication.AddPublicationFragment">
+        tools:context=".ui.menuItems.publication.FragmentAddPublication">
 
         <RelativeLayout
             android:id="@+id/main_body"

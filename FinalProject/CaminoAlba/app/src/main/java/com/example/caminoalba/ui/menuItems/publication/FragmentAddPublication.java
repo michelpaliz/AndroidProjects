@@ -1,6 +1,7 @@
 package com.example.caminoalba.ui.menuItems.publication;
 
 import static android.content.ContentValues.TAG;
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
+import com.example.caminoalba.ui.menuItems.FragmentNews;
 import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterAddPhotos;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,13 +51,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddPublicationFragment extends Fragment {
+public class FragmentAddPublication extends Fragment {
 
     private static final int MAX_PHOTOS = 5; // maximum number of photos allowed
 
     private EditText etTitle, etDescription;
     private Button btnImage;
     private String placemarkName;
+    private boolean isAdmin;
 
     // ------ Para obtener el blog y publicacion  -------
     private Profile profile;
@@ -100,6 +103,9 @@ public class AddPublicationFragment extends Fragment {
         // ------ Obtenemos el blog actual  -------
         Gson gson = new Gson();
 
+        if (getArguments() != null) {
+            isAdmin = getArguments().getBoolean("isAdmin", false);
+        }
 
         // ------  RecyclerView   -------
         adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
@@ -123,7 +129,7 @@ public class AddPublicationFragment extends Fragment {
         if (args != null) {
             blog = (Blog) args.getSerializable("blog");
             blog.setProfile(profile);
-            placemarkName =  args.getString("placemark");
+            placemarkName = args.getString("placemark");
         }
 
 
@@ -132,7 +138,7 @@ public class AddPublicationFragment extends Fragment {
 
         if (profile.getPhoto() != null) {
             imageView.setImageURI(Uri.parse(profile.getPhoto()));
-        }else{
+        } else {
             imageView.setImageResource(R.drawable.default_image);
         }
 
@@ -221,7 +227,7 @@ public class AddPublicationFragment extends Fragment {
                 // Check if the blog exists in the database
                 if (snapshot.exists()) {
 
-                    uploadPhotos(uriList, publicationId , newPublication, snapshot, blogRef);
+                    uploadPhotos(uriList, publicationId, newPublication, snapshot, blogRef);
 
                 } else {
                     // Handle the case where the blog does not exist in the database
@@ -253,7 +259,7 @@ public class AddPublicationFragment extends Fragment {
         }
     }
 
-    public void uploadPhotos(List<Uri> uris, String publicationId , Publication publication, DataSnapshot snapshot , DatabaseReference blogRef) {
+    public void uploadPhotos(List<Uri> uris, String publicationId, Publication publication, DataSnapshot snapshot, DatabaseReference blogRef) {
         // Get the Firebase Storage reference with your bucket name
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-c6843.appspot.com");
         StorageReference storageRef = storage.getReference();
@@ -282,7 +288,6 @@ public class AddPublicationFragment extends Fragment {
 
                             // Get the blog object from the database
                             Blog existingBlog = snapshot.getValue(Blog.class);
-
 
 
                             // Save the updated blog object to Firebase Realtime Database
@@ -320,13 +325,21 @@ public class AddPublicationFragment extends Fragment {
         int enterAnim = R.anim.slide_in_right;
         int exitAnim = R.anim.slide_out_left;
 
+        Fragment fragment;
+
+        if (isAdmin) {
+            fragment = new FragmentNews();
+        } else {
+            fragment = new FragmentBlog();
+        }
+
         // Create and set the fragment transition animation object
         Transition fragmentTransition = new Slide(Gravity.START);
         fragmentTransition.setDuration(1000);
         FragmentTransaction fragmentTransaction = parentFragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.setCustomAnimations(enterAnim, exitAnim);
-        fragmentTransaction.replace(R.id.fragment_add_publication , new BlogFragment());
+        fragmentTransaction.replace(R.id.fragment_add_publication, fragment);
         fragmentTransaction.addToBackStack(null);
         Toast.makeText(requireContext(), "Publication Uploaded successfully", Toast.LENGTH_SHORT).show();
         // Commit the fragment transaction
