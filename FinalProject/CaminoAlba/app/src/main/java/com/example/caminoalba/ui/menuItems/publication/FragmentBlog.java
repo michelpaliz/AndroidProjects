@@ -137,6 +137,19 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         }
     }
 
+    private void updatePublicationProfilePhoto(Publication publication, String newProfilePhotoUrl) {
+        if (publication.getBlog() != null && publication.getBlog().getProfile() != null) {
+            Profile profile = publication.getBlog().getProfile();
+            if (profile.getPhoto() != null && profile.getPhoto().equals(newProfilePhotoUrl)) {
+                // The profile photo for this publication is already up to date
+                return;
+            }
+            profile.setPhoto(newProfilePhotoUrl);
+            FirebaseDatabase.getInstance().getReference().child("profiles").child(profile.getProfile_id()).child("profile_photo_url").setValue(newProfilePhotoUrl);
+        }
+    }
+
+
 
     public void getPublications(Blog blog) {
 
@@ -150,11 +163,14 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 for (DataSnapshot publicationSnapshot : dataSnapshot.getChildren()) {
                     Publication publication = publicationSnapshot.getValue(Publication.class);
                     publicationsList.add(publication);
+                    // Call updatePublicationProfilePhoto() for this publication
+                    assert publication != null;
+                    updatePublicationProfilePhoto(publication, profile.getPhoto());
                 }
 
                 // Here, you can do something with the list of publications.
                 List<Publication> publicationsById = new ArrayList<>();
-                RecyclerPublicationAdapter recyclerPublicationAdapter = null;
+                RecyclerPublicationAdapter recyclerPublicationAdapter;
 
                 Blog blog1 = new Blog();
                 blog1.setProfile(profile);
