@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,16 +41,16 @@ import java.util.List;
 public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
     private SharedPreferences preferences;
+    private Button btnShowPublications;
     private String placemarkName;
-    private User user;
     private Blog blog;
     private Profile profile;
     private TextView tvPathName, tvRuta;
-    private ImageView imgHome, imgMap;
     private ImageView btnAddPublication;
     private RecyclerView recyclerView;
     private TextView tvMessage, tvTitle;
     private Context context;
+    private boolean showPublicationByUser = false;
     private boolean isAdmin = false;
 
     @Override
@@ -71,28 +72,31 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         // ------ Inicializamos vistas   -------
         tvPathName = view.findViewById(R.id.tvPathName);
         tvRuta = view.findViewById(R.id.tvRuta);
-        imgHome = view.findViewById(R.id.imgHome);
-        imgMap = view.findViewById(R.id.imgMap);
-        btnAddPublication = view.findViewById(R.id.imgAddPublication);
         recyclerView = view.findViewById(R.id.rvPublications);
         tvMessage = view.findViewById(R.id.tvMessage);
         tvTitle = view.findViewById(R.id.tvTitle);
         LinearLayout footerMenu = view.findViewById(R.id.footer_menu);
+        ImageView imgPoints = view.findViewById(R.id.imgPoints);
+        ImageView imgHome = view.findViewById(R.id.imgHome);
+        ImageView imgMap = view.findViewById(R.id.imgMap);
+
+        btnAddPublication = view.findViewById(R.id.imgAddPublication);
         // ------ Inicializamos variables  -------
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        user = new User();
         profile = new Profile();
         blog = new Blog();
         Gson gson = new Gson();
         String userStr = preferences.getString("user", "");
         String profileStr = preferences.getString("profile", "");
-        user = gson.fromJson(userStr, User.class);
+        User user = gson.fromJson(userStr, User.class);
         profile = gson.fromJson(profileStr, Profile.class);
+        // ------ Empezamos con la logica  -------
         btnAddPublication.setVisibility(View.GONE);
         tvTitle.setText("PUBLICACIONES");
         tvMessage.setText("Please go to the map section to set your current location.");
         if (getArguments() != null) {
             isAdmin = getArguments().getBoolean("isAdmin", false);
+            showPublicationByUser = getArguments().getBoolean("userlist", false);
         }
 
         if (isAdmin) {
@@ -101,7 +105,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             tvRuta.setVisibility(View.GONE);
             tvMessage.setVisibility(View.GONE);
             tvPathName.setText(placemarkName);
-            eventHandler();
+            btnAddPublication();
             if (user.getType().equalsIgnoreCase("admin")) {
                 btnAddPublication.setVisibility(View.VISIBLE);
             }
@@ -119,6 +123,25 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             transaction.commit();
         });
 
+        //Cuando entremos al fragmento de puntos cargamos el recyclerview
+        if (showPublicationByUser){
+            tvMessage.setText("Here you can see your publications that you have, you can remove them");
+            tvPathName.setVisibility(View.GONE);
+            tvRuta.setVisibility(View.GONE);
+            btnAddPublication();
+        }
+
+        imgPoints.setOnClickListener(v -> {
+            // Create an instance of the child fragment
+            FragmentUserPublications fragmentUserPublications = new FragmentUserPublications();
+            // Begin a new FragmentTransaction using the getChildFragmentManager() method
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            // Add the child fragment to the transaction and specify a container view ID in the parent layout
+            transaction.replace(R.id.fragment_blog, fragmentUserPublications);
+            transaction.addToBackStack(null); // Add the fragment to the back stack
+            transaction.commit();
+        });
+
     }
 
 
@@ -126,14 +149,14 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     public void onDataPass(String placemarkName, boolean isEnabled) {
         this.placemarkName = placemarkName;
         if (isEnabled) {
-            tvRuta.setVisibility(View.GONE);
             tvMessage.setVisibility(View.GONE);
             tvPathName.setText(placemarkName);
             btnAddPublication.setVisibility(View.VISIBLE);
-            eventHandler();
+            btnAddPublication();
         } else {
             tvMessage.setText("Make sure to be less than 50 meters in one placemark in order to see the publications");
-            tvPathName.setText("");
+            tvRuta.setVisibility(View.GONE);
+            tvPathName.setVisibility(View.GONE);
         }
     }
 
@@ -150,8 +173,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     }
 
 
-
-    public void getPublications(Blog blog) {
+    public void getPublications() {
 
         DatabaseReference publicationsRef = FirebaseDatabase.getInstance().getReference().child("publications");
 
@@ -175,18 +197,22 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 Blog blog1 = new Blog();
                 blog1.setProfile(profile);
 
-                recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsList, context);
+                if (!showPublicationByUser) {
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsList, context);
+                } else {
+                    assert profile != null;
+                    for (Publication publication : publicationsList) {
+                        if (publication.getBlog().getBlog_id().equalsIgnoreCase(profile.getProfile_id())) {
+                            publication.getBlog().setProfile(blog1.getProfile());
+                            publicationsById.add(publication);
+                        }
+                    }
 
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsById, context);
 
-                //for (Publication publication : publicationsList) {
-//                        if (publication.getBlog().getBlog_id().equalsIgnoreCase(blog.getBlog_id())) {
-//                            publication.getBlog().setProfile(blog1.getProfile());
-//                            publicationsById.add(publication);
-//                        }
-//                    }
+                }
 
-
-                if (placemarkName != null && !isAdmin) {
+                if (placemarkName != null && !showPublicationByUser) {
                     for (Publication publication : publicationsList) {
                         if (placemarkName.equalsIgnoreCase(publication.getPlacemarkID())) {
                             publication.getBlog().setProfile(blog1.getProfile());
@@ -211,7 +237,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     }
 
 
-    public void eventHandler() {
+    public void btnAddPublication() {
         // Get the current user from FirebaseAuth
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -229,7 +255,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 //                    layoutManager.setReverseLayout(true);
                     recyclerView.setLayoutManager(layoutManager);
 
-                    getPublications(blog);
+                    getPublications();
 
                     btnAddPublication.setOnClickListener(v -> {
                         //Create varibles to pass to my child fragment
@@ -250,12 +276,6 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                         transaction.commit();
 
                     });
-
-
-                    imgHome.setOnClickListener(v -> {
-
-                    });
-
 
                 }
 

@@ -18,18 +18,16 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPublications"
-            android:layout_width="336dp"
-            android:layout_height="595dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="297dp"
+            android:layout_height="588dp"
+            android:layout_marginBottom="16dp"
             android:padding="15dp"
             app:layout_constraintBottom_toTopOf="@+id/footer_menu"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.489"
+            app:layout_constraintHorizontal_bias="0.508"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvRuta"
-            app:layout_constraintVertical_bias="0.187" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintVertical_bias="0.484" />
 
         <LinearLayout
             android:id="@+id/footer_menu"
@@ -76,11 +74,12 @@
             android:id="@+id/imgAddPublication"
             android:layout_width="41dp"
             android:layout_height="48dp"
-            android:layout_marginBottom="7dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/circle"
             android:gravity="center"
-            android:src="@drawable/ic_baseline_add_24"
             android:padding="10dp"
+            android:src="@drawable/ic_baseline_add_24"
             android:textAlignment="center"
             android:textColor="@color/royal_purple"
             android:textSize="25sp"
@@ -104,46 +103,58 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvPathName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="132dp"
-            android:text="pathname"
-            android:textColor="@color/tropical_blue"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.182"
-            app:layout_constraintStart_toEndOf="@+id/tvRuta"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-        <TextView
-            android:id="@+id/tvRuta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="308dp"
+            android:layout_height="140dp"
             android:layout_marginStart="16dp"
-            android:text="Ruta: "
-            android:textColor="@color/my_dark_grey"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tvPathName"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:padding="16dp"
-            android:text=""
-            android:textColor="@color/my_dark_grey"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/footer_menu"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.587"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPathName"
-            app:layout_constraintVertical_bias="0.049" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="274dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:padding="16dp"
+                android:text=""
+                android:textColor="@color/my_dark_grey"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvRuta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Ruta: "
+                    android:textColor="@color/my_dark_grey"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPathName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:text="pathname"
+                    android:textColor="@color/tropical_blue"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
