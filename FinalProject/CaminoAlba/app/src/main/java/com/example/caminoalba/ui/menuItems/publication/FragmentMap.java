@@ -27,6 +27,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.Point;
@@ -50,6 +51,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     private int currentBreakpointIndex = 0;
     private LocationManager locationManager;
     private boolean reachedDestination = false;
+    private Marker currentLocationMarker;
     private KmlLayer layer;
     private ImageView imgHome;
 
@@ -203,10 +205,17 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
         // Add marker for current location with red color label.
         if (map != null) {
-            map.addMarker(new MarkerOptions()
+            map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            map.setBuildingsEnabled(true);
+            
+            if (currentLocationMarker != null) {
+                currentLocationMarker.remove();
+            }
+            currentLocationMarker = map.addMarker(new MarkerOptions()
                     .position(currentLocationLocal)
                     .title("Current Location")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
 
             if (!reachedDestination) {
                 // Find the closest breakpoint to the user's current location.
