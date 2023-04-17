@@ -18,8 +18,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPublications"
-            android:layout_width="297dp"
-            android:layout_height="588dp"
+            android:layout_width="337dp"
+            android:layout_height="570dp"
             android:layout_marginBottom="16dp"
             android:padding="15dp"
             app:layout_constraintBottom_toTopOf="@+id/footer_menu"
@@ -127,6 +127,7 @@
                 android:textSize="15sp" />
 
             <LinearLayout
+                android:id="@+id/linearLayout_path"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
