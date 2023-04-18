@@ -207,7 +207,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
         if (map != null) {
             map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
             map.setBuildingsEnabled(true);
-            
+
             if (currentLocationMarker != null) {
                 currentLocationMarker.remove();
             }

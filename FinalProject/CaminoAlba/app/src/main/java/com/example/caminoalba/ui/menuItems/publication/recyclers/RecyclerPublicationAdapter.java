@@ -91,36 +91,32 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
 
         public void init(Publication publication) {
 
-            // update the adapter for the inner RecyclerView with the new list of URIs
+            // Get the profile reference
+            DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("profiles").child(publication.getBlog().getProfile().getProfile_id());
 
-//            if (publication.getBlog().getProfile().getPhoto() != null) {
-//                Picasso.get().load(publication.getBlog().getProfile().getPhoto()).into(authorPhoto);
-//            }
-
-            // Check if the photo URL is null or empty, and update it with the latest profile photo if available
-            if (TextUtils.isEmpty(publication.getBlog().getProfile().getPhoto())) {
-                DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("profiles").child(publication.getBlog().getProfile().getProfile_id());
-                profileRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Profile updatedProfile = snapshot.getValue(Profile.class);
-                        if (updatedProfile != null && !TextUtils.isEmpty(updatedProfile.getPhoto())) {
+            // Add a listener to the profile reference to listen for changes in the profile data
+            profileRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Profile updatedProfile = snapshot.getValue(Profile.class);
+                    if (updatedProfile != null) {
+                        // Check if the photo URL has changed and update it if necessary
+                        if (!TextUtils.equals(publication.getBlog().getProfile().getPhoto(), updatedProfile.getPhoto())) {
                             publication.getBlog().getProfile().setPhoto(updatedProfile.getPhoto());
                             // Load the profile photo into the ImageView using Picasso
                             Picasso.get().load(updatedProfile.getPhoto()).into(authorPhoto);
                         }
                     }
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle error
-                    }
-                });
-            } else {
-                // Load the profile photo into the ImageView using Picasso
-                Picasso.get().load(publication.getBlog().getProfile().getPhoto()).into(authorPhoto);
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle error
+                }
+            });
 
+            // Load the profile photo into the ImageView using Picasso
+            Picasso.get().load(publication.getBlog().getProfile().getPhoto()).into(authorPhoto);
 
             recyclerAdapterPublicationPhotos.setPhotos(publication.getPhotos());
             recyclerAdapterPublicationPhotos = (RecyclerAdapterPublicationPhotos) rvPhotoGrid.getAdapter();
