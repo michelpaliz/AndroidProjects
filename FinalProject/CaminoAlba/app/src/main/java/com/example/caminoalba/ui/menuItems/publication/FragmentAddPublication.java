@@ -215,6 +215,8 @@ public class FragmentAddPublication extends Fragment {
         newPublication.setDatePublished(formattedDate);
         newPublication.setBlog(blog);
         newPublication.setPlacemarkID(placemarkName);
+        newPublication.setLikes(new ArrayList<>());
+        newPublication.setComments(new ArrayList<>());
 
 
         // Get a reference to the blog in the database

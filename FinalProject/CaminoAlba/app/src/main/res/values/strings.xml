@@ -7,13 +7,13 @@
         <item>user</item>
         <item>admin</item>
     </string-array>
-    <string name="title_activity_profile">Profile</string>
+
     <!-- Strings used for fragments for navigation -->
+    <string name="title_activity_profile">Profile</string>
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -22,9 +22,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="confirm_exit">Are you sure you want to exit ?</string>
-
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -35,10 +33,30 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_log_out">Log out</string>
     <string name="title_activity_navigation_drawer">NavigationDrawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">WELCOME TO YOUR PROFILE INFORMATION</string>
-    <string name="select_gender">Select Gender</string>
     <string name="map">Fragment_map</string>
+
+    <!--    Register_messages-->
+    <!--    <string name="text_welcome_message">WELCOME</string>-->
+    <!--    <String name="text_sign_in">Sign in</String>-->
+    <string name="text_sign_up">sign up</string>
+    <!--    <String name="text_sign_up">Sign up</String>-->
+    <!--    <String name="text_not_register_yet">Don't you have an account? , sing up here.</String>-->
+    <!--    <String name="success_message_register">User has been register successfully</String>-->
+    <!--    <String name="error_message_log_in">User couldn't be loged</String>-->
+
+    <!--    Logic messages-->
+    <string name="select_gender">Select Gender</string>
+    <string name="tvSingUp">sing up</string>
+
+    <!--    <String name="text_no_set_up_location">Please you need to set up your location to start the game. </String>-->
+    <!--    <String name="text_too_far_away">In order to see the publications you need to be at least at 50 meters in a placemarker </String>-->
+    <!--    <String name="text_no_found_publication">There is no publications in this location</String>-->
+    <!--    <String name="text_news_message">Here you can see the admin's publications</String>-->
+    <!--    <String name="text_all_user_publications">Here you can see all your publications, you can delete them.</String>-->
+    <!--    <String name="success_message_updated_profile">User updated sucessfully</String>-->
+    <!--    <String name="success_message_publication_removed">Publication deleted successfully</String>-->
+
 
     <string-array name="gender_array">
         <item>male</item>

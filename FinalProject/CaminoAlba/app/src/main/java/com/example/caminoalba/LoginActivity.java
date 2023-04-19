@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // ------ Vistas   -------
     private Button btnSingIn, btnHome;
+    private TextView tvSingUp;
     private EditText edEmail, edPassword;
     private Intent intent;
     private ProgressBar progressBar;
@@ -62,9 +64,11 @@ public class LoginActivity extends AppCompatActivity {
         edEmail = findViewById(R.id.edEmail);
         edPassword = findViewById(R.id.edPassword);
         progressBar = findViewById(R.id.progressBar);
+        tvSingUp = findViewById(R.id.tvSingUp);
         // ------ Inicializamos variables  -------
         // ------ Para obtener todos los datos del usuario  -------
         gson = new Gson();
+        tvSingUp.setText(getText(R.string.text_sign_up));
     }
 
 

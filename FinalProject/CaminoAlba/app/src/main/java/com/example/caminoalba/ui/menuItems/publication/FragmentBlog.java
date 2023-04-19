@@ -25,8 +25,6 @@ import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
 import com.example.caminoalba.models.User;
 import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerPublicationAdapter;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -124,7 +122,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         });
 
         //When we enter again from the showpublicationbyuser fragment we do this
-        if (showPublicationByUser){
+        if (showPublicationByUser) {
             tvMessage.setText("Here you can see your publications that you have, you can remove them");
             tvPathName.setVisibility(View.GONE);
             tvRuta.setVisibility(View.GONE);
@@ -184,7 +182,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 blog1.setProfile(profile);
 
                 if (!showPublicationByUser) {
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsList, profile);
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsList, profile, context);
                 } else {
                     assert profile != null;
                     for (Publication publication : publicationsList) {
@@ -194,7 +192,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                         }
                     }
 
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsById,profile);
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsById, profile, context);
 
                 }
 
@@ -207,7 +205,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                             publicationsFound.add(publication);
                         }
                     }
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsFound,profile);
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsFound, profile, context);
 
                 }
 

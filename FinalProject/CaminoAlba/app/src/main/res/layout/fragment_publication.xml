@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:background="@color/tropical_blue">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/interactions"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
@@ -134,26 +134,59 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivLike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_marginBottom="1dp"
+                    android:contentDescription="favorite icon"
                     android:src="@drawable/ic_baseline_favorite_border_24"
-                    android:layout_marginEnd="80dp"
-                    android:contentDescription="favorite icon" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvLikesNumber"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvLikesNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivLike"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/ivComment"
                     android:layout_width="wrap_content"
-                    android:layout_marginEnd="80dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="83dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="73dp"
                     android:contentDescription="favorite c"
-                    android:src="@drawable/ic_baseline_mode_comment_24" />
+                    android:src="@drawable/ic_baseline_mode_comment_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="63dp"
+                    android:layout_marginTop="1dp"
+                    android:contentDescription="share icon"
                     android:src="@drawable/ic_baseline_share_24"
-                    android:contentDescription="share icon" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivComment"
+                    app:layout_constraintStart_toEndOf="@+id/tvLikesNumber"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
 

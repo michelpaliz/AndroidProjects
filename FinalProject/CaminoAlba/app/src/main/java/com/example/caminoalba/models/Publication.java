@@ -1,5 +1,7 @@
 package com.example.caminoalba.models;
 
+import com.example.caminoalba.models.dto.Comment;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +14,23 @@ public class Publication implements Serializable {
     private String datePublished;
     private List<String> photos;
     private Blog blog;
+    private List<Profile> likes;
+    private List<Comment> comments;
     private String placemarkID;
 
     public Publication() {
+    }
+
+    public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog, List<Profile> likes, List<Comment> comments, String placemarkID) {
+        this.publication_id = publication_id;
+        this.title = title;
+        this.description = description;
+        this.datePublished = datePublished;
+        this.photos = photos;
+        this.blog = blog;
+        this.likes = likes;
+        this.comments = comments;
+        this.placemarkID = placemarkID;
     }
 
     public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog) {
@@ -34,6 +50,22 @@ public class Publication implements Serializable {
         this.photos = photos;
         this.blog = blog;
         this.placemarkID = placemarkID;
+    }
+
+    public List<Profile> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Profile> likes) {
+        this.likes = likes;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getPlacemarkID() {
@@ -105,6 +137,20 @@ public class Publication implements Serializable {
     }
 
 
+//    @Override
+//    public String toString() {
+//        return "Publication{" +
+//                "publication_id='" + publication_id + '\'' +
+//                ", title='" + title + '\'' +
+//                ", description='" + description + '\'' +
+//                ", datePublished='" + datePublished + '\'' +
+//                ", photos=" + photos +
+//                ", blog=" + blog +
+//                ", placemarkID='" + placemarkID + '\'' +
+//                '}';
+//    }
+
+
     @Override
     public String toString() {
         return "Publication{" +
@@ -114,6 +160,8 @@ public class Publication implements Serializable {
                 ", datePublished='" + datePublished + '\'' +
                 ", photos=" + photos +
                 ", blog=" + blog +
+                ", likes=" + likes +
+                ", comments=" + comments +
                 ", placemarkID='" + placemarkID + '\'' +
                 '}';
     }
