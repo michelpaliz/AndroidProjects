@@ -126,6 +126,10 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                         }
                     }
                     // Update the adapter with the new data
+                    tvAuthorName.setText(publication.getBlog().getProfile().getFirstName());
+                    tvTimeDisplayed.setText(publication.getDatePublished());
+                    tvTitleField.setText(publication.getTitle());
+                    etDescriptionField.setText(publication.getDescription());
                     publicationCommentAction(publication);
                     publicationLikeAction(publication);
                     Picasso.get().load(publication.getBlog().getProfile().getPhoto()).into(authorPhoto);
@@ -152,10 +156,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                 }
             });
 
-            tvAuthorName.setText(publication.getBlog().getProfile().getFirstName());
-            tvTimeDisplayed.setText(publication.getDatePublished());
-            tvTitleField.setText(publication.getTitle());
-            etDescriptionField.setText(publication.getDescription());
+
 
         }
 

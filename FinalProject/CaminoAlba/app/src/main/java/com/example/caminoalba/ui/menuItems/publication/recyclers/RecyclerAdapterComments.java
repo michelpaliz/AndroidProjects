@@ -12,17 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.R;
+import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.dto.Comment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapterComments.CommentViewHolder> {
 
-    private final List<Comment> commentList;
-    private final Context context;
+    private List<Comment> commentList;
+    private Context context;
 
     public RecyclerAdapterComments(List<Comment> commentList, Context context) {
         this.commentList = commentList;
@@ -48,28 +52,6 @@ public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapte
         return commentList.size();
     }
 
-    public void updateCommentProfiles(List<Comment> updatedComments) {
-        // Update the comment profile information in the adapter
-        for (int i = 0; i < commentList.size(); i++) {
-            Comment comment = commentList.get(i);
-            for (int j = 0; j < updatedComments.size(); j++) {
-                Comment updatedComment = updatedComments.get(j);
-                if (comment.getId().equals(updatedComment.getId())) {
-                    comment.setProfile(updatedComment.getProfile());
-                    break;
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-    public void setComments(List<Comment> comments) {
-        // Set the updated comments list in the adapter for the RecyclerView
-        commentList.clear();
-        commentList.addAll(comments);
-        notifyDataSetChanged();
-    }
-
     public class CommentViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView ivProfilePhoto;
@@ -86,19 +68,43 @@ public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapte
         }
 
         public void init(Comment comment) {
-            if (comment.getProfile().getPhoto() != null) {
-                Picasso.get().load(comment.getProfile().getPhoto()).into(ivProfilePhoto);
+            Profile profile = comment.getProfile();
+            if (profile.getPhoto() != null) {
+                Picasso.get().load(profile.getPhoto()).into(ivProfilePhoto);
             }
             tvComment.setText(comment.getCommentText());
-            tvProfileName.setText(comment.getProfile().getFirstName() + " " + comment.getProfile().getLastName());
+            tvProfileName.setText(profile.getFirstName() + " " + profile.getLastName());
 
             // Set click listener to delete comment
             imageButton.setOnClickListener(v -> {
                 DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child("comments").child(comment.getId());
                 commentRef.removeValue();
             });
+
+            // Update profile information
+            DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(profile.getProfile_id());
+            profileRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Profile updatedProfile = dataSnapshot.getValue(Profile.class);
+                    if (updatedProfile != null) {
+                        comment.setProfile(updatedProfile);
+                        tvProfileName.setText(updatedProfile.getFirstName() + " " + updatedProfile.getLastName());
+                        if (updatedProfile.getPhoto() != null) {
+                            Picasso.get().load(updatedProfile.getPhoto()).into(ivProfilePhoto);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+//                    Log.e(TAG, "Failed to update profile information", databaseError.toException());
+                }
+            });
         }
+
+
     }
 
-}
 
+}
