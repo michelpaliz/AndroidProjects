@@ -30,6 +30,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPublicationAdapter.PublicationViewHolder> {
 
@@ -116,12 +117,14 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Profile updatedProfile = snapshot.getValue(Profile.class);
                     if (updatedProfile != null) {
-                        // Check if the photo URL has changed and update it if necessary
-                        if (!TextUtils.equals(publication.getBlog().getProfile().getPhoto(), updatedProfile.getPhoto())) {
-                            publication.getBlog().getProfile().setPhoto(updatedProfile.getPhoto());
+//                        // Check if the photo URL has changed and update it if necessary
+//                        if (!TextUtils.equals(publication.getBlog().getProfile().getPhoto(), updatedProfile.getPhoto())) {
+//                            publication.getBlog().getProfile().setPhoto(updatedProfile.getPhoto());
+//                        }
+                        if (!Objects.equals(publication.getBlog().getProfile(), updatedProfile)) {
+                            publication.getBlog().setProfile(updatedProfile);
                         }
                     }
-                    publication.getBlog().setProfile(updatedProfile);
                     // Update the adapter with the new data
                     publicationCommentAction(publication);
                     publicationLikeAction(publication);
@@ -131,6 +134,16 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                     recyclerAdapterPublicationPhotos.notifyDataSetChanged();
                     // Call publicationActions after the adapter has been updated
 
+                    // Set click listener on close button
+                    ivDeletePublication.setVisibility(View.GONE);
+                    if (publication.getBlog().getProfile().getUser().getType().equalsIgnoreCase("admin")) {
+                        ivDeletePublication.setVisibility(View.VISIBLE);
+                        ivDeletePublication.setOnClickListener(v -> {
+                            // Get the ID of the publication to be deleted
+                            String publicationId = publication.getPublication_id();
+                            onPublicationClickListener.onPublicationClick(publicationId);
+                        });
+                    }
                 }
 
                 @Override
@@ -144,21 +157,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
             tvTitleField.setText(publication.getTitle());
             etDescriptionField.setText(publication.getDescription());
 
-            // Set click listener on close button
-            ivDeletePublication.setVisibility(View.GONE);
-            if (publication.getBlog().getProfile().getUser().getType().equalsIgnoreCase("admin")) {
-                ivDeletePublication.setVisibility(View.VISIBLE);
-                ivDeletePublication.setOnClickListener(v -> {
-                    // Get the ID of the publication to be deleted
-                    String publicationId = publication.getPublication_id();
-                    onPublicationClickListener.onPublicationClick(publicationId);
-                });
-            }
-
-            // Don't call publicationActions here, it should be called inside onDataChange
-
         }
-
 
 
         public void publicationCommentAction(Publication publication) {

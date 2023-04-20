@@ -86,7 +86,7 @@ public class FragmentProfile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // ------ Inicializamos vistas   -------
+        // ------ Init views   -------
         edFirstName = view.findViewById(R.id.edFirstName);
         edLastName = view.findViewById(R.id.edLastName);
         edBirthdate = view.findViewById(R.id.edBirthDate);
@@ -95,15 +95,16 @@ public class FragmentProfile extends Fragment {
         tvEmailVerfication = view.findViewById(R.id.tvEmailVerified);
         spinnerGender = view.findViewById(R.id.spinnerGender);
 
-        // ------ Inicializamos variables  -------
+        // ------ Init variables  -------
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         gson = new Gson();
 
-        // ------ Obtenemos el usuario actual mediante este metodo  -------
+        // ------ We get the user sent by the login activity -------
+
         String userStr = prefs.getString("user", "");
         user = gson.fromJson(userStr, User.class);
 
-        // ------ Obtenemos el perfil actual mediante este metodo   -------
+        // ------ We get the profile sent by the login activity   -------
         if (!profileUpdated) {
             String profileStr = prefs.getString("profile", "");
             profile = gson.fromJson(profileStr, Profile.class);
@@ -121,7 +122,7 @@ public class FragmentProfile extends Fragment {
     }
 
 
-//    ********* MOSTRAR DATOS DEL USUARIO ************
+//    ********* SHOW PROFILE DATA ************
 
     public void showProfileData(Profile profile) {
 
@@ -175,7 +176,7 @@ public class FragmentProfile extends Fragment {
     }
 
 
-    //    ******* MANIPULACION DE DATOS PARA EL PERFIL ******
+    //    ******* HERE WE MANAGE THE PROFILE DATA ******
 
     public void getUpdatedProfile() {
         // Get the current user from FirebaseAuth
@@ -188,8 +189,10 @@ public class FragmentProfile extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     profile = dataSnapshot.getValue(Profile.class);
                     assert profile != null;
-                    showProfileData(profile);
                     // do something with the retrieved profile
+                    showProfileData(profile);
+                    String profileStr = gson.toJson(profile);
+                    editor.putString("profile", profileStr);
                 }
 
                 @Override
@@ -233,7 +236,7 @@ public class FragmentProfile extends Fragment {
     }
 
 
-    //********** ACTUALIZAR LOS DATOS DEL PERFIL ************
+    //********** UPDATE PROFILE DATA ************
 
 
     public void btnUpdateProfile() {
@@ -277,7 +280,7 @@ public class FragmentProfile extends Fragment {
 
     public void uploadPhoto(Uri uri) {
         // Get the Firebase Storage reference with your bucket name
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-c6843.appspot.com/");
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
         // Upload the image to Firebase Storage

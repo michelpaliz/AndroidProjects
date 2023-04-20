@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private Intent intent;
     private ProgressBar progressBar;
     private String email;
+    private User userFound;
     // ------ Otras referencias    -------
     private Gson gson;
 
@@ -108,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     }
                                                 }
                                                 if (user != null) {
+                                                    userFound = user;
                                                     // Save user data to SharedPreferences
                                                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                                     SharedPreferences.Editor editor = prefs.edit();
@@ -123,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                             Profile profile = snapshot.getValue(Profile.class);
                                                             if (profile != null) {
+                                                                profile.setUser(userFound);
                                                                 // Save profile data to SharedPreferences
                                                                 String profileStr = gson.toJson(profile);
                                                                 editor.putString("profile", profileStr);

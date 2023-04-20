@@ -35,11 +35,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
-    private SharedPreferences preferences;
     private String placemarkName;
     private Blog blog;
     private Profile profile;
@@ -48,7 +48,6 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     private RecyclerView recyclerView;
     private TextView tvMessage, tvTitle;
     private Context context;
-    private LinearLayout linearLayoutPath;
     private boolean showPublicationByUser = false;
     private boolean isAdmin = false;
 
@@ -75,13 +74,14 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         recyclerView = view.findViewById(R.id.rvPublications);
         tvMessage = view.findViewById(R.id.tvMessage);
         tvTitle = view.findViewById(R.id.tvTitle);
-        linearLayoutPath = view.findViewById(R.id.linearLayout_path);
+        LinearLayout linearLayoutPath = view.findViewById(R.id.linearLayout_path);
         LinearLayout footerMenu = view.findViewById(R.id.footer_menu);
         ImageView imgPoints = view.findViewById(R.id.imgPoints);
         ImageView imgMap = view.findViewById(R.id.imgMap);
         btnAddPublication = view.findViewById(R.id.imgAddPublication);
         // ------ Init Variables  -------
-        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        SharedPreferences.Editor editor = preferences.edit();
         profile = new Profile();
         blog = new Blog();
         Gson gson = new Gson();
@@ -91,7 +91,6 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         profile = gson.fromJson(profileStr, Profile.class);
         // ------ Starting with the logic  -------
         btnAddPublication.setVisibility(View.GONE);
-//        ivDeletePublication.setVisibility(View.GONE);
         tvTitle.setText("PUBLICACIONES");
         tvMessage.setText("Please go to the map section to set your current location.");
         if (getArguments() != null) {
@@ -256,6 +255,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                         args.putSerializable("blog", blog);
                         args.putString("placemark", placemarkName);
                         args.putBoolean("isAdmin", isAdmin);
+
                         // Create an instance of the child fragment
                         FragmentAddPublication fragmentAddPublication = new FragmentAddPublication();
                         //Pass the args already created to the child fragment
