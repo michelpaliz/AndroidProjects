@@ -5,7 +5,6 @@ import static android.content.ContentValues.TAG;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.transition.Slide;
@@ -26,13 +25,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
-import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
 import com.example.caminoalba.ui.menuItems.FragmentNews;
 import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterAddPhotos;
@@ -59,11 +56,12 @@ public class FragmentAddPublication extends Fragment {
     private Button btnImage;
     private String placemarkName;
     private boolean isAdmin;
+    private Publication publication;
 
     // ------ Para obtener el blog y publicacion  -------
-    private Profile profile;
     private Blog blog;
     private String description, title;
+    private boolean edit;
     // ------ Para obtener el recyclerview    -------
     private RecyclerAdapterAddPhotos adapter;
     // ------ Otras referencias    -------
@@ -99,13 +97,6 @@ public class FragmentAddPublication extends Fragment {
         // ------ Inicializamos variables  -------
         uriList = new ArrayList<>();
         RecyclerView recyclerView = view.findViewById(R.id.rvPhotoGrid);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        // ------ Obtenemos el blog actual  -------
-        Gson gson = new Gson();
-
-        if (getArguments() != null) {
-            isAdmin = getArguments().getBoolean("isAdmin", false);
-        }
 
         // ------  RecyclerView   -------
         adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
@@ -114,30 +105,41 @@ public class FragmentAddPublication extends Fragment {
         adapter.notifyDataSetChanged();
 
 
-        //SHOW BLOG INFO + PUBLICATION DATA
-        String profileStr = preferences.getString("profile", "");
-        profile = gson.fromJson(profileStr, Profile.class);
+        //We set the blog with its profile object before creating the publication
 
-        tvName.setText(profile.getFirstName());
+        assert getArguments() != null;
+        isAdmin = getArguments().getBoolean("isAdmin", false);
+        edit = getArguments().getBoolean("edit", false);
+        blog = (Blog) getArguments().getSerializable("blog");
+        placemarkName = getArguments().getString("placemark");
+        String publicationJson = getArguments().getString("publication");
+        if (publicationJson != null) {
+            Gson gson = new Gson();
+            publication = gson.fromJson(publicationJson, Publication.class);
+
+        }
+
+        //SHOW BLOG INFO + PUBLICATION DATA
+//        String profileStr = preferences.getString("profile", "");
+//        profile = gson.fromJson(profileStr, Profile.class);
+
+        if (blog == null) {
+            blog = publication.getBlog();
+        }
+
+        tvName.setText(blog.getProfile().getFirstName());
         LocalDateTime datePublished = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         formattedDate = datePublished.format(formatter);
         tvTimeDisplayed.setText(formattedDate);
-        Picasso.get().load(profile.getPhoto()).into(imageView);
-
-        Bundle args = getArguments();
-        if (args != null) {
-            blog = (Blog) args.getSerializable("blog");
-            blog.setProfile(profile);
-            placemarkName = args.getString("placemark");
-        }
+        Picasso.get().load(blog.getProfile().getPhoto()).into(imageView);
 
 
         //ADD BUTTONS
         bntAddPhotos();
 
-        if (profile.getPhoto() != null) {
-            imageView.setImageURI(Uri.parse(profile.getPhoto()));
+        if (blog.getProfile().getPhoto() != null) {
+            imageView.setImageURI(Uri.parse(blog.getProfile().getPhoto()));
         } else {
             imageView.setImageResource(R.drawable.default_image);
         }
@@ -145,7 +147,12 @@ public class FragmentAddPublication extends Fragment {
 
         btnAddPublication.setOnClickListener(v -> {
 
-            createPublication();
+            if (edit) {
+                editPublication(publication.getPublication_id());
+            } else {
+                createPublication();
+            }
+
 
         });
 
@@ -187,6 +194,64 @@ public class FragmentAddPublication extends Fragment {
         }
     }
 
+
+    public void editPublication(String publicationId) {
+        // Convert the list of Uri to a list of Strings
+        List<String> photoUrls = new ArrayList<>();
+        for (Uri uri : uriList) {
+            photoUrls.add(uri.toString());
+        }
+
+        if (photoUrls.isEmpty()) {
+            Toast.makeText(requireContext(), "Please select at least one photo", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!title() || !description()) {
+            // handle validation errors
+            return;
+        }
+
+        // Get a reference to the publication in the database
+        DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publicationId);
+
+        // Retrieve the publication from the database
+        publicationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Check if the publication exists in the database
+                if (snapshot.exists()) {
+                    // Get the Publication object from the snapshot
+                    Publication publication = snapshot.getValue(Publication.class);
+
+                    // Set the attributes of the Publication object
+                    assert publication != null;
+                    publication.setTitle(title);
+                    publication.setDescription(description);
+                    publication.setPhotos(photoUrls);
+
+                    // Update the publication in the database
+                    publicationRef.setValue(publication);
+
+                    // Show a success message
+                    Toast.makeText(getContext(), "Publication updated successfully", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    // Handle the case where the publication does not exist in the database
+                    Toast.makeText(getContext(), "Publication not found", Toast.LENGTH_SHORT).show();
+                    throw new NullPointerException();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle database errors
+                Log.e(TAG, "Error retrieving publication from Firebase Realtime Database: " + error.getMessage());
+            }
+        });
+    }
+
+
     public void createPublication() {
         // Convert the list of Uri to a list of Strings
         List<String> photoUrls = new ArrayList<>();
@@ -220,7 +285,7 @@ public class FragmentAddPublication extends Fragment {
 
 
         // Get a reference to the blog in the database
-        DatabaseReference blogRef = databaseReference.getDatabase().getReference("blogs/" + profile.getProfile_id());
+        DatabaseReference blogRef = databaseReference.getDatabase().getReference("blogs/" + blog.getProfile().getProfile_id());
 
         // Retrieve the blog from the database
         blogRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -244,6 +309,8 @@ public class FragmentAddPublication extends Fragment {
                 Log.e(TAG, "Error retrieving blog from Firebase Realtime Database: " + error.getMessage());
             }
         });
+
+
     }
 
 

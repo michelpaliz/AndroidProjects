@@ -15,6 +15,7 @@ public class Publication implements Serializable {
     private List<String> photos;
     private Blog blog;
     private List<Profile> likes;
+    private long likeCount;
     private List<Comment> comments;
     private String placemarkID;
 
@@ -33,26 +34,14 @@ public class Publication implements Serializable {
         this.placemarkID = placemarkID;
     }
 
+    public long getLikeCount() {
+        return likeCount;
+    }
 
+    public void setLikeCount(long likeCount) {
+        this.likeCount = likeCount;
+    }
 
-//    public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog) {
-//        this.publication_id = publication_id;
-//        this.title = title;
-//        this.description = description;
-//        this.datePublished = datePublished;
-//        this.photos = photos;
-//        this.blog = blog;
-//    }
-//
-//    public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog, String placemarkID) {
-//        this.publication_id = publication_id;
-//        this.title = title;
-//        this.description = description;
-//        this.datePublished = datePublished;
-//        this.photos = photos;
-//        this.blog = blog;
-//        this.placemarkID = placemarkID;
-//    }
 
     public List<Profile> getLikes() {
         return likes;

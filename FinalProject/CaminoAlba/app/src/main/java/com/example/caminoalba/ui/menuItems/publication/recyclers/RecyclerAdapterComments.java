@@ -4,13 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.dto.Comment;
@@ -89,7 +86,7 @@ public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapte
                     Profile updatedProfile = dataSnapshot.getValue(Profile.class);
                     if (updatedProfile != null) {
                         comment.setProfile(updatedProfile);
-                        tvProfileName.setText(updatedProfile.getFirstName() + " " + updatedProfile.getLastName());
+                        tvProfileName.setText(updatedProfile.getFirstName().toUpperCase() + " " + updatedProfile.getLastName().toUpperCase());
                         if (updatedProfile.getPhoto() != null) {
                             Picasso.get().load(updatedProfile.getPhoto()).into(ivProfilePhoto);
                         }

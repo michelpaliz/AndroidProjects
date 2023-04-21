@@ -43,8 +43,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="16dp"
                 android:text="John Doe"
+                android:fontFamily="@font/sans"
                 android:textColor="@color/my_light_blue"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvTimeDisplayed_frg_publication"
@@ -104,7 +105,11 @@
                 android:id="@+id/tvTitleField_frg_publication"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_royal_purple"
                 android:text="asdfsaf"
+                android:fontFamily="@font/roboto"
+                android:textStyle="bold"
+                android:textSize="17sp"
                 android:textAppearance="?attr/textAppearanceHeadline6"/>
 
             <TextView
@@ -112,9 +117,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:fontFamily="@font/lato"
                 android:text="dfasff"
                 android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="?android:attr/textColorSecondary"/>
+                android:textColor="@color/black"/>
 
 
         </LinearLayout>
@@ -163,28 +170,28 @@
                     android:id="@+id/ivComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="83dp"
                     android:layout_marginTop="2dp"
-                    android:layout_marginEnd="73dp"
+                    android:layout_marginEnd="16dp"
                     android:contentDescription="favorite c"
                     android:src="@drawable/ic_baseline_mode_comment_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView3"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="63dp"
                     android:layout_marginTop="1dp"
                     android:contentDescription="share icon"
                     android:src="@drawable/ic_baseline_share_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivComment"
+                    app:layout_constraintHorizontal_bias="0.432"
                     app:layout_constraintStart_toEndOf="@+id/tvLikesNumber"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

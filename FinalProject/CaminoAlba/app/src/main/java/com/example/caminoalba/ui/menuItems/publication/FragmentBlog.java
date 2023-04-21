@@ -35,7 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
@@ -81,7 +80,6 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         btnAddPublication = view.findViewById(R.id.imgAddPublication);
         // ------ Init Variables  -------
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        SharedPreferences.Editor editor = preferences.edit();
         profile = new Profile();
         blog = new Blog();
         Gson gson = new Gson();
@@ -103,7 +101,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             footerMenu.setVisibility(View.GONE);
             linearLayoutPath.setVisibility(View.GONE);
             tvMessage.setText("Here you can see the lates news about Camino del Alba");
-            btnAddPublication();
+            getCurrentBlog();
             if (user.getType().equalsIgnoreCase("admin")) {
                 btnAddPublication.setVisibility(View.VISIBLE);
             }
@@ -126,7 +124,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             tvPathName.setVisibility(View.GONE);
             tvRuta.setVisibility(View.GONE);
 //            ivDeletePublication.setVisibility(View.VISIBLE);
-            btnAddPublication();
+            getCurrentBlog();
         }
 
         imgPoints.setOnClickListener(v -> {
@@ -150,7 +148,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             tvMessage.setVisibility(View.GONE);
             tvPathName.setText(placemarkName);
             btnAddPublication.setVisibility(View.VISIBLE);
-            btnAddPublication();
+            getCurrentBlog();
         } else {
             tvMessage.setText("Make sure to be less than 50 meters in one placemark in order to see the publications");
             tvRuta.setVisibility(View.GONE);
@@ -209,12 +207,16 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 }
 
                 //We get the reference from our interface and the remove the image
-                recyclerPublicationAdapter.setOnPublicationClickListener(publicationId -> {
+
+                recyclerPublicationAdapter.setOnPublicationClickListener((publicationId, remove) -> {
                     DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publicationId);
                     publicationRef.removeValue()
                             .addOnSuccessListener(aVoid -> Toast.makeText(context, "Publication deleted successfully", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(context, "Error deleting publication", Toast.LENGTH_SHORT).show());
+
+
                 });
+
                 recyclerView.setAdapter(recyclerPublicationAdapter);
                 recyclerPublicationAdapter.notifyDataSetChanged();
 
@@ -228,7 +230,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     }
 
 
-    public void btnAddPublication() {
+    public void getCurrentBlog() {
         // Get the current user from FirebaseAuth
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -240,35 +242,11 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                     blog = dataSnapshot.getValue(Blog.class);
                     assert blog != null;
                     recyclerView.setHasFixedSize(true);
-                    //recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                    //TODO order by date
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 //                    layoutManager.setReverseLayout(true);
                     recyclerView.setLayoutManager(layoutManager);
-
                     getPublications();
-
-                    btnAddPublication.setOnClickListener(v -> {
-                        //Create varibles to pass to my child fragment
-                        Bundle args = new Bundle();
-                        args.putSerializable("profile", profile);
-                        args.putSerializable("blog", blog);
-                        args.putString("placemark", placemarkName);
-                        args.putBoolean("isAdmin", isAdmin);
-
-                        // Create an instance of the child fragment
-                        FragmentAddPublication fragmentAddPublication = new FragmentAddPublication();
-                        //Pass the args already created to the child fragment
-                        fragmentAddPublication.setArguments(args);
-                        // Begin a new FragmentTransaction using the getChildFragmentManager() method
-                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                        // Add the child fragment to the transaction and specify a container view ID in the parent layout
-                        transaction.add(R.id.fragment_blog, fragmentAddPublication);
-                        transaction.addToBackStack(null); // Add the fragment to the back stack
-                        transaction.commit();
-
-                    });
-
+                    addPublicationFragment(blog);
                 }
 
                 @Override
@@ -277,7 +255,28 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 }
             });
         }
+
     }
 
+    public void addPublicationFragment(Blog blog) {
+        btnAddPublication.setOnClickListener(v -> {
+            //Create varibles to pass to my child fragment
+            Bundle args = new Bundle();
+            blog.setProfile(profile);
+            args.putSerializable("blog", blog);
+            args.putString("placemark", placemarkName);
+            args.putBoolean("isAdmin", isAdmin);
+            // Create an instance of the child fragment
+            FragmentAddPublication fragmentAddPublication = new FragmentAddPublication();
+            //Pass the args already created to the child fragment
+            fragmentAddPublication.setArguments(args);
+            // Begin a new FragmentTransaction using the getChildFragmentManager() method
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            // Add the child fragment to the transaction and specify a container view ID in the parent layout
+            transaction.add(R.id.fragment_blog, fragmentAddPublication);
+            transaction.addToBackStack(null); // Add the fragment to the back stack
+            transaction.commit();
 
+        });
+    }
 }

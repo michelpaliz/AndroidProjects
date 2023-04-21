@@ -8,24 +8,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.R;
+import com.example.caminoalba.interfaces.OnClickListener;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
+import com.example.caminoalba.ui.menuItems.publication.FragmentAddPublication;
 import com.example.caminoalba.ui.menuItems.publication.FragmentComment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ThrowOnExtraProperties;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,7 +52,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
     }
 
     public interface OnPublicationClickListener {
-        void onPublicationClick(String publicationId);
+        void onPublicationClick(String publicationId, Boolean remove);
     }
 
     public void setOnPublicationClickListener(OnPublicationClickListener onPublicationClickListener) {
@@ -75,7 +81,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
         return publicationList.size();
     }
 
-    public class PublicationViewHolder extends RecyclerView.ViewHolder {
+    public class PublicationViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
         private final ImageView authorPhoto, ivLike, ivComment;
         private final TextView tvAuthorName;
@@ -86,8 +92,31 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
         private final ImageView ivDeletePublication;
         private final RecyclerView rvPhotoGrid;
         private RecyclerAdapterPublicationPhotos recyclerAdapterPublicationPhotos;
-        private DatabaseReference publicationRef;
         private long likeCount;
+        private OnClickListener onClickListener;
+
+        @Override
+        public void editPublication(Publication publication) {
+            Toast.makeText(context, "Item  " + publication.getPublication_id(), Toast.LENGTH_SHORT).show();
+            //Create varibles to pass to my child fragment
+            boolean edit = true;
+            Bundle args = new Bundle();
+            Gson gson = new Gson();
+            String publicationJson = gson.toJson(publication);
+            args.putString("publication", publicationJson);
+            args.putBoolean("edit", edit);
+            // Create an instance of the child fragment
+            FragmentAddPublication fragmentAddPublication = new FragmentAddPublication();
+            //Pass the args already created to the child fragment
+            fragmentAddPublication.setArguments(args);
+            // Begin a new FragmentTransaction using the getFragmentManager() method
+            FragmentTransaction transaction = ((FragmentActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
+            // Add the child fragment to the transaction and specify a container view ID in the parent layout
+            transaction.add(R.id.fragment_blog, fragmentAddPublication);
+            transaction.addToBackStack(null); // Add the fragment to the back stack
+            transaction.commit();
+        }
+
 
         public PublicationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,6 +130,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
             ivLike = itemView.findViewById(R.id.ivLike);
             ivComment = itemView.findViewById(R.id.ivComment);
             tvLikeCount = itemView.findViewById(R.id.tvLikesNumber);
+            this.onClickListener = this;
             // create and set the adapter for the inner RecyclerView
             recyclerAdapterPublicationPhotos = new RecyclerAdapterPublicationPhotos(new ArrayList<>());
             rvPhotoGrid.setAdapter(recyclerAdapterPublicationPhotos);
@@ -126,7 +156,8 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                         }
                     }
                     // Update the adapter with the new data
-                    tvAuthorName.setText(publication.getBlog().getProfile().getFirstName());
+                    tvLikeCount.setText(String.valueOf(publication.getLikeCount()));
+                    tvAuthorName.setText(publication.getBlog().getProfile().getFirstName().toUpperCase());
                     tvTimeDisplayed.setText(publication.getDatePublished());
                     tvTitleField.setText(publication.getTitle());
                     etDescriptionField.setText(publication.getDescription());
@@ -145,9 +176,16 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                         ivDeletePublication.setOnClickListener(v -> {
                             // Get the ID of the publication to be deleted
                             String publicationId = publication.getPublication_id();
-                            onPublicationClickListener.onPublicationClick(publicationId);
+                            onPublicationClickListener.onPublicationClick(publicationId, true);
                         });
                     }
+
+                    itemView.setOnClickListener(v -> {
+                        if (v != null){
+                            onClickListener.editPublication(publication);
+                        }
+
+                    });
                 }
 
                 @Override
@@ -155,7 +193,6 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                     // Handle error
                 }
             });
-
 
 
         }

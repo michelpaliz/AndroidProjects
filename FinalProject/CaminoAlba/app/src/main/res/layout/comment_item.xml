@@ -20,15 +20,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/comment_author_name"
         android:textColor="@color/dark_royal_purple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto"
         android:layout_toRightOf="@id/comment_author_photo"
         android:text="John Doe"
-        android:textSize="17sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/comment_text"
         app:layout_constraintStart_toEndOf="@+id/comment_author_photo"
@@ -43,11 +45,13 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:fontFamily="@font/lato"
         android:text="This is a comment"
-        android:textSize="14sp"
         android:textColor="@color/black"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/remove_button"
+        app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comment_author_photo"
         app:layout_constraintVertical_bias="0.0" />

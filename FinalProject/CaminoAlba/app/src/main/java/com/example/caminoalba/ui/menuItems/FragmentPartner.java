@@ -25,4 +25,8 @@ public class FragmentPartner extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_partner, container, false);
     }
+
+
+
+
 }
