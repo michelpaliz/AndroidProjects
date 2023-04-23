@@ -287,7 +287,7 @@ public class FragmentActionPublication extends Fragment {
         }
 
 
-        if (newPhotoUrls.isEmpty()) {
+        if (photoUrls.isEmpty()) {
             Toast.makeText(requireContext(), "Please select at least one photo", Toast.LENGTH_SHORT).show();
             return;
         }
