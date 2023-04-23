@@ -30,13 +30,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
     // ------ Vistas   -------
     private Button btnSingIn, btnHome;
-    private TextView tvSingUp;
+    private TextView tvSingUp, tvTitleSingIn;
     private EditText edEmail, edPassword;
     private Intent intent;
     private ProgressBar progressBar;
@@ -66,10 +67,13 @@ public class LoginActivity extends AppCompatActivity {
         edPassword = findViewById(R.id.edPassword);
         progressBar = findViewById(R.id.progressBar);
         tvSingUp = findViewById(R.id.tvSingUp);
+        tvTitleSingIn = findViewById(R.id.tvTitleSingUp);
+
         // ------ Inicializamos variables  -------
         // ------ Para obtener todos los datos del usuario  -------
         gson = new Gson();
-        tvSingUp.setText(getText(R.string.text_sign_up));
+        tvSingUp.setText(getText(R.string.text_dont_have_account));
+        tvTitleSingIn.setText(getText(R.string.text_sing_in).toString().toUpperCase(Locale.ROOT));
     }
 
 

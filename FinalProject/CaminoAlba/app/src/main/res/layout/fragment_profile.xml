@@ -44,7 +44,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
-            android:text="Name"
+            android:text="@string/Name"
             android:textSize="16sp" />
 
         <EditText
@@ -100,7 +100,7 @@
             android:layout_below="@+id/edLastName"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="Birthdate"
+            android:text="@string/birthday"
             android:textSize="16sp" />
 
         <EditText
@@ -128,7 +128,7 @@
             android:layout_below="@+id/edBirthDate"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="Gender"
+            android:text="@string/Gender"
             android:textSize="16sp" />
 
         <!-- Gender -->
@@ -175,8 +175,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvEmailVerified"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            android:text="Submit" />
+            android:layout_marginTop="20dp"
+            android:text="@string/Submit" />
 
     </RelativeLayout>
 </FrameLayout>

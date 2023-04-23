@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,10 @@ public class RegistrationActivity extends AppCompatActivity {
         edLastName = findViewById(R.id.edLastName_signup);
         edConfirm = findViewById(R.id.edConfirm_signup);
         edPassword = findViewById(R.id.edPassword_signup);
+        TextView tvTitleSignUp = findViewById(R.id.tvTitleSingUp);
+        TextView tvAlreadySingUp = findViewById(R.id.tvAlreadySingUp);
+        tvAlreadySingUp.setText(getText(R.string.text_already_have_account));
+        tvTitleSignUp.setText(getText(R.string.text_sign_up).toString().toUpperCase());
     }
 
     public void backHome() {

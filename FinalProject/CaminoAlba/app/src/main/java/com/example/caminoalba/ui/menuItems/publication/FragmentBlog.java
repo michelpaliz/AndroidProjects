@@ -89,18 +89,18 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         profile = gson.fromJson(profileStr, Profile.class);
         // ------ Starting with the logic  -------
         btnAddPublication.setVisibility(View.GONE);
-        tvTitle.setText("PUBLICACIONES");
-        tvMessage.setText("Please go to the map section to set your current location.");
+        tvTitle.setText(getText(R.string.publication).toString().toUpperCase());
+        tvMessage.setText(getText(R.string.setUpLocation).toString().toUpperCase());
         if (getArguments() != null) {
             isNews = getArguments().getBoolean("isNews", false);
             showPublicationByUser = getArguments().getBoolean("userlist", false);
         }
 
         if (isNews) {
-            tvTitle.setText("NOTICIAS");
+            tvTitle.setText(getText(R.string.news).toString().toUpperCase());
             footerMenu.setVisibility(View.GONE);
             linearLayoutPath.setVisibility(View.GONE);
-            tvMessage.setText("Here you can see the lates news about Camino del Alba");
+            tvMessage.setText(getText(R.string.newsInformation));
             getCurrentBlog();
             if (user.getType().equalsIgnoreCase("admin")) {
                 btnAddPublication.setVisibility(View.VISIBLE);
@@ -120,7 +120,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
         //When we enter again from the showpublicationbyuser fragment we do this
         if (showPublicationByUser) {
-            tvMessage.setText("Here you can see your publications that you have, you can remove them");
+            tvMessage.setText(getText(R.string.ownPhotosMessage));
             tvPathName.setVisibility(View.GONE);
             tvRuta.setVisibility(View.GONE);
             getCurrentBlog();
@@ -149,7 +149,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             btnAddPublication.setVisibility(View.VISIBLE);
             getCurrentBlog();
         } else {
-            tvMessage.setText("Make sure to be less than 50 meters in one placemark in order to see the publications");
+            tvMessage.setText(getText(R.string.beSureToBeLess50m));
             tvRuta.setVisibility(View.GONE);
             tvPathName.setVisibility(View.GONE);
         }

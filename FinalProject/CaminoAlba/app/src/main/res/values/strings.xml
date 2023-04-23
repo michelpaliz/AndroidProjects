@@ -36,18 +36,25 @@
     <string name="hello_blank_fragment">WELCOME TO YOUR PROFILE INFORMATION</string>
     <string name="map">Fragment_map</string>
 
-    <!--    Register_messages-->
-    <!--    <string name="text_welcome_message">WELCOME</string>-->
-    <!--    <String name="text_sign_in">Sign in</String>-->
     <string name="text_sign_up">sign up</string>
-    <!--    <String name="text_sign_up">Sign up</String>-->
-    <!--    <String name="text_not_register_yet">Don't you have an account? , sing up here.</String>-->
-    <!--    <String name="success_message_register">User has been register successfully</String>-->
-    <!--    <String name="error_message_log_in">User couldn't be loged</String>-->
-
     <!--    Logic messages-->
     <string name="select_gender">Select Gender</string>
-    <string name="tvSingUp">sing up</string>
+    <string name="tvSingUp">Sing up</string>
+    <string name="text_dont_have_account">"Don't you have an account ?. Sing up here "</string>
+    <string name="text_sing_in">Sing in</string>
+    <string name="text_already_have_account">Already have an account ?. Sing in here.</string>
+    <string name="birthday">Birthdate</string>
+    <string name="Gender">Gender</string>
+    <string name="Submit">Submit</string>
+    <string name="Name">Name</string>
+    <string name="publication">Publication</string>
+    <string name="news">News</string>
+    <string name="setUpLocation">Please go to the map section to set your current location.</string>
+    <string name="newsInformation">Here you can see the lates news about Camino del Alba.</string>
+    <string name="ownPhotosMessage">Here you can see your publications that you have, you can edit them but you cannot remove them.</string>
+    <string name="beSureToBeLess50m">Make sure to be less than 50 meters in one placemark in order to see the publications for each placemark.</string>
+    <string name="welcome">Welcome</string>
+    <string name="tvSingIn">Sing In</string>
 
     <!--    <String name="text_no_set_up_location">Please you need to set up your location to start the game. </String>-->
     <!--    <String name="text_too_far_away">In order to see the publications you need to be at least at 50 meters in a placemarker </String>-->
