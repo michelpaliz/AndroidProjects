@@ -56,7 +56,7 @@ public class FragmentActionPublication extends Fragment {
     private String placemarkName;
     private boolean isAdmin, isNews, isBlog;
     private Publication publication;
-    private boolean edit;
+    private boolean isEdit;
     private Button btnAddPublication;
 
     // ------ Para obtener el blog y publicacion  -------
@@ -108,13 +108,13 @@ public class FragmentActionPublication extends Fragment {
         // *** GETTING ARGUMENTS **** //
         assert getArguments() != null;
 
-        //This arguments come from the blog Fragment, also the blog is always update with the current profile and user ?
+        //This arguments comes from the blog Fragment, also the blog is always updated with the current profile and user ?
         blog = (Blog) getArguments().getSerializable("blog");
         isBlog = getArguments().getBoolean("isBlog", false);
         placemarkName = getArguments().getString("placemark");
 
-        //This arguments come from the RecyclerAdapterPublications
-        edit = getArguments().getBoolean("edit", false);
+        //This arguments comes from the RecyclerAdapterPublications
+        isEdit = getArguments().getBoolean("edit", false);
         isNews = getArguments().getBoolean("isNews", false);
         String publicationJson = getArguments().getString("publication");
         if (publicationJson != null) {
@@ -146,23 +146,21 @@ public class FragmentActionPublication extends Fragment {
         }
 
         //If it's news then we must check if the user is admin if not then it must be blog fragment
-        if (isNews) {
+        if (isEdit && publication != null) {
             //First thing we need to retrieve the old data show the user what he is goint to change
             etTitle.setText(publication.getTitle());
             etDescription.setText(publication.getDescription());
 
-            if (edit && publication != null && isAdmin) {
-                btnAddPublication.setText("Edit Publication");
-                if (publication.getPhotos() != null || !publication.getPhotos().isEmpty()) {
-                    for (String url : publication.getPhotos()) {
-                        Uri uri = Uri.parse(url);
-                        uriList.add(uri);
-                    }
-                    adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
-                    recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+            btnAddPublication.setText("Edit Publication");
+            if (publication.getPhotos() != null || !publication.getPhotos().isEmpty()) {
+                for (String url : publication.getPhotos()) {
+                    Uri uri = Uri.parse(url);
+                    uriList.add(uri);
                 }
+                adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
+                recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
         }
 
@@ -173,10 +171,17 @@ public class FragmentActionPublication extends Fragment {
 
     public void btnPublicationActions() {
         btnAddPublication.setOnClickListener(v -> {
-            if (edit && publication != null && isAdmin) {
-                editPublication(publication);
+            if (isNews) {
+                if (isEdit && publication != null && isAdmin) {
+                    editPublication(publication);
+                }
             } else {
-                createPublication();
+                if (isEdit && publication != null) {
+                    editPublication(publication);
+                }
+                if (!isEdit) {
+                    createPublication();
+                }
             }
         });
     }

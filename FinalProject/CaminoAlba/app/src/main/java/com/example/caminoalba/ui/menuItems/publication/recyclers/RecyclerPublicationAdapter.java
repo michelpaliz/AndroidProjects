@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -97,17 +96,31 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
 
         @Override
         public void editPublication(Publication publication) {
+            //Create varibles to pass to my child fragment
+            Bundle args = new Bundle();
+            Gson gson = new Gson();
+            String publicationJson = gson.toJson(publication);
+            args.putString("publication", publicationJson);
 
-            if (profile.getUser().getType().equalsIgnoreCase("admin")) {
-                Toast.makeText(context, "Item  " + publication.getPublication_id(), Toast.LENGTH_SHORT).show();
-                //Create varibles to pass to my child fragment
-                boolean edit = true;
-                Bundle args = new Bundle();
-                Gson gson = new Gson();
-                String publicationJson = gson.toJson(publication);
-                args.putString("publication", publicationJson);
-                args.putBoolean("edit", edit);
-                args.putBoolean("isNews", isNews);
+            if (isNews) {
+                if (profile.getUser().getType().equalsIgnoreCase("admin")) {
+                    args.putBoolean("edit", true);
+                    args.putBoolean("isNews", true);
+                    // Create an instance of the child fragment
+                    FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
+                    //Pass the args already created to the child fragment
+                    fragmentActionPublication.setArguments(args);
+                    // Begin a new FragmentTransaction using the getFragmentManager() method
+                    FragmentTransaction transaction = ((FragmentActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
+                    // Add the child fragment to the transaction and specify a container view ID in the parent layout
+                    transaction.add(R.id.fragment_blog, fragmentActionPublication);
+                    transaction.addToBackStack(null); // Add the fragment to the back stack
+                    transaction.commit();
+                }
+            }
+
+            if (publication.getBlog().getProfile().getProfile_id().equalsIgnoreCase(profile.getProfile_id())) {
+                args.putBoolean("edit", true);
                 // Create an instance of the child fragment
                 FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
                 //Pass the args already created to the child fragment
@@ -119,6 +132,8 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                 transaction.addToBackStack(null); // Add the fragment to the back stack
                 transaction.commit();
             }
+
+
 
         }
 

@@ -177,12 +177,20 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 Blog blog1 = new Blog();
                 blog1.setProfile(profile);
 
+                //1. In the first condition we only show the admin publications for the news fragment.
                 if (!showPublicationByUser) {
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsList, profile, context, isNews);
-                } else {
+                    List<Publication> adminPublications = new ArrayList<>();
+                    for (Publication publication : publicationsList) {
+                        if (publication.getBlog().getProfile().getUser().getType().equalsIgnoreCase("admin")) {
+                            adminPublications.add(publication);
+                        }
+                    }
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(adminPublications, profile, context, isNews);
+                } else {  //2. In the second condition we only take the profile's publications for the points fragment
                     assert profile != null;
                     for (Publication publication : publicationsList) {
-                        if (publication.getBlog().getProfile().getProfile_id().equalsIgnoreCase(profile.getProfile_id())) {
+                        if (publication.getBlog().getProfile().getProfile_id().equalsIgnoreCase(profile.getProfile_id()) &&
+                                !publication.getPlacemarkID().isEmpty()) {
                             publication.getBlog().setProfile(blog1.getProfile());
                             publicationsById.add(publication);
                         }
@@ -192,6 +200,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
                 }
 
+                //3. At third condition we show only the publications that have an specific point in the fragment
                 List<Publication> publicationsFound = new ArrayList<>();
 
                 if (placemarkName != null && !showPublicationByUser) {
@@ -206,7 +215,6 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 }
 
                 //We get the reference from our interface and the remove the image
-
 
                 recyclerPublicationAdapter.setOnPublicationClickListener((publicationId, remove) -> {
                     if (profile.getUser().getType().equalsIgnoreCase("admin")) {

@@ -38,11 +38,10 @@ public class FragmentUserPublications extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = new Bundle();
-        boolean showPublicationByUser = true;
         FragmentBlog fragmentBlog = new FragmentBlog();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        bundle.putBoolean("userlist", showPublicationByUser);
+        bundle.putBoolean("userlist", true);
         fragmentBlog.setArguments(bundle);
         transaction.replace(R.id.fragment_user_publications, fragmentBlog);
         transaction.addToBackStack(null);
