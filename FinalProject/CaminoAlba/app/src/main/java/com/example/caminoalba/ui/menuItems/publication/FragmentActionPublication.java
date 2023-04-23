@@ -56,7 +56,6 @@ public class FragmentActionPublication extends Fragment {
     private String placemarkName;
     private boolean isAdmin;
     private Publication publication;
-    private RecyclerView recyclerView;
     private boolean edit;
 
     // ------ Para obtener el blog y publicacion  -------
@@ -85,8 +84,7 @@ public class FragmentActionPublication extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // ------ Inicializamos vistas   -------
-        // ------ Vistas   -------
+        // ------ Init Views  -------
         TextView tvName = view.findViewById(R.id.authorName);
         etTitle = view.findViewById(R.id.etTitleField);
         etDescription = view.findViewById(R.id.etDescriptionField);
@@ -94,9 +92,9 @@ public class FragmentActionPublication extends Fragment {
         ImageView imageView = view.findViewById(R.id.authorPhoto);
         TextView tvTimeDisplayed = view.findViewById(R.id.tvTimeDisplayed);
         Button btnAddPublication = view.findViewById(R.id.btnAddPublication);
-        // ------ Inicializamos variables  -------
+        // ------ Init variables -------
         uriList = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.rvPhotoGrid);
+        RecyclerView recyclerView = view.findViewById(R.id.rvPhotoGrid);
 
         // ------  RecyclerView   -------
         if (uriList != null){
@@ -121,9 +119,7 @@ public class FragmentActionPublication extends Fragment {
         }
 
         //SHOW BLOG INFO + PUBLICATION DATA
-//        String profileStr = preferences.getString("profile", "");
-//        profile = gson.fromJson(profileStr, Profile.class);
-
+        //If the blog that we pass is null, this case happens when we only wan to edit the publication, and not add a new one
         if (blog == null) {
             blog = publication.getBlog();
         }
@@ -137,13 +133,14 @@ public class FragmentActionPublication extends Fragment {
         //ADD BUTTONS
         bntAddPhotos();
 
+        //Get the current profile photo and show it
         if (blog.getProfile().getPhoto() != null) {
             imageView.setImageURI(Uri.parse(blog.getProfile().getPhoto()));
         } else {
             imageView.setImageResource(R.drawable.default_image);
         }
 
-
+        //We check this parms so we can start editing our publications
         if (edit && publication != null) {
             btnAddPublication.setText("Edit Publication");
             //First thing we need to retrieve the old data show the user what he is goint to change
@@ -215,11 +212,8 @@ public class FragmentActionPublication extends Fragment {
         if (uriList.size() < MAX_PHOTOS) {
             // Check if the uri already exists in the list
             if (!uriList.contains(uri)) {
-                // Remove the old photos before adding the new one
-                if (edit && publication != null && publication.getPhotos() != null && !publication.getPhotos().isEmpty()) {
-//                    uriList.clear();
-                }
                 uriList.add(uri);
+                //We need to notify the adapter when we are adding a new photo when we press the button add Photo
                 adapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(requireContext(), "Photo already added", Toast.LENGTH_SHORT).show();
@@ -229,6 +223,11 @@ public class FragmentActionPublication extends Fragment {
         }
     }
 
+
+    /**
+     *
+     * @param publication The publication that we wan to edit
+     */
 
     public void editPublication(Publication publication) {
 
@@ -255,7 +254,7 @@ public class FragmentActionPublication extends Fragment {
                 // Delete the image file from Firebase Storage
                 imageRef.delete().addOnSuccessListener(aVoid -> {
                     // Image deleted successfully, remove the URL from the publication object
-                    //This method will first search for the index of the oldPhotoUrl in the photoUrls list using the indexOf method. If the oldPhotoUrl exists in the list, the indexOf method will return its index, which will be stored in the index variable.
+                    //This code below will first search for the index of the oldPhotoUrl in the photoUrls list using the indexOf method. If the oldPhotoUrl exists in the list, the indexOf method will return its index, which will be stored in the index variable.
                     //If the oldPhotoUrl is not found in the list, indexOf will return -1.
                     int index = publication.getPhotos().indexOf(oldPhotoUrl);
                     if (index != -1) {
@@ -322,6 +321,9 @@ public class FragmentActionPublication extends Fragment {
         });
     }
 
+    /**
+     * We create a new publication
+     */
 
     public void createPublication() {
         // Convert the list of Uri to a list of Strings
@@ -384,7 +386,9 @@ public class FragmentActionPublication extends Fragment {
     }
 
 
-    // This method is used to upload the publication photos in my firabase storage
+    /**
+     *    This method is used only to upload a new publication photos in my firabase storage
+     */
 
     public void uploadPhotos(List<Uri> uris, String publicationId, Publication publication, DataSnapshot snapshot, DatabaseReference blogRef) {
         // Get the Firebase Storage reference with your bucket name
