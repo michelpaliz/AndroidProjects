@@ -41,14 +41,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentAddPublication extends Fragment {
+public class FragmentActionPublication extends Fragment {
 
     private static final int MAX_PHOTOS = 5; // maximum number of photos allowed
 
@@ -57,11 +56,12 @@ public class FragmentAddPublication extends Fragment {
     private String placemarkName;
     private boolean isAdmin;
     private Publication publication;
+    private RecyclerView recyclerView;
+    private boolean edit;
 
     // ------ Para obtener el blog y publicacion  -------
     private Blog blog;
     private String description, title;
-    private boolean edit;
     // ------ Para obtener el recyclerview    -------
     private RecyclerAdapterAddPhotos adapter;
     // ------ Otras referencias    -------
@@ -96,14 +96,15 @@ public class FragmentAddPublication extends Fragment {
         Button btnAddPublication = view.findViewById(R.id.btnAddPublication);
         // ------ Inicializamos variables  -------
         uriList = new ArrayList<>();
-        RecyclerView recyclerView = view.findViewById(R.id.rvPhotoGrid);
+        recyclerView = view.findViewById(R.id.rvPhotoGrid);
 
         // ------  RecyclerView   -------
-        adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
-        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
+        if (uriList != null){
+            adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
+            recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
 
         //We set the blog with its profile object before creating the publication
 
@@ -129,11 +130,9 @@ public class FragmentAddPublication extends Fragment {
 
         tvName.setText(blog.getProfile().getFirstName());
         LocalDateTime datePublished = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         formattedDate = datePublished.format(formatter);
         tvTimeDisplayed.setText(formattedDate);
-        Picasso.get().load(blog.getProfile().getPhoto()).into(imageView);
-
 
         //ADD BUTTONS
         bntAddPhotos();
@@ -145,22 +144,37 @@ public class FragmentAddPublication extends Fragment {
         }
 
 
-        btnAddPublication.setOnClickListener(v -> {
+        if (edit && publication != null) {
+            btnAddPublication.setText("Edit Publication");
+            //First thing we need to retrieve the old data show the user what he is goint to change
+            etTitle.setText(publication.getTitle());
+            etDescription.setText(publication.getDescription());
+            if (publication.getPhotos() != null || !publication.getPhotos().isEmpty()) {
+                for (String url : publication.getPhotos()) {
+                    Uri uri = Uri.parse(url);
+                    uriList.add(uri);
+                }
+                adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
+                recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
 
-            if (edit) {
-                editPublication(publication.getPublication_id());
+        }
+
+
+        btnAddPublication.setOnClickListener(v -> {
+            if (edit && publication != null) {
+                editPublication(publication);
             } else {
                 createPublication();
             }
-
-
         });
 
     }
 
 
-    //Desde el boton puedo subir varias fotos y guardarlos en un imageview para despues
-    //representarlo en el recycler view.
+    // ****** PHOTO SECTION *******
 
     public void bntAddPhotos() {
         btnImage.setOnClickListener(v -> {
@@ -176,8 +190,9 @@ public class FragmentAddPublication extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
-            uriList.clear(); // Clear the photo list before adding new photos
+//            uriList.clear();
             ClipData clipData = data.getClipData();
             if (clipData != null) {
                 // multiple photos selected
@@ -194,15 +209,71 @@ public class FragmentAddPublication extends Fragment {
         }
     }
 
+    //    In this modified implementation, if the user is editing an existing publication (edit is true), and the publication already has photos (publication.getPhotos() != null && !publication.getPhotos().isEmpty()), then the old photos are cleared before adding the new ones.
+    //    Otherwise, the new photo is simply added to the list.
+    public void updateUriList(Uri uri) {
+        if (uriList.size() < MAX_PHOTOS) {
+            // Check if the uri already exists in the list
+            if (!uriList.contains(uri)) {
+                // Remove the old photos before adding the new one
+                if (edit && publication != null && publication.getPhotos() != null && !publication.getPhotos().isEmpty()) {
+//                    uriList.clear();
+                }
+                uriList.add(uri);
+                adapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(requireContext(), "Photo already added", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(requireContext(), "Maximum number of photos reached", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-    public void editPublication(String publicationId) {
-        // Convert the list of Uri to a list of Strings
-        List<String> photoUrls = new ArrayList<>();
-        for (Uri uri : uriList) {
-            photoUrls.add(uri.toString());
+
+    public void editPublication(Publication publication) {
+
+        // Retrieve the list of photo URLs currently associated with the publication
+
+        if(publication.getPhotos() == null) {
+            publication.setPhotos(new ArrayList<>());
         }
 
-        if (photoUrls.isEmpty()) {
+        List<String> photoUrls = publication.getPhotos();
+
+        // Convert the list of Uri to a list of Strings
+        List<String> newPhotoUrls = new ArrayList<>();
+        for (Uri uri : uriList) {
+            newPhotoUrls.add(uri.toString());
+        }
+
+        // Check for removed photos and delete them from Firebase Storage
+        for (String oldPhotoUrl : photoUrls) {
+            if (!newPhotoUrls.contains(oldPhotoUrl)) {
+                // Get a reference to the image file in Firebase Storage
+                StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(oldPhotoUrl);
+
+                // Delete the image file from Firebase Storage
+                imageRef.delete().addOnSuccessListener(aVoid -> {
+                    // Image deleted successfully, remove the URL from the publication object
+                    //This method will first search for the index of the oldPhotoUrl in the photoUrls list using the indexOf method. If the oldPhotoUrl exists in the list, the indexOf method will return its index, which will be stored in the index variable.
+                    //If the oldPhotoUrl is not found in the list, indexOf will return -1.
+                    int index = publication.getPhotos().indexOf(oldPhotoUrl);
+                    if (index != -1) {
+                        photoUrls.remove(index);
+                    }
+
+                    // Update the publication object in the database with the new list of photo URLs
+                    DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publication.getPublication_id());
+                    publicationRef.setValue(publication);
+                }).addOnFailureListener(exception -> {
+                    // Handle errors
+                    Log.e(TAG, "Error deleting image from Firebase Storage: " + exception.getMessage());
+                });
+            }
+        }
+
+
+        if (newPhotoUrls.isEmpty()) {
             Toast.makeText(requireContext(), "Please select at least one photo", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -212,8 +283,9 @@ public class FragmentAddPublication extends Fragment {
             return;
         }
 
+
         // Get a reference to the publication in the database
-        DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publicationId);
+        DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publication.getPublication_id());
 
         // Retrieve the publication from the database
         publicationRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -228,14 +300,13 @@ public class FragmentAddPublication extends Fragment {
                     assert publication != null;
                     publication.setTitle(title);
                     publication.setDescription(description);
-                    publication.setPhotos(photoUrls);
+                    publication.setPhotos(newPhotoUrls);
 
                     // Update the publication in the database
                     publicationRef.setValue(publication);
 
                     // Show a success message
                     Toast.makeText(getContext(), "Publication updated successfully", Toast.LENGTH_SHORT).show();
-
                 } else {
                     // Handle the case where the publication does not exist in the database
                     Toast.makeText(getContext(), "Publication not found", Toast.LENGTH_SHORT).show();
@@ -293,7 +364,6 @@ public class FragmentAddPublication extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Check if the blog exists in the database
                 if (snapshot.exists()) {
-
                     uploadPhotos(uriList, publicationId, newPublication, snapshot, blogRef);
 
                 } else {
@@ -314,23 +384,11 @@ public class FragmentAddPublication extends Fragment {
     }
 
 
-    public void updateUriList(Uri uri) {
-        if (uriList.size() < MAX_PHOTOS) {
-            // Check if the uri already exists in the list
-            if (!uriList.contains(uri)) {
-                uriList.add(uri);
-                adapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(requireContext(), "Photo already added", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(requireContext(), "Maximum number of photos reached", Toast.LENGTH_SHORT).show();
-        }
-    }
+    // This method is used to upload the publication photos in my firabase storage
 
     public void uploadPhotos(List<Uri> uris, String publicationId, Publication publication, DataSnapshot snapshot, DatabaseReference blogRef) {
         // Get the Firebase Storage reference with your bucket name
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://caminoalba-c6843.appspot.com");
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
         // Loop over each photo URI and upload it to Firebase Storage
@@ -366,7 +424,6 @@ public class FragmentAddPublication extends Fragment {
                             assert existingBlog != null;
 
                             existingBlog.addPublication(publication);
-
                             // Update the publication object in the publications array of the blog with the correct ID
                             int index = existingBlog.getPublications().indexOf(publication);
                             if (index != -1) {

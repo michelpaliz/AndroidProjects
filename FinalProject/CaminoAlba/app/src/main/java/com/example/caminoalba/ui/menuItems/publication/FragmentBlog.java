@@ -267,13 +267,13 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             args.putString("placemark", placemarkName);
             args.putBoolean("isAdmin", isAdmin);
             // Create an instance of the child fragment
-            FragmentAddPublication fragmentAddPublication = new FragmentAddPublication();
+            FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
             //Pass the args already created to the child fragment
-            fragmentAddPublication.setArguments(args);
+            fragmentActionPublication.setArguments(args);
             // Begin a new FragmentTransaction using the getChildFragmentManager() method
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             // Add the child fragment to the transaction and specify a container view ID in the parent layout
-            transaction.add(R.id.fragment_blog, fragmentAddPublication);
+            transaction.add(R.id.fragment_blog, fragmentActionPublication);
             transaction.addToBackStack(null); // Add the fragment to the back stack
             transaction.commit();
 

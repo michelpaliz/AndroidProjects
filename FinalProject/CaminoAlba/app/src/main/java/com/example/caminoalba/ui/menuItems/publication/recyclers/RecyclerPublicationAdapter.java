@@ -2,7 +2,6 @@ package com.example.caminoalba.ui.menuItems.publication.recyclers;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +22,12 @@ import com.example.caminoalba.R;
 import com.example.caminoalba.interfaces.OnClickListener;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
-import com.example.caminoalba.ui.menuItems.publication.FragmentAddPublication;
+import com.example.caminoalba.ui.menuItems.publication.FragmentActionPublication;
 import com.example.caminoalba.ui.menuItems.publication.FragmentComment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ThrowOnExtraProperties;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -93,7 +91,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
         private final RecyclerView rvPhotoGrid;
         private RecyclerAdapterPublicationPhotos recyclerAdapterPublicationPhotos;
         private long likeCount;
-        private OnClickListener onClickListener;
+        private final OnClickListener onClickListener;
 
         @Override
         public void editPublication(Publication publication) {
@@ -106,13 +104,13 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
             args.putString("publication", publicationJson);
             args.putBoolean("edit", edit);
             // Create an instance of the child fragment
-            FragmentAddPublication fragmentAddPublication = new FragmentAddPublication();
+            FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
             //Pass the args already created to the child fragment
-            fragmentAddPublication.setArguments(args);
+            fragmentActionPublication.setArguments(args);
             // Begin a new FragmentTransaction using the getFragmentManager() method
             FragmentTransaction transaction = ((FragmentActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
             // Add the child fragment to the transaction and specify a container view ID in the parent layout
-            transaction.add(R.id.fragment_blog, fragmentAddPublication);
+            transaction.add(R.id.fragment_blog, fragmentActionPublication);
             transaction.addToBackStack(null); // Add the fragment to the back stack
             transaction.commit();
         }
