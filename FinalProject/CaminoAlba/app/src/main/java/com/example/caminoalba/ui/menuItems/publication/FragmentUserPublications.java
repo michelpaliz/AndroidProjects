@@ -37,7 +37,6 @@ public class FragmentUserPublications extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toast.makeText(requireContext(),"Here we go", Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         boolean showPublicationByUser = true;
         FragmentBlog fragmentBlog = new FragmentBlog();

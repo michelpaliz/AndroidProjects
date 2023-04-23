@@ -54,9 +54,10 @@ public class FragmentActionPublication extends Fragment {
     private EditText etTitle, etDescription;
     private Button btnImage;
     private String placemarkName;
-    private boolean isAdmin;
+    private boolean isAdmin, isNews, isBlog;
     private Publication publication;
     private boolean edit;
+    private Button btnAddPublication;
 
     // ------ Para obtener el blog y publicacion  -------
     private Blog blog;
@@ -91,47 +92,51 @@ public class FragmentActionPublication extends Fragment {
         btnImage = view.findViewById(R.id.addPhotoButton);
         ImageView imageView = view.findViewById(R.id.authorPhoto);
         TextView tvTimeDisplayed = view.findViewById(R.id.tvTimeDisplayed);
-        Button btnAddPublication = view.findViewById(R.id.btnAddPublication);
+        btnAddPublication = view.findViewById(R.id.btnAddPublication);
         // ------ Init variables -------
         uriList = new ArrayList<>();
         RecyclerView recyclerView = view.findViewById(R.id.rvPhotoGrid);
 
         // ------  RecyclerView   -------
-        if (uriList != null){
+        if (uriList != null) {
             adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
             recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
 
-        //We set the blog with its profile object before creating the publication
-
+        // *** GETTING ARGUMENTS **** //
         assert getArguments() != null;
-        isAdmin = getArguments().getBoolean("isAdmin", false);
-        edit = getArguments().getBoolean("edit", false);
+
+        //This arguments come from the blog Fragment, also the blog is always update with the current profile and user ?
         blog = (Blog) getArguments().getSerializable("blog");
+        isBlog = getArguments().getBoolean("isBlog", false);
         placemarkName = getArguments().getString("placemark");
+
+        //This arguments come from the RecyclerAdapterPublications
+        edit = getArguments().getBoolean("edit", false);
+        isNews = getArguments().getBoolean("isNews", false);
         String publicationJson = getArguments().getString("publication");
         if (publicationJson != null) {
             Gson gson = new Gson();
             publication = gson.fromJson(publicationJson, Publication.class);
-
         }
 
-        //SHOW BLOG INFO + PUBLICATION DATA
-        //If the blog that we pass is null, this case happens when we only wan to edit the publication, and not add a new one
+        //If we are editing the publication we got the publication's blog object and also we check if the user is admin
         if (blog == null) {
             blog = publication.getBlog();
         }
 
+        if (blog.getProfile().getUser().getType().equalsIgnoreCase("admin")) {
+            isAdmin = true;
+        }
+
+        //SHOW BLOG INFO + PUBLICATION DATA
         tvName.setText(blog.getProfile().getFirstName());
         LocalDateTime datePublished = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         formattedDate = datePublished.format(formatter);
         tvTimeDisplayed.setText(formattedDate);
-
-        //ADD BUTTONS
-        bntAddPhotos();
 
         //Get the current profile photo and show it
         if (blog.getProfile().getPhoto() != null) {
@@ -140,26 +145,33 @@ public class FragmentActionPublication extends Fragment {
             imageView.setImageResource(R.drawable.default_image);
         }
 
-        //We check this parms so we can start editing our publications
-        if (edit && publication != null) {
-            btnAddPublication.setText("Edit Publication");
+        //If it's news then we must check if the user is admin if not then it must be blog fragment
+        if (isNews) {
             //First thing we need to retrieve the old data show the user what he is goint to change
             etTitle.setText(publication.getTitle());
             etDescription.setText(publication.getDescription());
-            if (publication.getPhotos() != null || !publication.getPhotos().isEmpty()) {
-                for (String url : publication.getPhotos()) {
-                    Uri uri = Uri.parse(url);
-                    uriList.add(uri);
-                }
-                adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
-                recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
 
+            if (edit && publication != null && isAdmin) {
+                btnAddPublication.setText("Edit Publication");
+                if (publication.getPhotos() != null || !publication.getPhotos().isEmpty()) {
+                    for (String url : publication.getPhotos()) {
+                        Uri uri = Uri.parse(url);
+                        uriList.add(uri);
+                    }
+                    adapter = new RecyclerAdapterAddPhotos(uriList, requireContext());
+                    recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
         }
 
+        btnPublicationActions();
+        bntAddPhotos();
+    }
 
+
+    public void btnPublicationActions() {
         btnAddPublication.setOnClickListener(v -> {
             if (edit && publication != null) {
                 editPublication(publication);
@@ -167,7 +179,6 @@ public class FragmentActionPublication extends Fragment {
                 createPublication();
             }
         });
-
     }
 
 
@@ -225,7 +236,6 @@ public class FragmentActionPublication extends Fragment {
 
 
     /**
-     *
      * @param publication The publication that we wan to edit
      */
 
@@ -233,7 +243,7 @@ public class FragmentActionPublication extends Fragment {
 
         // Retrieve the list of photo URLs currently associated with the publication
 
-        if(publication.getPhotos() == null) {
+        if (publication.getPhotos() == null) {
             publication.setPhotos(new ArrayList<>());
         }
 
@@ -285,6 +295,7 @@ public class FragmentActionPublication extends Fragment {
 
         // Get a reference to the publication in the database
         DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publication.getPublication_id());
+        DatabaseReference blogRef = databaseReference.getDatabase().getReference("blogs/" + publication.getBlog().getProfile().getProfile_id());
 
         // Retrieve the publication from the database
         publicationRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -299,13 +310,14 @@ public class FragmentActionPublication extends Fragment {
                     assert publication != null;
                     publication.setTitle(title);
                     publication.setDescription(description);
-                    publication.setPhotos(newPhotoUrls);
+                    publication.setPhotos(photoUrls);
 
                     // Update the publication in the database
                     publicationRef.setValue(publication);
 
                     // Show a success message
                     Toast.makeText(getContext(), "Publication updated successfully", Toast.LENGTH_SHORT).show();
+                    uploadPhotos(uriList, publication.getPublication_id(), publication, snapshot, blogRef);
                 } else {
                     // Handle the case where the publication does not exist in the database
                     Toast.makeText(getContext(), "Publication not found", Toast.LENGTH_SHORT).show();
@@ -382,12 +394,11 @@ public class FragmentActionPublication extends Fragment {
             }
         });
 
-
     }
 
 
     /**
-     *    This method is used only to upload a new publication photos in my firabase storage
+     * This method is used only to upload a new publication photos in my firabase storage
      */
 
     public void uploadPhotos(List<Uri> uris, String publicationId, Publication publication, DataSnapshot snapshot, DatabaseReference blogRef) {
@@ -420,7 +431,6 @@ public class FragmentActionPublication extends Fragment {
                             // Get the blog object from the database
                             Blog existingBlog = snapshot.getValue(Blog.class);
 
-
                             // Save the updated blog object to Firebase Realtime Database
                             blogRef.setValue(existingBlog);
 
@@ -445,7 +455,15 @@ public class FragmentActionPublication extends Fragment {
                     });
         }
 
+        //Navigate to parent fragment
+        goToParentFragment();
+    }
 
+    /**
+     * This code is used to navigate to the parent fragment
+     */
+
+    public void goToParentFragment() {
         //Add publication here
         // In the child fragment:
         // Get the parent FragmentManager instance
@@ -457,10 +475,10 @@ public class FragmentActionPublication extends Fragment {
 
         Fragment fragment;
 
-        if (isAdmin) {
-            fragment = new FragmentNews();
-        } else {
+        if (!isNews) {
             fragment = new FragmentBlog();
+        } else {
+            fragment = new FragmentNews();
         }
 
         // Create and set the fragment transition animation object

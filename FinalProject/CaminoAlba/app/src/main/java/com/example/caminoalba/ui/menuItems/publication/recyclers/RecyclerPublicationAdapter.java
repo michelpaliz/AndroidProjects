@@ -42,11 +42,13 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
     private OnPublicationClickListener onPublicationClickListener;
     private final Profile profile;
     private final Context context;
+    private final Boolean isNews;
 
-    public RecyclerPublicationAdapter(List<Publication> publicationList, Profile profile, Context context) {
+    public RecyclerPublicationAdapter(List<Publication> publicationList, Profile profile, Context context, boolean isNews) {
         this.publicationList = publicationList;
         this.profile = profile;
         this.context = context;
+        this.isNews = isNews;
     }
 
     public interface OnPublicationClickListener {
@@ -103,6 +105,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
             String publicationJson = gson.toJson(publication);
             args.putString("publication", publicationJson);
             args.putBoolean("edit", edit);
+            args.putBoolean("isNews", isNews);
             // Create an instance of the child fragment
             FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
             //Pass the args already created to the child fragment

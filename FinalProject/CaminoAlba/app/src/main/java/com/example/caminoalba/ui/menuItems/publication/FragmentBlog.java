@@ -48,7 +48,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     private TextView tvMessage, tvTitle;
     private Context context;
     private boolean showPublicationByUser = false;
-    private boolean isAdmin = false;
+    private boolean isNews;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,11 +92,11 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         tvTitle.setText("PUBLICACIONES");
         tvMessage.setText("Please go to the map section to set your current location.");
         if (getArguments() != null) {
-            isAdmin = getArguments().getBoolean("isAdmin", false);
+            isNews = getArguments().getBoolean("isNews", false);
             showPublicationByUser = getArguments().getBoolean("userlist", false);
         }
 
-        if (isAdmin) {
+        if (isNews) {
             tvTitle.setText("NOTICIAS");
             footerMenu.setVisibility(View.GONE);
             linearLayoutPath.setVisibility(View.GONE);
@@ -123,7 +123,6 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             tvMessage.setText("Here you can see your publications that you have, you can remove them");
             tvPathName.setVisibility(View.GONE);
             tvRuta.setVisibility(View.GONE);
-//            ivDeletePublication.setVisibility(View.VISIBLE);
             getCurrentBlog();
         }
 
@@ -179,17 +178,17 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 blog1.setProfile(profile);
 
                 if (!showPublicationByUser) {
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsList, profile, context);
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsList, profile, context, isNews);
                 } else {
                     assert profile != null;
                     for (Publication publication : publicationsList) {
-                        if (publication.getBlog().getBlog_id().equalsIgnoreCase(profile.getProfile_id())) {
+                        if (publication.getBlog().getProfile().getProfile_id().equalsIgnoreCase(profile.getProfile_id())) {
                             publication.getBlog().setProfile(blog1.getProfile());
                             publicationsById.add(publication);
                         }
                     }
 
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsById, profile, context);
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsById, profile, context, isNews);
 
                 }
 
@@ -202,19 +201,20 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                             publicationsFound.add(publication);
                         }
                     }
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsFound, profile, context);
+                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsFound, profile, context, isNews);
 
                 }
 
                 //We get the reference from our interface and the remove the image
 
+
                 recyclerPublicationAdapter.setOnPublicationClickListener((publicationId, remove) -> {
-                    DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publicationId);
-                    publicationRef.removeValue()
-                            .addOnSuccessListener(aVoid -> Toast.makeText(context, "Publication deleted successfully", Toast.LENGTH_SHORT).show())
-                            .addOnFailureListener(e -> Toast.makeText(context, "Error deleting publication", Toast.LENGTH_SHORT).show());
-
-
+                    if (profile.getUser().getType().equalsIgnoreCase("admin")) {
+                        DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publicationId);
+                        publicationRef.removeValue()
+                                .addOnSuccessListener(aVoid -> Toast.makeText(context, "Publication deleted successfully", Toast.LENGTH_SHORT).show())
+                                .addOnFailureListener(e -> Toast.makeText(context, "Error deleting publication", Toast.LENGTH_SHORT).show());
+                    }
                 });
 
                 recyclerView.setAdapter(recyclerPublicationAdapter);
@@ -262,10 +262,12 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         btnAddPublication.setOnClickListener(v -> {
             //Create varibles to pass to my child fragment
             Bundle args = new Bundle();
+            boolean isBlog = true;
             blog.setProfile(profile);
             args.putSerializable("blog", blog);
             args.putString("placemark", placemarkName);
-            args.putBoolean("isAdmin", isAdmin);
+            args.putBoolean("isBlog", isBlog);
+
             // Create an instance of the child fragment
             FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
             //Pass the args already created to the child fragment

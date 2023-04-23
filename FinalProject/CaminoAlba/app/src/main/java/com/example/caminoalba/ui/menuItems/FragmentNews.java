@@ -34,11 +34,10 @@ public class FragmentNews extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = new Bundle();
-        boolean forAdmin = true;
         FragmentBlog fragmentBlog = new FragmentBlog();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        bundle.putBoolean("isAdmin", forAdmin);
+        bundle.putBoolean("isNews", true);
         fragmentBlog.setArguments(bundle);
         transaction.replace(R.id.fragment_news, fragmentBlog);
         transaction.addToBackStack(null);

@@ -39,6 +39,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 R.id.blogFragment, R.id.newsFragment, R.id.profileFragment, R.id.partnerFragment, R.id.logOutFragment)
                 .setOpenableLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation_drawer);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
