@@ -173,7 +173,7 @@ public class FragmentActionPublication extends Fragment {
 
     public void btnPublicationActions() {
         btnAddPublication.setOnClickListener(v -> {
-            if (edit && publication != null) {
+            if (edit && publication != null && isAdmin) {
                 editPublication(publication);
             } else {
                 createPublication();

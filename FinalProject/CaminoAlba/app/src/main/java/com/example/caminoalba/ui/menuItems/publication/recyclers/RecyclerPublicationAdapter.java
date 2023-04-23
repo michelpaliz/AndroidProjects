@@ -97,25 +97,29 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
 
         @Override
         public void editPublication(Publication publication) {
-            Toast.makeText(context, "Item  " + publication.getPublication_id(), Toast.LENGTH_SHORT).show();
-            //Create varibles to pass to my child fragment
-            boolean edit = true;
-            Bundle args = new Bundle();
-            Gson gson = new Gson();
-            String publicationJson = gson.toJson(publication);
-            args.putString("publication", publicationJson);
-            args.putBoolean("edit", edit);
-            args.putBoolean("isNews", isNews);
-            // Create an instance of the child fragment
-            FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
-            //Pass the args already created to the child fragment
-            fragmentActionPublication.setArguments(args);
-            // Begin a new FragmentTransaction using the getFragmentManager() method
-            FragmentTransaction transaction = ((FragmentActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
-            // Add the child fragment to the transaction and specify a container view ID in the parent layout
-            transaction.add(R.id.fragment_blog, fragmentActionPublication);
-            transaction.addToBackStack(null); // Add the fragment to the back stack
-            transaction.commit();
+
+            if (profile.getUser().getType().equalsIgnoreCase("admin")) {
+                Toast.makeText(context, "Item  " + publication.getPublication_id(), Toast.LENGTH_SHORT).show();
+                //Create varibles to pass to my child fragment
+                boolean edit = true;
+                Bundle args = new Bundle();
+                Gson gson = new Gson();
+                String publicationJson = gson.toJson(publication);
+                args.putString("publication", publicationJson);
+                args.putBoolean("edit", edit);
+                args.putBoolean("isNews", isNews);
+                // Create an instance of the child fragment
+                FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
+                //Pass the args already created to the child fragment
+                fragmentActionPublication.setArguments(args);
+                // Begin a new FragmentTransaction using the getFragmentManager() method
+                FragmentTransaction transaction = ((FragmentActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction();
+                // Add the child fragment to the transaction and specify a container view ID in the parent layout
+                transaction.add(R.id.fragment_blog, fragmentActionPublication);
+                transaction.addToBackStack(null); // Add the fragment to the back stack
+                transaction.commit();
+            }
+
         }
 
 
@@ -132,6 +136,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
             ivComment = itemView.findViewById(R.id.ivComment);
             tvLikeCount = itemView.findViewById(R.id.tvLikesNumber);
             this.onClickListener = this;
+            ivDeletePublication.setVisibility(View.GONE);
             // create and set the adapter for the inner RecyclerView
             recyclerAdapterPublicationPhotos = new RecyclerAdapterPublicationPhotos(new ArrayList<>());
             rvPhotoGrid.setAdapter(recyclerAdapterPublicationPhotos);
@@ -171,8 +176,8 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                     // Call publicationActions after the adapter has been updated
 
                     // Set click listener on close button
-                    ivDeletePublication.setVisibility(View.GONE);
-                    if (publication.getBlog().getProfile().getUser().getType().equalsIgnoreCase("admin")) {
+
+                    if (profile.getUser().getType().equalsIgnoreCase("admin")) {
                         ivDeletePublication.setVisibility(View.VISIBLE);
                         ivDeletePublication.setOnClickListener(v -> {
                             // Get the ID of the publication to be deleted
@@ -182,7 +187,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                     }
 
                     itemView.setOnClickListener(v -> {
-                        if (v != null){
+                        if (v != null) {
                             onClickListener.editPublication(publication);
                         }
 
@@ -220,8 +225,6 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                 fragmentTransaction.commit();
             });
         }
-
-
 
 
         public void publicationLikeAction(Publication publication) {
