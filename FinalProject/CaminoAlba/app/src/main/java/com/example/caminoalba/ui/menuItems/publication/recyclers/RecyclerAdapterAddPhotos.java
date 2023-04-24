@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,12 +78,16 @@ public class RecyclerAdapterAddPhotos extends RecyclerView.Adapter<RecyclerAdapt
         public void deletePhoto() {
             deleteButton.setOnClickListener(view -> {
                 int position = getAdapterPosition();
-                if (uriList.size() > 0 && position != RecyclerView.NO_POSITION) {
+                if (uriList.size() > 1 && position != RecyclerView.NO_POSITION) {
                     uriList.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, uriList.size());
+                } else {
+                    // Show a message indicating that at least one photo is required
+                    Toast.makeText(view.getContext(), "At least one photo is required", Toast.LENGTH_SHORT).show();
                 }
             });
         }
+
     }
 }

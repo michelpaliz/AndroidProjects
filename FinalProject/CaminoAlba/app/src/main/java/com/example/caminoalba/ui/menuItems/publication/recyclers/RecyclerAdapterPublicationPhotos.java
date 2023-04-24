@@ -49,18 +49,20 @@ public class RecyclerAdapterPublicationPhotos extends RecyclerView.Adapter<Recyc
 
     @Override
     public int getItemCount() {
+        if (photos == null) {
+            return 0;
+        }
         return photos.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView imageView;
-        private final ImageView deleteButtonView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.photo_image_view);
-            deleteButtonView = itemView.findViewById(R.id.delete_button);
+            ImageView deleteButtonView = itemView.findViewById(R.id.delete_button);
             deleteButtonView.setVisibility(View.GONE);
         }
 

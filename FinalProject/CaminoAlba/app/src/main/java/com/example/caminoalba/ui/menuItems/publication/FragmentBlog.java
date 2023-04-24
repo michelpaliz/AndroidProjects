@@ -1,8 +1,11 @@
 package com.example.caminoalba.ui.menuItems.publication;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
@@ -32,6 +36,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -81,7 +87,6 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         // ------ Init Variables  -------
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         profile = new Profile();
-        blog = new Blog();
         Gson gson = new Gson();
         String userStr = preferences.getString("user", "");
         String profileStr = preferences.getString("profile", "");
@@ -215,15 +220,52 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 }
 
                 //We get the reference from our interface and the remove the image
-
                 recyclerPublicationAdapter.setOnPublicationClickListener((publicationId, remove) -> {
+
                     if (profile.getUser().getType().equalsIgnoreCase("admin")) {
-                        DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publicationId);
-                        publicationRef.removeValue()
-                                .addOnSuccessListener(aVoid -> Toast.makeText(context, "Publication deleted successfully", Toast.LENGTH_SHORT).show())
-                                .addOnFailureListener(e -> Toast.makeText(context, "Error deleting publication", Toast.LENGTH_SHORT).show());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Confirm Deletion");
+                        builder.setMessage("Are you sure you want to delete this publication?");
+                        builder.setPositiveButton("Yes", (dialogInterface, i) -> {
+//                            DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publicationId);
+//                            publicationRef.removeValue()
+//                                    .addOnSuccessListener(aVoid -> Toast.makeText(context, "Publication deleted successfully", Toast.LENGTH_SHORT).show())
+//                                    .addOnFailureListener(e -> Toast.makeText(context, "Error deleting publication", Toast.LENGTH_SHORT).show());
+
+                            FirebaseStorage storage = FirebaseStorage.getInstance();
+                            StorageReference storageRef = storage.getReference();
+
+                            // Get a reference to the folder for the publication's photos
+                            String folderPath = "publications/" + publicationId + "/";
+                            StorageReference folderRef = storageRef.child(folderPath);
+
+                            // Delete all photos in the folder
+                            folderRef.listAll().addOnSuccessListener(listResult -> {
+                                List<StorageReference> photos = listResult.getItems();
+                                for (StorageReference photo : photos) {
+                                    photo.delete();
+                                }
+                            }).addOnFailureListener(exception -> {
+                                // Handle errors
+                                Log.e(TAG, "Error deleting photos from Firebase Storage: " + exception.getMessage());
+                            });
+
+                            // Delete the folder itself
+                            folderRef.delete().addOnSuccessListener(aVoid -> {
+                                // Folder deleted successfully
+                                Log.d(TAG, "Publication folder deleted from Firebase Storage");
+                            }).addOnFailureListener(exception -> {
+                                // Handle errors
+                                Log.e(TAG, "Error deleting publication folder from Firebase Storage: " + exception.getMessage());
+                            });
+                        });
+                        builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
+
                 });
+
 
                 recyclerView.setAdapter(recyclerPublicationAdapter);
                 recyclerPublicationAdapter.notifyDataSetChanged();
