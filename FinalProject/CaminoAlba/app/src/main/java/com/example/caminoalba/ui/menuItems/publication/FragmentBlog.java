@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -22,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
@@ -227,16 +225,15 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                         builder.setTitle("Confirm Deletion");
                         builder.setMessage("Are you sure you want to delete this publication?");
                         builder.setPositiveButton("Yes", (dialogInterface, i) -> {
-//                            DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publicationId);
-//                            publicationRef.removeValue()
-//                                    .addOnSuccessListener(aVoid -> Toast.makeText(context, "Publication deleted successfully", Toast.LENGTH_SHORT).show())
-//                                    .addOnFailureListener(e -> Toast.makeText(context, "Error deleting publication", Toast.LENGTH_SHORT).show());
-
+                            DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publicationId);
+                            publicationRef.removeValue()
+                                    .addOnSuccessListener(aVoid -> Toast.makeText(context, "Publication deleted successfully", Toast.LENGTH_SHORT).show())
+                                    .addOnFailureListener(e -> Toast.makeText(context, "Error deleting publication", Toast.LENGTH_SHORT).show());
                             FirebaseStorage storage = FirebaseStorage.getInstance();
                             StorageReference storageRef = storage.getReference();
 
                             // Get a reference to the folder for the publication's photos
-                            String folderPath = "publications/" + publicationId + "/";
+                            String folderPath = "publications/" + publicationId ;
                             StorageReference folderRef = storageRef.child(folderPath);
 
                             // Delete all photos in the folder
@@ -258,6 +255,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                                 // Handle errors
                                 Log.e(TAG, "Error deleting publication folder from Firebase Storage: " + exception.getMessage());
                             });
+
                         });
                         builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
                         AlertDialog dialog = builder.create();
@@ -312,11 +310,10 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         btnAddPublication.setOnClickListener(v -> {
             //Create varibles to pass to my child fragment
             Bundle args = new Bundle();
-            boolean isBlog = true;
             blog.setProfile(profile);
             args.putSerializable("blog", blog);
             args.putString("placemark", placemarkName);
-            args.putBoolean("isBlog", isBlog);
+            args.putBoolean("isNews", isNews);
 
             // Create an instance of the child fragment
             FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();

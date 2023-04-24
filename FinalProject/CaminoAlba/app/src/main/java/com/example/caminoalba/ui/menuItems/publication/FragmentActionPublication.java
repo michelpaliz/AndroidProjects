@@ -3,6 +3,7 @@ package com.example.caminoalba.ui.menuItems.publication;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
@@ -56,7 +57,7 @@ public class FragmentActionPublication extends Fragment {
     private EditText etTitle, etDescription;
     private Button btnImage;
     private String placemarkName;
-    private boolean isAdmin, isNews, isBlog;
+    private boolean isAdmin, isNews;
     private Publication publication;
     private boolean isEdit;
     private Button btnAddPublication;
@@ -112,8 +113,8 @@ public class FragmentActionPublication extends Fragment {
 
         //This arguments comes from the blog Fragment, also the blog is always updated with the current profile and user ?
         blog = (Blog) getArguments().getSerializable("blog");
-        isBlog = getArguments().getBoolean("isBlog", false);
         placemarkName = getArguments().getString("placemark");
+        //        isBlog = getArguments().getBoolean("isBlog", false);
 
         //This arguments comes from the RecyclerAdapterPublications
         isEdit = getArguments().getBoolean("edit", false);
@@ -178,14 +179,16 @@ public class FragmentActionPublication extends Fragment {
             if (isNews) {
                 if (isEdit && publication != null && isAdmin) {
                     editPublication(publication);
+                } else if (isAdmin) {
+                    createPublication();
                 }
             } else {
                 if (isEdit && publication != null) {
                     editPublication(publication);
-                }
-                if (!isEdit) {
+                } else {
                     createPublication();
                 }
+
             }
         });
     }
@@ -422,6 +425,13 @@ public class FragmentActionPublication extends Fragment {
 
     public void uploadPhotos(List<Uri> uris, Publication publication) {
 
+        // Initialize progress bar
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMax(uris.size());
+        progressDialog.setMessage("Uploading photos...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.show();
+
         // Get the Firebase Storage reference with your bucket name
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
@@ -441,22 +451,36 @@ public class FragmentActionPublication extends Fragment {
                             // Store the download URL in the photos attribute of the Publication object
                             String downloadUrl = uri1.toString();
                             publication.addPhotos(downloadUrl);
-                            ;
                             // Save the updated publication object to Firebase Realtime Database
                             DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publication.getPublication_id());
                             publicationRef.setValue(publication);
                             // Update the UI to show the new publication
                             adapter.notifyDataSetChanged();
-//                            Navigate to parent fragment
+                            // Increment progress bar value
+                            progressDialog.incrementProgressBy(1);
+                            // Check if all photos have been uploaded
+                            if (progressDialog.getProgress() == progressDialog.getMax()) {
+                                // Hide progress bar and navigate to parent fragment
+                                progressDialog.dismiss();
+                                goToParentFragment();
+                            }
                         });
                     })
                     .addOnFailureListener(exception -> {
                         // Handle errors
                         Log.e(TAG, "Error uploading image to Firebase Storage: " + exception.getMessage());
+                        // Increment progress bar value
+                        progressDialog.incrementProgressBy(1);
+                        // Check if all photos have been uploaded
+                        if (progressDialog.getProgress() == progressDialog.getMax()) {
+                            // Hide progress bar and navigate to parent fragment
+                            progressDialog.dismiss();
+                            goToParentFragment();
+                        }
                     });
         }
-        goToParentFragment();
     }
+
 
     /**
      * This code is used to navigate to the parent fragment
@@ -474,10 +498,10 @@ public class FragmentActionPublication extends Fragment {
 
         Fragment fragment;
 
-        if (!isNews) {
-            fragment = new FragmentBlog();
-        } else {
+        if (isNews) {
             fragment = new FragmentNews();
+        } else {
+            fragment = new FragmentBlog();
         }
 
         // Create and set the fragment transition animation object

@@ -156,6 +156,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
             recyclerAdapterPublicationPhotos = new RecyclerAdapterPublicationPhotos(new ArrayList<>());
             rvPhotoGrid.setAdapter(recyclerAdapterPublicationPhotos);
             rvPhotoGrid.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+
         }
 
         public void init(Publication publication) {
