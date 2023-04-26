@@ -3,20 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:padding="8dp"
+    android:gravity="center_vertical">
 
     <!-- First photo -->
+
     <ImageView
         android:id="@+id/first_photo"
         android:layout_width="56dp"
-        android:layout_height="match_parent"
-        android:src="@drawable/default_image" />
+        android:layout_height="56dp"
+        android:src="@drawable/default_image"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:paddingStart="8dp">
 
         <!-- Name -->
         <TextView
@@ -24,27 +30,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/Name"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:padding="16dp"/>
+            android:textSize="15sp"
+            android:textStyle="bold"/>
 
         <!-- Information -->
         <TextView
             android:id="@+id/information"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="Your Information Goes Here"
-            android:textSize="16sp"
-            android:padding="16dp"/>
+            android:textSize="12sp" />
 
     </LinearLayout>
 
     <!-- Another photo -->
     <ImageView
         android:id="@+id/another_photo"
-        android:layout_width="59dp"
-        android:layout_height="match_parent"
-        android:src="@drawable/default_image" />
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/default_image"
+        android:scaleType="centerCrop" />
 
 </LinearLayout>
-

@@ -106,6 +106,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             tvMessage.setText(getText(R.string.newsInformation));
             getCurrentBlog();
             if (user.getType().equalsIgnoreCase("admin")) {
+                tvMessage.setText(getText(R.string.admin_news));
                 btnAddPublication.setVisibility(View.VISIBLE);
             }
         }
@@ -142,7 +143,11 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
     }
 
-
+    /**
+     *
+     * @param placemarkName the id of the placemark that the user is
+     * @param isEnabled this will enable the user to add publications for the id of the placemark
+     */
     @Override
     public void onDataPass(String placemarkName, boolean isEnabled) {
         this.placemarkName = placemarkName;
@@ -151,6 +156,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             tvPathName.setText(placemarkName);
             btnAddPublication.setVisibility(View.VISIBLE);
             getCurrentBlog();
+
         } else {
             tvMessage.setText(getText(R.string.beSureToBeLess50m));
             tvRuta.setVisibility(View.GONE);
@@ -158,6 +164,9 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         }
     }
 
+    /**
+     * Show publications for the newsFragment/blogFragment
+     */
     public void getPublications() {
 
         DatabaseReference publicationsRef = FirebaseDatabase.getInstance().getReference().child("publications");

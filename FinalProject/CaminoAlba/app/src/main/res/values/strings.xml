@@ -55,15 +55,8 @@
     <string name="beSureToBeLess50m">Make sure to be less than 50 meters in one placemark in order to see the publications for each placemark.</string>
     <string name="welcome">Welcome</string>
     <string name="tvSingIn">Sing In</string>
-
-    <!--    <String name="text_no_set_up_location">Please you need to set up your location to start the game. </String>-->
-    <!--    <String name="text_too_far_away">In order to see the publications you need to be at least at 50 meters in a placemarker </String>-->
-    <!--    <String name="text_no_found_publication">There is no publications in this location</String>-->
-    <!--    <String name="text_news_message">Here you can see the admin's publications</String>-->
-    <!--    <String name="text_all_user_publications">Here you can see all your publications, you can delete them.</String>-->
-    <!--    <String name="success_message_updated_profile">User updated sucessfully</String>-->
-    <!--    <String name="success_message_publication_removed">Publication deleted successfully</String>-->
-
+    <string name="admin_news">Welcome admin you can add, edit and remove news</string>
+    <string name="btnPathInformation">Path Information</string>
 
     <string-array name="gender_array">
         <item>male</item>

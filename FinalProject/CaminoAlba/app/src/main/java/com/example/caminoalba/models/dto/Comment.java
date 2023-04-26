@@ -9,15 +9,18 @@ public class Comment {
     private Profile profile;
     private Publication publication;
     private String publicationId;
+    private String datePublished;
 
 
     public Comment() {}
 
-    public Comment(String id, String commentText, Profile profile, Publication publication) {
+    public Comment(String id, String commentText, Profile profile, Publication publication, String publicationId, String datePublished) {
         this.id = id;
         this.commentText = commentText;
         this.profile = profile;
         this.publication = publication;
+        this.publicationId = publicationId;
+        this.datePublished = datePublished;
     }
 
     public String getId() {
@@ -60,6 +63,14 @@ public class Comment {
         this.profile = profile;
     }
 
+    public String getDatePublished() {
+        return datePublished;
+    }
+
+    public void setDatePublished(String datePublished) {
+        this.datePublished = datePublished;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -68,6 +79,7 @@ public class Comment {
                 ", profile=" + profile +
                 ", publication=" + publication +
                 ", publicationId='" + publicationId + '\'' +
+                ", datePublished='" + datePublished + '\'' +
                 '}';
     }
 }

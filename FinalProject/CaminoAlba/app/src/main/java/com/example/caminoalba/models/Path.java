@@ -2,14 +2,12 @@ package com.example.caminoalba.models;
 
 public class Path {
 
-    private String id;
     private String name;
     private String information;
     private String photo;
     private boolean credential;
 
-    public Path(String id, String name, String information, String photo, boolean credential) {
-        this.id = id;
+    public Path( String name, String information, String photo, boolean credential) {
         this.name = name;
         this.information = information;
         this.photo = photo;
@@ -24,13 +22,6 @@ public class Path {
         this.credential = credential;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -57,4 +48,13 @@ public class Path {
     }
 
 
+    @Override
+    public String toString() {
+        return "Path{" +
+                "name='" + name + '\'' +
+                ", information='" + information + '\'' +
+                ", photo='" + photo + '\'' +
+                ", credential=" + credential +
+                '}';
+    }
 }

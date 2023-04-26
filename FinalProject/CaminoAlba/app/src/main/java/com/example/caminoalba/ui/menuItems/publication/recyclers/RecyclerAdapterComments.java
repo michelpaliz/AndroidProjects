@@ -1,13 +1,18 @@
 package com.example.caminoalba.ui.menuItems.publication.recyclers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.dto.Comment;
@@ -16,18 +21,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapterComments.CommentViewHolder> {
 
-    private List<Comment> commentList;
-    private Context context;
+    private final List<Comment> commentList;
+    private final Context context;
+    private SharedPreferences sharedPreferences;
+    private Profile globalProfile;
 
     public RecyclerAdapterComments(List<Comment> commentList, Context context) {
         this.commentList = commentList;
         this.context = context;
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String profileStr = sharedPreferences.getString("profile", "");
+        Gson gson = new Gson();
+        this.globalProfile = gson.fromJson(profileStr, Profile.class);
     }
 
     @NonNull
@@ -52,8 +64,7 @@ public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapte
     public class CommentViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView ivProfilePhoto;
-        private final TextView tvComment;
-        private final TextView tvProfileName;
+        private final TextView tvComment, tvProfileName ,tvDatePublished;
         private final ImageView imageButton;
 
         public CommentViewHolder(@NonNull View itemView) {
@@ -61,7 +72,9 @@ public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapte
             ivProfilePhoto = itemView.findViewById(R.id.comment_author_photo);
             tvComment = itemView.findViewById(R.id.comment_text);
             tvProfileName = itemView.findViewById(R.id.comment_author_name);
+            tvDatePublished = itemView.findViewById(R.id.tvDatePublished);
             imageButton = itemView.findViewById(R.id.remove_button);
+            imageButton.setVisibility(View.GONE);
         }
 
         public void init(Comment comment) {
@@ -71,12 +84,24 @@ public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapte
             }
             tvComment.setText(comment.getCommentText());
             tvProfileName.setText(profile.getFirstName() + " " + profile.getLastName());
-
+            tvDatePublished.setText(comment.getDatePublished());
             // Set click listener to delete comment
-            imageButton.setOnClickListener(v -> {
-                DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child("comments").child(comment.getId());
-                commentRef.removeValue();
-            });
+
+            if (globalProfile.getUser().getUser_id().equalsIgnoreCase(profile.getProfile_id())) {
+                imageButton.setVisibility(View.VISIBLE);
+                imageButton.setOnClickListener(v -> {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Are you sure you want to delete this comment?");
+                    builder.setPositiveButton("Yes", (dialog, which) -> {
+                        DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child("comments").child(comment.getId());
+                        commentRef.removeValue();
+                    });
+                    builder.setNegativeButton("No", null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                });
+            }
+
 
             // Update profile information
             DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(profile.getProfile_id());

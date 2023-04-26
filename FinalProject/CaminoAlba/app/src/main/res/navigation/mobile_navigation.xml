@@ -23,7 +23,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/partnerFragment"
-        android:name="com.example.caminoalba.ui.menuItems.FragmentPartner"
+        android:name="com.example.caminoalba.ui.menuItems.Partner.FragmentPartner"
         android:label="fragment_partner"
         tools:layout="@layout/fragment_partner" />
     <fragment

@@ -133,8 +133,6 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
                 transaction.commit();
             }
 
-
-
         }
 
 

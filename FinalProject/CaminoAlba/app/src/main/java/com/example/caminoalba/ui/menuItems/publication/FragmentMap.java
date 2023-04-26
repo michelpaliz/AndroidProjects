@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,8 +20,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.caminoalba.R;
+import com.example.caminoalba.models.Path;
+import com.example.caminoalba.ui.menuItems.Partner.FragmentPartner;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -39,12 +43,14 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FragmentMap extends Fragment implements OnMapReadyCallback, LocationListener {
 
     public boolean isEnabled;
     public String placemarkName;
+    private List<Path> breakpointsInfo;
     private OnDataPass dataPasser;
     private GoogleMap map;
     private List<LatLng> breakpoints;
@@ -54,6 +60,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     private Marker currentLocationMarker;
     private KmlLayer layer;
     private ImageView imgHome;
+    private Button btnPathInformation;
 
 
     public interface OnDataPass {
@@ -99,6 +106,8 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         imgHome = view.findViewById(R.id.imgHome);
+        btnPathInformation = view.findViewById(R.id.btnInformation);
+        breakpointsInfo = new ArrayList<>();
 
         // Get the MapView from the layout
         MapView mapView = view.findViewById(R.id.map_view);
@@ -133,6 +142,22 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
     }
 
+
+    public void goToPathInformation(List<Path> breakpointsInf) {
+        btnPathInformation.setOnClickListener(v -> {
+            // Create an instance of the child fragment
+            FragmentPartner fragmentPartner = new FragmentPartner();
+            // Set the HashMap as an argument to the fragment
+            fragmentPartner.setBreakpointsInf(breakpointsInf);
+            // Begin a new FragmentTransaction using the getChildFragmentManager() method
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            // Add the child fragment to the transaction and specify a container view ID in the parent layout
+            transaction.replace(R.id.fragment_map, fragmentPartner);
+            transaction.addToBackStack(null); // Add the fragment to the back stack
+            transaction.commit();
+        });
+
+    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -170,6 +195,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                 // Iterate over the placemarks in the layer.
                 for (KmlPlacemark placemark : layer.getPlacemarks()) {
                     // Access placemark properties and geometry here.
+//                    String id = placemark.getProperty("id");
                     String name = placemark.getProperty("name");
                     Geometry<?> geometry = placemark.getGeometry();
 
@@ -177,9 +203,13 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                     if (geometry.getGeometryType().equals("Point") && name != null && name.contains("bp")) {
                         LatLng position = ((Point) geometry).getGeometryObject();
                         breakpoints.add(position);
+                        // Add the id and name to the breakpointsInfo HashMap.
+                        breakpointsInfo.add(new Path(name,"",null,false));
                     }
 
                 }
+
+                goToPathInformation(breakpointsInfo);
 
                 Toast.makeText(requireContext(), "Number of breakpoints: " + breakpoints.size(), Toast.LENGTH_SHORT).show();
                 System.out.println("These are my breakpoints list " + breakpoints);

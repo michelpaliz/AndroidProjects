@@ -29,6 +29,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +97,10 @@ public class FragmentComment extends Fragment {
             comment.setProfile(profile);
             comment.setId(commentId);
             comment.setCommentText(commentText);
+            LocalDateTime datePublished = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            String formattedDate = datePublished.format(formatter);
+            comment.setDatePublished(formattedDate);
             assert commentId != null;
             commentsRef.child(commentId).setValue(comment);
 

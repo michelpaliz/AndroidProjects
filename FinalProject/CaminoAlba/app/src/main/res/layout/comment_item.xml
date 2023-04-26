@@ -10,32 +10,44 @@
     android:layout_marginBottom="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/comment_author_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/default_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvDatePublished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        android:textSize="11.5sp"
+        app:layout_constraintStart_toEndOf="@+id/comment_author_photo"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/comment_author_name"
-        android:textColor="@color/dark_royal_purple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:fontFamily="@font/roboto"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
         android:layout_toRightOf="@id/comment_author_photo"
+        android:fontFamily="@font/roboto"
         android:text="John Doe"
+        android:textColor="@color/dark_royal_purple"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/comment_text"
         app:layout_constraintStart_toEndOf="@+id/comment_author_photo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.509" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDatePublished" />
 
     <TextView
         android:id="@+id/comment_text"
