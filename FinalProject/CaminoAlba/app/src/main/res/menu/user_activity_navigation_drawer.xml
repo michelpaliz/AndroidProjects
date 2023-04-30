@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="user_navigation_view">
 
     <group android:checkableBehavior="single">
         <item
@@ -16,10 +16,6 @@
             android:id="@+id/blogFragment"
             android:icon="@drawable/icon_mobile"
             android:title="@string/menu_blog" />
-        <item
-            android:id="@+id/fragmentConfirmationPartnership"
-            android:icon="@drawable/icon_mobile"
-            android:title="@string/partnership" />
 
     </group>
 

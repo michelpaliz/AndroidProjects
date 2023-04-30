@@ -16,8 +16,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- First photo -->
-        <ImageView
-            android:id="@+id/first_photo"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilePhoto"
+            android:layout_margin="5dp"
             android:layout_width="131dp"
             android:layout_height="match_parent"
             android:src="@drawable/default_image" />
@@ -28,23 +29,44 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- Name -->
+            <!-- Information -->
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/tvUserName"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:textColor="@color/tropical_blue"
+                android:padding="12dp"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/roboto"
                 android:text="Your Name"
-                android:textSize="24sp"
+                android:layout_margin="5dp"
+                android:textSize="19sp"
                 android:textStyle="bold" />
 
-            <!-- Information -->
+            <TextView
+                android:id="@+id/tvUserId"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="13dp"
+                android:fontFamily="@font/sans"
+                android:textColor="@color/my_light_blue"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
             <TextView
                 android:id="@+id/information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Your Information Goes Here"
+                android:padding="12dp"
+                android:gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:textColor="@color/my_dark_grey"
+                android:fontFamily="@font/sans"
+                android:text="@string/partnershipInfo"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -54,17 +76,17 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_partner"
-        android:layout_width="302dp"
-        android:layout_height="wrap_content"
+        android:layout_width="365dp"
+        android:layout_height="490dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="0.082" />
+        app:layout_constraintVertical_bias="0.273" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
@@ -40,6 +41,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
@@ -198,11 +200,10 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                         }
                     }
                     recyclerPublicationAdapter = new RecyclerPublicationAdapter(adminPublications, profile, context, isNews);
-                } else {  //2. In the second condition we only take the profile's publications for the points fragment
+                } else {  //2. In the second condition we only take the profile's publications
                     assert profile != null;
                     for (Publication publication : publicationsList) {
-                        if (publication.getBlog().getProfile().getProfile_id().equalsIgnoreCase(profile.getProfile_id()) &&
-                                !publication.getPlacemarkID().isEmpty()) {
+                        if (publication.getBlog().getProfile().getProfile_id().equalsIgnoreCase(profile.getProfile_id())) {
                             publication.getBlog().setProfile(blog1.getProfile());
                             publicationsById.add(publication);
                         }

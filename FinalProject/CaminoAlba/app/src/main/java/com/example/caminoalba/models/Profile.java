@@ -3,7 +3,9 @@ package com.example.caminoalba.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Profile implements Serializable {
 
@@ -14,6 +16,10 @@ public class Profile implements Serializable {
     private String gender;
     private String photo;
     private User user;
+    //*** ================== ***//
+    private List<String> pathList;
+    private String currentPath;
+
 
     public Profile() {
     }
@@ -26,6 +32,33 @@ public class Profile implements Serializable {
         this.gender = gender;
         this.photo = photo;
         this.user = user;
+    }
+
+    public String getCurrentPath() {
+        return currentPath;
+    }
+
+    public void setCurrentPath(String currentPath) {
+        this.currentPath = currentPath;
+    }
+
+    public void addPath(String path) {
+        // First, we check if the profile object already has a list of paths
+        List<String> paths = this.getPathList();
+        if (paths == null) {
+            // If the profile object does not have a list of paths, we create a new one
+            paths = new ArrayList<>();
+            this.setPathList(paths);
+        }
+        // Add the new path to the list of paths for this profile
+        paths.add(path);
+    }
+    public List<String> getPathList() {
+        return pathList;
+    }
+
+    public void setPathList(List<String> pathList) {
+        this.pathList = pathList;
     }
 
     public User getUser() {

@@ -3,6 +3,7 @@ package com.example.caminoalba.ui.menuItems.publication;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,9 +22,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Path;
+import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.ui.menuItems.Partner.FragmentPartner;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,6 +36,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.Point;
 import com.google.maps.android.data.kml.KmlLayer;
@@ -43,7 +52,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class FragmentMap extends Fragment implements OnMapReadyCallback, LocationListener {
@@ -61,6 +69,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     private KmlLayer layer;
     private ImageView imgHome;
     private Button btnPathInformation;
+    private SharedPreferences preferences;
+    private Profile profile;
+    private String currentPath;
 
 
     public interface OnDataPass {
@@ -108,7 +119,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
         imgHome = view.findViewById(R.id.imgHome);
         btnPathInformation = view.findViewById(R.id.btnInformation);
         breakpointsInfo = new ArrayList<>();
-
+        profile = new Profile();
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        Gson gson = new Gson();
+        String profileStr = preferences.getString("profile", "");
+        profile = gson.fromJson(profileStr, Profile.class);
         // Get the MapView from the layout
         MapView mapView = view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
@@ -122,7 +137,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
         // Get the map asynchronously
         mapView.getMapAsync(this);
-
 
         return view;
     }
@@ -197,14 +211,17 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                     // Access placemark properties and geometry here.
 //                    String id = placemark.getProperty("id");
                     String name = placemark.getProperty("name");
+                    String description = placemark.getProperty("description");
                     Geometry<?> geometry = placemark.getGeometry();
 
                     // Check if this is a breakpoint marker.
-                    if (geometry.getGeometryType().equals("Point") && name != null && name.contains("bp")) {
+                    if (geometry.getGeometryType().equals("Point") && name != null && description != null && name.contains("bp")) {
+                        String newString = name.replaceAll("^bp_(\\w+)$", "$1").replaceAll("(?<!^)([A-Z])", "_$1").toUpperCase();
+                        System.out.println(newString);
                         LatLng position = ((Point) geometry).getGeometryObject();
                         breakpoints.add(position);
                         // Add the id and name to the breakpointsInfo HashMap.
-                        breakpointsInfo.add(new Path(name,"",null,false));
+                        breakpointsInfo.add(new Path(newString, description, null, false));
                     }
 
                 }
@@ -271,7 +288,35 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                             break;
                         }
                     }
+
                     Toast.makeText(requireContext(), "You have reached breakpoint " + name, Toast.LENGTH_SHORT).show();
+                    currentPath = name;
+
+                    DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("profiles").child(profile.getProfile_id());
+                    profileRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                // Get the Profile object from the snapshot
+                                Profile existingProfile = snapshot.getValue(Profile.class);
+                                if (existingProfile != null) {
+                                    // Update the desired attribute in the Profile object
+                                    String newString = currentPath.replaceAll("^bp_(\\w+)$", "$1").replaceAll("(?<!^)([A-Z])", "_$1").toUpperCase();
+                                    existingProfile.setCurrentPath(newString);
+                                    // Save the updated Profile object to the Firebase Realtime Database
+                                    profileRef.setValue(existingProfile);
+                                }
+                            } else {
+                                // Profile object not found
+                                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle onCancelled event
+                        }
+                    });
 
 
                     placemarkName = name;

@@ -57,6 +57,8 @@
     <string name="tvSingIn">Sing In</string>
     <string name="admin_news">Welcome admin you can add, edit and remove news</string>
     <string name="btnPathInformation">Path Information</string>
+    <string name="partnershipInfo">You can see the badges that you have. There has to be an admin who will verify it if you want to add a badge.</string>
+    <string name="partnership">Partnership</string>
 
     <string-array name="gender_array">
         <item>male</item>

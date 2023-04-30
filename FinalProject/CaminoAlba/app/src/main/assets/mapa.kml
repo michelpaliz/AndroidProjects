@@ -56,6 +56,7 @@
 		</Style>
 		<Placemark id="10CA71CABC28A6696E98">
 			<name>bp_denia</name>
+			<description> Punto de Denia </description>
 			<LookAt>
 				<longitude>0.09391778158877706</longitude>
 				<latitude>38.83781582689011</latitude>
@@ -73,6 +74,7 @@
 		</Placemark>
 		<Placemark id="A597E36B6C28A6696E8B">
 			<name>bp_pego</name>
+				<description> Punto de Pego </description>
 			<LookAt>
 				<longitude>-0.1152285460006486</longitude>
 				<latitude>38.84232820746814</latitude>
@@ -90,6 +92,7 @@
 		</Placemark>
 		<Placemark id="BD3C8011AF28A6696E8B">
 			<name>bp_xabia</name>
+			<description> Punto de Xabia </description>
 			<LookAt>
 				<longitude>0.1824603949777148</longitude>
 				<latitude>38.79602708452057</latitude>
@@ -107,6 +110,7 @@
 		</Placemark>
 		<Placemark id="037290377828A6696E8C">
 			<name>bp_jesuspobre</name>
+			<description> Punto de jesus pobre </description>
 			<LookAt>
 				<longitude>0.08644080401611243</longitude>
 				<latitude>38.79890086880568</latitude>
@@ -124,6 +128,7 @@
 		</Placemark>
 		<Placemark id="1E5AA203AC28A6696E8C">
 			<name>bp_vergel</name>
+				<description> Punto de Vergel </description>
 			<LookAt>
 				<longitude>0.01065685553349072</longitude>
 				<latitude>38.84656762567924</latitude>
@@ -141,6 +146,7 @@
 		</Placemark>
 		<Placemark id="2B50507F5E28A6696E8C">
 			<name>bp_astubia</name>
+				<description> Punto de Astubia </description>
 			<LookAt>
 				<longitude>-0.1537037229801119</longitude>
 				<latitude>38.84762375497272</latitude>
@@ -158,6 +164,7 @@
 		</Placemark>
 		<Placemark id="32E446003028A6696E8C">
 			<name>bp_forma</name>
+			<description> Punto de Forna </description>
 			<LookAt>
 				<longitude>-0.1715008679829699</longitude>
 				<latitude>38.87519269380744</latitude>
@@ -175,6 +182,7 @@
 		</Placemark>
 		<Placemark id="5BC193446428A6696E8C">
 			<name>bp_lorxa</name>
+			<description> Punto de Lorxa </description>
 			<LookAt>
 				<longitude>-0.328881905330174</longitude>
 				<latitude>38.84520182417423</latitude>
@@ -192,6 +200,7 @@
 		</Placemark>
 		<Placemark id="00F37D9D8028A6696E8D">
 			<name>bp_beniarres</name>
+			<description> Punto de Beniarres </description>
 			<LookAt>
 				<longitude>-0.3831488057357346</longitude>
 				<latitude>38.82093986841913</latitude>
@@ -209,6 +218,7 @@
 		</Placemark>
 		<Placemark id="1BBBDE94AE28A6696E8D">
 			<name>bp_argullent</name>
+			<description> Punto de Argullent </description>
 			<LookAt>
 				<longitude>-0.5527315476240269</longitude>
 				<latitude>38.81769603609503</latitude>
@@ -226,6 +236,7 @@
 		</Placemark>
 		<Placemark id="2FB0E23A6428A6696E8D">
 			<name>bp_ontinyent</name>
+			<description> Punto de Ontinyent </description>
 			<LookAt>
 				<longitude>-0.6262969807264751</longitude>
 				<latitude>38.80416560814529</latitude>
@@ -243,6 +254,7 @@
 		</Placemark>
 		<Placemark id="37A50EED7728A6696E8D">
 			<name>bp_fontanars</name>
+			<description> Punto de Fontanars </description>
 			<LookAt>
 				<longitude>-0.7848509932158453</longitude>
 				<latitude>38.78225535535922</latitude>
@@ -260,6 +272,7 @@
 		</Placemark>
 		<Placemark id="4B688D510728A6696E8D">
 			<name>bp_font_figuera</name>
+			<description> Punto de Font Figuera </description>
 			<LookAt>
 				<longitude>-0.8832509504087827</longitude>
 				<latitude>38.80776970948708</latitude>
@@ -277,6 +290,7 @@
 		</Placemark>
 		<Placemark id="5A29BA327228A6696E8D">
 			<name>bp_almansa</name>
+			<description> Punto de Almansa </description>
 			<LookAt>
 				<longitude>-1.109233800335173</longitude>
 				<latitude>38.86617053062976</latitude>
@@ -294,6 +308,7 @@
 		</Placemark>
 		<Placemark id="4CCA94893B28A6696E8C">
 			<name>bp_villalonga</name>
+			<description> Punto de Villalonga </description>
 			<LookAt>
 				<longitude>-0.2082813401851924</longitude>
 				<latitude>38.88350424076625</latitude>
