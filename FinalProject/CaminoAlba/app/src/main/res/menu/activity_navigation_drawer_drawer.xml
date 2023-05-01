@@ -24,7 +24,13 @@
     </group>
 
     <item android:title="Others">
+
         <menu>
+            <item
+                android:id="@+id/fragment_settings"
+                android:icon="@drawable/ic_baseline_settings_24"
+                android:title="Settings" />
+
             <item
                 android:id="@+id/logOutFragment"
                 android:icon="@drawable/ic_baseline_exit_to_app_24"
