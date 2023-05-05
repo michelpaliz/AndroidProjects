@@ -1,17 +1,29 @@
 package com.example.caminoalba.models;
 
-public class Path {
+import java.io.Serializable;
 
+public class Path implements Serializable {
+
+    private int id;
     private String name;
     private String information;
     private String photo;
     private boolean credential;
 
-    public Path( String name, String information, String photo, boolean credential) {
+    public Path(int id, String name, String information, String photo, boolean credential) {
+        this.id = id;
         this.name = name;
         this.information = information;
         this.photo = photo;
         this.credential = credential;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isCredential() {

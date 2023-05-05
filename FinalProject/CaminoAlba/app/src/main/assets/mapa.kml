@@ -10,6 +10,105 @@
 			<styleUrl>#s_ylw-pushpin_hl</styleUrl>
 		</Pair>
 	</StyleMap>
+
+
+	<StyleMap id="m_ylw-pushpin00">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin0</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl2</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="s_ylw-pushpin0">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff0e00f2</color>
+			<width>2</width>
+		</LineStyle>
+	</Style>
+	<Style id="s_ylw-pushpin_hl2">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff0e00f2</color>
+			<width>2</width>
+		</LineStyle>
+	</Style>
+	<Placemark>
+		<name>salida Font de la Figuera</name>
+		<styleUrl>#m_ylw-pushpin00</styleUrl>
+		<LineString>
+			<tessellate>1</tessellate>
+			<coordinates>
+				-0.8800199316730417,38.8076213606237,0 -0.8802665008328014,38.80804221415445,0 -0.8804941908925579,38.80821022906856,0 -0.8807759288970041,38.80826369985981,0 -0.8813966598700262,38.8084202249104,0 -0.8825253138463152,38.80811886876009,0 -0.8831826887369976,38.80780553804696,0 -0.8833932461885718,38.80786569461116,0 -0.8838958322595125,38.80780955698587,0 -0.8842434866043747,38.80774838622659,0 -0.8844555372042739,38.80760491416203,0 -0.885059232369042,38.80743696615156,0 -0.8854683652462492,38.80699587405584,0 -0.8857565975427095,38.80693205108302,0 -0.8862724164766755,38.80702697574546,0 -0.8865631185007583,38.80716674807016,0 -0.8868037821815122,38.80742412171072,0 -0.8877266225818292,38.80778135812257,0 -0.8881499366332413,38.80795458932227,0 -0.8885310757248888,38.80836826171396,0 -0.889051715433874,38.80885803002634,0 -0.8894963244729492,38.80928048979771,0 -0.8898192970023,38.80964281676096,0 -0.8901928033798667,38.81007813686344,0 -0.8904903474942039,38.8104523183342,0 -0.8907143039905119,38.81063576883336,0 -0.891023261181153,38.81069209284706,0 -0.8913747704956088,38.81062161762802,0 -0.8917114241496926,38.81063146460252,0 -0.8916280206754457,38.81091681955093,0 -0.8919606280473202,38.81118291720894,0 -0.8936337140355921,38.81156768005343,0 -0.8940206270666162,38.81208033359931,0 -0.8948174611759319,38.81264788233317,0 -0.8958059963690046,38.81326313355265,0 -0.8973255646215628,38.81411977296108,0 -0.8986839423905002,38.81488250570705,0 -0.8988165471607046,38.81504345675555,0 -0.899088518901443,38.81521719413984,0 -0.8996063570245949,38.81540022364001,0 -0.9002271304516174,38.81567656508712,0 -0.9005927705030237,38.81584091463945,0 -0.9009169515896587,38.81593879094069,0 -0.9020034262348497,38.81589193212254,0 -0.9028658700044501,38.81607293380245,0 -0.9038175184787633,38.81683294359348,0 -0.9047570096739632,38.81763630570349,0 -0.9056346660668546,38.81862034145024,0 -0.9059488275076366,38.81912413844896,0 -0.9064140920456232,38.81988337921648,0 -0.9067589220494443,38.82049597241346,0 -0.9070711532302844,38.8209536315971,0
+			</coordinates>
+		</LineString>
+	</Placemark>
+
+
+<StyleMap id="m_ylw-pushpin0">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin1</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl0</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="s_ylw-pushpin1">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff0929f6</color>
+			<width>2</width>
+		</LineStyle>
+	</Style>
+	<Style id="s_ylw-pushpin_hl0">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff0929f6</color>
+			<width>2</width>
+		</LineStyle>
+	</Style>
+	<Placemark>
+		<name>entrada Fontananars</name>
+		<styleUrl>#m_ylw-pushpin0</styleUrl>
+		<LineString>
+			<tessellate>1</tessellate>
+			<coordinates>
+				-0.7443210712144432,38.77794505054724,0 -0.7445784827330537,38.7783773051537,0 -0.7446434934040602,38.77888019171334,0 -0.7447721886636294,38.77948491126675,0 -0.7448618412117647,38.78018197070583,0 -0.7449175905815453,38.78089195157202,0 -0.7450981979019444,38.78164467424488,0 -0.7452470557343649,38.78239760796797,0 -0.7454311242911016,38.78264764613104,0 -0.7461410284603009,38.78265124631255,0 -0.7473462752798576,38.78255458783141,0 -0.7483693148788229,38.78235504667451,0 -0.7487888441442403,38.78222613135332,0 -0.7496044819575198,38.7820996580477,0 -0.7499452650803207,38.78268519738982,0 -0.7506572672196477,38.78310273470866,0 -0.7533803273596529,38.78255573361815,0 -0.7546358312384738,38.7825913585947,0 -0.758665547479328,38.78166998835835,0 -0.7588598147103298,38.78205924662927,0 -0.7628750737495382,38.78092585258342,0 -0.763396348330958,38.78120997677931,0 -0.7647037559431502,38.78086481362764,0 -0.7661047309156321,38.78082973505281,0 -0.7664809665974914,38.78088756440251,0 -0.7669926315121489,38.78110073783277,0 -0.767524815291214,38.78108923945365,0 -0.7711093407152769,38.78137515747278,0 -0.773356170019176,38.78123045102323,0 -0.7758198243568026,38.78096102641835,0 -0.7779255375083183,38.7813798032388,0 -0.7792396366712839,38.78164196864723,0 -0.7809454386178283,38.78169296685891,0 -0.7833616604418681,38.78144840413025,0 -0.7841257040639882,38.78142363639171,0 -0.7845240114392105,38.78158173668668,0 -0.7850691587435887,38.7836295665725,0
+			</coordinates>
+		</LineString>
+	</Placemark>
+
+
+
 	<Style id="s_ylw-pushpin4">
 		<IconStyle>
 			<scale>1.1</scale>
@@ -74,7 +173,13 @@
 		</Placemark>
 		<Placemark id="A597E36B6C28A6696E8B">
 			<name>bp_pego</name>
-				<description> Punto de Pego </description>
+				<description> Duración aproximada:
+                              2h 30' a pie; 1h a caballo; 45' en bicicleta
+                              Distancia total: 7,9Km
+                              Kms que faltan hasta Santiago de Compostela : 1.195 Km
+                              Dificultad: baja
+                              Sellado acreditaciones en Pego: en la Oficina de Turismo, Casa de Cultura y en el bar "Zorrilla", frente al ayuntamiento.
+                              Sellado acreditaciones en L’Atzúbia: en el bar "La Pianola", frente al ayuntamiento. </description>
 			<LookAt>
 				<longitude>-0.1152285460006486</longitude>
 				<latitude>38.84232820746814</latitude>
@@ -92,7 +197,12 @@
 		</Placemark>
 		<Placemark id="BD3C8011AF28A6696E8B">
 			<name>bp_xabia</name>
-			<description> Punto de Xabia </description>
+			<description> Duración aproximada: ​2h 30' a pie; 2h a caballo; 1h 15' en bicicleta
+                          Distancia total: 10,6 Km
+                          Kms que faltan hasta Santiago de Compostela : 1.223 Km
+                          Dificultad: baja
+                          Sellado de acreditaciones en Jávea: Oficina de Turismo
+                          Dónde comer: Bar Llebeig, Bar Pedro, Casa Rosita, La Tasca y El Sequer</description>
 			<LookAt>
 				<longitude>0.1824603949777148</longitude>
 				<latitude>38.79602708452057</latitude>
@@ -109,8 +219,13 @@
 			</Point>
 		</Placemark>
 		<Placemark id="037290377828A6696E8C">
-			<name>bp_jesuspobre</name>
-			<description> Punto de jesus pobre </description>
+			<name>bp_jesus_pobre</name>
+			<description> Duración aproximada: ​2h 45' a pie; 2h a caballo; 1h en bicicleta
+                          Distancia total: 9,6 Km
+                          Kms que faltan hasta Santiago de Compostela : 1.214 Km
+                          Dificultad: baja
+                          Sellado acreditaciones en Jesús Pobre: "Casa Pedro", "Casa Rosita" y el "Sequer"
+                          Sellado de acreditaciones en el Verger: Oficina de Turismo</description>
 			<LookAt>
 				<longitude>0.08644080401611243</longitude>
 				<latitude>38.79890086880568</latitude>
@@ -128,7 +243,13 @@
 		</Placemark>
 		<Placemark id="1E5AA203AC28A6696E8C">
 			<name>bp_vergel</name>
-				<description> Punto de Vergel </description>
+				<description> Duración aproximada: ​3 horas a pie; 2h a caballo; 1h15'. en bicicleta
+                              Distancia total: 11,9 Km
+                              Kms que faltan hasta Santiago de Compostela : 1.203 Km
+                              Dificultad: baja
+                              Sellado de acreditaciones en el Verger: Oficina de Turismo
+                              Sellado acreditaciones en Pego: Oficina de Turismo, Casa de Cultura y en el Bar Zorrilla
+                              ​Dónde comer: L'Alter </description>
 			<LookAt>
 				<longitude>0.01065685553349072</longitude>
 				<latitude>38.84656762567924</latitude>
@@ -163,8 +284,13 @@
 			</Point>
 		</Placemark>
 		<Placemark id="32E446003028A6696E8C">
-			<name>bp_forma</name>
-			<description> Punto de Forna </description>
+			<name>bp_forna</name>
+			<description> Duración aproximada: 2h a pie
+                          Distancia total: 4,1Km
+                          Kms que faltan hasta Santiago de Compostela : 1.191 Km
+                          Dificultad: media
+                          alternativa para bicicleta por la Vall de Gallinera hasta Planes y luego Beniarrés (continúa con etapa 8)
+                          Sellado acreditaciones en Forna: en el restaurante "Nautilus", frente a la iglesia. Sábados y domingos reservas en  96 5571366  </description>
 			<LookAt>
 				<longitude>-0.1715008679829699</longitude>
 				<latitude>38.87519269380744</latitude>
@@ -181,8 +307,13 @@
 			</Point>
 		</Placemark>
 		<Placemark id="5BC193446428A6696E8C">
-			<name>bp_lorxa</name>
-			<description> Punto de Lorxa </description>
+			<name>bp_orxa</name>
+			<description>-Duración aproximada:
+                                                   ​5h30' horas a pie; 3h45' a caballo; 3h en bicicleta
+                                                   Distancia total: 17,9 Km
+                                                   Kms que faltan hasta Santiago de Compostela : 1.152 Km
+                                                   Dificultad: media
+                                                   Sellado de acreditaciones: Ayuntamiento </description>
 			<LookAt>
 				<longitude>-0.328881905330174</longitude>
 				<latitude>38.84520182417423</latitude>
@@ -200,7 +331,12 @@
 		</Placemark>
 		<Placemark id="00F37D9D8028A6696E8D">
 			<name>bp_beniarres</name>
-			<description> Punto de Beniarres </description>
+			<description> Duración aproximada:
+                                              ​1h30' horas a pie; 1h a caballo; 30' en bicicleta
+                                                   Distancia total: 6,9 Km
+                                                   Kms que faltan hasta Santiago de Compostela : 1.170 Km
+                                                   Dificultad: baja
+                                                   Sellado acreditaciones en Beniarrés: en el Bar Crespo, 20m antes de la iglesia ​ </description>
 			<LookAt>
 				<longitude>-0.3831488057357346</longitude>
 				<latitude>38.82093986841913</latitude>
@@ -236,7 +372,12 @@
 		</Placemark>
 		<Placemark id="2FB0E23A6428A6696E8D">
 			<name>bp_ontinyent</name>
-			<description> Punto de Ontinyent </description>
+			<description> Duración aproximada:
+                          ​4h horas a pie; 2h30' a caballo; 2h en bicicleta
+                          Distancia total: 12 Km
+                          Kms que faltan hasta Santiago de Compostela : 1.140 Km
+                          Dificultad: baja
+                          Sellado de acreditaciones: Casa de Ejercicios San Vicente​ </description>
 			<LookAt>
 				<longitude>-0.6262969807264751</longitude>
 				<latitude>38.80416560814529</latitude>
@@ -254,7 +395,11 @@
 		</Placemark>
 		<Placemark id="37A50EED7728A6696E8D">
 			<name>bp_fontanars</name>
-			<description> Punto de Fontanars </description>
+			<description> Duración aproximada: 6,5h horas a pie; 3h a caballo; 3h en bicicleta
+                          Distancia total: 25 Km
+                          Kms que faltan hasta Santiago de Compostela : 1.115 Km
+                          Dificultad: media
+                          Sellado de acreditaciones: Ayuntamiento​ </description>
 			<LookAt>
 				<longitude>-0.7848509932158453</longitude>
 				<latitude>38.78225535535922</latitude>
@@ -272,7 +417,12 @@
 		</Placemark>
 		<Placemark id="4B688D510728A6696E8D">
 			<name>bp_font_figuera</name>
-			<description> Punto de Font Figuera </description>
+			<description> Duración aproximada:
+                          ​2,5h horas a pie; 1,5h a caballo; 45' en bicicleta
+                          Distancia total: 10,1 Km
+                          Kms que faltan hasta Santiago de Compostela : 1.105 Km
+                          Dificultad: baja
+                          Sellado de acreditaciones: Ayuntamiento​ </description>
 			<LookAt>
 				<longitude>-0.8832509504087827</longitude>
 				<latitude>38.80776970948708</latitude>
@@ -290,7 +440,12 @@
 		</Placemark>
 		<Placemark id="5A29BA327228A6696E8D">
 			<name>bp_almansa</name>
-			<description> Punto de Almansa </description>
+			<description> Duración aproximada:
+                          ​5,5h horas a pie; 3,5h a caballo; 2h en bicicleta
+                          Distancia total: 22,2 Km
+                          Kms que faltan hasta Santiago de Compostela : 1.083 Km
+                          Dificultad: baja
+                          ​Sellado de acreditaciones: Oficina de Turismo y Convento Santa Ana </description>
 			<LookAt>
 				<longitude>-1.109233800335173</longitude>
 				<latitude>38.86617053062976</latitude>
@@ -308,7 +463,12 @@
 		</Placemark>
 		<Placemark id="4CCA94893B28A6696E8C">
 			<name>bp_villalonga</name>
-			<description> Punto de Villalonga </description>
+			<description> Duración aproximada:
+                          ​3h30' horas a pie; 3h a caballo; 1h30' en bicicleta
+                          Distancia total: 14 Km
+                          Kms que faltan hasta Santiago de Compostela : 1.177 Km
+                          Dificultad: baja
+                          Sellado acreditaciones en Villalonga: Abadía en Plaza de la Señoría </description>
 			<LookAt>
 				<longitude>-0.2082813401851924</longitude>
 				<latitude>38.88350424076625</latitude>

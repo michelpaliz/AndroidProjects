@@ -27,7 +27,7 @@ import androidx.preference.PreferenceManager;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Path;
 import com.example.caminoalba.models.Profile;
-import com.example.caminoalba.ui.menuItems.Partner.FragmentPartner;
+import com.example.caminoalba.ui.menuItems.partner.FragmentPartner;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -157,12 +157,13 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
+
     public void goToPathInformation(List<Path> breakpointsInf) {
         btnPathInformation.setOnClickListener(v -> {
             // Create an instance of the child fragment
             FragmentPartner fragmentPartner = new FragmentPartner();
-            // Set the HashMap as an argument to the fragment
-            fragmentPartner.setBreakpointsInf(breakpointsInf);
+            // Set the list to the static variable in the FragmentPartner class
+            FragmentPartner.setBreakpointsInf(breakpointsInf);
             // Begin a new FragmentTransaction using the getChildFragmentManager() method
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             // Add the child fragment to the transaction and specify a container view ID in the parent layout
@@ -170,8 +171,25 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
             transaction.addToBackStack(null); // Add the fragment to the back stack
             transaction.commit();
         });
-
     }
+
+
+
+//    public void goToPathInformation(List<Path> breakpointsInf) {
+//        btnPathInformation.setOnClickListener(v -> {
+//            // Create an instance of the child fragment
+//            FragmentPartner fragmentPartner = new FragmentPartner();
+//            // Set the HashMap as an argument to the fragment
+//            fragmentPartner.setBreakpointsInf(breakpointsInf);
+//            // Begin a new FragmentTransaction using the getChildFragmentManager() method
+//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//            // Add the child fragment to the transaction and specify a container view ID in the parent layout
+//            transaction.replace(R.id.fragment_map, fragmentPartner);
+//            transaction.addToBackStack(null); // Add the fragment to the back stack
+//            transaction.commit();
+//        });
+//
+//    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -203,6 +221,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
             breakpoints = new ArrayList<>();
 
+            int cont = 0;
             // Check if layer has finished loading before setting click listener.
             if (layer.isLayerOnMap()) {
 
@@ -221,7 +240,8 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                         LatLng position = ((Point) geometry).getGeometryObject();
                         breakpoints.add(position);
                         // Add the id and name to the breakpointsInfo HashMap.
-                        breakpointsInfo.add(new Path(newString, description, null, false));
+                        cont++;
+                        breakpointsInfo.add(new Path(cont,newString, description, null, false));
                     }
 
                 }

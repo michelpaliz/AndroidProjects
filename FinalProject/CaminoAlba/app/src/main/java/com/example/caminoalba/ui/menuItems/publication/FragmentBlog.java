@@ -13,15 +13,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
@@ -41,7 +43,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
@@ -54,7 +55,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     private TextView tvMessage, tvTitle;
     private Context context;
     private boolean showPublicationByUser = false;
-    private boolean isNews;
+    private boolean isNews, comesFromAntotherFragment = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         LinearLayout linearLayoutPath = view.findViewById(R.id.linearLayout_path);
         LinearLayout footerMenu = view.findViewById(R.id.footer_menu);
         ImageView imgPoints = view.findViewById(R.id.imgPoints);
+        ImageView imgHome = view.findViewById(R.id.imgHome);
         ImageView imgMap = view.findViewById(R.id.imgMap);
         btnAddPublication = view.findViewById(R.id.imgAddPublication);
         // ------ Init Variables  -------
@@ -99,6 +101,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         if (getArguments() != null) {
             isNews = getArguments().getBoolean("isNews", false);
             showPublicationByUser = getArguments().getBoolean("userlist", false);
+            comesFromAntotherFragment = getArguments().getBoolean("comesFromAnotherFragment", false);
         }
 
         if (isNews) {
@@ -124,6 +127,36 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             transaction.commit();
         });
 
+
+        if (comesFromAntotherFragment) {
+            imgHome.setOnClickListener(v -> {
+                Bundle bundle = new Bundle();
+                FragmentBlog fragmentBlog = new FragmentBlog();
+                FragmentManager fragmentManager = getChildFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                bundle.putBoolean("userlist", true);
+                bundle.putBoolean("comesFromAnotherFragment", true);
+                fragmentBlog.setArguments(bundle);
+
+                // Replace the current fragment with the new fragment
+                transaction.replace(R.id.fragment_blog, fragmentBlog);
+
+                // Add the previous fragment to the back stack
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                transaction.addToBackStack(null);
+
+                // Commit the transaction
+                transaction.commit();
+
+                // Navigate back to the root fragment
+                getParentFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+
+            });
+        }
+
+
         //When we enter again from the showpublicationbyuser fragment we do this
         if (showPublicationByUser) {
             tvMessage.setText(getText(R.string.ownPhotosMessage));
@@ -146,9 +179,8 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     }
 
     /**
-     *
      * @param placemarkName the id of the placemark that the user is
-     * @param isEnabled this will enable the user to add publications for the id of the placemark
+     * @param isEnabled     this will enable the user to add publications for the id of the placemark
      */
     @Override
     public void onDataPass(String placemarkName, boolean isEnabled) {
@@ -243,7 +275,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                             StorageReference storageRef = storage.getReference();
 
                             // Get a reference to the folder for the publication's photos
-                            String folderPath = "publications/" + publicationId ;
+                            String folderPath = "publications/" + publicationId;
                             StorageReference folderRef = storageRef.child(folderPath);
 
                             // Delete all photos in the folder

@@ -1,4 +1,4 @@
-package com.example.caminoalba.ui.menuItems.Partner;
+package com.example.caminoalba.ui.menuItems.partner;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.PluralsRes;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,23 +21,24 @@ import com.example.caminoalba.models.Profile;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.List;
 
 
 public class FragmentPartner extends Fragment {
-    private List<Path> breakpointsInf;
     private RecyclerView recyclerView;
     private Profile profile;
     private ImageView ivProfilePhoto;
     private TextView tvProfileId, tvProfileName;
 
-    public List<Path> getBreakpointsInf() {
+    // Define a static variable to store the list
+    private static List<Path> breakpointsInf;
+
+    public static List<Path> getBreakpointsInf() {
         return breakpointsInf;
     }
 
-    public void setBreakpointsInf(List<Path> breakpointsInf) {
-        this.breakpointsInf = breakpointsInf;
+    public static void setBreakpointsInf(List<Path> breakpointsInf) {
+        FragmentPartner.breakpointsInf = breakpointsInf;
     }
 
     @Override
@@ -60,12 +60,6 @@ public class FragmentPartner extends Fragment {
         Gson gson = new Gson();
         String profileStr = preferences.getString("profile", "");
         profile = gson.fromJson(profileStr, Profile.class);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
         tvProfileName.setText(profile.getFirstName().toUpperCase());
 
@@ -75,15 +69,14 @@ public class FragmentPartner extends Fragment {
             Picasso.get().load(profile.getPhoto()).into(ivProfilePhoto);
         }
 
-        // Create a new instance of the RecyclerviewPartner class, passing in the breaksPointsInf HashMap.
-        breakpointsInf = getBreakpointsInf();
+        // Check if the list has already been loaded
         if (breakpointsInf != null){
-            RecyclerviewPartner adapter = new RecyclerviewPartner(breakpointsInf, profile);
+            RecyclerviewPartner adapter = new RecyclerviewPartner(breakpointsInf, profile, requireContext());
             recyclerView.setAdapter(adapter);
         }
 
-
+        return view;
     }
 
-
 }
+

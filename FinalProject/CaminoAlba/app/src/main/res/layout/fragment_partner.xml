@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_parent"
+    android:id="@+id/fragment_partner"
     android:background="@color/my_dark_blue"
-    tools:context=".ui.menuItems.Partner.FragmentPartner">
+    tools:context=".ui.menuItems.partner.FragmentPartner">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -86,7 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="0.273" />
+        app:layout_constraintVertical_bias="0.178" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -54,7 +54,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         //TO HIDE THE DEFAULT ACTION BAR NAME
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            ((ActionBar) actionBar).setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
         }
 
         //TO PUT A COSTUME NAME FOR MY ACTION BAR

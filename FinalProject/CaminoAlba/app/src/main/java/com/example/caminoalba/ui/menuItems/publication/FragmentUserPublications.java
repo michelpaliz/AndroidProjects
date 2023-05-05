@@ -42,6 +42,7 @@ public class FragmentUserPublications extends Fragment {
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         bundle.putBoolean("userlist", true);
+        bundle.putBoolean("comesFromAnotherFragment",true);
         fragmentBlog.setArguments(bundle);
         transaction.replace(R.id.fragment_user_publications, fragmentBlog);
         transaction.addToBackStack(null);
