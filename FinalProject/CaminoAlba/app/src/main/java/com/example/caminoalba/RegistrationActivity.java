@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -80,40 +81,47 @@ public class RegistrationActivity extends AppCompatActivity {
                 return;
             }
 
-            String email = edEmail
-                    .getText().toString();
+            String email = edEmail.getText().toString();
             String password = edPassword.getText().toString();
 
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, task -> {
-
-                        if (task.isSuccessful()){
-
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            if (user != null) {
-                                String uid = user.getUid();
-                                User newUser = new User(uid, email, "user", Utils.generateVerificationCode(), false, AccountStatus.ACTIVE);
-                                Profile profile = new Profile(uid, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null, newUser);
-                                Blog blog = new Blog(uid, null, true, 0, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), profile);
-
-                                // Set the user ID in the objects
-                                profile.getUser().setUser_id(uid);
-                                blog.setBlog_id(uid);
-                                // Register the user in Firebase Realtime Database
-                                registerUserFirebase(newUser, profile, blog);
-                                Toast.makeText(RegistrationActivity.this, "Firebase has register your user", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(this, "User couldn't be registered.", Toast.LENGTH_SHORT).show();
-                            }
-
+            // Check if email is already in use
+            FirebaseAuth.getInstance().fetchSignInMethodsForEmail(email)
+                    .addOnCompleteListener(task -> {
+                        boolean emailExists = !Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
+                        if (emailExists) {
+                            Toast.makeText(RegistrationActivity.this, "Email is already registered.", Toast.LENGTH_SHORT).show();
+                            return;
                         }
-                    }).addOnFailureListener(e -> {
-                        Log.w(TAG, "createUserWithEmail:failure", e);
 
+                        // If email is not in use, create a new user
+                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(this, task2 -> {
+                                    if (task2.isSuccessful()){
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                        if (user != null) {
+                                            String uid = user.getUid();
+                                            User newUser = new User(uid, email, "user", Utils.generateVerificationCode(), false, AccountStatus.ACTIVE);
+                                            Profile profile = new Profile(uid, edFirstName.getText().toString(), edLastName.getText().toString(), null, null, null, newUser);
+                                            Blog blog = new Blog(uid, null, true, 0, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), profile);
+
+                                            // Set the user ID in the objects
+                                            profile.getUser().setUser_id(uid);
+                                            blog.setBlog_id(uid);
+
+                                            // Register the user in Firebase Realtime Database
+                                            registerUserFirebase(newUser, profile, blog);
+                                            Toast.makeText(RegistrationActivity.this, "Firebase has registered your user.", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(this, "User couldn't be registered.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }).addOnFailureListener(e -> {
+                                    Log.w(TAG, "createUserWithEmail:failure", e);
+                                });
                     });
-
         });
     }
+
 
 
     public void registerUserFirebase(User user, Profile profile, Blog blog) {

@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.caminoalba.helpers.EmailHelper;
@@ -36,7 +39,7 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity {
 
     // ------ Vistas   -------
-    private Button btnSingIn, btnHome;
+    private Button btnSingIn, btnHome, btnForgotPassword;
     private TextView tvSingUp, tvTitleSingIn;
     private EditText edEmail, edPassword;
     private Intent intent;
@@ -63,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         // ------ Inicializamos vistas   -------
         btnSingIn = findViewById(R.id.btnSingIn_login);
         btnHome = findViewById(R.id.btnHome);
+        btnForgotPassword = findViewById(R.id.btnForgotPassword);
         edEmail = findViewById(R.id.edEmail);
         edPassword = findViewById(R.id.edPassword);
         progressBar = findViewById(R.id.progressBar);
@@ -78,6 +82,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void authenticateUser() {
+
+        forgottenPassword();
+
         btnSingIn.setOnClickListener(v -> {
             if (!validateEmail() || !validatePassword()) {
                 return;
@@ -86,10 +93,39 @@ public class LoginActivity extends AppCompatActivity {
             String password = edPassword.getText().toString();
             progressBar.setVisibility(View.VISIBLE);
             logIn(email, password);
-
         });
 
     }
+
+
+    public void forgottenPassword(){
+        // Reset password code
+        btnForgotPassword.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Forgot Password");
+            View view = LayoutInflater.from(this).inflate(R.layout.forgotten_password, null);
+            EditText edEmail = view.findViewById(R.id.ed_email);
+            Button btnResetPassword = view.findViewById(R.id.reset_password_button);
+            btnResetPassword.setOnClickListener(view1 -> {
+                String email1 = edEmail.getText().toString().trim();
+                if (TextUtils.isEmpty(email1)) {
+                    Toast.makeText(LoginActivity.this, "Please enter your email address.", Toast.LENGTH_SHORT).show();
+                } else {
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(email1)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(LoginActivity.this, "Password reset email sent to " + email1, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Failed to send password reset email: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            });
+            builder.setView(view);
+            builder.create().show();
+        });
+    }
+
 
     public void logIn(String email, String password) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -169,10 +205,11 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 
 
-    //    ******** VALIDATION ***********
+            //    ******** VALIDATION ***********
 
     public boolean validateEmail() {
         String strEmail = edEmail.getText().toString();

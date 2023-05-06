@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
-
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Profile;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class FragmentSettings extends Fragment {
 
@@ -46,6 +51,7 @@ public class FragmentSettings extends Fragment {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -63,6 +69,11 @@ public class FragmentSettings extends Fragment {
         tvEmail.setText(profile.getUser().getEmail());
         tvName.setText(profile.getFirstName().substring(0, 1).toUpperCase() + profile.getFirstName().substring(1) + " " + profile.getLastName().substring(0, 1).toUpperCase() + profile.getLastName().substring(1));
 
+        // =========== CHANGE PASSWORD ============= //
+
+        changePassword();
+
+        // ============ SELECT THE LANGUAGE ======== //
 
         // Populate the language spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
@@ -88,7 +99,7 @@ public class FragmentSettings extends Fragment {
                 if (selectedLanguage.equalsIgnoreCase("spanish")) {
                     String langCode = "es";
                     setLocale(langCode); // Set the new language
-                }else{
+                } else {
                     String langCode = "en";
                     setLocale(langCode); // Set the new language
                 }
@@ -100,6 +111,52 @@ public class FragmentSettings extends Fragment {
             }
         });
     }
+
+
+    private void changePassword() {
+        FirebaseAuth mAuth;
+        FirebaseUser mUser;
+
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+
+        // Prompt the user to re-provide their sign-in credentials
+        btnChangePassword.setOnClickListener(v -> {
+
+            // =========== CHANGE PASSWORD ============= //
+            String oldPassword = etOldPassword.getText().toString();
+            String newPassword = etNewPassword.getText().toString();
+
+            // Check if old password is correct
+            assert mUser != null;
+            if (TextUtils.isEmpty(oldPassword)) {
+                Toast.makeText(requireContext(), "Please enter your old password", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(mUser.getEmail()), oldPassword);
+            mUser.reauthenticate(credential).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // Check if new password is at least 6 characters long
+                    if (newPassword.length() >= 6) {
+                        // Update the user's password
+                        mUser.updatePassword(newPassword).addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                Toast.makeText(requireContext(), "Password updated successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(requireContext(), "Error updating password: " + Objects.requireNonNull(task1.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(requireContext(), "New password should be at least 6 characters long", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Incorrect old password", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+    }
+
 
 
     private void setLocale(String language) {

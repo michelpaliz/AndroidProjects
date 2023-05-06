@@ -132,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
         android:background="@color/dark_royal_purple"
-        android:drawableLeft="@drawable/ic_baseline_arrow_back_ios_24"
+        android:drawableStart="@drawable/ic_baseline_arrow_back_ios_24"
         android:padding="10dp"
         android:text="Back Home"
         android:textColor="@color/tropical_blue"
@@ -140,6 +140,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleSingUp"
+        app:layout_constraintVertical_bias="0.823" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:background="@color/dark_royal_purple"
+        android:padding="10dp"
+        android:text="@string/resetPassword"
+        android:textColor="@color/tropical_blue"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.946"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitleSingUp"
         app:layout_constraintVertical_bias="0.823" />

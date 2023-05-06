@@ -63,6 +63,7 @@
     <string name="btnPathInformation">Iformacion de los caminos</string>
     <string name="partnershipInfo">Aquí puedes ver los sellos que tienes, si quieres agregar uno nuevo tendria que estar un administrador para verificarlo con tu id.</string>
     <string name="partnership">Socio</string>
+    <string name="resetPassword">Reset Password</string>
 
     <string-array name="languages_array">
         <item>English</item>
