@@ -20,14 +20,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
-
 import com.example.caminoalba.R;
 import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.models.Profile;
@@ -43,9 +40,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
 import java.time.LocalDate;
-import java.util.Objects;
+
 
 public class FragmentProfile extends Fragment {
 
@@ -144,7 +140,8 @@ public class FragmentProfile extends Fragment {
         edLastName.setText(profile.getLastName());
 
         if (profile.getBirthDate() == null) {
-            edBirthdate.setHint("yyyy-MM-dd");
+//            edBirthdate.setHint("yyyy-MM-dd");
+            edBirthdate.setHint("dd-MM-yyyy");
         } else {
             edBirthdate.setText(profile.getBirthDate());
         }

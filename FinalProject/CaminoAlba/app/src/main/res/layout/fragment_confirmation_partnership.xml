@@ -11,9 +11,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorSecondary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Confirmation Partnership" />
+        app:title="@string/titleToolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Search" />
+            android:text="@string/confirmPath" />
 
     </LinearLayout>
 
