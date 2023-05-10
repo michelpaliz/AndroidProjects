@@ -154,7 +154,8 @@ public class FragmentActionPublication extends Fragment {
             etTitle.setText(publication.getTitle());
             etDescription.setText(publication.getDescription());
 
-            btnAddPublication.setText("Edit Publication");
+            btnAddPublication.setText(getString(R.string.edit_publication));
+
             if (publication.getPhotos() != null || !publication.getPhotos().isEmpty()) {
                 for (String url : publication.getPhotos()) {
                     Uri uri = Uri.parse(url);

@@ -30,6 +30,7 @@
 
     <fragment
         android:id="@+id/fragment_settings"
+        android:label="@string/settings"
         android:name="com.example.caminoalba.ui.menuItems.FragmentSettings"
         tools:layout="@layout/fragment_confirmation_partnership" />
 

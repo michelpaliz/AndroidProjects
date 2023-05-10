@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -42,7 +43,14 @@ public class RecyclerAdapterAddPhotos extends RecyclerView.Adapter<RecyclerAdapt
         if (uriList.size() == 0) {
             holder.imageView.setImageDrawable(defaultImage);
         } else {
-            holder.imageView.setImageURI(uriList.get(position));
+//            holder.imageView.setImageURI(uriList.get(position));
+            Picasso.get().load(uriList.get(position))
+                    .placeholder(R.drawable.default_image) // optional placeholder image
+                    .error(R.drawable.default_image) // optional error image
+                    .fit()
+                    .centerCrop() // optional image cropping
+                    .into(holder.imageView);
+
         }
 
 

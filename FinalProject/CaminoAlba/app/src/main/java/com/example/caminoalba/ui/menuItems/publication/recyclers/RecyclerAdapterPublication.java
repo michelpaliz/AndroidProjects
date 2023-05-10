@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPublicationAdapter.PublicationViewHolder> {
+public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAdapterPublication.PublicationViewHolder> {
 
     private final List<Publication> publicationList;
     private OnPublicationClickListener onPublicationClickListener;
@@ -43,7 +43,7 @@ public class RecyclerPublicationAdapter extends RecyclerView.Adapter<RecyclerPub
     private final Context context;
     private final Boolean isNews;
 
-    public RecyclerPublicationAdapter(List<Publication> publicationList, Profile profile, Context context, boolean isNews) {
+    public RecyclerAdapterPublication(List<Publication> publicationList, Profile profile, Context context, boolean isNews) {
         this.publicationList = publicationList;
         this.profile = profile;
         this.context = context;

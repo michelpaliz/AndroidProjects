@@ -67,8 +67,17 @@
     <string name="oldPassword">Introduce la vieja contraseña</string>
     <string name="newPassword">Introduce la nueva contraseña </string>
     <string name="pathnameInfo" />
-    <string name="titleToolbar">Confirmation Partnership</string>
+    <string name="titleToolbar">Asigna una nueva insignia a un usuario</string>
     <string name="confirmPath">Confirmar camino</string>
+    <string name="pathName">"Camino actual : "</string>
+    <string name="emailVerification">Por favor verifica tu email</string>
+    <string name="changePassword">Cambiar contraseña</string>
+    <string name="selectLanguage">Selecciona el lenguaje</string>
+    <string name="confirmationPartnership">Aquí puedes asignar una nueva insignia de un punto que el usuario este en el Camino del Alba introduce su ID y la asignacion se
+        hara automaticamente </string>
+    <string name="others">Otros</string>
+    <string name="edit_publication">Editar Publicacion</string>
+
 
     <string-array name="languages_array">
         <item>English</item>
@@ -76,9 +85,9 @@
     </string-array>
 
     <string-array name="gender_array">
-        <item>hombre</item>
-        <item>mujer</item>
-        <item>otro</item>
+        <item>Hombre</item>
+        <item>Mujer</item>
+        <item>Otro</item>
     </string-array>
 
 

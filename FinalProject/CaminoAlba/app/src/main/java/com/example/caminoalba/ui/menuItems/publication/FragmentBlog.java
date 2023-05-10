@@ -29,7 +29,7 @@ import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
 import com.example.caminoalba.models.User;
-import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerPublicationAdapter;
+import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterPublication;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -219,7 +219,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
                 // Here, you can do something with the list of publications.
                 List<Publication> publicationsById = new ArrayList<>();
-                RecyclerPublicationAdapter recyclerPublicationAdapter;
+                RecyclerAdapterPublication recyclerAdapterPublication;
                 Blog blog1 = new Blog();
                 blog1.setProfile(profile);
 
@@ -231,7 +231,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                             adminPublications.add(publication);
                         }
                     }
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(adminPublications, profile, context, isNews);
+                    recyclerAdapterPublication = new RecyclerAdapterPublication(adminPublications, profile, context, isNews);
                 } else {  //2. In the second condition we only take the profile's publications
                     assert profile != null;
                     for (Publication publication : publicationsList) {
@@ -241,7 +241,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                         }
                     }
 
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsById, profile, context, isNews);
+                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsById, profile, context, isNews);
 
                 }
 
@@ -255,12 +255,12 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                             publicationsFound.add(publication);
                         }
                     }
-                    recyclerPublicationAdapter = new RecyclerPublicationAdapter(publicationsFound, profile, context, isNews);
+                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsFound, profile, context, isNews);
 
                 }
 
                 //We get the reference from our interface and the remove the image
-                recyclerPublicationAdapter.setOnPublicationClickListener((publicationId, remove) -> {
+                recyclerAdapterPublication.setOnPublicationClickListener((publicationId, remove) -> {
 
                     if (profile.getUser().getType().equalsIgnoreCase("admin")) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -307,8 +307,8 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 });
 
 
-                recyclerView.setAdapter(recyclerPublicationAdapter);
-                recyclerPublicationAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(recyclerAdapterPublication);
+                recyclerAdapterPublication.notifyDataSetChanged();
 
             }
 

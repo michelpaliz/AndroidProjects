@@ -1,0 +1,174 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/fragment_settings"
+    android:background="@color/my_dark_blue"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvSettings"
+        android:layout_width="283dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/settings"
+        android:textColor="@color/tropical_blue"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userNameTextView"
+        android:textSize="15sp"
+        android:layout_width="118dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:text="@string/Name"
+        android:textColor="@color/tropical_blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSettings" />
+
+    <TextView
+        android:id="@+id/userNameEditText"
+        android:layout_width="276dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:hint="Enter your user name"
+        android:padding="16dp"
+        android:textColor="@color/my_dark_grey"
+        android:textColorHint="@color/my_dark_grey"
+        app:layout_constraintStart_toEndOf="@+id/userNameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/tvSettings" />
+
+    <TextView
+        android:id="@+id/userEmailTextView"
+        android:layout_width="117dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:text="@string/email"
+        android:textColor="@color/tropical_blue"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/userNameTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userNameTextView" />
+
+    <TextView
+        android:id="@+id/userEmailEditText"
+        android:layout_width="276dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:hint="Enter your email address"
+        android:inputType="textEmailAddress"
+        android:padding="16dp"
+        android:textColor="@color/my_dark_grey"
+        android:textColorHint="@color/my_dark_grey"
+        app:layout_constraintEnd_toEndOf="@+id/userNameEditText"
+        app:layout_constraintStart_toEndOf="@+id/userEmailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/userNameEditText" />
+
+    <TextView
+        android:id="@+id/passwordTextView"
+        android:layout_width="124dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="76dp"
+        android:padding="16dp"
+        android:text="Password"
+        android:textColor="@color/tropical_blue"
+        android:textColorHint="@color/my_dark_grey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/oldPasswordEditText"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/input_text_field_styling"
+        android:hint="@string/oldPassword"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/my_dark_grey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/passwordEditText"
+        app:layout_constraintStart_toStartOf="@+id/passwordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="252dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/input_text_field_styling"
+        android:hint="@string/newPassword"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/my_dark_grey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/passwordTextView"
+        app:layout_constraintHorizontal_bias="0.601"
+        app:layout_constraintStart_toStartOf="@+id/passwordTextView"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/changePasswordButton"
+        android:layout_width="210dp"
+        android:layout_height="49dp"
+        android:layout_margin="15dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/main_btn_styling"
+        android:padding="16dp"
+        android:text="@string/changePassword"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@+id/oldPasswordEditText"
+        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintStart_toStartOf="@+id/oldPasswordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/oldPasswordEditText" />
+
+    <TextView
+        android:id="@+id/languageTextView"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:text="@string/selectLanguage"
+        android:textColor="@color/tropical_blue"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/userEmailTextView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userEmailTextView" />
+
+    <Spinner
+        android:id="@+id/languageSpinner"
+        android:layout_width="244dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:textColor="@color/my_dark_grey"
+        android:textColorHint="@color/my_dark_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/changePasswordButton"
+        app:layout_constraintEnd_toEndOf="@+id/userEmailEditText"
+        app:layout_constraintStart_toEndOf="@+id/languageTextView"
+        app:layout_constraintTop_toBottomOf="@+id/userEmailEditText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,16 +18,18 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPublications"
-            android:layout_width="337dp"
-            android:layout_height="570dp"
+            android:layout_width="355dp"
+            android:layout_height="243dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:padding="15dp"
             app:layout_constraintBottom_toTopOf="@+id/footer_menu"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.508"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-            app:layout_constraintVertical_bias="0.484" />
+            app:layout_constraintHorizontal_bias="0.598"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.406" />
 
         <LinearLayout
             android:id="@+id/footer_menu"
@@ -45,8 +47,9 @@
             <ImageView
                 android:id="@+id/imgMap"
                 android:layout_width="wrap_content"
+                android:layout_marginStart="70dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="26dp"
+                android:layout_marginEnd="100dp"
                 android:padding="16dp"
                 android:src="@drawable/icon_map" />
 
@@ -54,7 +57,7 @@
                 android:id="@+id/imgHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="26dp"
+                android:layout_marginEnd="100dp"
                 android:padding="16dp"
                 android:src="@drawable/ic_baseline_home_24" />
 
@@ -62,7 +65,7 @@
                 android:id="@+id/imgPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="26dp"
+                android:layout_marginEnd="100dp"
                 android:padding="16dp"
                 android:src="@drawable/ic_baseline_card_travel_24" />
 
@@ -92,35 +95,33 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:textSize="20sp"
+            android:layout_marginTop="12dp"
             android:textColor="@color/my_dark_grey"
+            android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="308dp"
-            android:layout_height="140dp"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="16dp"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.587"
+            app:layout_constraintBottom_toBottomOf="@+id/rvPublications"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintVertical_bias="0.192">
 
             <TextView
                 android:id="@+id/tvMessage"
-                android:layout_width="274dp"
-                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:gravity="center_horizontal"
                 android:padding="16dp"
                 android:text=""
                 android:textColor="@color/my_dark_grey"

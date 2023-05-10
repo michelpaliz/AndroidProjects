@@ -96,7 +96,7 @@
         android:layout_margin="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Change Password"
+        android:text="@string/changePassword"
         android:textSize="16sp"
         android:padding="16dp" />
 
@@ -105,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/tropical_blue"
-        android:text="Select Language"
+        android:text="@string/selectLanguage"
         android:textSize="18sp"
         android:padding="16dp" />
 

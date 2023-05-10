@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,8 +58,7 @@ public class FragmentComment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_comment, container, false);
     }
@@ -84,7 +85,7 @@ public class FragmentComment extends Fragment {
         DatabaseReference commentsRef = FirebaseDatabase.getInstance().getReference().child("comments");
 
         // Set up the button click listener to add a new comment to the database
-        btnSendComment.setOnClickListener(v ->{
+        btnSendComment.setOnClickListener(v -> {
             String commentText = etComment.getText().toString();
 
             // Generate a unique ID for the comment and save it to the database
@@ -134,8 +135,15 @@ public class FragmentComment extends Fragment {
             }
         });
 
-    }
 
+        // Get FragmentManager
+        FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+
+        // Navigate back to previous fragment
+        fragmentManager.popBackStack();
+
+
+    }
 
 
 }

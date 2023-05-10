@@ -16,14 +16,12 @@
         <com.google.android.gms.maps.MapView
             android:id="@+id/map_view"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="350dp"
-            android:layout_height="603dp"
+            android:layout_width="679dp"
+            android:layout_height="146dp"
             android:layout_margin="16dp"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btnInformation"
+            app:layout_constraintStart_toStartOf="@+id/btnInformation"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -44,7 +42,7 @@
                 android:id="@+id/imgMap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="26dp"
+                android:layout_marginEnd="100dp"
                 android:padding="16dp"
                 android:src="@drawable/icon_map" />
 
@@ -52,36 +50,33 @@
                 android:id="@+id/imgHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="26dp"
-                android:padding="16dp"
+                android:layout_marginEnd="100dp"
                 android:src="@drawable/ic_baseline_home_24" />
 
             <ImageView
                 android:id="@+id/imgPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="26dp"
-                android:padding="16dp"
+                android:layout_marginEnd="100dp"
                 android:src="@drawable/ic_baseline_card_travel_24" />
 
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnInformation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_width="145dp"
+            android:layout_height="48dp"
             android:textSize="11sp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/main_btn_styling"
             android:padding="15dp"
             android:text="@string/btnPathInformation"
             app:layout_constraintBottom_toTopOf="@+id/footer_menu"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/map_view"
-            app:layout_constraintVertical_bias="0.336" />
+            app:layout_constraintVertical_bias="0.478" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
