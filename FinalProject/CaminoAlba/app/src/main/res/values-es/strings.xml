@@ -77,6 +77,8 @@
         hara automaticamente </string>
     <string name="others">Otros</string>
     <string name="edit_publication">Editar Publicacion</string>
+    <string name="emailVerified">Email ha sido verificado exitosamente.</string>
+    <string name="emailNotVerified">Email no verificado, verificalo aquí.</string>
 
 
     <string-array name="languages_array">

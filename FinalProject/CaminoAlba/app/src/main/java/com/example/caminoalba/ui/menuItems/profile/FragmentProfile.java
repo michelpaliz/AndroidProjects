@@ -15,16 +15,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
+
 import com.example.caminoalba.R;
 import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.models.Profile;
@@ -36,10 +36,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
 import java.time.LocalDate;
 
 
@@ -150,30 +152,42 @@ public class FragmentProfile extends Fragment {
 
 
     public void btnVerifyEmail() {
-
-        if (profile.getUser().getEnabled()) {
-            tvEmailVerfication.setText("Email has been verified successfully");
-        } else {
-            tvEmailVerfication.setText("Email hasn't been verifed, click here to verify it");
-            tvEmailVerfication.setOnClickListener(v -> {
-
-                //Create varibles to pass to my child fragment
-                Bundle args = new Bundle();
-                args.putSerializable("user", user);
-                // Create an instance of the child fragment
-                FragmentConfirmEmail fragmentConfirmEmail = new FragmentConfirmEmail();
-                //Pass the args already created to the child fragment
-                fragmentConfirmEmail.setArguments(args);
-                // Begin a new FragmentTransaction using the getChildFragmentManager() method
-                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                // Add the child fragment to the transaction and specify a container view ID in the parent layout
-                transaction.add(R.id.child_fragment_container, fragmentConfirmEmail);
-                transaction.addToBackStack(null); // Add the fragment to the back stack
-                transaction.commit();
-
-            });
-
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            if (firebaseUser.isEmailVerified()) {
+                profile.getUser().setEnabled(true);
+                updateUserEnabledInDatabase(profile.getUser());
+                tvEmailVerfication.setText(getString(R.string.emailVerified));
+            } else {
+                tvEmailVerfication.setText(getString(R.string.emailNotVerified));
+                tvEmailVerfication.setOnClickListener(v -> {
+                    firebaseUser.sendEmailVerification()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getActivity(), "Verification email sent. Please check your inbox.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Exception exception = task.getException();
+                                    if (exception instanceof FirebaseFunctionsException) {
+                                        FirebaseFunctionsException functionsException = (FirebaseFunctionsException) exception;
+                                        FirebaseFunctionsException.Code code = functionsException.getCode();
+                                        // Handle specific error codes if needed
+                                        String message = functionsException.getMessage();
+                                        Toast.makeText(getActivity(), "Failed to send verification email: " + message, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getActivity(), "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                });
+            }
         }
+    }
+
+    private void updateUserEnabledInDatabase(User user) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("users");
+        usersRef.child(user.getUser_id()).child("enabled").setValue(user.getEnabled());
     }
 
 
@@ -276,7 +290,6 @@ public class FragmentProfile extends Fragment {
             editor.apply();
 
         });
-
 
 
     }

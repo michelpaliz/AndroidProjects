@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,7 +25,7 @@ public class FragmentConfirmationPartnership extends Fragment {
 
     private DatabaseReference mDatabase;
     private TextInputEditText mSearchEditText;
-    private Button btnSearch;
+//    private Button btnSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +35,7 @@ public class FragmentConfirmationPartnership extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mSearchEditText = view.findViewById(R.id.editText_search_user);
-        btnSearch = view.findViewById(R.id.button_search_user);
+//        btnSearch = view.findViewById(R.id.button_search_user);
 
         return view;
     }
@@ -48,13 +47,22 @@ public class FragmentConfirmationPartnership extends Fragment {
     }
 
     public void initFragment() {
-        btnSearch.setOnClickListener(v -> mSearchEditText.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+//        btnSearch.setOnClickListener(v -> mSearchEditText.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+//            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                search(textView.getText().toString());
+//                return true;
+//            }
+//            return false;
+//        }));
+
+        mSearchEditText.setOnClickListener(v -> mSearchEditText.setOnEditorActionListener((textView, actionId, keyEvent) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 search(textView.getText().toString());
                 return true;
             }
             return false;
         }));
+
     }
 
     private void search(String query) {
@@ -81,7 +89,7 @@ public class FragmentConfirmationPartnership extends Fragment {
                                     })
                                     .setNegativeButton("No", null)
                                     .show();
-                        }else{
+                        } else {
                             Toast.makeText(requireContext(), "The user needs to be in a placemark in order to assign the user the badge", Toast.LENGTH_SHORT).show();
                         }
 

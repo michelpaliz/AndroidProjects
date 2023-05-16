@@ -75,6 +75,8 @@
     <string name="confirmationPartnership">Here you can confirm with a badge that the user has arrived a new point of El camino del Alba, you just need to write down his ID and the assignation will be made automatically.</string>
     <string name="others">Others</string>
     <string name="edit_publication">Edit Publication</string>
+    <string name="emailVerified">Email has been verified successfully</string>
+    <string name="emailNotVerified">Email hasn\'t been verified, click here to verify it</string>
 
     <string-array name="languages_array">
         <item>English</item>
