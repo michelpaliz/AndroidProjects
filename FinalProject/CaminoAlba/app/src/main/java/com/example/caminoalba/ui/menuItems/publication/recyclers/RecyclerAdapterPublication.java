@@ -239,8 +239,6 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                 fragmentTransaction.commit();
             });
         }
-
-
         public void publicationLikeAction(Publication publication) {
             DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publication.getPublication_id());
             DatabaseReference userLikesRef = FirebaseDatabase.getInstance().getReference("userLikes").child(profile.getProfile_id()).child(publication.getPublication_id());
@@ -279,9 +277,14 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                                     userLikesRef.removeValue();
                                     // Decrement the like count
                                     likeCount--;
+
+                                    // Check if the like count is negative
+                                    if (likeCount < 0) {
+                                        likeCount = 0; // Set the like count to zero to avoid negative values
+                                    }
+
                                     // Update the like count in the Firebase Realtime Database
                                     publicationRef.child("likeCount").setValue(likeCount);
-
                                 }
                             }
 
@@ -291,6 +294,7 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                             }
                         });
                     });
+
 
 //                    // Check if the user has already liked the publication
                     userLikesRef.addListenerForSingleValueEvent(new ValueEventListener() {

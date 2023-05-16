@@ -5,6 +5,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -67,7 +69,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     private boolean reachedDestination = false;
     private Marker currentLocationMarker;
     private KmlLayer layer;
-    private ImageView imgHome;
+    private ImageView imgHome, imgMap;
     private Button btnPathInformation;
     private SharedPreferences preferences;
     private Profile profile;
@@ -117,6 +119,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         imgHome = view.findViewById(R.id.imgHome);
+        imgMap = view.findViewById(R.id.imgMap);
         btnPathInformation = view.findViewById(R.id.btnInformation);
         breakpointsInfo = new ArrayList<>();
         profile = new Profile();
@@ -128,6 +131,12 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
         MapView mapView = view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
+
+
+        int color1 = ContextCompat.getColor(requireContext(), R.color.darkpink); // Replace with your desired color resource ID
+        Drawable drawable1 = ContextCompat.getDrawable(requireContext(), R.drawable.icon_map); // Replace with your vector image resource ID
+        imgMap.setImageDrawable(drawable1);
+        imgMap.setColorFilter(color1, PorterDuff.Mode.SRC_IN);
 
 
         // Restore the value of currentBreakpointIndex if the fragment is being re-created.
@@ -248,7 +257,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
                 goToPathInformation(breakpointsInfo);
 
-                Toast.makeText(requireContext(), "Number of breakpoints: " + breakpoints.size(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(requireContext(), "Number of breakpoints: " + breakpoints.size(), Toast.LENGTH_SHORT).show();
                 System.out.println("These are my breakpoints list " + breakpoints);
 
 

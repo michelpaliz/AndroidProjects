@@ -257,6 +257,7 @@ public class FragmentActionPublication extends Fragment {
 
     public void editPublication(Publication publication) {
 
+
         //Get all publication photos in the firabase storage
         List<String> oldPhotosURL = publication.getPhotos();
 
@@ -284,18 +285,28 @@ public class FragmentActionPublication extends Fragment {
             if (newPhotoUrls.contains(oldPhotoUrl)) {
                 remainingPhotos.add(oldPhotoUrl);
             } else {
-                // Get a reference to the image file in Firebase Storage
-                StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(oldPhotoUrl);
+                try {
+                    // Get a reference to the image file in Firebase Storage
+                    StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(oldPhotoUrl);
 
-                // Delete the image file from Firebase Storage
-                imageRef.delete().addOnSuccessListener(aVoid -> {
-                    // Image deleted successfully, update the Publication object in the database with the new list of photo URLs
-                    DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publication.getPublication_id());
-                    publicationRef.setValue(publication);
-                }).addOnFailureListener(exception -> {
-                    // Handle errors
-                    Log.e(TAG, "Error deleting image from Firebase Storage: " + exception.getMessage());
-                });
+                    // Delete the image file from Firebase Storage
+                    imageRef.delete().addOnSuccessListener(aVoid -> {
+                        // Image deleted successfully, update the Publication object in the database with the new list of photo URLs
+                        DatabaseReference publicationRef = databaseReference.getDatabase().getReference("publications/" + publication.getPublication_id());
+                        publicationRef.setValue(publication);
+                    }).addOnFailureListener(exception -> {
+                        // Handle errors
+                        Log.e(TAG, "Error deleting image from Firebase Storage: " + exception.getMessage());
+                        // Show a user-friendly error message
+                        Toast.makeText(requireContext(), "Failed to delete image from Firebase Storage", Toast.LENGTH_SHORT).show();
+                    });
+                } catch (IllegalArgumentException e) {
+                    // Handle the exception
+                    Log.e(TAG, "Invalid storage Uri: " + e.getMessage());
+                    // Show a user-friendly error message
+                    Toast.makeText(requireContext(), "Invalid storage Uri", Toast.LENGTH_SHORT).show();
+                }
+
             }
         }
 
@@ -333,11 +344,8 @@ public class FragmentActionPublication extends Fragment {
 
                     // Update the publication in the database
                     publicationRef.setValue(publication);
-
                     uploadPhotos(uriList, publication);
 
-                    // Show a success message
-                    Toast.makeText(getContext(), "Publication updated successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     // Show an error message if the publication does not exist in the database
                     Toast.makeText(getContext(), "Error: publication does not exist in the database", Toast.LENGTH_SHORT).show();
@@ -402,7 +410,6 @@ public class FragmentActionPublication extends Fragment {
                 // Check if the blog exists in the database
                 if (snapshot.exists()) {
                     uploadPhotos(uriList, newPublication);
-
                 } else {
                     // Handle the case where the blog does not exist in the database
                     Toast.makeText(getContext(), "Blog not found", Toast.LENGTH_SHORT).show();
@@ -505,6 +512,13 @@ public class FragmentActionPublication extends Fragment {
             fragment = new FragmentBlog();
         }
 
+        // Show a success message
+        if (isEdit){
+            Toast.makeText(getContext(), "Publication updated successfully", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getContext(), "Publication created successfully", Toast.LENGTH_SHORT).show();
+        }
+
         // Create and set the fragment transition animation object
         Transition fragmentTransition = new Slide(Gravity.START);
         fragmentTransition.setDuration(1000);
@@ -513,7 +527,6 @@ public class FragmentActionPublication extends Fragment {
         fragmentTransaction.setCustomAnimations(enterAnim, exitAnim);
         fragmentTransaction.replace(R.id.fragment_add_publication, fragment);
         fragmentTransaction.addToBackStack(null);
-        Toast.makeText(requireContext(), "Publication Uploaded successfully", Toast.LENGTH_SHORT).show();
         // Commit the fragment transaction
         fragmentTransaction.commit();
     }

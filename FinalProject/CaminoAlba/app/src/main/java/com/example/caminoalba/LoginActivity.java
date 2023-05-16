@@ -48,18 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     private User userFound;
     // ------ Otras referencias    -------
     private Gson gson;
+    private FirebaseAuth.AuthStateListener authStateListener;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        if (FirebaseApp.getApps(this).isEmpty()) {
-            FirebaseApp.initializeApp(this);
-        }
-        init();
-        backHome();
-        authenticateUser();
-    }
 
     public void init() {
 
@@ -81,6 +71,26 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        if (FirebaseApp.getApps(this).isEmpty()) {
+            FirebaseApp.initializeApp(this);
+        }
+
+
+        init();
+        backHome();
+        authenticateUser();
+        // Set up AuthStateListener
+        setupAuthStateListener();
+    }
+
+
+
+
     public void authenticateUser() {
 
         forgottenPassword();
@@ -97,8 +107,35 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void setupAuthStateListener() {
+        authStateListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                // User is logged in, navigate to the main activity
+                startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
+                finish();
+            } else {
+                // User is not logged in
+                // You can show the login screen or take appropriate action
+            }
+        };
+        FirebaseAuth.getInstance().addAuthStateListener(authStateListener);
+    }
 
-    public void forgottenPassword(){
+
+    private void stopAuthStateListener() {
+        FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Call stopAuthStateListener to stop listening for the authentication state
+        stopAuthStateListener();
+    }
+
+
+    public void forgottenPassword() {
         // Reset password code
         btnForgotPassword.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -205,11 +242,10 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
 
-            //    ******** VALIDATION ***********
+    //    ******** VALIDATION ***********
 
     public boolean validateEmail() {
         String strEmail = edEmail.getText().toString();

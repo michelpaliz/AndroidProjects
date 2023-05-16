@@ -4,6 +4,10 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +21,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -82,10 +88,19 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         tvTitle = view.findViewById(R.id.tvTitle);
         LinearLayout linearLayoutPath = view.findViewById(R.id.linearLayout_path);
         LinearLayout footerMenu = view.findViewById(R.id.footer_menu);
+
         ImageView imgPoints = view.findViewById(R.id.imgPoints);
         ImageView imgHome = view.findViewById(R.id.imgHome);
         ImageView imgMap = view.findViewById(R.id.imgMap);
         btnAddPublication = view.findViewById(R.id.imgAddPublication);
+        //----- Image color ------
+
+        int color = ContextCompat.getColor(requireContext(), R.color.darkpink); // Replace with your desired color resource ID
+        Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_home_24); // Replace with your vector image resource ID
+        imgHome.setImageDrawable(drawable);
+        imgHome.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+
+
         // ------ Init Variables  -------
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         profile = new Profile();
@@ -117,6 +132,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         }
 
         imgMap.setOnClickListener(v -> {
+
             // Create an instance of the child fragment
             FragmentMap fragmentMap = new FragmentMap();
             // Begin a new FragmentTransaction using the getChildFragmentManager() method
@@ -130,10 +146,13 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
         if (comesFromAntotherFragment) {
             imgHome.setOnClickListener(v -> {
+
+
                 Bundle bundle = new Bundle();
                 FragmentBlog fragmentBlog = new FragmentBlog();
                 FragmentManager fragmentManager = getChildFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
+
 
                 bundle.putBoolean("userlist", true);
                 bundle.putBoolean("comesFromAnotherFragment", true);
@@ -152,13 +171,19 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 // Navigate back to the root fragment
                 getParentFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-
             });
         }
 
 
         //When we enter again from the showpublicationbyuser fragment we do this
         if (showPublicationByUser) {
+            // Remove the color filter to revert to the original color
+            imgHome.setColorFilter(null);
+            int color1 = ContextCompat.getColor(requireContext(), R.color.darkpink); // Replace with your desired color resource ID
+            Drawable drawable1 = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_card_travel_24); // Replace with your vector image resource ID
+            imgPoints.setImageDrawable(drawable1);
+            imgPoints.setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+
             tvMessage.setText(getText(R.string.ownPhotosMessage));
             tvPathName.setVisibility(View.GONE);
             tvRuta.setVisibility(View.GONE);
@@ -166,6 +191,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         }
 
         imgPoints.setOnClickListener(v -> {
+
             // Create an instance of the child fragment
             FragmentUserPublications fragmentUserPublications = new FragmentUserPublications();
             // Begin a new FragmentTransaction using the getChildFragmentManager() method

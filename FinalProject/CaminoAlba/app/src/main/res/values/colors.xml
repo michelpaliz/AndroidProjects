@@ -97,5 +97,8 @@
     <color name="md_theme_dark_outlineVariant">#49454E</color>
     <color name="md_theme_dark_scrim">#000000</color>
     <color name="CustomColor1">#62A8F0</color>
+    <color name="newpurple">#341948</color>
+    <color name="darkpink">#8155BA</color>
+    <color name="ebony">#281C2D</color>
 
 </resources>
