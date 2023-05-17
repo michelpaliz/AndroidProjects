@@ -1,5 +1,13 @@
 package com.example.caminoalba.helpers;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -50,12 +58,32 @@ public class Utils {
         }
     }
 
+    public static Bitmap generateQRCode(String data, int width, int height) {
+        QRCodeWriter writer = new QRCodeWriter();
+        BitMatrix bitMatrix;
+        try {
+            bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height);
+        } catch (WriterException e) {
+            e.printStackTrace();
+            return null;
+        }
 
+        int matrixWidth = bitMatrix.getWidth();
+        int matrixHeight = bitMatrix.getHeight();
+        int[] pixels = new int[matrixWidth * matrixHeight];
 
-    public static java.sql.Date convertDateToSQLDATE(Date date) {
-        long milliseconds = date.getTime();
-        return new java.sql.Date(milliseconds);
+        for (int y = 0; y < matrixHeight; y++) {
+            int offset = y * matrixWidth;
+            for (int x = 0; x < matrixWidth; x++) {
+                pixels[offset + x] = bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE;
+            }
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(matrixWidth, matrixHeight, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, matrixWidth, 0, 0, matrixWidth, matrixHeight);
+        return bitmap;
     }
+
 
 
 }

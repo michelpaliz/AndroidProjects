@@ -90,12 +90,13 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:textSize="20sp"
-            android:textColor="@color/my_dark_grey"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:background="@color/my_light_blue"
+            android:fontFamily="@font/lato"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -117,7 +118,7 @@
 
             <TextView
                 android:id="@+id/tvMessage"
-                android:layout_width="274dp"
+                android:layout_width="match_parent"
                 android:gravity="center_horizontal"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/child_fragment_container"
     android:layout_width="match_parent"
@@ -7,13 +8,44 @@
     android:background="@color/my_dark_blue"
     tools:context=".ui.menuItems.profile.FragmentProfile">
 
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/my_light_blue"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="@string/profile"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="345dp"
+        android:layout_height="654dp"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        >
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:layout_constraintVertical_bias="0.695">
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/tvTitle1"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:background="@color/my_light_blue"-->
+        <!--            android:fontFamily="@font/lato"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="@string/profile"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:textSize="18sp"-->
+        <!--            android:textStyle="bold" />-->
 
         <!-- Name -->
         <LinearLayout
@@ -25,9 +57,9 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgProfile"
-                android:scaleType="centerCrop"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/default_image" />
 
         </LinearLayout>
@@ -37,162 +69,162 @@
 
         <TextView
             android:id="@+id/tvFirstName"
-            android:fontFamily="@font/roboto"
-            android:textStyle="bold"
-            android:textColor="@color/my_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/linearlayout_image"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/roboto"
             android:text="@string/Name"
-            android:textSize="15sp" />
+            android:textColor="@color/my_grey"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edFirstName"
-            android:fontFamily="@font/lato"
-            android:textSize="14sp"
-            android:padding="16dp"
-            android:textColorHint="@color/my_dark_grey"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/input_text_field_styling"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvFirstName"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
+            android:background="@drawable/input_text_field_styling"
+            android:fontFamily="@font/lato"
             android:minHeight="40dp"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/my_dark_grey"
+            android:textSize="14sp"
             tools:ignore="SpeakableTextPresentCheck" />
 
 
         <TextView
             android:id="@+id/tvLastName"
-            android:fontFamily="@font/roboto"
-            android:textStyle="bold"
-            android:textColor="@color/my_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/edFirstName"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
             android:text="@string/lastName"
-            android:textSize="15sp" />
+            android:textColor="@color/my_grey"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edLastName"
-            android:fontFamily="@font/lato"
-            android:padding="16dp"
-            android:textSize="14sp"
-            android:textColorHint="@color/my_dark_grey"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/input_text_field_styling"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvLastName"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
+            android:background="@drawable/input_text_field_styling"
+            android:fontFamily="@font/lato"
             android:minHeight="40dp"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/my_dark_grey"
+            android:textSize="14sp"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <!-- Birthdate -->
         <TextView
             android:id="@+id/tvBirthDate"
-            android:fontFamily="@font/roboto"
-            android:textStyle="bold"
-            android:textColor="@color/my_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/edLastName"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
             android:text="@string/birthday"
-            android:textSize="15sp" />
+            android:textColor="@color/my_grey"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edBirthDate"
-            android:fontFamily="@font/lato"
-            android:padding="16dp"
-            android:textSize="14sp"
-            android:textColorHint="@color/my_dark_grey"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/input_text_field_styling"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvBirthDate"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-
+            android:background="@drawable/input_text_field_styling"
+            android:fontFamily="@font/lato"
             android:minHeight="40dp"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/my_dark_grey"
+
+            android:textSize="14sp"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <!-- Gender -->
         <TextView
             android:id="@+id/tvGender"
-            android:fontFamily="@font/roboto"
-            android:textStyle="bold"
-            android:textColor="@color/my_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/edBirthDate"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
             android:text="@string/Gender"
-            android:textSize="15sp" />
+            android:textColor="@color/my_grey"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <!-- Gender -->
 
         <Spinner
             android:id="@+id/spinnerGender"
-            android:textSize="14sp"
-            android:fontFamily="@font/lato"
-            android:prompt="@string/select_gender"
-            android:entries="@array/gender_array"
-            android:padding="16dp"
-            android:textColorHint="@color/my_dark_grey"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/first_gradient"
-            android:paddingEnd="40dp"
-            android:paddingStart="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvGender"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
-            android:minHeight="40dp"
+            android:background="@drawable/first_gradient"
             android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+            android:entries="@array/gender_array"
+            android:fontFamily="@font/lato"
+            android:minHeight="40dp"
+            android:padding="16dp"
+            android:paddingStart="25dp"
+            android:paddingEnd="40dp"
+            android:prompt="@string/select_gender"
+            android:textColor="@color/black"
+            android:textColorHint="@color/my_dark_grey"
+            android:textSize="14sp"
             tools:ignore="SpeakableTextPresentCheck" />
 
 
         <TextView
             android:id="@+id/tvEmailVerified"
-            android:fontFamily="@font/sans"
-            android:textStyle="bold"
-            android:textColor="@color/my_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spinnerGender"
             android:layout_marginStart="30dp"
             android:layout_marginTop="25dp"
+            android:fontFamily="@font/sans"
             android:text="@string/emailVerification"
-            android:textSize="13sp" />
+            android:textColor="@color/my_grey"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <!-- Button -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSaveInformation"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:background="@drawable/main_btn_styling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvEmailVerified"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:text="@string/Submit" />
+            android:background="@drawable/main_btn_styling"
+            android:text="@string/Submit"
+            android:textSize="11sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

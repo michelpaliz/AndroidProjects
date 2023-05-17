@@ -44,17 +44,23 @@
                 android:textSize="19sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvUserId"
-                android:gravity="center"
+<!--            <TextView-->
+<!--                android:id="@+id/tvUserId"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:padding="13dp"-->
+<!--                android:fontFamily="@font/sans"-->
+<!--                android:textColor="@color/my_light_blue"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textStyle="bold" />-->
+
+            <ImageView
+                android:id="@+id/imgvQR"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:padding="13dp"
-                android:fontFamily="@font/sans"
-                android:textColor="@color/my_light_blue"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:contentDescription="TODO" />
 
 
             <TextView
@@ -76,8 +82,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_partner"
-        android:layout_width="365dp"
-        android:layout_height="490dp"
+        android:layout_width="361dp"
+        android:layout_height="463dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"

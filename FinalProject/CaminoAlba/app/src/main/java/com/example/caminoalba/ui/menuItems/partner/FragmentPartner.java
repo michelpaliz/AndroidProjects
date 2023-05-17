@@ -1,6 +1,7 @@
 package com.example.caminoalba.ui.menuItems.partner;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.R;
+import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.models.Path;
 import com.example.caminoalba.models.Profile;
 import com.google.gson.Gson;
@@ -27,7 +29,7 @@ import java.util.List;
 public class FragmentPartner extends Fragment {
     private RecyclerView recyclerView;
     private Profile profile;
-    private ImageView ivProfilePhoto;
+    private ImageView ivProfilePhoto, ivQr;
     private TextView tvProfileId, tvProfileName;
 
     // Define a static variable to store the list
@@ -54,7 +56,8 @@ public class FragmentPartner extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_partner);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ivProfilePhoto = view.findViewById(R.id.profilePhoto);
-        tvProfileId = view.findViewById(R.id.tvUserId);
+//        tvProfileId = view.findViewById(R.id.tvUserId);
+        ivQr = view.findViewById(R.id.imgvQR);
         tvProfileName = view.findViewById(R.id.tvUserName);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         Gson gson = new Gson();
@@ -63,7 +66,8 @@ public class FragmentPartner extends Fragment {
 
         tvProfileName.setText(profile.getFirstName().toUpperCase());
 
-        tvProfileId.setText(profile.getProfile_id());
+        Bitmap qrCode = Utils.generateQRCode(profile.getProfile_id(),250,250);
+        ivQr.setImageBitmap(qrCode);
 
         if (profile.getPhoto() != null){
             Picasso.get().load(profile.getPhoto()).into(ivProfilePhoto);

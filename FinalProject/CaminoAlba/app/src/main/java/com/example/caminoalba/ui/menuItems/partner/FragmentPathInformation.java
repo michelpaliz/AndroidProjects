@@ -29,6 +29,9 @@ public class FragmentPathInformation extends Fragment {
     private boolean isAnimating = false;
 
 
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,7 @@ public class FragmentPathInformation extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
 
     @Override

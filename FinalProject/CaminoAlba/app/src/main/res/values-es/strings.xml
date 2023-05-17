@@ -22,7 +22,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">CONFIGURACION</string>
     <string name="confirm_exit">Estas seguro que quieres salir ?</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Galeria</string>
@@ -35,7 +35,7 @@
     <string name="menu_log_out">Salir</string>
     <string name="title_activity_navigation_drawer">NavigationDrawer</string>
     <string name="hello_blank_fragment">BIENVENIDO A TU PERFIL</string>
-    <string name="map">Fragment_map</string>
+    <string name="map">MAPA</string>
 
     <string name="text_sign_up">Registrarse</string>
     <!--    Logic messages-->
@@ -48,7 +48,7 @@
     <string name="lastName">Apellido</string>
     <string name="Gender">Genero</string>
     <string name="Submit">Enviar</string>
-    <string name="settings">Configuracion</string>
+    <string name="settings">CONFIGURACION</string>
     <string name="email">Email</string>
     <string name="Name">Nombre</string>
     <string name="publication">Publicacion</string>
@@ -62,24 +62,25 @@
     <string name="admin_news">Bienvenido administrador puedes anyadir, editar y eliminar noticias.</string>
     <string name="btnPathInformation">Iformacion de los caminos</string>
     <string name="partnershipInfo">Aquí puedes ver los sellos que tienes, tiene que estar un administrador para verificarlo con el id para agregar.</string>
-    <string name="partnership">Socio</string>
+    <string name="partnership">Sello</string>
     <string name="resetPassword">Reset contraseña </string>
     <string name="oldPassword">Introduce la vieja contraseña</string>
     <string name="newPassword">Introduce la nueva contraseña </string>
     <string name="pathnameInfo" />
-    <string name="titleToolbar">Asigna una nueva insignia a un usuario</string>
+    <string name="titleToolbar">ASIGNA UN NUEVO SELLO</string>
     <string name="confirmPath">Confirmar camino</string>
     <string name="pathName">"Camino actual : "</string>
     <string name="emailVerification">Por favor verifica tu email</string>
     <string name="changePassword">Cambiar contraseña</string>
     <string name="selectLanguage">Selecciona el lenguaje</string>
-    <string name="confirmationPartnership">Aquí puedes asignar una nueva insignia de un punto que el usuario este en el Camino del Alba introduce su ID y la asignacion se
+    <string name="confirmationPartnership">Aquí puedes asignar una nueva insignia de un punto que el usuario este en el Camino del Alba solo escanea el codigo QR del usuario y la asignacion se
         hara automaticamente </string>
     <string name="others">Otros</string>
     <string name="edit_publication">Editar Publicacion</string>
     <string name="emailVerified">Email ha sido verificado exitosamente.</string>
     <string name="emailNotVerified">Email no verificado, verificalo aquí.</string>
     <string name="publications">Publicaciones</string>
+    <string name="profile">PERFIL</string>
 
 
     <string-array name="languages_array">

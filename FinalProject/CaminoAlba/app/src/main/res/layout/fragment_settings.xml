@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/fragment_settings"
     android:background="@color/my_dark_blue"
@@ -6,15 +7,17 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tvSettings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/tvTitle"
         android:text="@string/settings"
-        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/my_light_blue"
+        android:fontFamily="@font/lato"
         android:gravity="center"
-        android:textColor="@color/tropical_blue"
-        android:textSize="20sp"
-        android:padding="16dp" />
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+  />
 
     <TextView
         android:id="@+id/userNameTextView"
@@ -111,10 +114,11 @@
 
     <Spinner
         android:id="@+id/languageSpinner"
-        android:textColor="@color/my_dark_grey"
-        android:textColorHint="@color/my_dark_grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:textColor="@color/my_dark_grey"
+        android:textColorHint="@color/my_dark_grey"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </LinearLayout>
