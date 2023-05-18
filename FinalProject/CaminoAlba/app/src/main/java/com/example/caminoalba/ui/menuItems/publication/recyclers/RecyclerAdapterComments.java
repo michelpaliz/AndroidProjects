@@ -13,6 +13,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.dto.Comment;
@@ -64,7 +66,7 @@ public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapte
     public class CommentViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView ivProfilePhoto;
-        private final TextView tvComment, tvProfileName ,tvDatePublished;
+        private final TextView tvComment, tvProfileName, tvDatePublished;
         private final ImageView imageButton;
 
         public CommentViewHolder(@NonNull View itemView) {
@@ -80,7 +82,14 @@ public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapte
         public void init(Comment comment) {
             Profile profile = comment.getProfile();
             if (profile.getPhoto() != null) {
-                Picasso.get().load(profile.getPhoto()).into(ivProfilePhoto);
+//                Picasso.get().load(profile.getPhoto()).into(ivProfilePhoto);
+                Glide.with(context)
+                        .load(profile.getPhoto())
+                        .apply(new RequestOptions()
+                                .placeholder(R.drawable.default_image) // Placeholder image while loading
+                                .error(R.drawable.default_image)) // Image to display in case of error
+                        .circleCrop() // Apply circular cropping
+                        .into(ivProfilePhoto);
             }
             tvComment.setText(comment.getCommentText());
             tvProfileName.setText(profile.getFirstName() + " " + profile.getLastName());
@@ -113,7 +122,14 @@ public class RecyclerAdapterComments extends RecyclerView.Adapter<RecyclerAdapte
                         comment.setProfile(updatedProfile);
                         tvProfileName.setText(updatedProfile.getFirstName().toUpperCase() + " " + updatedProfile.getLastName().toUpperCase());
                         if (updatedProfile.getPhoto() != null) {
-                            Picasso.get().load(updatedProfile.getPhoto()).into(ivProfilePhoto);
+//                            Picasso.get().load(updatedProfile.getPhoto()).into(ivProfilePhoto);
+                            Glide.with(context)
+                                    .load(updatedProfile.getPhoto())
+                                    .apply(new RequestOptions()
+                                            .placeholder(R.drawable.default_image) // Placeholder image while loading
+                                            .error(R.drawable.default_image)) // Image to display in case of error
+                                    .circleCrop() // Apply circular cropping
+                                    .into(ivProfilePhoto);
                         }
                     }
                 }

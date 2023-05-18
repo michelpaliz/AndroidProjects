@@ -25,6 +25,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.caminoalba.R;
 import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.models.Profile;
@@ -63,7 +65,6 @@ public class FragmentProfile extends Fragment {
 
     //  *----- Variables de funcionalidad globales ------*
     private Profile profile;
-    private User user;
     private boolean profileUpdated = false;
 
     @Override
@@ -104,7 +105,7 @@ public class FragmentProfile extends Fragment {
         // ------ We get the user sent by the login activity -------
 
         String userStr = prefs.getString("user", "");
-        user = gson.fromJson(userStr, User.class);
+        User user = gson.fromJson(userStr, User.class);
 
         // ------ We get the profile sent by the login activity   -------
         if (!profileUpdated) {
@@ -132,9 +133,25 @@ public class FragmentProfile extends Fragment {
         editor = prefs.edit();
 
         if (profile.getPhoto() != null && !profile.getPhoto().isEmpty()) {
-            Picasso.get().load(profile.getPhoto()).into(imgProfile);
+            // Load the image using Picasso
+//            Picasso.get().load(profile.getPhoto()).into(imgProfile);
+
+            Glide.with(this)
+                    .load(profile.getPhoto())
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.default_image) // Placeholder image while loading
+                            .error(R.drawable.default_image)) // Image to display in case of error
+                    .circleCrop() // Apply circular cropping
+                    .into(imgProfile);
         } else {
-            Picasso.get().load(R.drawable.default_image).into(imgProfile);
+//            Picasso.get().load(R.drawable.default_image).into(imgProfile);
+            Glide.with(this)
+                    .load(R.drawable.default_image)
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.default_image) // Placeholder image while loading
+                            .error(R.drawable.default_image)) // Image to display in case of error
+                    .circleCrop() // Apply circular cropping
+                    .into(imgProfile);
         }
 
 
@@ -311,7 +328,15 @@ public class FragmentProfile extends Fragment {
                         String downloadUrl = uri1.toString();
                         profile.setPhoto(downloadUrl);
                         // Load the image into the ImageView using Picasso or Glide
-                        Picasso.get().load(downloadUrl).into(imgProfile);
+//                        Picasso.get().load(downloadUrl).into(imgProfile);
+                        Glide.with(this)
+                                .load(downloadUrl)
+                                .apply(new RequestOptions()
+                                        .placeholder(R.drawable.default_image) // Placeholder image while loading
+                                        .error(R.drawable.default_image)) // Image to display in case of error
+                                .circleCrop() // Apply circular cropping
+                                .into(imgProfile);
+
                         // ================== FIREBASE =================== //
                         // Get a reference to the Firebase database
                         FirebaseDatabase database = FirebaseDatabase.getInstance();

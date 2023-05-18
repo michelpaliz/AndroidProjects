@@ -17,6 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.caminoalba.R;
 import com.example.caminoalba.interfaces.OnClickListener;
 import com.example.caminoalba.models.Profile;
@@ -29,7 +31,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,7 +184,15 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                     etDescriptionField.setText(publication.getDescription());
                     publicationCommentAction(publication);
                     publicationLikeAction(publication);
-                    Picasso.get().load(publication.getBlog().getProfile().getPhoto()).into(authorPhoto);
+//                    Picasso.get().load(publication.getBlog().getProfile().getPhoto()).into(authorPhoto);
+                    Glide.with(context)
+                            .load(publication.getBlog().getProfile().getPhoto())
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.default_image) // Placeholder image while loading
+                                    .error(R.drawable.default_image)) // Image to display in case of error
+                            .circleCrop() // Apply circular cropping
+                            .into(authorPhoto);
+
                     recyclerAdapterPublicationPhotos.setPhotos(publication.getPhotos());
                     recyclerAdapterPublicationPhotos = (RecyclerAdapterPublicationPhotos) rvPhotoGrid.getAdapter();
                     recyclerAdapterPublicationPhotos.notifyDataSetChanged();
@@ -228,7 +237,11 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 // Add the CommentFragment as a child fragment
-                fragmentTransaction.add(R.id.fragment_blog, commentFragment);
+                if (isNews) {
+                    fragmentTransaction.replace(R.id.fragment_news, commentFragment);
+                } else {
+                    fragmentTransaction.replace(R.id.fragment_blog, commentFragment);
+                }
 
                 // Pass the publication object as a serializable
                 Bundle bundle = new Bundle();
@@ -239,6 +252,7 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                 fragmentTransaction.commit();
             });
         }
+
         public void publicationLikeAction(Publication publication) {
             DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publication.getPublication_id());
             DatabaseReference userLikesRef = FirebaseDatabase.getInstance().getReference("userLikes").child(profile.getProfile_id()).child(publication.getPublication_id());

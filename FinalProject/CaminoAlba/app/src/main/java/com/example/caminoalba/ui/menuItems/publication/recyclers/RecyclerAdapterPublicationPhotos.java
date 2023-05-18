@@ -34,13 +34,6 @@ public class RecyclerAdapterPublicationPhotos extends RecyclerView.Adapter<Recyc
     public void onBindViewHolder(@NonNull RecyclerAdapterPublicationPhotos.ViewHolder holder, int position) {
         Picasso.get().load(photos.get(position)).into(holder.imageView);
 
-//        int maxHeight = 500;
-//        Picasso.get()
-//                .load(photos.get(position))
-//                .resize(0, maxHeight)
-//                .onlyScaleDown()
-//                .into(holder.imageView);
-
     }
 
     public void setPhotos(List<String> photos) {

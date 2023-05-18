@@ -29,6 +29,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Publication;
@@ -143,7 +145,14 @@ public class FragmentActionPublication extends Fragment {
 
         //Get the current profile photo and show it
         if (blog.getProfile().getPhoto() != null) {
-            Picasso.get().load(Uri.parse(blog.getProfile().getPhoto())).into(imageView);
+//            Picasso.get().load(Uri.parse(blog.getProfile().getPhoto())).into(imageView);
+            Glide.with(requireContext())
+                    .load(blog.getProfile().getPhoto())
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.default_image) // Placeholder image while loading
+                            .error(R.drawable.default_image)) // Image to display in case of error
+                    .circleCrop() // Apply circular cropping
+                    .into(imageView);
         } else {
             imageView.setImageResource(R.drawable.default_image);
         }
@@ -513,9 +522,9 @@ public class FragmentActionPublication extends Fragment {
         }
 
         // Show a success message
-        if (isEdit){
+        if (isEdit) {
             Toast.makeText(getContext(), "Publication updated successfully", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Toast.makeText(getContext(), "Publication created successfully", Toast.LENGTH_SHORT).show();
         }
 

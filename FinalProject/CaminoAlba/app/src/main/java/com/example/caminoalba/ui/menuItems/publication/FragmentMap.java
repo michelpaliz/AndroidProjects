@@ -318,7 +318,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                         }
                     }
 
-                    Toast.makeText(requireContext(), "You have reached breakpoint " + name, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(requireContext(), "You have reached breakpoint " + name, Toast.LENGTH_SHORT).show();
                     currentPath = name;
 
                     DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("profiles").child(profile.getProfile_id());
