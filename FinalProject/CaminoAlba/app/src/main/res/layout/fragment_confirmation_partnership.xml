@@ -34,7 +34,7 @@
             android:id="@+id/newTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="13.5dp"
             android:fontFamily="@font/lato"
             android:gravity="center_horizontal"
             android:text="@string/confirmationPartnership"
@@ -44,9 +44,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="8dp">
 
 
             <SurfaceView

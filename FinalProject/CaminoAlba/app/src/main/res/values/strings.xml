@@ -52,7 +52,7 @@
     <string name="setUpLocation">Please go to the map section to set your current location.</string>
     <string name="newsInformation">Here you can see the lates news about Camino del Alba.</string>
     <string name="ownPhotosMessage">Here you can see your publications that you have, you can edit them but you cannot remove them.</string>
-    <string name="beSureToBeLess50m">Make sure to be less than 50 meters in one placemark in order to see the publications for each placemark.</string>
+    <string name="beSureToBeLess50m">Make sure to be less than 200 meters in one placemark in order to see the publications for a placemark.</string>
     <string name="welcome">Welcome</string>
     <string name="tvSingIn">Sing In</string>
     <string name="admin_news">Welcome admin you can add, edit and remove news</string>
@@ -61,7 +61,7 @@
     <string name="partnership">Badge</string>
     <string name="lastName">Last Name</string>
     <string name="email">Email</string>
-    <string name="settings">SETTINGS</string>
+    <string name="settings">Settings</string>
     <string name="resetPassword">Reset Password</string>
     <string name="oldPassword">Enter old password</string>
     <string name="newPassword">Enter your new password</string>

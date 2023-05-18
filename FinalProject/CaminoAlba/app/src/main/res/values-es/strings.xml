@@ -48,7 +48,7 @@
     <string name="lastName">Apellido</string>
     <string name="Gender">Genero</string>
     <string name="Submit">Enviar</string>
-    <string name="settings">CONFIGURACION</string>
+    <string name="settings">Configuracion</string>
     <string name="email">Email</string>
     <string name="Name">Nombre</string>
     <string name="publication">Publicacion</string>
@@ -56,7 +56,7 @@
     <string name="setUpLocation">Por favor situate en la seccion del mapa para establecer tu localizacion .</string>
     <string name="newsInformation">Aquí podras ver las ultimas noticias del Camino del Alba.</string>
     <string name="ownPhotosMessage">Aquí puedes ver tus publicaciones puedes editarlas pero no eliminarlas.</string>
-    <string name="beSureToBeLess50m">Necesitas estar en un rango de 50 metros para poder ver las publicaciones de un punto.</string>
+    <string name="beSureToBeLess50m">Necesitas estar en un rango de 200 metros para poder ver las publicaciones de un punto.</string>
     <string name="welcome">BIENVENIDO</string>
     <string name="tvSingIn">Entrar</string>
     <string name="admin_news">Bienvenido administrador puedes anyadir, editar y eliminar noticias.</string>

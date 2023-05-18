@@ -309,7 +309,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                 }
 
                 // If user is within 50 meters of closest breakpoint, display the name of the breakpoint.
-                if (closestDistance < 50) {
+                if (closestDistance < 200) {
                     String name = null;
                     for (KmlPlacemark placemark : layer.getPlacemarks()) {
                         if (placemark.getGeometry().getGeometryType().equals("Point") && placemark.getGeometry().getGeometryObject().equals(closestBreakpoint)) {
