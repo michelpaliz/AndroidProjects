@@ -9,19 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.caminoalba.R;
 import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.models.Path;
 import com.example.caminoalba.models.Profile;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -66,15 +65,22 @@ public class FragmentPartner extends Fragment {
 
         tvProfileName.setText(profile.getFirstName().toUpperCase());
 
-        Bitmap qrCode = Utils.generateQRCode(profile.getProfile_id(),250,250);
+        Bitmap qrCode = Utils.generateQRCode(profile.getProfile_id(), 250, 250);
         ivQr.setImageBitmap(qrCode);
 
-        if (profile.getPhoto() != null){
-            Picasso.get().load(profile.getPhoto()).into(ivProfilePhoto);
+        if (profile.getPhoto() != null) {
+//            Picasso.get().load(profile.getPhoto()).into(ivProfilePhoto);
+            Glide.with(requireContext())
+                    .load(profile.getPhoto())
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.default_image) // Placeholder image while loading
+                            .error(R.drawable.default_image)) // Image to display in case of error
+                    .circleCrop() // Apply circular cropping
+                    .into(ivProfilePhoto);
         }
 
         // Check if the list has already been loaded
-        if (breakpointsInf != null){
+        if (breakpointsInf != null) {
             RecyclerviewPartner adapter = new RecyclerviewPartner(breakpointsInf, profile, requireContext());
             recyclerView.setAdapter(adapter);
         }

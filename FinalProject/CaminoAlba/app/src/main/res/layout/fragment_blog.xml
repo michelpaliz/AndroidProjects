@@ -106,7 +106,7 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="308dp"
-            android:layout_height="140dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
@@ -121,11 +121,11 @@
                 android:layout_width="match_parent"
                 android:gravity="center_horizontal"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="4dp"
                 android:padding="16dp"
                 android:text=""
                 android:textColor="@color/my_dark_grey"
-                android:textSize="15sp" />
+                android:textSize="13.5sp" />
 
             <LinearLayout
                 android:id="@+id/linearLayout_path"
