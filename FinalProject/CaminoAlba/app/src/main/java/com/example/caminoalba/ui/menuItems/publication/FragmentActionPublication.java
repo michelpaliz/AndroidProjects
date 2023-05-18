@@ -348,7 +348,7 @@ public class FragmentActionPublication extends Fragment {
                     assert publication != null;
                     publication.setTitle(title);
                     publication.setDescription(description);
-                    oldPhotosURL.removeIf(item -> item.contains("com.android"));
+                    oldPhotosURL.removeIf(item -> item.contains("content://com"));
                     publication.setPhotos(oldPhotosURL);
 
                     // Update the publication in the database

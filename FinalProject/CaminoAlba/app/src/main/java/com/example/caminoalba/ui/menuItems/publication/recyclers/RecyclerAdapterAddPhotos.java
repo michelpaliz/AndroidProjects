@@ -13,8 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.caminoalba.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -22,8 +23,10 @@ public class RecyclerAdapterAddPhotos extends RecyclerView.Adapter<RecyclerAdapt
 
     private final List<Uri> uriList;
     private final Drawable defaultImage;
+    private Context context;
 
     public RecyclerAdapterAddPhotos(List<Uri> uriList, Context context) {
+        this.context = context;
         this.uriList = uriList;
         this.defaultImage = context.getResources().getDrawable(R.drawable.default_image);
     }
@@ -43,12 +46,19 @@ public class RecyclerAdapterAddPhotos extends RecyclerView.Adapter<RecyclerAdapt
         if (uriList.size() == 0) {
             holder.imageView.setImageDrawable(defaultImage);
         } else {
-//            holder.imageView.setImageURI(uriList.get(position));
-            Picasso.get().load(uriList.get(position))
+//            Picasso.get().load(uriList.get(position))
+//                    .placeholder(R.drawable.default_image) // optional placeholder image
+//                    .error(R.drawable.default_image) // optional error image
+//                    .fit()
+//                    .centerCrop() // optional image cropping
+//                    .into(holder.imageView);
+
+            Glide.with(context)
+                    .load(uriList.get(position))
                     .placeholder(R.drawable.default_image) // optional placeholder image
                     .error(R.drawable.default_image) // optional error image
-                    .fit()
-                    .centerCrop() // optional image cropping
+                    .fitCenter() // optional image scaling
+                    .transition(DrawableTransitionOptions.withCrossFade()) // optional transition effect
                     .into(holder.imageView);
 
         }

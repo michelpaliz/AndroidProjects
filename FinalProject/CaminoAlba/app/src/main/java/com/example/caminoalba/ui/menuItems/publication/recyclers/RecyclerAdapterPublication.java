@@ -152,7 +152,7 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
             this.onClickListener = this;
             ivDeletePublication.setVisibility(View.GONE);
             // create and set the adapter for the inner RecyclerView
-            recyclerAdapterPublicationPhotos = new RecyclerAdapterPublicationPhotos(new ArrayList<>());
+            recyclerAdapterPublicationPhotos = new RecyclerAdapterPublicationPhotos(new ArrayList<>(), context);
             rvPhotoGrid.setAdapter(recyclerAdapterPublicationPhotos);
             rvPhotoGrid.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
