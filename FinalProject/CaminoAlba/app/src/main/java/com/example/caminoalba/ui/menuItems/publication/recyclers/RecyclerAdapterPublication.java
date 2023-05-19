@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,12 +44,14 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
     private final Profile profile;
     private final Context context;
     private final Boolean isNews;
+    private final boolean isUserList;
 
-    public RecyclerAdapterPublication(List<Publication> publicationList, Profile profile, Context context, boolean isNews) {
+    public RecyclerAdapterPublication(List<Publication> publicationList, Profile profile, Context context, boolean isNews, boolean isUserList) {
         this.publicationList = publicationList;
         this.profile = profile;
         this.context = context;
         this.isNews = isNews;
+        this.isUserList = isUserList;
     }
 
     public interface OnPublicationClickListener {
@@ -122,6 +125,8 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
 
             if (publication.getBlog().getProfile().getProfile_id().equalsIgnoreCase(profile.getProfile_id())) {
                 args.putBoolean("edit", true);
+                args.putBoolean("isUserList", isUserList);
+                Toast.makeText(context,"esto es " + isUserList,Toast.LENGTH_SHORT).show();
                 // Create an instance of the child fragment
                 FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
                 //Pass the args already created to the child fragment
@@ -247,6 +252,8 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("publication", publication);
                 bundle.putSerializable("profile", profile);
+                bundle.putBoolean("isNews",isNews);
+                bundle.putBoolean("isUserList",isUserList);
                 commentFragment.setArguments(bundle);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();

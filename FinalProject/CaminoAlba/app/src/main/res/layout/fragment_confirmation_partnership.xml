@@ -34,7 +34,7 @@
             android:id="@+id/newTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="13.5dp"
+            android:layout_margin="13.5sp"
             android:fontFamily="@font/lato"
             android:gravity="center_horizontal"
             android:text="@string/confirmationPartnership"

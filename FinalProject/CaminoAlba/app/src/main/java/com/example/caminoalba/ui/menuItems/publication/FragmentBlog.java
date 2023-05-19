@@ -4,9 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,10 +20,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,7 +60,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     private TextView tvMessage, tvTitle;
     private Context context;
     private boolean showPublicationByUser = false;
-    private boolean isNews, comesFromAntotherFragment = false;
+    private boolean isNews, comesFromAntotherFragment, comesFromBackStack = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = requireContext();
+
         return inflater.inflate(R.layout.fragment_blog, container, false);
     }
 
@@ -116,6 +116,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         if (getArguments() != null) {
             isNews = getArguments().getBoolean("isNews", false);
             showPublicationByUser = getArguments().getBoolean("userlist", false);
+            comesFromBackStack = getArguments().getBoolean("comesfromback", false);
             comesFromAntotherFragment = getArguments().getBoolean("comesFromAnotherFragment", false);
         }
 
@@ -138,41 +139,56 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             // Begin a new FragmentTransaction using the getChildFragmentManager() method
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             // Add the child fragment to the transaction and specify a container view ID in the parent layout
-            transaction.add(R.id.fragment_blog, fragmentMap);
+            transaction.replace(R.id.fragment_blog, fragmentMap);
             transaction.addToBackStack(null); // Add the fragment to the back stack
             transaction.commit();
         });
 
 
-        if (comesFromAntotherFragment) {
+        if (comesFromAntotherFragment){
             imgHome.setOnClickListener(v -> {
 
-
-                Bundle bundle = new Bundle();
-                FragmentBlog fragmentBlog = new FragmentBlog();
                 FragmentManager fragmentManager = getChildFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-
-                bundle.putBoolean("userlist", true);
-                bundle.putBoolean("comesFromAnotherFragment", true);
-                fragmentBlog.setArguments(bundle);
-
-                // Replace the current fragment with the new fragment
-                transaction.replace(R.id.fragment_blog, fragmentBlog);
-
-                // Add the previous fragment to the back stack
-                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                transaction.addToBackStack(null);
-
-                // Commit the transaction
-                transaction.commit();
-
-                // Navigate back to the root fragment
-                getParentFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    // If there are fragments in the back stack, pop the topmost fragment
+                    fragmentManager.popBackStack();
+                } else {
+                    // If there are no fragments in the back stack, navigate to a specific fragment
+                    NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_blog);
+                    navController.navigate(R.id.blogFragment);
+                }
 
             });
         }
+
+
+//        if (comesFromAntotherFragment ) {
+//            imgHome.setOnClickListener(v -> {
+//
+//                Bundle bundle = new Bundle();
+//                FragmentBlog fragmentBlog = new FragmentBlog();
+//                FragmentManager fragmentManager = getChildFragmentManager();
+//                FragmentTransaction transaction = fragmentManager.beginTransaction();
+//
+//                bundle.putBoolean("userlist", true);
+//                bundle.putBoolean("comesFromAnotherFragment", true);
+//                fragmentBlog.setArguments(bundle);
+//
+//                // Replace the current fragment with the new fragment
+//                transaction.replace(R.id.fragment_blog, fragmentBlog);
+//
+//                // Add the previous fragment to the back stack
+//                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                transaction.addToBackStack(null);
+//
+//                // Commit the transaction
+//                transaction.commit();
+//
+//                // Navigate back to the root fragment
+//                getParentFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//
+//            });
+//        }
 
 
         //When we enter again from the showpublicationbyuser fragment we do this
@@ -257,7 +273,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                             adminPublications.add(publication);
                         }
                     }
-                    recyclerAdapterPublication = new RecyclerAdapterPublication(adminPublications, profile, context, isNews);
+                    recyclerAdapterPublication = new RecyclerAdapterPublication(adminPublications, profile, context, isNews, showPublicationByUser);
                 } else {  //2. In the second condition we only take the profile's publications
                     assert profile != null;
                     for (Publication publication : publicationsList) {
@@ -267,7 +283,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                         }
                     }
 
-                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsById, profile, context, isNews);
+                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsById, profile, context, isNews,showPublicationByUser);
 
                 }
 
@@ -281,7 +297,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                             publicationsFound.add(publication);
                         }
                     }
-                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsFound, profile, context, isNews);
+                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsFound, profile, context, isNews,showPublicationByUser);
 
                 }
 
@@ -362,7 +378,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 //                    layoutManager.setReverseLayout(true);
                     recyclerView.setLayoutManager(layoutManager);
                     getPublications();
-                    addPublicationFragment(blog);
+                    goToActionPublication(blog);
                 }
 
                 @Override
@@ -374,7 +390,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
     }
 
-    public void addPublicationFragment(Blog blog) {
+    public void goToActionPublication(Blog blog) {
         btnAddPublication.setOnClickListener(v -> {
             //Create varibles to pass to my child fragment
             Bundle args = new Bundle();
@@ -390,7 +406,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             // Begin a new FragmentTransaction using the getChildFragmentManager() method
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             // Add the child fragment to the transaction and specify a container view ID in the parent layout
-            transaction.add(R.id.fragment_blog, fragmentActionPublication);
+            transaction.replace(R.id.fragment_blog, fragmentActionPublication);
             transaction.addToBackStack(null); // Add the fragment to the back stack
             transaction.commit();
 

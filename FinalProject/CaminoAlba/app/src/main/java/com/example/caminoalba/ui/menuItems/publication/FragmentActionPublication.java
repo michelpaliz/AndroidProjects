@@ -21,11 +21,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +47,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -59,7 +61,7 @@ public class FragmentActionPublication extends Fragment {
     private EditText etTitle, etDescription;
     private Button btnImage;
     private String placemarkName;
-    private boolean isAdmin, isNews;
+    private boolean isAdmin, isNews, isUserList;
     private Publication publication;
     private boolean isEdit;
     private Button btnAddPublication;
@@ -83,9 +85,46 @@ public class FragmentActionPublication extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                FragmentManager fragmentManager = getChildFragmentManager();
+                Class<? extends Fragment> desiredFragmentClass;
+//                FragmentManager fragmentManager = getChildFragmentManager();
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    // If there are fragments in the back stack, pop the topmost fragment
+                    fragmentManager.popBackStack();
+                } else {
+                    // If there are no fragments in the back stack, navigate to a specific fragment
+                    NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_add_publication);
+                    if (isNews) {
+                        navController.navigate(R.id.newsFragment);
+                    } else if (isUserList){
+                        // Create an instance of the child fragment
+                        FragmentUserPublications fragmentUserPublications = new FragmentUserPublications();
+                        // Begin a new FragmentTransaction using the getChildFragmentManager() method
+                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("comesfromback", true);
+                        // Add the child fragment to the transaction and specify a container view ID in the parent layout
+                        transaction.replace(R.id.fragment_add_publication, fragmentUserPublications);
+                        transaction.addToBackStack(null); // Add the fragment to the back stack
+                        transaction.commit();
+                    }else{
+                        navController.navigate(R.id.blogFragment);
+                    }
+
+                }
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_publication, container, false);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -121,6 +160,7 @@ public class FragmentActionPublication extends Fragment {
         //This arguments comes from the RecyclerAdapterPublications
         isEdit = getArguments().getBoolean("edit", false);
         isNews = getArguments().getBoolean("isNews", false);
+        isUserList = getArguments().getBoolean("isUserList", false);
         String publicationJson = getArguments().getString("publication");
         if (publicationJson != null) {
             Gson gson = new Gson();

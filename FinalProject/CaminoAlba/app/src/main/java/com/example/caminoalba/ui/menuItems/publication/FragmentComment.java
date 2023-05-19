@@ -9,11 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,10 +45,11 @@ public class FragmentComment extends Fragment {
     private RecyclerView recyclerView;
     private Button btnSendComment;
     private Publication publication;
+    private boolean isUserList;
     private Profile profile;
     private EditText etComment;
     private SharedPreferences sharedPreferences;
-
+    private boolean isNews;
 
     public FragmentComment() {
         // Required empty public constructor
@@ -60,6 +64,39 @@ public class FragmentComment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                FragmentManager fragmentManager = getChildFragmentManager();
+                Class<? extends Fragment> desiredFragmentClass;
+//                FragmentManager fragmentManager = getChildFragmentManager();
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    // If there are fragments in the back stack, pop the topmost fragment
+                    fragmentManager.popBackStack();
+                } else {
+                    // If there are no fragments in the back stack, navigate to a specific fragment
+                    NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_comment);
+                    if (isNews) {
+                        navController.navigate(R.id.newsFragment);
+                    } else if (isUserList) {
+                        // Create an instance of the child fragment
+                        FragmentUserPublications fragmentUserPublications = new FragmentUserPublications();
+                        // Begin a new FragmentTransaction using the getChildFragmentManager() method
+                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                        // Add the child fragment to the transaction and specify a container view ID in the parent layout
+                        transaction.replace(R.id.fragment_comment, fragmentUserPublications);
+                        transaction.addToBackStack(null); // Add the fragment to the back stack
+                        transaction.commit();
+                    } else {
+                        navController.navigate(R.id.blogFragment);
+                    }
+
+                }
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
+
         return inflater.inflate(R.layout.fragment_comment, container, false);
     }
 
@@ -72,9 +109,12 @@ public class FragmentComment extends Fragment {
         btnSendComment = view.findViewById(R.id.btnComment);
         recyclerView = view.findViewById(R.id.recycler_view_comments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         Bundle bundle = getArguments();
         if (getArguments() != null) {
             publication = (Publication) bundle.getSerializable("publication");
+            isNews = bundle.getBoolean("isNews", false);
+            isUserList = bundle.getBoolean("isUserList", false);
 //            profile = (Profile) bundle.getSerializable("profile");
         }
         Gson gson = new Gson();
@@ -137,11 +177,11 @@ public class FragmentComment extends Fragment {
         });
 
 
-        // Get FragmentManager
-        FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-
-        // Navigate back to previous fragment
-        fragmentManager.popBackStack();
+//        // Get FragmentManager
+//        FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+//
+//        // Navigate back to previous fragment
+//        fragmentManager.popBackStack();
 
 
     }
