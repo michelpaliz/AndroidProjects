@@ -58,8 +58,8 @@ import java.util.List;
 
 public class FragmentMap extends Fragment implements OnMapReadyCallback, LocationListener {
 
-    public boolean isEnabled;
-    public String placemarkName;
+    static public boolean isEnabled;
+    static public String placemarkName;
     private List<Path> breakpointsInfo;
     private OnDataPass dataPasser;
     private GoogleMap map;

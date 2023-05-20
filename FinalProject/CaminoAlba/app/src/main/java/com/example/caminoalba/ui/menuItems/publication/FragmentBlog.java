@@ -59,8 +59,9 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     private RecyclerView recyclerView;
     private TextView tvMessage, tvTitle;
     private Context context;
+    private boolean isEnabled;
     private boolean showPublicationByUser = false;
-    private boolean isNews, comesFromAntotherFragment, comesFromBackStack = false;
+    private boolean isNews, comesFromAntotherFragment= false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,8 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = requireContext();
-
+        this.placemarkName = FragmentMap.placemarkName;
+        this.isEnabled = FragmentMap.isEnabled;
         return inflater.inflate(R.layout.fragment_blog, container, false);
     }
 
@@ -86,6 +88,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         recyclerView = view.findViewById(R.id.rvPublications);
         tvMessage = view.findViewById(R.id.tvMessage);
         tvTitle = view.findViewById(R.id.tvTitle);
+
         LinearLayout linearLayoutPath = view.findViewById(R.id.linearLayout_path);
         LinearLayout footerMenu = view.findViewById(R.id.footer_menu);
 
@@ -116,9 +119,24 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         if (getArguments() != null) {
             isNews = getArguments().getBoolean("isNews", false);
             showPublicationByUser = getArguments().getBoolean("userlist", false);
-            comesFromBackStack = getArguments().getBoolean("comesfromback", false);
             comesFromAntotherFragment = getArguments().getBoolean("comesFromAnotherFragment", false);
         }
+
+        //WHEN THE USER ARRIEVE IN ONE PLACEMARK WE STORE THE INFORMATION FOR A WHILE
+
+        if (isEnabled && placemarkName != null && !placemarkName.isEmpty()){
+            tvMessage.setVisibility(View.GONE);
+            tvPathName.setText(placemarkName);
+            btnAddPublication.setVisibility(View.VISIBLE);
+            getCurrentBlog();
+
+        }else {
+            tvMessage.setText(getText(R.string.beSureToBeLess50m));
+            tvRuta.setVisibility(View.GONE);
+            tvPathName.setVisibility(View.GONE);
+        }
+
+
 
         if (isNews) {
             tvTitle.setText(getText(R.string.news).toString().toUpperCase());

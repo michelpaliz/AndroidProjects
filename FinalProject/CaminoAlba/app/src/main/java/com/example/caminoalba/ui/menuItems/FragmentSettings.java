@@ -96,13 +96,13 @@ public class FragmentSettings extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("language", selectedLanguage);
                 editor.apply();
+                String langCode;// Set the new language
                 if (selectedLanguage.equalsIgnoreCase("spanish")) {
-                    String langCode = "es";
-                    setLocale(langCode); // Set the new language
+                    langCode = "es";
                 } else {
-                    String langCode = "en";
-                    setLocale(langCode); // Set the new language
+                    langCode = "en";
                 }
+                setLocale(langCode); // Set the new language
             }
 
             @Override
