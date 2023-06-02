@@ -93,6 +93,20 @@
         android:layout_marginEnd="15dp"
         android:padding="16dp" />
 
+    <EditText
+        android:id="@+id/passwordEditTextConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/newPasswordConfirm"
+        android:background="@drawable/input_text_field_styling"
+        android:textColor="@color/black"
+        android:textColorHint="@color/my_dark_grey"
+        android:inputType="textPassword"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:padding="16dp" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:background="@drawable/main_btn_styling"
         android:id="@+id/changePasswordButton"

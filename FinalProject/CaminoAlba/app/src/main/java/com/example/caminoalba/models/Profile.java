@@ -2,9 +2,7 @@ package com.example.caminoalba.models;
 
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Profile implements Serializable {
@@ -19,6 +17,7 @@ public class Profile implements Serializable {
     //*** ================== ***//
     private List<String> pathList;
     private String currentPath;
+    private List<Badge> badges;
 
 
     public Profile() {
@@ -32,6 +31,14 @@ public class Profile implements Serializable {
         this.gender = gender;
         this.photo = photo;
         this.user = user;
+    }
+
+    public List<Badge> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
     }
 
     public String getCurrentPath() {
@@ -120,13 +127,16 @@ public class Profile implements Serializable {
     @Override
     public String toString() {
         return "Profile{" +
-                "profile_id=" + profile_id +
+                "profile_id='" + profile_id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthDate='" + birthDate + '\'' +
                 ", gender='" + gender + '\'' +
                 ", photo='" + photo + '\'' +
                 ", user=" + user +
+                ", pathList=" + pathList +
+                ", currentPath='" + currentPath + '\'' +
+                ", badgeList=" + badges +
                 '}';
     }
 }

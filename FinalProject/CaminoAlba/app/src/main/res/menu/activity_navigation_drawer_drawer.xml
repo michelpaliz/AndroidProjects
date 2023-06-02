@@ -18,9 +18,10 @@
             android:title="@string/publications"
             />
         <item
-            android:id="@+id/fragmentConfirmationPartnership"
-            android:icon="@drawable/ic_baseline_image_search_24"
+            android:id="@+id/fragment_partner"
+            android:icon="@drawable/icon_socio"
             android:title="@string/partnership" />
+
 
     </group>
 

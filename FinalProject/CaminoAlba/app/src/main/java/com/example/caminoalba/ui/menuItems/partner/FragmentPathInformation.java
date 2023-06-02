@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Path;
 
+import java.util.Locale;
+
 public class FragmentPathInformation extends Fragment {
 
     private static final String ARG_PATH = "path";
@@ -27,8 +29,6 @@ public class FragmentPathInformation extends Fragment {
     private Path path;
     private boolean isExpanded = true;
     private boolean isAnimating = false;
-
-
 
 
 
@@ -77,7 +77,8 @@ public class FragmentPathInformation extends Fragment {
 
 
         if (path != null) {
-            String nombre = "c" + path.getId();
+//            String nombre = "c" + path.getId();
+            String nombre = path.getName().toLowerCase(Locale.ROOT);
             int id = requireContext().getResources().getIdentifier(nombre, "drawable", requireContext().getPackageName());
             imageView.setImageResource(id);
             textViewName.setText(path.getName());

@@ -8,14 +8,24 @@ public class Path implements Serializable {
     private String name;
     private String information;
     private String photo;
+    private int orden;
     private boolean credential;
 
-    public Path(int id, String name, String information, String photo, boolean credential) {
+    public Path(int id, String name, String information, String photo, int orden, boolean credential) {
         this.id = id;
         this.name = name;
         this.information = information;
         this.photo = photo;
+        this.orden = orden;
         this.credential = credential;
+    }
+
+    public int getOrden() {
+        return orden;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
     }
 
     public int getId() {
@@ -59,13 +69,14 @@ public class Path implements Serializable {
         this.photo = photo;
     }
 
-
     @Override
     public String toString() {
         return "Path{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", information='" + information + '\'' +
                 ", photo='" + photo + '\'' +
+                ", orden=" + orden +
                 ", credential=" + credential +
                 '}';
     }

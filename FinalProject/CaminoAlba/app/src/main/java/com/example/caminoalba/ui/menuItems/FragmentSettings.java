@@ -1,5 +1,6 @@
 package com.example.caminoalba.ui.menuItems;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -20,6 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
+
+import com.example.caminoalba.LoginActivity;
+import com.example.caminoalba.MainActivity;
 import com.example.caminoalba.R;
 import com.example.caminoalba.models.Profile;
 import com.google.firebase.auth.AuthCredential;
@@ -31,13 +35,22 @@ import com.google.gson.Gson;
 import java.util.Locale;
 import java.util.Objects;
 
-public class FragmentSettings extends Fragment {
+
+public class FragmentSettings extends Fragment  {
 
     private SharedPreferences sharedPreferences;
     private TextView tvName, tvEmail;
-    private EditText etOldPassword, etNewPassword;
+    private EditText etOldPassword, etNewPassword, etConfirmPassword;
     private Button btnChangePassword;
     private Spinner spinnerLanguage;
+    private OnLanguageChangeListener languageChangeListener;
+
+
+
+    public interface OnLanguageChangeListener {
+        void onLanguageChanged();
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,44 +78,55 @@ public class FragmentSettings extends Fragment {
         etNewPassword = view.findViewById(R.id.passwordEditText);
         btnChangePassword = view.findViewById(R.id.changePasswordButton);
         spinnerLanguage = view.findViewById(R.id.languageSpinner);
-        // ======================================== //
-        tvEmail.setText(profile.getUser().getEmail());
-        tvName.setText(profile.getFirstName().substring(0, 1).toUpperCase() + profile.getFirstName().substring(1) + " " + profile.getLastName().substring(0, 1).toUpperCase() + profile.getLastName().substring(1));
+        etConfirmPassword = view.findViewById(R.id.passwordEditTextConfirm);
 
-        // =========== CHANGE PASSWORD ============= //
+        // Set the initial text of menu items
+        updateMenuItems();
 
+        // Change password button click listener
         changePassword();
 
-        // ============ SELECT THE LANGUAGE ======== //
-
-        // Populate the language spinner
+        // Language spinner setup
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.languages_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLanguage.setAdapter(adapter);
 
+
+
         // Set the spinner to the saved language if available
         String savedLanguage = sharedPreferences.getString("language", "");
         if (!savedLanguage.isEmpty()) {
             int spinnerPosition = adapter.getPosition(savedLanguage);
-            spinnerLanguage.setSelection(spinnerPosition);
+            spinnerLanguage.setSelection(spinnerPosition, false); // Set default language without triggering onItemSelected
         }
 
-        // Save the selected language when a new language is selected
+// Language spinner selection listener
         spinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            private boolean isFirstSelection = true; // Flag to track initial selection
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedLanguage = parent.getItemAtPosition(position).toString();
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("language", selectedLanguage);
-                editor.apply();
-                String langCode;// Set the new language
-                if (selectedLanguage.equalsIgnoreCase("spanish")) {
-                    langCode = "es";
+                if (isFirstSelection) {
+                    isFirstSelection = false;
                 } else {
-                    langCode = "en";
+                    String selectedLanguage = parent.getItemAtPosition(position).toString();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("language", selectedLanguage);
+                    editor.apply();
+                    String langCode;
+                    if (selectedLanguage.equalsIgnoreCase("spanish")) {
+                        langCode = "es";
+                    } else {
+                        langCode = "en";
+                    }
+                    setLocale(langCode);
+                    updateMenuItems(); // Update menu items after language change
+                    // Notify the hosting activity about the language change
+                    if (languageChangeListener != null) {
+                        languageChangeListener.onLanguageChanged();
+                    }
                 }
-                setLocale(langCode); // Set the new language
             }
 
             @Override
@@ -110,7 +134,10 @@ public class FragmentSettings extends Fragment {
                 // Do nothing
             }
         });
+
+
     }
+
 
 
     private void changePassword() {
@@ -120,18 +147,18 @@ public class FragmentSettings extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
-
         // Prompt the user to re-provide their sign-in credentials
         btnChangePassword.setOnClickListener(v -> {
 
             // =========== CHANGE PASSWORD ============= //
             String oldPassword = etOldPassword.getText().toString();
             String newPassword = etNewPassword.getText().toString();
+            String confirmPassword = etConfirmPassword.getText().toString();
 
             // Check if old password is correct
             assert mUser != null;
             if (TextUtils.isEmpty(oldPassword)) {
-                Toast.makeText(requireContext(), "Please enter your old password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), R.string.password_updated_successfully, Toast.LENGTH_SHORT).show();
                 return;
             }
             AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(mUser.getEmail()), oldPassword);
@@ -139,24 +166,41 @@ public class FragmentSettings extends Fragment {
                 if (task.isSuccessful()) {
                     // Check if new password is at least 6 characters long
                     if (newPassword.length() >= 6) {
-                        // Update the user's password
-                        mUser.updatePassword(newPassword).addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
-                                Toast.makeText(requireContext(), "Password updated successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(requireContext(), "Error updating password: " + Objects.requireNonNull(task1.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        // Check if new password and confirm password match
+                        if (newPassword.equals(confirmPassword)) {
+                            // Update the user's password
+                            mUser.updatePassword(newPassword).addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    Toast.makeText(requireContext(), R.string.password_updated_successfully, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(requireContext(), R.string.password_updated_unsuccessfully + Objects.requireNonNull(task1.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(requireContext(), R.string.password_dont_match, Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(requireContext(), "New password should be at least 6 characters long", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), R.string.password_lenght, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Incorrect old password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), R.string.incorrect_password, Toast.LENGTH_SHORT).show();
                 }
             });
         });
     }
 
+
+
+    private void updateMenuItems() {
+        // Update the text of menu items based on the current language
+        String userStr = sharedPreferences.getString("profile", "");
+        Gson gson = new Gson();
+        Profile profile = gson.fromJson(userStr, Profile.class);
+        tvEmail.setText(profile.getUser().getEmail());
+        tvName.setText(profile.getFirstName() + " " + profile.getLastName());
+        // Update other menu items here
+        // ...
+    }
 
 
     private void setLocale(String language) {
@@ -167,6 +211,11 @@ public class FragmentSettings extends Fragment {
         configuration.setLocale(locale);
         configuration.setLayoutDirection(locale);
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+
+        // Restart the activity to apply the language change
+        Intent intent = getActivity().getIntent();
+        getActivity().finish();
+        startActivity(intent);
     }
 
 }

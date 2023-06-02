@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -126,7 +125,7 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
             if (publication.getBlog().getProfile().getProfile_id().equalsIgnoreCase(profile.getProfile_id())) {
                 args.putBoolean("edit", true);
                 args.putBoolean("isUserList", isUserList);
-                Toast.makeText(context,"esto es " + isUserList,Toast.LENGTH_SHORT).show();
+
                 // Create an instance of the child fragment
                 FragmentActionPublication fragmentActionPublication = new FragmentActionPublication();
                 //Pass the args already created to the child fragment
@@ -164,6 +163,7 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
         }
 
         public void init(Publication publication) {
+
             // Get the profile reference
             DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("profiles").child(publication.getBlog().getProfile().getProfile_id());
 
@@ -173,14 +173,11 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Profile updatedProfile = snapshot.getValue(Profile.class);
                     if (updatedProfile != null) {
-//                        // Check if the photo URL has changed and update it if necessary
-//                        if (!TextUtils.equals(publication.getBlog().getProfile().getPhoto(), updatedProfile.getPhoto())) {
-//                            publication.getBlog().getProfile().setPhoto(updatedProfile.getPhoto());
-//                        }
                         if (!Objects.equals(publication.getBlog().getProfile(), updatedProfile)) {
                             publication.getBlog().setProfile(updatedProfile);
                         }
                     }
+
                     // Update the adapter with the new data
                     tvLikeCount.setText(String.valueOf(publication.getLikeCount()));
                     tvAuthorName.setText(publication.getBlog().getProfile().getFirstName().toUpperCase());
@@ -189,14 +186,18 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                     etDescriptionField.setText(publication.getDescription());
                     publicationCommentAction(publication);
                     publicationLikeAction(publication);
-//                    Picasso.get().load(publication.getBlog().getProfile().getPhoto()).into(authorPhoto);
-                    Glide.with(context)
-                            .load(publication.getBlog().getProfile().getPhoto())
-                            .apply(new RequestOptions()
-                                    .placeholder(R.drawable.default_image) // Placeholder image while loading
-                                    .error(R.drawable.default_image)) // Image to display in case of error
-                            .circleCrop() // Apply circular cropping
-                            .into(authorPhoto);
+
+                    if (authorPhoto.getContext() != null) {
+                        Glide.with(authorPhoto.getContext())
+                                .load(publication.getBlog().getProfile().getPhoto())
+                                .apply(new RequestOptions()
+                                        .placeholder(R.drawable.default_image) // Placeholder image while loading
+                                        .error(R.drawable.default_image)) // Image to display in case of error
+                                .circleCrop() // Apply circular cropping
+                                .into(authorPhoto);
+                    }
+
+
 
                     recyclerAdapterPublicationPhotos.setPhotos(publication.getPhotos());
                     recyclerAdapterPublicationPhotos = (RecyclerAdapterPublicationPhotos) rvPhotoGrid.getAdapter();
@@ -209,17 +210,26 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                         ivDeletePublication.setVisibility(View.VISIBLE);
                         ivDeletePublication.setOnClickListener(v -> {
                             // Get the ID of the publication to be deleted
-                            String publicationId = publication.getPublication_id();
-                            onPublicationClickListener.onPublicationClick(publicationId, true);
+                            if (onPublicationClickListener != null) {
+                                String publicationId = publication.getPublication_id();
+                                onPublicationClickListener.onPublicationClick(publicationId, true);
+                                onPublicationClickListener.onPublicationClick(publicationId, true);
+                            }
+
+                        });
+
+                    }
+
+                    if (publication.getBlog().getProfile().getProfile_id().equalsIgnoreCase(profile.getProfile_id())) {
+                        itemView.setOnClickListener(v -> {
+                            if (v != null) {
+                                onClickListener.editPublication(publication);
+                            }
+
                         });
                     }
 
-                    itemView.setOnClickListener(v -> {
-                        if (v != null) {
-                            onClickListener.editPublication(publication);
-                        }
 
-                    });
                 }
 
                 @Override
@@ -252,8 +262,8 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("publication", publication);
                 bundle.putSerializable("profile", profile);
-                bundle.putBoolean("isNews",isNews);
-                bundle.putBoolean("isUserList",isUserList);
+                bundle.putBoolean("isNews", isNews);
+                bundle.putBoolean("isUserList", isUserList);
                 commentFragment.setArguments(bundle);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();

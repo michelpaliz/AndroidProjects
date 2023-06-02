@@ -8,10 +8,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.transition.Slide;
-import android.transition.Transition;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,8 +88,7 @@ public class FragmentActionPublication extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 FragmentManager fragmentManager = getChildFragmentManager();
-                Class<? extends Fragment> desiredFragmentClass;
-//                FragmentManager fragmentManager = getChildFragmentManager();
+                //                FragmentManager fragmentManager = getChildFragmentManager();
                 if (fragmentManager.getBackStackEntryCount() > 0) {
                     // If there are fragments in the back stack, pop the topmost fragment
                     fragmentManager.popBackStack();
@@ -101,7 +97,7 @@ public class FragmentActionPublication extends Fragment {
                     NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_add_publication);
                     if (isNews) {
                         navController.navigate(R.id.newsFragment);
-                    } else if (isUserList){
+                    } else if (isUserList) {
                         // Create an instance of the child fragment
                         FragmentUserPublications fragmentUserPublications = new FragmentUserPublications();
                         // Begin a new FragmentTransaction using the getChildFragmentManager() method
@@ -112,7 +108,7 @@ public class FragmentActionPublication extends Fragment {
                         transaction.replace(R.id.fragment_add_publication, fragmentUserPublications);
                         transaction.addToBackStack(null); // Add the fragment to the back stack
                         transaction.commit();
-                    }else{
+                    } else {
                         navController.navigate(R.id.blogFragment);
                     }
 
@@ -153,7 +149,11 @@ public class FragmentActionPublication extends Fragment {
         assert getArguments() != null;
 
         //This arguments comes from the blog Fragment, also the blog is always updated with the current profile and user ?
+
+
         blog = (Blog) getArguments().getSerializable("blog");
+
+
         placemarkName = getArguments().getString("placemark");
         //        isBlog = getArguments().getBoolean("isBlog", false);
 
@@ -388,7 +388,7 @@ public class FragmentActionPublication extends Fragment {
                     assert publication != null;
                     publication.setTitle(title);
                     publication.setDescription(description);
-                    oldPhotosURL.removeIf(item -> item.contains("content://com"));
+                    oldPhotosURL.removeIf(item -> item.contains("content://com") || item.contains("content://media/"));
                     publication.setPhotos(oldPhotosURL);
 
                     // Update the publication in the database
@@ -445,6 +445,7 @@ public class FragmentActionPublication extends Fragment {
         newPublication.setDatePublished(formattedDate);
         newPublication.setBlog(blog);
         newPublication.setPlacemarkID(placemarkName);
+        newPublication.setNews(isNews);
         newPublication.setLikes(new ArrayList<>());
         newPublication.setComments(new ArrayList<>());
 
@@ -568,16 +569,16 @@ public class FragmentActionPublication extends Fragment {
             Toast.makeText(getContext(), "Publication created successfully", Toast.LENGTH_SHORT).show();
         }
 
-        // Create and set the fragment transition animation object
-        Transition fragmentTransition = new Slide(Gravity.START);
-        fragmentTransition.setDuration(1000);
-        FragmentTransaction fragmentTransaction = parentFragmentManager.beginTransaction();
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        fragmentTransaction.setCustomAnimations(enterAnim, exitAnim);
-        fragmentTransaction.replace(R.id.fragment_add_publication, fragment);
-        fragmentTransaction.addToBackStack(null);
-        // Commit the fragment transaction
-        fragmentTransaction.commit();
+//        // Create and set the fragment transition animation object
+//        Transition fragmentTransition = new Slide(Gravity.START);
+//        fragmentTransition.setDuration(1000);
+//        FragmentTransaction fragmentTransaction = parentFragmentManager.beginTransaction();
+//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        fragmentTransaction.setCustomAnimations(enterAnim, exitAnim);
+//        fragmentTransaction.replace(R.id.fragment_add_publication, fragment);
+//        fragmentTransaction.addToBackStack(null);
+//        // Commit the fragment transaction
+//        fragmentTransaction.commit();
     }
 
 

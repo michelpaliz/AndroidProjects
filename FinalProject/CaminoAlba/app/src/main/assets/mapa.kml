@@ -153,26 +153,9 @@
 				<maxSnippetLines>2</maxSnippetLines>
 			</ListStyle>
 		</Style>
-		<Placemark id="10CA71CABC28A6696E98">
-			<name>bp_denia</name>
-			<description> Punto de Denia </description>
-			<LookAt>
-				<longitude>0.09391778158877706</longitude>
-				<latitude>38.83781582689011</latitude>
-				<altitude>0</altitude>
-				<heading>-3.210582956367031</heading>
-				<tilt>18.35806427079397</tilt>
-				<range>1325.771957063265</range>
-				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
-			</LookAt>
-			<styleUrl>#m_ylw-pushpin</styleUrl>
-			<Point>
-				<gx:drawOrder>1</gx:drawOrder>
-				<coordinates>0.09869433475367506,38.83934935069394,0</coordinates>
-			</Point>
-		</Placemark>
+
 		<Placemark id="A597E36B6C28A6696E8B">
-			<name>bp_pego</name>
+			<name>bp_pego_4</name>
 				<description> Duración aproximada:
                               2h 30' a pie; 1h a caballo; 45' en bicicleta
                               Distancia total: 7,9Km
@@ -196,7 +179,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="BD3C8011AF28A6696E8B">
-			<name>bp_xabia</name>
+			<name>bp_xabia_1</name>
 			<description> Duración aproximada: ​2h 30' a pie; 2h a caballo; 1h 15' en bicicleta
                           Distancia total: 10,6 Km
                           Kms que faltan hasta Santiago de Compostela : 1.223 Km
@@ -219,7 +202,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="037290377828A6696E8C">
-			<name>bp_jesus_pobre</name>
+			<name>bp_jesus_pobre_2</name>
 			<description> Duración aproximada: ​2h 45' a pie; 2h a caballo; 1h en bicicleta
                           Distancia total: 9,6 Km
                           Kms que faltan hasta Santiago de Compostela : 1.214 Km
@@ -242,7 +225,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="1E5AA203AC28A6696E8C">
-			<name>bp_vergel</name>
+			<name>bp_vergel_3</name>
 				<description> Duración aproximada: ​3 horas a pie; 2h a caballo; 1h15'. en bicicleta
                               Distancia total: 11,9 Km
                               Kms que faltan hasta Santiago de Compostela : 1.203 Km
@@ -266,7 +249,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="2B50507F5E28A6696E8C">
-			<name>bp_astubia</name>
+			<name>bp_astubia_5</name>
 				<description> Punto de Astubia </description>
 			<LookAt>
 				<longitude>-0.1537037229801119</longitude>
@@ -284,7 +267,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="32E446003028A6696E8C">
-			<name>bp_forna</name>
+			<name>bp_forna_6</name>
 			<description> Duración aproximada: 2h a pie
                           Distancia total: 4,1Km
                           Kms que faltan hasta Santiago de Compostela : 1.191 Km
@@ -307,7 +290,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="5BC193446428A6696E8C">
-			<name>bp_orxa</name>
+			<name>bp_orxa_8</name>
 			<description>-Duración aproximada:
                                                    ​5h30' horas a pie; 3h45' a caballo; 3h en bicicleta
                                                    Distancia total: 17,9 Km
@@ -330,7 +313,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="00F37D9D8028A6696E8D">
-			<name>bp_beniarres</name>
+			<name>bp_beniarres_9</name>
 			<description> Duración aproximada:
                                               ​1h30' horas a pie; 1h a caballo; 30' en bicicleta
                                                    Distancia total: 6,9 Km
@@ -353,7 +336,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="1BBBDE94AE28A6696E8D">
-			<name>bp_argullent</name>
+			<name>bp_argullent_10</name>
 			<description> Punto de Argullent </description>
 			<LookAt>
 				<longitude>-0.5527315476240269</longitude>
@@ -371,7 +354,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="2FB0E23A6428A6696E8D">
-			<name>bp_ontinyent</name>
+			<name>bp_ontinyent_11</name>
 			<description> Duración aproximada:
                           ​4h horas a pie; 2h30' a caballo; 2h en bicicleta
                           Distancia total: 12 Km
@@ -394,7 +377,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="37A50EED7728A6696E8D">
-			<name>bp_fontanars</name>
+			<name>bp_fontanars_12</name>
 			<description> Duración aproximada: 6,5h horas a pie; 3h a caballo; 3h en bicicleta
                           Distancia total: 25 Km
                           Kms que faltan hasta Santiago de Compostela : 1.115 Km
@@ -416,7 +399,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="4B688D510728A6696E8D">
-			<name>bp_font_figuera</name>
+			<name>bp_font_figuera_13</name>
 			<description> Duración aproximada:
                           ​2,5h horas a pie; 1,5h a caballo; 45' en bicicleta
                           Distancia total: 10,1 Km
@@ -439,7 +422,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="5A29BA327228A6696E8D">
-			<name>bp_almansa</name>
+			<name>bp_almansa_14</name>
 			<description> Duración aproximada:
                           ​5,5h horas a pie; 3,5h a caballo; 2h en bicicleta
                           Distancia total: 22,2 Km
@@ -462,7 +445,7 @@
 			</Point>
 		</Placemark>
 		<Placemark id="4CCA94893B28A6696E8C">
-			<name>bp_villalonga</name>
+			<name>bp_villalonga_7</name>
 			<description> Duración aproximada:
                           ​3h30' horas a pie; 3h a caballo; 1h30' en bicicleta
                           Distancia total: 14 Km

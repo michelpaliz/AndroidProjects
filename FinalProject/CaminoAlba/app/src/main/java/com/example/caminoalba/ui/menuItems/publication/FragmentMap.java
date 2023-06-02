@@ -14,8 +14,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,13 +23,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
 import com.example.caminoalba.R;
-import com.example.caminoalba.models.Path;
 import com.example.caminoalba.models.Profile;
-import com.example.caminoalba.ui.menuItems.partner.FragmentPartner;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -59,8 +56,7 @@ import java.util.List;
 public class FragmentMap extends Fragment implements OnMapReadyCallback, LocationListener {
 
     static public boolean isEnabled;
-    static public String placemarkName;
-    private List<Path> breakpointsInfo;
+    static public String placemarkName = "";
     private OnDataPass dataPasser;
     private GoogleMap map;
     private List<LatLng> breakpoints;
@@ -70,10 +66,12 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     private Marker currentLocationMarker;
     private KmlLayer layer;
     private ImageView imgHome, imgMap;
-    private Button btnPathInformation;
     private SharedPreferences preferences;
     private Profile profile;
     private String currentPath;
+    private TextView tvPathName, tvRuta, tvTittle;
+    private boolean isAttached = false;
+
 
 
     public interface OnDataPass {
@@ -83,6 +81,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        isAttached = true;
         Fragment parentFragment = getParentFragment();
         if (parentFragment instanceof OnDataPass) {
             dataPasser = (OnDataPass) parentFragment;
@@ -95,6 +94,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onDetach() {
         super.onDetach();
+        isAttached = false;
         dataPasser = null;
     }
 
@@ -120,14 +120,15 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
         imgHome = view.findViewById(R.id.imgHome);
         imgMap = view.findViewById(R.id.imgMap);
-        btnPathInformation = view.findViewById(R.id.btnInformation);
-        breakpointsInfo = new ArrayList<>();
+        tvTittle = view.findViewById(R.id.tvMessage_map);
         profile = new Profile();
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        tvPathName = view.findViewById(R.id.tvPathName_map);
+        tvRuta = view.findViewById(R.id.tvRuta_map);
         Gson gson = new Gson();
         String profileStr = preferences.getString("profile", "");
         profile = gson.fromJson(profileStr, Profile.class);
-        // Get the MapView from the layout
+        tvTittle.setText(getText(R.string.setUpLocation).toString().toUpperCase());
         MapView mapView = view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
@@ -154,51 +155,39 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
     public void goHome() {
 
         imgHome.setOnClickListener(v -> {
+//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//            FragmentBlog blogFragment = new FragmentBlog();
+//            transaction.replace(R.id.fragment_map, blogFragment);
+//            transaction.addToBackStack(null);
+//            transaction.commit();
+//
+//            if (isAttached) {
+//                // Pass the arguments to the parent fragment
+//                passDataToParent(placemarkName, isEnabled);
+//            }
+
             // In the child fragment, get the FragmentManager
+
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
 
-            // Pop the back stack to return to the parent fragment
-            fragmentManager.popBackStack();
+// Pop the back stack to return to the root fragment
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-            passDataToParent(placemarkName, isEnabled);
+// Get the parent fragment
+            Fragment parentFragment = fragmentManager.findFragmentByTag("ParentFragmentTag");
+
+            if (parentFragment instanceof FragmentMap) {
+                // Cast the parent fragment to the appropriate type
+                FragmentMap parent = (FragmentMap) parentFragment;
+
+                // Pass the data to the parent fragment
+                parent.passDataToParent(placemarkName, isEnabled);
+            }
+
         });
 
     }
 
-
-
-    public void goToPathInformation(List<Path> breakpointsInf) {
-        btnPathInformation.setOnClickListener(v -> {
-            // Create an instance of the child fragment
-            FragmentPartner fragmentPartner = new FragmentPartner();
-            // Set the list to the static variable in the FragmentPartner class
-            FragmentPartner.setBreakpointsInf(breakpointsInf);
-            // Begin a new FragmentTransaction using the getChildFragmentManager() method
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            // Add the child fragment to the transaction and specify a container view ID in the parent layout
-            transaction.replace(R.id.fragment_map, fragmentPartner);
-            transaction.addToBackStack(null); // Add the fragment to the back stack
-            transaction.commit();
-        });
-    }
-
-
-
-//    public void goToPathInformation(List<Path> breakpointsInf) {
-//        btnPathInformation.setOnClickListener(v -> {
-//            // Create an instance of the child fragment
-//            FragmentPartner fragmentPartner = new FragmentPartner();
-//            // Set the HashMap as an argument to the fragment
-//            fragmentPartner.setBreakpointsInf(breakpointsInf);
-//            // Begin a new FragmentTransaction using the getChildFragmentManager() method
-//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//            // Add the child fragment to the transaction and specify a container view ID in the parent layout
-//            transaction.replace(R.id.fragment_map, fragmentPartner);
-//            transaction.addToBackStack(null); // Add the fragment to the back stack
-//            transaction.commit();
-//        });
-//
-//    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -230,14 +219,12 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
             breakpoints = new ArrayList<>();
 
-            int cont = 0;
             // Check if layer has finished loading before setting click listener.
             if (layer.isLayerOnMap()) {
 
                 // Iterate over the placemarks in the layer.
                 for (KmlPlacemark placemark : layer.getPlacemarks()) {
                     // Access placemark properties and geometry here.
-//                    String id = placemark.getProperty("id");
                     String name = placemark.getProperty("name");
                     String description = placemark.getProperty("description");
                     Geometry<?> geometry = placemark.getGeometry();
@@ -248,18 +235,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                         System.out.println(newString);
                         LatLng position = ((Point) geometry).getGeometryObject();
                         breakpoints.add(position);
-                        // Add the id and name to the breakpointsInfo HashMap.
-                        cont++;
-                        breakpointsInfo.add(new Path(cont,newString, description, null, false));
                     }
 
                 }
-
-                goToPathInformation(breakpointsInfo);
-
-//                Toast.makeText(requireContext(), "Number of breakpoints: " + breakpoints.size(), Toast.LENGTH_SHORT).show();
-                System.out.println("These are my breakpoints list " + breakpoints);
-
 
             } else {
                 Toast.makeText(requireContext(), "KML layer failed to load", Toast.LENGTH_SHORT).show();
@@ -272,9 +250,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
 
 
     public void onLocationChanged(Location location) {
-
-        placemarkName = "";
-        isEnabled = false;
 
         // Get current user location.
         LatLng currentLocationLocal = new LatLng(location.getLatitude(), location.getLongitude());
@@ -308,7 +283,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                     }
                 }
 
-                // If user is within 50 meters of closest breakpoint, display the name of the breakpoint.
+                // If user is within 200 meters of closest breakpoint, display the name of the breakpoint.
                 if (closestDistance < 200) {
                     String name = null;
                     for (KmlPlacemark placemark : layer.getPlacemarks()) {
@@ -318,8 +293,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                         }
                     }
 
-//                    Toast.makeText(requireContext(), "You have reached breakpoint " + name, Toast.LENGTH_SHORT).show();
                     currentPath = name;
+                    assert currentPath != null;
+                    placemarkName = currentPath.replaceAll("^bp_(\\w+)_\\d+$", "$1").replaceAll("(?<!^)([A-Z])", "_$1").toUpperCase();
+                    isEnabled = true;
+                    passDataToParent(placemarkName, isEnabled);
 
                     DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("profiles").child(profile.getProfile_id());
                     profileRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -330,10 +308,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                                 Profile existingProfile = snapshot.getValue(Profile.class);
                                 if (existingProfile != null) {
                                     // Update the desired attribute in the Profile object
-                                    String newString = currentPath.replaceAll("^bp_(\\w+)$", "$1").replaceAll("(?<!^)([A-Z])", "_$1").toUpperCase();
+                                    String newString = currentPath.replaceAll("^bp_(\\w+)_\\d+$", "$1").replaceAll("(?<!^)([A-Z])", "_$1").toUpperCase();
                                     existingProfile.setCurrentPath(newString);
                                     // Save the updated Profile object to the Firebase Realtime Database
                                     profileRef.setValue(existingProfile);
+                                    tvPathName.setText(newString);
                                 }
                             } else {
                                 // Profile object not found
@@ -347,11 +326,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                         }
                     });
 
-
-                    placemarkName = name;
-                    isEnabled = true;
-
-
                     // Update currentBreakpointIndex to the index of the closest breakpoint.
                     int nextBreakpointIndex = currentBreakpointIndex + 1;
                     if (nextBreakpointIndex >= breakpoints.size()) {
@@ -361,6 +335,12 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Locatio
                         locationManager.removeUpdates(this);
                     } else {
                         currentBreakpointIndex = nextBreakpointIndex;
+                    }
+
+                }else{
+                    tvPathName.setText("");
+                    if (isAttached) {
+                        tvRuta.setText(getText(R.string.beSureToBeLess200mt));
                     }
                 }
 

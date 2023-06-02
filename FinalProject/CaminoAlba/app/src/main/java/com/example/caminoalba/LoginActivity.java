@@ -111,9 +111,70 @@ public class LoginActivity extends AppCompatActivity {
         authStateListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
-                // User is logged in, navigate to the main activity
-                startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
-                finish();
+                // User is logged in
+                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users");
+                userRef.orderByChild("email").equalTo(user.getEmail())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    User loggedInUser = null;
+                                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                        loggedInUser = userSnapshot.getValue(User.class);
+                                        if (loggedInUser != null) {
+                                            break;
+                                        }
+                                    }
+                                    if (loggedInUser != null) {
+                                        // Store the user data in SharedPreferences
+                                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        String userStr = gson.toJson(loggedInUser);
+                                        editor.putString("user", userStr);
+                                        editor.apply();
+
+                                        // Retrieve the profile data for the user
+                                        DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("profiles").child(loggedInUser.getUser_id());
+                                        User finalLoggedInUser = loggedInUser;
+                                        profileRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                Profile profile = snapshot.getValue(Profile.class);
+                                                if (profile != null) {
+                                                    profile.setUser(finalLoggedInUser);
+                                                    // Store the profile data in SharedPreferences
+                                                    String profileStr = gson.toJson(profile);
+                                                    editor.putString("profile", profileStr);
+                                                    editor.apply();
+
+                                                    // Navigate to the main activity
+                                                    startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(LoginActivity.this, R.string.profile_not_found, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Toast.makeText(LoginActivity.this, "Error loading profile data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Log.w(TAG, "loadProfile:onCancelled", error.toException());
+                                            }
+                                        });
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, R.string.profile_not_found, Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(LoginActivity.this, R.string.profile_not_found, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(LoginActivity.this, R.string.error_uploading_data + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.w(TAG, "loadUser:onCancelled", error.toException());
+                            }
+                        });
             } else {
                 // User is not logged in
                 // You can show the login screen or take appropriate action
@@ -121,6 +182,8 @@ public class LoginActivity extends AppCompatActivity {
         };
         FirebaseAuth.getInstance().addAuthStateListener(authStateListener);
     }
+
+
 
 
     private void stopAuthStateListener() {
@@ -139,21 +202,21 @@ public class LoginActivity extends AppCompatActivity {
         // Reset password code
         btnForgotPassword.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Forgot Password");
+            builder.setTitle(R.string.forgot_password);
             View view = LayoutInflater.from(this).inflate(R.layout.forgotten_password, null);
             EditText edEmail = view.findViewById(R.id.ed_email);
             Button btnResetPassword = view.findViewById(R.id.reset_password_button);
             btnResetPassword.setOnClickListener(view1 -> {
                 String email1 = edEmail.getText().toString().trim();
                 if (TextUtils.isEmpty(email1)) {
-                    Toast.makeText(LoginActivity.this, "Please enter your email address.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, R.string.enter_email_address, Toast.LENGTH_SHORT).show();
                 } else {
                     FirebaseAuth.getInstance().sendPasswordResetEmail(email1)
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(LoginActivity.this, "Password reset email sent to " + email1, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, R.string.password_reset_send + email1, Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "Failed to send password reset email: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, R.string.error_password_reset_send + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
@@ -212,34 +275,34 @@ public class LoginActivity extends AppCompatActivity {
                                                                 startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
                                                                 finish();
                                                             } else {
-                                                                Toast.makeText(LoginActivity.this, "Profile not found for this user.", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(LoginActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
                                                             }
                                                         }
 
                                                         @Override
                                                         public void onCancelled(@NonNull DatabaseError error) {
-                                                            Toast.makeText(LoginActivity.this, "Error loading profile data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(LoginActivity.this, R.string.error_uploading_data + error.getMessage(), Toast.LENGTH_SHORT).show();
                                                             Log.w(TAG, "loadProfile:onCancelled", error.toException());
                                                         }
                                                     });
                                                 } else {
-                                                    Toast.makeText(LoginActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(LoginActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
                                                 }
                                             } else {
-                                                Toast.makeText(LoginActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(LoginActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
                                             }
                                         }
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {
-                                            Toast.makeText(LoginActivity.this, "Error loading user data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(LoginActivity.this, R.string.error_uploading_data + error.getMessage(), Toast.LENGTH_SHORT).show();
                                             Log.w(TAG, "loadUser:onCancelled", error.toException());
                                         }
                                     });
                         }
                     } else {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(LoginActivity.this, "Authentication failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, R.string.auth_failed + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -268,7 +331,7 @@ public class LoginActivity extends AppCompatActivity {
             edPassword.setError("Cannot be empty");
             return false;
         } else if (password.length() < 6) {
-            edPassword.setError("Password must be at least 6 characters long");
+            edPassword.setError(R.string.password_must_be_6_long+"");
             return false;
         } else {
             edPassword.setError(null);

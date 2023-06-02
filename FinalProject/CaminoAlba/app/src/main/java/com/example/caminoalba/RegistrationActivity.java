@@ -42,9 +42,9 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        if (FirebaseApp.getApps(this).isEmpty()) {
-            FirebaseApp.initializeApp(this);
-        }
+//        if (FirebaseApp.getApps(this).isEmpty()) {
+//            FirebaseApp.initializeApp(this);
+//        }
         init();
         backHome();
         authenticateUser();
@@ -110,7 +110,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                                             // Register the user in Firebase Realtime Database
                                             registerUserFirebase(newUser, profile, blog);
-                                            Toast.makeText(RegistrationActivity.this, "Firebase has registered your user.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(RegistrationActivity.this, R.string.user_registered, Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(this, "User couldn't be registered.", Toast.LENGTH_SHORT).show();
                                         }
@@ -181,11 +181,11 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists() && Boolean.TRUE.equals(snapshot.getValue(Boolean.class))) {
                     // User has permission to write to the database
-                    Toast.makeText(RegistrationActivity.this, "User has permission to write to the database", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RegistrationActivity.this, "User has permission to write to the database", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "User has permission to write to the database");
                 } else {
                     // User does not have permission to write to the database
-                    Toast.makeText(RegistrationActivity.this, "User does not have permission to write to the database", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RegistrationActivity.this, "User does not have permission to write to the database", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "User does not have permission to write to the database");
                 }
             }

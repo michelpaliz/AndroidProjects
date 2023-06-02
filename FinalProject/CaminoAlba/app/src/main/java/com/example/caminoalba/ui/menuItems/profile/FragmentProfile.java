@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +29,7 @@ import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.caminoalba.NavigationDrawerActivity;
 import com.example.caminoalba.R;
 import com.example.caminoalba.helpers.Utils;
 import com.example.caminoalba.models.Profile;
@@ -66,12 +69,26 @@ public class FragmentProfile extends Fragment {
     //  *----- Variables de funcionalidad globales ------*
     private Profile profile;
     private boolean profileUpdated = false;
+    private ProfileUpdateListener profileUpdateListener;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+        if (context instanceof ProfileUpdateListener) {
+            profileUpdateListener = (ProfileUpdateListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement ProfileUpdateListener");
+        }
     }
+
+
+
+    public interface ProfileUpdateListener {
+        void onProfileUpdated(Profile profile);
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -182,7 +199,7 @@ public class FragmentProfile extends Fragment {
                     firebaseUser.sendEmailVerification()
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getActivity(), "Verification email sent. Please check your inbox.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), R.string.verification_sent, Toast.LENGTH_SHORT).show();
                                 } else {
                                     Exception exception = task.getException();
                                     if (exception instanceof FirebaseFunctionsException) {
@@ -190,9 +207,9 @@ public class FragmentProfile extends Fragment {
                                         FirebaseFunctionsException.Code code = functionsException.getCode();
                                         // Handle specific error codes if needed
                                         String message = functionsException.getMessage();
-                                        Toast.makeText(getActivity(), "Failed to send verification email: " + message, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), R.string.failed_sending_verification + message, Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(getActivity(), "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), R.string.failed_sending_verification, Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -288,7 +305,6 @@ public class FragmentProfile extends Fragment {
                 }
             }
 
-
             // ================== FIREBASE =================== //
             // Get a reference to the Firebase database
             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -296,7 +312,11 @@ public class FragmentProfile extends Fragment {
             DatabaseReference profileRef = database.getReference("profiles/" + profile.getProfile_id());
             // Set the value of the profile object
             profileRef.setValue(profile);
-            Toast.makeText(getContext(), "Profile information updated sucessfully", Toast.LENGTH_SHORT).show();
+            // After updating the profile, call the listener method
+            if (profileUpdateListener != null) {
+                profileUpdateListener.onProfileUpdated(profile);
+            }
+            Toast.makeText(getContext(), R.string.profile_updated_successfully, Toast.LENGTH_SHORT).show();
             //Send the data to the other fragment
             Profile profile1 = profile;
             // Convert the JSON string to a Java object using Gson
@@ -327,6 +347,9 @@ public class FragmentProfile extends Fragment {
                         // Store the download URL in the photo attribute of the Profile object
                         String downloadUrl = uri1.toString();
                         profile.setPhoto(downloadUrl);
+                        if (profileUpdateListener != null) {
+                            profileUpdateListener.onProfileUpdated(profile);
+                        }
                         // Load the image into the ImageView using Picasso or Glide
 //                        Picasso.get().load(downloadUrl).into(imgProfile);
                         Glide.with(this)
@@ -344,7 +367,7 @@ public class FragmentProfile extends Fragment {
                         DatabaseReference profileRef = database.getReference("profiles/" + profile.getProfile_id());
                         // Set the value of the profile object
                         profileRef.setValue(profile);
-                        Toast.makeText(getContext(), "Photo updated sucessfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.photo_upload_sucessfully, Toast.LENGTH_SHORT).show();
                         //Send the data to the other fragment
                         Profile profile1 = profile;
                         // Convert the JSON string to a Java object using Gson

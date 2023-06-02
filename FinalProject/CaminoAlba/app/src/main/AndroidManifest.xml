@@ -22,43 +22,62 @@
         android:theme="@style/Theme.CaminoAlba"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
+
         <!-- Add your API key here -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDLegmgqsliF_FK5RxYaADNzqANgp8B1kM" />
-<!--            android:value="AIzaSyCKFEyZsTxHG0Db5sATPFd9-hH_OFoJMrM" />-->
+        <!--            android:value="AIzaSyCKFEyZsTxHG0Db5sATPFd9-hH_OFoJMrM" />-->
 
-        <activity
-            android:name=".NavigationDrawerActivity"
-            android:exported="false"
-            android:label="@string/title_activity_navigation_drawer"
-      >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
 
+
+        <!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+
+<!--            </intent-filter>-->
+
+<!--            <meta-data-->
+<!--                android:name="android.app.lib_name"-->
+<!--                android:value="" />-->
+<!--        </activity>-->
+
+        <!-- LoginActivity with intent filter -->
         <activity
             android:name=".LoginActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
 
+        <!-- Other activities -->
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
+            android:name=".NavigationDrawerActivity"
+            android:exported="false"
+            android:label="@string/title_activity_navigation_drawer">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <!-- Removed intent filter from RegistrationActivity -->
         <activity
             android:name=".RegistrationActivity"
             android:exported="true">
@@ -66,6 +85,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
 
 
     </application>

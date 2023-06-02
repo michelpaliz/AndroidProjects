@@ -163,8 +163,6 @@ public class FragmentComment extends Fragment {
                     comments.add(comment);
                 }
 
-                System.out.println("Esto es la lista " + comments);
-//                Toast.makeText(requireContext(),comments.toString(),Toast.LENGTH_SHORT).show();
                 // Create and set the adapter for the RecyclerView
                 RecyclerAdapterComments adapter = new RecyclerAdapterComments(comments, getContext());
                 recyclerView.setAdapter(adapter);

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/my_dark_grey"
     android:layout_height="match_parent"
-    android:background="@drawable/default_background"
     tools:context=".MainActivity">
 
 
@@ -12,12 +12,14 @@
         android:id="@+id/imageView4"
         android:layout_width="293dp"
         android:layout_height="326dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:contentDescription="TODO"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/undraw_digital_rm" />
+        app:layout_constraintTop_toBottomOf="@+id/tvEmail"
+        app:srcCompat="@drawable/sello1" />
 
     <TextView
         android:id="@+id/tvEmail"
@@ -25,10 +27,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="44dp"
+        android:fontFamily="@font/lato"
         android:text="@string/welcome"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="45sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

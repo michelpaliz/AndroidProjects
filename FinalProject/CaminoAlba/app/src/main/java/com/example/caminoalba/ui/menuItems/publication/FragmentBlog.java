@@ -34,6 +34,7 @@ import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
 import com.example.caminoalba.models.User;
+import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterPathItem;
 import com.example.caminoalba.ui.menuItems.publication.recyclers.RecyclerAdapterPublication;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +42,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -49,19 +51,19 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
+public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass, RecyclerAdapterPathItem.OnItemClickListener {
 
     private String placemarkName;
     private Blog blog;
     private Profile profile;
     private TextView tvPathName, tvRuta;
     private ImageView btnAddPublication;
-    private RecyclerView recyclerView;
-    private TextView tvMessage, tvTitle;
+    private RecyclerView publicationRecyclerview, pathItemRecyclerview;
+    private TextView tvMessage, tvTitle, tvNoBadgesUnlocked;
     private Context context;
-    private boolean isEnabled;
+    private RecyclerAdapterPublication recyclerAdapterPublication;
     private boolean showPublicationByUser = false;
-    private boolean isNews, comesFromAntotherFragment= false;
+    private boolean isNews, comesFromUserListUserFragment = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +75,8 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         context = requireContext();
-        this.placemarkName = FragmentMap.placemarkName;
-        this.isEnabled = FragmentMap.isEnabled;
+//        this.placemarkName = FragmentMap.placemarkName;
+//        this.isEnabled = FragmentMap.isEnabled;
         return inflater.inflate(R.layout.fragment_blog, container, false);
     }
 
@@ -85,19 +87,21 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         // ------ Init Views   -------
         tvPathName = view.findViewById(R.id.tvPathName);
         tvRuta = view.findViewById(R.id.tvRuta);
-        recyclerView = view.findViewById(R.id.rvPublications);
+        publicationRecyclerview = view.findViewById(R.id.rvPublications);
+        pathItemRecyclerview = view.findViewById(R.id.rvPathsUnlocked);
         tvMessage = view.findViewById(R.id.tvMessage);
         tvTitle = view.findViewById(R.id.tvTitle);
+        tvNoBadgesUnlocked = view.findViewById(R.id.tvNoBadgesMessage);
 
         LinearLayout linearLayoutPath = view.findViewById(R.id.linearLayout_path);
         LinearLayout footerMenu = view.findViewById(R.id.footer_menu);
 
-        ImageView imgPoints = view.findViewById(R.id.imgPoints);
+        ImageView imgUserList = view.findViewById(R.id.imgPoints);
         ImageView imgHome = view.findViewById(R.id.imgHome);
         ImageView imgMap = view.findViewById(R.id.imgMap);
         btnAddPublication = view.findViewById(R.id.imgAddPublication);
-        //----- Image color ------
 
+        //----- Image color ------
         int color = ContextCompat.getColor(requireContext(), R.color.darkpink); // Replace with your desired color resource ID
         Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_home_24); // Replace with your vector image resource ID
         imgHome.setImageDrawable(drawable);
@@ -110,44 +114,58 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         Gson gson = new Gson();
         String userStr = preferences.getString("user", "");
         String profileStr = preferences.getString("profile", "");
+
         User user = gson.fromJson(userStr, User.class);
         profile = gson.fromJson(profileStr, Profile.class);
+
+        //Here we hide the message for the home fragment
+        linearLayoutPath.setVisibility(View.GONE);
+
         // ------ Starting with the logic  -------
         btnAddPublication.setVisibility(View.GONE);
         tvTitle.setText(getText(R.string.publication).toString().toUpperCase());
-        tvMessage.setText(getText(R.string.setUpLocation).toString().toUpperCase());
         if (getArguments() != null) {
             isNews = getArguments().getBoolean("isNews", false);
             showPublicationByUser = getArguments().getBoolean("userlist", false);
-            comesFromAntotherFragment = getArguments().getBoolean("comesFromAnotherFragment", false);
+            comesFromUserListUserFragment = getArguments().getBoolean("comesFromUserList", false);
         }
 
-        //WHEN THE USER ARRIEVE IN ONE PLACEMARK WE STORE THE INFORMATION FOR A WHILE
+        tvRuta.setVisibility(View.GONE);
 
-        if (isEnabled && placemarkName != null && !placemarkName.isEmpty()){
-            tvMessage.setVisibility(View.GONE);
-            tvPathName.setText(placemarkName);
-            btnAddPublication.setVisibility(View.VISIBLE);
-            getCurrentBlog();
-
-        }else {
-            tvMessage.setText(getText(R.string.beSureToBeLess50m));
-            tvRuta.setVisibility(View.GONE);
-            tvPathName.setVisibility(View.GONE);
+        //Now I need to charge my recyclerview for my unlocked paths
+        tvNoBadgesUnlocked.setVisibility(View.GONE);
+        if (!isNews || !showPublicationByUser) {
+            if (profile.getBadges() != null) {
+                if (!profile.getBadges().isEmpty()) {
+                    pathItemRecyclerview.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    RecyclerAdapterPathItem adapter = new RecyclerAdapterPathItem(profile.getBadges(), context);
+                    adapter.setOnItemClickListener(this);
+                    pathItemRecyclerview.setAdapter(adapter);
+                }
+            } else {
+                pathItemRecyclerview.setVisibility(View.GONE);
+                tvNoBadgesUnlocked.setVisibility(View.VISIBLE);
+                tvNoBadgesUnlocked.setText(getText(R.string.noBadgesFound));
+            }
         }
-
-
 
         if (isNews) {
+            tvNoBadgesUnlocked.setVisibility(View.GONE);
+            pathItemRecyclerview.setVisibility(View.GONE);
             tvTitle.setText(getText(R.string.news).toString().toUpperCase());
             footerMenu.setVisibility(View.GONE);
             linearLayoutPath.setVisibility(View.GONE);
             tvMessage.setText(getText(R.string.newsInformation));
             getCurrentBlog();
-            if (user.getType().equalsIgnoreCase("admin")) {
-                tvMessage.setText(getText(R.string.admin_news));
-                btnAddPublication.setVisibility(View.VISIBLE);
+
+            if (user != null && user.getType() != null) {
+                if (user.getType().equalsIgnoreCase("admin")) {
+                    tvMessage.setText(getText(R.string.admin_news));
+                    btnAddPublication.setVisibility(View.VISIBLE);
+                }
             }
+
+
         }
 
         imgMap.setOnClickListener(v -> {
@@ -157,15 +175,15 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             // Begin a new FragmentTransaction using the getChildFragmentManager() method
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             // Add the child fragment to the transaction and specify a container view ID in the parent layout
-            transaction.replace(R.id.fragment_blog, fragmentMap);
+            transaction.add(R.id.fragment_blog, fragmentMap);
             transaction.addToBackStack(null); // Add the fragment to the back stack
             transaction.commit();
         });
 
 
-        if (comesFromAntotherFragment){
+        if (comesFromUserListUserFragment) {
+            tvNoBadgesUnlocked.setVisibility(View.GONE);
             imgHome.setOnClickListener(v -> {
-
                 FragmentManager fragmentManager = getChildFragmentManager();
                 if (fragmentManager.getBackStackEntryCount() > 0) {
                     // If there are fragments in the back stack, pop the topmost fragment
@@ -180,52 +198,29 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
         }
 
 
-//        if (comesFromAntotherFragment ) {
-//            imgHome.setOnClickListener(v -> {
-//
-//                Bundle bundle = new Bundle();
-//                FragmentBlog fragmentBlog = new FragmentBlog();
-//                FragmentManager fragmentManager = getChildFragmentManager();
-//                FragmentTransaction transaction = fragmentManager.beginTransaction();
-//
-//                bundle.putBoolean("userlist", true);
-//                bundle.putBoolean("comesFromAnotherFragment", true);
-//                fragmentBlog.setArguments(bundle);
-//
-//                // Replace the current fragment with the new fragment
-//                transaction.replace(R.id.fragment_blog, fragmentBlog);
-//
-//                // Add the previous fragment to the back stack
-//                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                transaction.addToBackStack(null);
-//
-//                // Commit the transaction
-//                transaction.commit();
-//
-//                // Navigate back to the root fragment
-//                getParentFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//
-//            });
-//        }
-
-
         //When we enter again from the showpublicationbyuser fragment we do this
         if (showPublicationByUser) {
             // Remove the color filter to revert to the original color
             imgHome.setColorFilter(null);
             int color1 = ContextCompat.getColor(requireContext(), R.color.darkpink); // Replace with your desired color resource ID
             Drawable drawable1 = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_card_travel_24); // Replace with your vector image resource ID
-            imgPoints.setImageDrawable(drawable1);
-            imgPoints.setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+            imgUserList.setImageDrawable(drawable1);
+            imgUserList.setColorFilter(color1, PorterDuff.Mode.SRC_IN);
+            pathItemRecyclerview.setVisibility(View.GONE);
 
-            tvMessage.setText(getText(R.string.ownPhotosMessage));
+            if (profile.getUser().getType() != null) {
+                if (profile.getUser().getType().equalsIgnoreCase("admin")) {
+                    tvMessage.setText(getText(R.string.ownPhotosMessageForAdmin));
+                } else {
+                    tvMessage.setText(getText(R.string.ownPhotosMessage));
+                }
+            }
             tvPathName.setVisibility(View.GONE);
             tvRuta.setVisibility(View.GONE);
             getCurrentBlog();
         }
 
-        imgPoints.setOnClickListener(v -> {
-
+        imgUserList.setOnClickListener(v -> {
             // Create an instance of the child fragment
             FragmentUserPublications fragmentUserPublications = new FragmentUserPublications();
             // Begin a new FragmentTransaction using the getChildFragmentManager() method
@@ -252,7 +247,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
             getCurrentBlog();
 
         } else {
-            tvMessage.setText(getText(R.string.beSureToBeLess50m));
+//            tvMessage.setText(getText(R.string.beSureToBeLess50m));
             tvRuta.setVisibility(View.GONE);
             tvPathName.setVisibility(View.GONE);
         }
@@ -261,7 +256,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     /**
      * Show publications for the newsFragment/blogFragment
      */
-    public void getPublications() {
+    public void showPublications() {
 
         DatabaseReference publicationsRef = FirebaseDatabase.getInstance().getReference().child("publications");
 
@@ -279,15 +274,16 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
                 // Here, you can do something with the list of publications.
                 List<Publication> publicationsById = new ArrayList<>();
-                RecyclerAdapterPublication recyclerAdapterPublication;
                 Blog blog1 = new Blog();
                 blog1.setProfile(profile);
+
 
                 //1. In the first condition we only show the admin publications for the news fragment.
                 if (!showPublicationByUser) {
                     List<Publication> adminPublications = new ArrayList<>();
                     for (Publication publication : publicationsList) {
-                        if (publication.getBlog().getProfile().getUser().getType().equalsIgnoreCase("admin")) {
+                        if (publication.getBlog().getProfile().getUser().getType().equalsIgnoreCase("admin") &&
+                                publication.isNews()) {
                             adminPublications.add(publication);
                         }
                     }
@@ -301,9 +297,10 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                         }
                     }
 
-                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsById, profile, context, isNews,showPublicationByUser);
+                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsById, profile, context, isNews, showPublicationByUser);
 
                 }
+
 
                 //3. At third condition we show only the publications that have an specific point in the fragment
                 List<Publication> publicationsFound = new ArrayList<>();
@@ -311,12 +308,11 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 if (placemarkName != null && !showPublicationByUser) {
                     for (Publication publication : publicationsList) {
                         if (placemarkName.equalsIgnoreCase(publication.getPlacemarkID())) {
-                            publication.getBlog().setProfile(blog1.getProfile());
+//                            publication.getBlog().setProfile(blog1.getProfile());
                             publicationsFound.add(publication);
                         }
                     }
-                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsFound, profile, context, isNews,showPublicationByUser);
-
+                    recyclerAdapterPublication = new RecyclerAdapterPublication(publicationsFound, profile, context, isNews, showPublicationByUser);
                 }
 
                 //We get the reference from our interface and the remove the image
@@ -329,8 +325,8 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                         builder.setPositiveButton("Yes", (dialogInterface, i) -> {
                             DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publicationId);
                             publicationRef.removeValue()
-                                    .addOnSuccessListener(aVoid -> Toast.makeText(context, "Publication deleted successfully", Toast.LENGTH_SHORT).show())
-                                    .addOnFailureListener(e -> Toast.makeText(context, "Error deleting publication", Toast.LENGTH_SHORT).show());
+                                    .addOnSuccessListener(aVoid -> Toast.makeText(context, R.string.publication_deleted_successfully, Toast.LENGTH_SHORT).show())
+                                    .addOnFailureListener(e -> Toast.makeText(context, R.string.publication_deletec_unsuccessfully, Toast.LENGTH_SHORT).show());
                             FirebaseStorage storage = FirebaseStorage.getInstance();
                             StorageReference storageRef = storage.getReference();
 
@@ -367,7 +363,7 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 });
 
 
-                recyclerView.setAdapter(recyclerAdapterPublication);
+                publicationRecyclerview.setAdapter(recyclerAdapterPublication);
                 recyclerAdapterPublication.notifyDataSetChanged();
 
             }
@@ -380,7 +376,11 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
     }
 
 
+    /**
+     * In order to upload a new publication we need to know the blog entity
+     */
     public void getCurrentBlog() {
+        showPublications();
         // Get the current user from FirebaseAuth
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -391,11 +391,10 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     blog = dataSnapshot.getValue(Blog.class);
                     assert blog != null;
-                    recyclerView.setHasFixedSize(true);
+                    publicationRecyclerview.setHasFixedSize(true);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 //                    layoutManager.setReverseLayout(true);
-                    recyclerView.setLayoutManager(layoutManager);
-                    getPublications();
+                    publicationRecyclerview.setLayoutManager(layoutManager);
                     goToActionPublication(blog);
                 }
 
@@ -430,4 +429,142 @@ public class FragmentBlog extends Fragment implements FragmentMap.OnDataPass {
 
         });
     }
+
+
+    // Call this method after deleting a publication to update the RecyclerView
+    private void updateRecyclerView(List<Publication> publications, String item) {
+
+        RecyclerAdapterPublication recyclerAdapterPublication = new RecyclerAdapterPublication(publications, profile, context, false, false);
+
+        recyclerAdapterPublication.setOnPublicationClickListener((publicationId, remove) -> {
+            if (profile.getUser().getType().equalsIgnoreCase("admin")) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Confirm Deletion");
+                builder.setMessage(R.string.confirmation_question_delete_publication);
+                builder.setPositiveButton("Yes", (dialogInterface, i) -> {
+                    DatabaseReference publicationRef = FirebaseDatabase.getInstance().getReference("publications").child(publicationId);
+                    publicationRef.removeValue()
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(context, R.string.publication_deleted_successfully, Toast.LENGTH_SHORT).show();
+                                // Refresh the RecyclerView after successful deletion
+                                showPublicationsByPath(item);
+                            })
+                            .addOnFailureListener(e -> Toast.makeText(context, R.string.publication_deletec_unsuccessfully, Toast.LENGTH_SHORT).show());
+
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageRef = storage.getReference();
+
+                    // Get a reference to the folder for the publication's photos
+                    String folderPath = "publications/" + publicationId;
+                    StorageReference folderRef = storageRef.child(folderPath);
+
+                    // Delete all photos in the folder
+                    folderRef.listAll().addOnSuccessListener(listResult -> {
+                        List<StorageReference> photos = listResult.getItems();
+                        for (StorageReference photo : photos) {
+                            photo.delete();
+                        }
+                    }).addOnFailureListener(exception -> {
+                        // Handle errors
+                        Log.e(TAG, "Error deleting photos from Firebase Storage: " + exception.getMessage());
+                    });
+
+                    // Delete the folder itself
+                    folderRef.delete().addOnSuccessListener(aVoid -> {
+                        // Folder deleted successfully
+                        Log.d(TAG, "Publication folder deleted from Firebase Storage");
+                    }).addOnFailureListener(exception -> {
+                        // Handle errors
+                        Log.e(TAG, "Error deleting publication folder from Firebase Storage: " + exception.getMessage());
+                    });
+                });
+
+                builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        publicationRecyclerview.setAdapter(recyclerAdapterPublication);
+        publicationRecyclerview.setLayoutManager(new LinearLayoutManager(context));
+        recyclerAdapterPublication.notifyDataSetChanged();
+    }
+
+
+    public void showPublicationsByPath(String item) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference publicationsRef = database.getReference("publications");
+        Query query = publicationsRef.orderByChild("placemarkID").equalTo(item);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Clear the list before adding new publications
+                List<Publication> filteredPublications = new ArrayList<>();
+
+                // Iterate through the retrieved publications
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Publication publication = snapshot.getValue(Publication.class);
+
+                    // Compare the placemarkID attribute with the name passed as an argument
+                    assert publication != null;
+                    if (publication.getPlacemarkID().equals(item)) {
+                        // Add the matching publication to the list
+                        filteredPublications.add(publication);
+                    }
+                }
+
+                RecyclerAdapterPublication recyclerAdapterPublication = new RecyclerAdapterPublication(filteredPublications, profile, context, false, false);
+                publicationRecyclerview.setAdapter(recyclerAdapterPublication);
+                publicationRecyclerview.setLayoutManager(new LinearLayoutManager(context));
+                recyclerAdapterPublication.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors that occur during the data retrieval
+                // ...
+            }
+        });
+
+
+    }
+
+
+    @Override
+    public void onItemClick(String item) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference publicationsRef = database.getReference("publications");
+        Query query = publicationsRef.orderByChild("placemarkID").equalTo(item);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Clear the list before adding new publications
+                List<Publication> filteredPublications = new ArrayList<>();
+
+                // Iterate through the retrieved publications
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Publication publication = snapshot.getValue(Publication.class);
+
+                    // Compare the placemarkID attribute with the name passed as an argument
+                    assert publication != null;
+                    if (publication.getPlacemarkID().equals(item)) {
+                        // Add the matching publication to the list
+                        filteredPublications.add(publication);
+                    }
+                }
+
+                // Call the method to update the RecyclerView with the filtered publications
+                updateRecyclerView(filteredPublications, item);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors that occur during the data retrieval
+                // ...
+            }
+        });
+    }
+
+
 }

@@ -6,22 +6,28 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.caminoalba.ui.menuItems.FragmentSettings;
+import com.google.firebase.FirebaseApp;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements FragmentSettings.OnLanguageChangeListener {
 
     private Button btnSingUp, btnSingIn;
     private Intent intent;
-
+    private NavigationDrawerActivity navigationDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (FirebaseApp.getApps(this).isEmpty()) {
+            FirebaseApp.initializeApp(this);
+        }
         setContentView(R.layout.activity_main);
+        navigationDrawer = new NavigationDrawerActivity(); // Initialize the navigation drawer
         init();
         goToSingIn();
         goToSingUp();
     }
-
 
 
     //cargamos datos
@@ -40,19 +46,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToSingIn() {
         btnSingIn.setOnClickListener(v -> {
-
-//            if (Config.USER_SAVED) {
-//                //Si no es primera vez que el usuario ya ha entrado se guarda sesion.
-//                intent = new Intent(MainActivity.this, NavigationDrawerActivity.class);
-//            } else {
-//                //Si no pues tendra que logearse.
-//                intent = new Intent(MainActivity.this, LoginActivity.class);
-//            }
             intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-
-
         });
     }
+
+    @Override
+    public void onLanguageChanged() {
+        refreshNavigationDrawer();
+    }
+
+    public void refreshNavigationDrawer() {
+        // Update the navigation drawer menu items here
+        // For example, you can update the menu items by recreating the navigation drawer
+        recreateNavigationDrawer();
+    }
+
+    private void recreateNavigationDrawer() {
+        navigationDrawer.recreateNavigationDrawer();
+    }
+
 }

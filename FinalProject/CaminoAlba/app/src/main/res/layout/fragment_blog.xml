@@ -17,17 +17,30 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPathsUnlocked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@color/darkpink"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPublications"
-            android:layout_width="337dp"
-            android:layout_height="570dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="326dp"
+            android:layout_height="558dp"
+            android:layout_marginBottom="8dp"
             android:padding="15dp"
             app:layout_constraintBottom_toTopOf="@+id/footer_menu"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.508"
+            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-            app:layout_constraintVertical_bias="0.484" />
+            app:layout_constraintVertical_bias="0.6" />
 
         <LinearLayout
             android:id="@+id/footer_menu"
@@ -124,7 +137,7 @@
                 android:layout_margin="4dp"
                 android:padding="16dp"
                 android:text=""
-                android:textColor="@color/my_dark_grey"
+                android:textColor="@color/white"
                 android:textSize="13.5sp" />
 
             <LinearLayout
@@ -156,6 +169,24 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvNoBadgesMessage"
+            android:layout_width="190dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/lato"
+            android:text="TextView"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/rvPublications"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

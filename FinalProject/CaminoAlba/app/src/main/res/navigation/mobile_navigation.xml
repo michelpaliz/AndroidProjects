@@ -29,10 +29,18 @@
         tools:layout="@layout/fragment_confirmation_partnership" />
 
     <fragment
+        android:id="@+id/fragment_partner"
+        android:label="@string/pathInformation"
+        android:name="com.example.caminoalba.ui.menuItems.partner.FragmentPartner"
+        tools:layout="@layout/fragment_partner" />
+
+    <fragment
         android:id="@+id/fragment_settings"
         android:label="@string/settings"
         android:name="com.example.caminoalba.ui.menuItems.FragmentSettings"
         tools:layout="@layout/fragment_confirmation_partnership" />
+
+
 
 
 </navigation>

@@ -18,11 +18,12 @@ public class Publication implements Serializable {
     private long likeCount;
     private List<Comment> comments;
     private String placemarkID;
+    private boolean isNews;
 
     public Publication() {
     }
 
-    public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog, List<Profile> likes, List<Comment> comments, String placemarkID) {
+    public Publication(String publication_id, String title, String description, String datePublished, List<String> photos, Blog blog, List<Profile> likes, long likeCount, List<Comment> comments, String placemarkID, boolean isNews) {
         this.publication_id = publication_id;
         this.title = title;
         this.description = description;
@@ -30,8 +31,10 @@ public class Publication implements Serializable {
         this.photos = photos;
         this.blog = blog;
         this.likes = likes;
+        this.likeCount = likeCount;
         this.comments = comments;
         this.placemarkID = placemarkID;
+        this.isNews = isNews;
     }
 
     public long getLikeCount() {
@@ -45,6 +48,14 @@ public class Publication implements Serializable {
 
     public List<Profile> getLikes() {
         return likes;
+    }
+
+    public void setNews(boolean news) {
+        isNews = news;
+    }
+
+    public boolean isNews() {
+        return isNews;
     }
 
     public void setLikes(List<Profile> likes) {

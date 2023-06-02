@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegistrationActivity"
-    android:background="@drawable/default_background">
+    android:background="@color/my_dark_grey">
 
     <TextView
         android:id="@+id/tvTitleSingUp"
@@ -13,10 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="228dp"
-        android:textColor="@color/white"
+        android:fontFamily="@font/lato"
         android:text="Sing Up Activity"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,6 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:orientation="horizontal">
 
             <EditText
@@ -65,6 +68,7 @@
         </LinearLayout>
 
         <EditText
+            android:layout_margin="5dp"
             android:id="@+id/edEmail_signup"
             android:textColor="@color/black"
             android:layout_width="match_parent"
@@ -80,7 +84,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_margin="5dp"
             android:orientation="horizontal">
 
             <EditText
@@ -115,6 +119,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSingUp_signup"
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -133,7 +138,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:text="Already have an account sing in here"
-            android:textColor="@color/tropical_blue"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -162,7 +167,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/undraw_sign_up" />
+        app:srcCompat="@drawable/sello1" />
 
     <ProgressBar
         android:id="@+id/progress_circular"
