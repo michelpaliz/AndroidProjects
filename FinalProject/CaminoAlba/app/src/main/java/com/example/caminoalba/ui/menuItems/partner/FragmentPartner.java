@@ -124,7 +124,6 @@ public class FragmentPartner extends Fragment implements OnMapReadyCallback, Fra
 
 
         btnGoBadge.setOnClickListener(v -> {
-
             FragmentConfirmationPartnership fragmentPartner = new FragmentConfirmationPartnership();
             setCallback(this); // Set the callback to the current FragmentPartner instance
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -208,7 +207,6 @@ public class FragmentPartner extends Fragment implements OnMapReadyCallback, Fra
     public void onMapReady(GoogleMap map) {
         googleMap = map;
         googleMap.getUiSettings().setAllGesturesEnabled(false); // Disable map gestures
-
         loadKmlMarkers(map, profile);
 //        if (breakpointsInf.isEmpty()) {
 //            // Load KML markers only if the list is empty

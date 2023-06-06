@@ -8,7 +8,10 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.caminoalba.R;
+import com.example.caminoalba.interfaces.ChildToParentInterface;
 import com.example.caminoalba.models.Blog;
 import com.example.caminoalba.models.Publication;
 import com.example.caminoalba.ui.menuItems.FragmentNews;
@@ -51,7 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FragmentActionPublication extends Fragment {
+public class FragmentActionPublication extends Fragment implements ChildToParentInterface {
 
     private static final int MAX_PHOTOS = 5; // maximum number of photos allowed
 
@@ -74,6 +78,44 @@ public class FragmentActionPublication extends Fragment {
     // get a reference to your Firebase database
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
+    private ChildToParentInterface childToParentInterface;
+
+    // Rest of your code...
+
+
+    @Override
+    public void onItemClicked(String item) {
+        // Retrieve the arguments bundle from the fragment
+        Bundle args = getArguments();
+        if (args != null) {
+            // Retrieve the selectedItem value from the bundle
+            String selectedItem = args.getString("selectedItem");
+            Toast.makeText(requireContext(), "esto eso" + selectedItem, Toast.LENGTH_SHORT).show();
+
+            // Use the selectedItem value as needed
+            if (selectedItem != null && selectedItem.equals(item)) {
+                // Perform your desired operations
+
+                // Call the interface method in the parent fragment to update the UI
+                if (childToParentInterface != null) {
+                    childToParentInterface.onItemClicked(selectedItem);
+                }
+            }
+        }
+    }
+
+    public void setChildToParentInterface(ChildToParentInterface listener) {
+        this.childToParentInterface = listener;
+    }
+
+
+    public void onItemClickAction(String item) {
+        if (childToParentInterface != null) {
+            childToParentInterface.onItemClicked(item);
+        }
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +124,15 @@ public class FragmentActionPublication extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
+        Bundle args = getArguments();
+        if (args != null) {
+            // Retrieve the selectedItem value from the bundle
+            String selectedItem = args.getString("selectedItem");
+            onItemClickAction(selectedItem);
+        }
+
 
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -252,7 +303,7 @@ public class FragmentActionPublication extends Fragment {
             intent.setType("image/*");
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+            startActivityForResult(Intent.createChooser(intent, R.string.select_picture + ""), 1);
         });
     }
 
@@ -291,10 +342,10 @@ public class FragmentActionPublication extends Fragment {
                     //We need to notify the adapter when we are adding a new photo when we press the button add Photo
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(requireContext(), "Photo already added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), R.string.photo_already_added, Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(requireContext(), "Maximum number of photos reached", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), R.string.maximum_number_photos_reached, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -353,7 +404,7 @@ public class FragmentActionPublication extends Fragment {
                     // Handle the exception
                     Log.e(TAG, "Invalid storage Uri: " + e.getMessage());
                     // Show a user-friendly error message
-                    Toast.makeText(requireContext(), "Invalid storage Uri", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), R.string.invalid_storage_uri, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -397,7 +448,7 @@ public class FragmentActionPublication extends Fragment {
 
                 } else {
                     // Show an error message if the publication does not exist in the database
-                    Toast.makeText(getContext(), "Error: publication does not exist in the database", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.error_publication_doesnt_exists, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -425,7 +476,7 @@ public class FragmentActionPublication extends Fragment {
         }
 
         if (photoUrls.isEmpty()) {
-            Toast.makeText(requireContext(), "Please select at least one photo", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), R.string.please_select_one_photo, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -559,26 +610,30 @@ public class FragmentActionPublication extends Fragment {
         if (isNews) {
             fragment = new FragmentNews();
         } else {
-            fragment = new FragmentBlog();
+            fragment = new FragmentPublication();
         }
 
         // Show a success message
         if (isEdit) {
-            Toast.makeText(getContext(), "Publication updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.publication_updated_successfully, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Publication created successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.publication_created_successfully, Toast.LENGTH_SHORT).show();
         }
 
+
 //        // Create and set the fragment transition animation object
-//        Transition fragmentTransition = new Slide(Gravity.START);
-//        fragmentTransition.setDuration(1000);
-//        FragmentTransaction fragmentTransaction = parentFragmentManager.beginTransaction();
-//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//        fragmentTransaction.setCustomAnimations(enterAnim, exitAnim);
-//        fragmentTransaction.replace(R.id.fragment_add_publication, fragment);
-//        fragmentTransaction.addToBackStack(null);
-//        // Commit the fragment transaction
-//        fragmentTransaction.commit();
+
+
+
+        Transition fragmentTransition = new Slide(Gravity.START);
+        fragmentTransition.setDuration(1000);
+        FragmentTransaction fragmentTransaction = parentFragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.setCustomAnimations(enterAnim, exitAnim);
+        fragmentTransaction.replace(R.id.fragment_add_publication, fragment);
+        fragmentTransaction.addToBackStack(null);
+        // Commit the fragment transaction
+        fragmentTransaction.commit();
     }
 
 

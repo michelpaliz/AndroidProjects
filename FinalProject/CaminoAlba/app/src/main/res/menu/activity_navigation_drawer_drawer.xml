@@ -4,10 +4,7 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/profileFragment"
-            android:icon="@drawable/icon_partner"
-            android:title="@string/menu_profile" />
+
         <item
             android:id="@+id/newsFragment"
             android:icon="@drawable/icon_news"
@@ -21,6 +18,11 @@
             android:id="@+id/fragment_partner"
             android:icon="@drawable/icon_socio"
             android:title="@string/partnership" />
+
+        <item
+            android:id="@+id/profileFragment"
+            android:icon="@drawable/icon_partner"
+            android:title="@string/menu_profile" />
 
 
     </group>

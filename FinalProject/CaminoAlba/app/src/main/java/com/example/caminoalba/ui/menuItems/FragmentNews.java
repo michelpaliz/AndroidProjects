@@ -2,10 +2,8 @@ package com.example.caminoalba.ui.menuItems;
 
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.caminoalba.R;
-import com.example.caminoalba.ui.menuItems.publication.FragmentBlog;
-
-import java.util.Objects;
+import com.example.caminoalba.ui.menuItems.publication.FragmentPublication;
 
 public class FragmentNews extends Fragment {
 
@@ -38,12 +34,12 @@ public class FragmentNews extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = new Bundle();
-        FragmentBlog fragmentBlog = new FragmentBlog();
+        FragmentPublication fragmentPublication = new FragmentPublication();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         bundle.putBoolean("isNews", true);
-        fragmentBlog.setArguments(bundle);
-        transaction.replace(R.id.fragment_news, fragmentBlog);
+        fragmentPublication.setArguments(bundle);
+        transaction.replace(R.id.fragment_news, fragmentPublication);
         transaction.addToBackStack(null);
         transaction.commit();
     }

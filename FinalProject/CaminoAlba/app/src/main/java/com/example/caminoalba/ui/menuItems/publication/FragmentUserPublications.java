@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.caminoalba.R;
 
@@ -38,13 +37,13 @@ public class FragmentUserPublications extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = new Bundle();
-        FragmentBlog fragmentBlog = new FragmentBlog();
+        FragmentPublication fragmentPublication = new FragmentPublication();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         bundle.putBoolean("userlist", true);
         bundle.putBoolean("comesFromUserList",true);
-        fragmentBlog.setArguments(bundle);
-        transaction.replace(R.id.fragment_user_publications, fragmentBlog);
+        fragmentPublication.setArguments(bundle);
+        transaction.replace(R.id.fragment_user_publications, fragmentPublication);
         transaction.addToBackStack(null);
         transaction.commit();
     }

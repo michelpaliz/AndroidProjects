@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/my_dark_blue"
     android:orientation="vertical"
-    tools:context=".ui.menuItems.publication.FragmentBlog">
+    tools:context=".ui.menuItems.publication.FragmentPublication">
 
     <!-- Search Bar -->
     <androidx.constraintlayout.widget.ConstraintLayout

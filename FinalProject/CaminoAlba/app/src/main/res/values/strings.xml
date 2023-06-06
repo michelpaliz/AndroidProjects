@@ -117,6 +117,20 @@
     <string name="database_error">Database error</string>
     <string name="error_current_path_null">"Error current path null "</string>
     <string name="badge_added_successfully">Badge added successfully</string>
+    <string name="photo_already_added">Photo already added</string>
+    <string name="maximum_number_photos_reached">Maximum number of photos reached</string>
+    <string name="select_picture">Select Picture</string>
+    <string name="invalid_storage_uri">Invalid storage Uri</string>
+    <string name="error_publication_doesnt_exists">Error: publication does not exist in the database</string>
+    <string name="please_select_one_photo">Please select at least one photo</string>
+    <string name="publication_updated_successfully">Publication updated successfully</string>
+    <string name="publication_created_successfully">Publication created successfully</string>
+    <string name="back_home">Back Home</string>
+    <string name="user_not_registered">User couldn\'t be registered.</string>
+    <string name="email_already_registered">Email is already registered.</string>
+    <string name="cannot_be_empty">Cannot be empty</string>
+    <string name="email_not_valid">Email not valid</string>
+    <string name="password">Password</string>
 
     <string-array name="languages_array">
         <item>Select Language</item>

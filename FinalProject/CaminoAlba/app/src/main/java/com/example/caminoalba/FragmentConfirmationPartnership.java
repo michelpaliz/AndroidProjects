@@ -17,12 +17,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.models.Badge;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.ui.menuItems.partner.FragmentPartner;
-import com.example.caminoalba.ui.menuItems.partner.RecyclerviewPartner;
 import com.example.caminoalba.ui.menuItems.publication.FragmentMap;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;

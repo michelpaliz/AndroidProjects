@@ -2,6 +2,7 @@ package com.example.caminoalba.ui.menuItems.publication;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,29 +69,30 @@ public class FragmentComment extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 FragmentManager fragmentManager = getChildFragmentManager();
-                Class<? extends Fragment> desiredFragmentClass;
-//                FragmentManager fragmentManager = getChildFragmentManager();
                 if (fragmentManager.getBackStackEntryCount() > 0) {
                     // If there are fragments in the back stack, pop the topmost fragment
                     fragmentManager.popBackStack();
                 } else {
-                    // If there are no fragments in the back stack, navigate to a specific fragment
-                    NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_comment);
-                    if (isNews) {
-                        navController.navigate(R.id.newsFragment);
-                    } else if (isUserList) {
-                        // Create an instance of the child fragment
-                        FragmentUserPublications fragmentUserPublications = new FragmentUserPublications();
-                        // Begin a new FragmentTransaction using the getChildFragmentManager() method
-                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                        // Add the child fragment to the transaction and specify a container view ID in the parent layout
-                        transaction.replace(R.id.fragment_comment, fragmentUserPublications);
-                        transaction.addToBackStack(null); // Add the fragment to the back stack
-                        transaction.commit();
-                    } else {
-                        navController.navigate(R.id.blogFragment);
+                    try {
+                        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_comment);
+                        if (isNews) {
+                            navController.navigate(R.id.newsFragment);
+                        } else if (isUserList) {
+                            // Create an instance of the child fragment
+                            FragmentUserPublications fragmentUserPublications = new FragmentUserPublications();
+                            // Begin a new FragmentTransaction using the getChildFragmentManager() method
+                            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                            // Add the child fragment to the transaction and specify a container view ID in the parent layout
+                            transaction.replace(R.id.fragment_comment, fragmentUserPublications);
+                            transaction.addToBackStack(null); // Add the fragment to the back stack
+                            transaction.commit();
+                        } else {
+                            navController.navigate(R.id.blogFragment);
+                        }
+                    } catch (IllegalArgumentException e) {
+                        // Handle the exception here, for example, log the error or perform a fallback action
+                        Log.e("FragmentComment", "Error finding NavController: " + e.getMessage());
                     }
-
                 }
             }
         };

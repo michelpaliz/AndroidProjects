@@ -75,6 +75,7 @@ public class RecyclerviewPartner extends RecyclerView.Adapter<RecyclerviewPartne
         Path path = breakpointsInf.get(position);
         holder.tvName.setText(path.getName());
         holder.tvInformation.setText(path.getInformation());
+        holder.ivSecondPhoto.setTag(path.getName());
 
 //        String nombre = "c" + breakpointsInf.get(position).getId();
         String nombre = breakpointsInf.get(position).getName().toLowerCase(Locale.ROOT);

@@ -10,11 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.caminoalba.R;
+import com.example.caminoalba.interfaces.ChildToParentInterface;
 import com.example.caminoalba.models.Badge;
 
 import java.util.List;
 
-public class RecyclerAdapterPathItem extends RecyclerView.Adapter<RecyclerAdapterPathItem.ViewHolder> {
+public class RecyclerAdapterPathItem extends RecyclerView.Adapter<RecyclerAdapterPathItem.ViewHolder> implements ChildToParentInterface {
+
+    @Override
+    public void onItemClicked(String item) {
+        // Handle item click in parent fragment
+    }
 
     public interface OnItemClickListener {
         void onItemClick(String item);
@@ -23,6 +29,7 @@ public class RecyclerAdapterPathItem extends RecyclerView.Adapter<RecyclerAdapte
     private List<Badge> items;
     private Context context;
     private OnItemClickListener listener;
+
 
     public RecyclerAdapterPathItem(List<Badge> items, Context context) {
         this.items = items;

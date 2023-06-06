@@ -68,6 +68,11 @@ public class LoginActivity extends AppCompatActivity {
         gson = new Gson();
         tvSingUp.setText(getText(R.string.text_dont_have_account));
         tvTitleSingIn.setText(getText(R.string.text_sing_in).toString().toUpperCase(Locale.ROOT));
+        tvSingUp.setOnClickListener(v -> {
+            intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation2"
-    app:startDestination="@id/profileFragment">
+    app:startDestination="@id/newsFragment">
 <!--    android:label="fragment_news"-->
     <fragment
         android:id="@+id/newsFragment"
@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/blogFragment"
-        android:name="com.example.caminoalba.ui.menuItems.publication.FragmentBlog"
+        android:name="com.example.caminoalba.ui.menuItems.publication.FragmentPublication"
         tools:layout="@layout/fragment_blog" />
     <fragment
         android:id="@+id/profileFragment"

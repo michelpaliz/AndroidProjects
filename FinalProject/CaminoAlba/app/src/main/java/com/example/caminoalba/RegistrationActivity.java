@@ -42,9 +42,6 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-//        if (FirebaseApp.getApps(this).isEmpty()) {
-//            FirebaseApp.initializeApp(this);
-//        }
         init();
         backHome();
         authenticateUser();
@@ -62,6 +59,11 @@ public class RegistrationActivity extends AppCompatActivity {
         TextView tvAlreadySingUp = findViewById(R.id.tvAlreadySingUp);
         tvAlreadySingUp.setText(getText(R.string.text_already_have_account));
         tvTitleSignUp.setText(getText(R.string.text_sign_up).toString().toUpperCase());
+        tvAlreadySingUp.setOnClickListener( v -> {
+            intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     public void backHome() {
@@ -89,7 +91,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         boolean emailExists = !Objects.requireNonNull(task.getResult().getSignInMethods()).isEmpty();
                         if (emailExists) {
-                            Toast.makeText(RegistrationActivity.this, "Email is already registered.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrationActivity.this, R.string.email_already_registered, Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -111,8 +113,11 @@ public class RegistrationActivity extends AppCompatActivity {
                                             // Register the user in Firebase Realtime Database
                                             registerUserFirebase(newUser, profile, blog);
                                             Toast.makeText(RegistrationActivity.this, R.string.user_registered, Toast.LENGTH_SHORT).show();
+                                            intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                            startActivity(intent);
+                                            finish();
                                         } else {
-                                            Toast.makeText(this, "User couldn't be registered.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, R.string.user_not_registered, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }).addOnFailureListener(e -> {
@@ -168,7 +173,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
 
                     // All data saved successfully
-                    Toast.makeText(RegistrationActivity.this, "Firebase has registered your user", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RegistrationActivity.this, "Firebase has registered your user", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "User saved to Firebase!");
                 });
             });
@@ -194,7 +199,7 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 // Handle error
                 Log.e(TAG, "Error checking database permission: " + error.getMessage());
-                Toast.makeText(RegistrationActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(RegistrationActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -206,7 +211,7 @@ public class RegistrationActivity extends AppCompatActivity {
     public boolean validateFirstName() {
         String strFirstName = edFirstName.getText().toString();
         if (strFirstName.isEmpty()) {
-            edFirstName.setError("Cannot be empty");
+            edFirstName.setError(R.string.cannot_be_empty+"");
             return false;
         } else {
             edFirstName.setError(null);
@@ -217,7 +222,7 @@ public class RegistrationActivity extends AppCompatActivity {
     public boolean validateLastName() {
         String strLastName = edLastName.getText().toString();
         if (strLastName.isEmpty()) {
-            edLastName.setError("Cannot be empty");
+            edLastName.setError(R.string.cannot_be_empty+"");
             return false;
         } else {
             edLastName.setError(null);
@@ -229,10 +234,10 @@ public class RegistrationActivity extends AppCompatActivity {
     public boolean validateEmail() {
         String strEmail = edEmail.getText().toString();
         if (strEmail.isEmpty()) {
-            edEmail.setError("Cannot be empty");
+            edEmail.setError(R.string.cannot_be_empty+"");
             return false;
         } else if (!EmailHelper.isValidEmail(strEmail)) {
-            edEmail.setError("Email not valid");
+            edEmail.setError(R.string.email_not_valid+"");
             return false;
         } else {
             edEmail.setError(null);
@@ -245,16 +250,16 @@ public class RegistrationActivity extends AppCompatActivity {
         String password = edPassword.getText().toString();
         String passwordConfirm = edConfirm.getText().toString();
         if (passwordConfirm.isEmpty()) {
-            edConfirm.setError("Cannot be empty");
+            edConfirm.setError(R.string.cannot_be_empty+"");
         }
         if (password.isEmpty()) {
-            edPassword.setError("Cannot be empty");
+            edPassword.setError(R.string.cannot_be_empty+"");
             return false;
         } else if (!password.equals(passwordConfirm)) {
-            edPassword.setError("Passwords do not match");
+            edPassword.setError(R.string.password_dont_match +"");
             return false;
         } else if (password.length() < 6) {
-            edPassword.setError("Password must be at least 6 characters long");
+            edPassword.setError(R.string.password_must_be_6_long+"");
             return false;
         } else {
             edPassword.setError(null);

@@ -205,17 +205,24 @@ public class FragmentSettings extends Fragment  {
 
     private void setLocale(String language) {
         Locale locale = new Locale(language);
-        Locale.setDefault(locale);
-        Resources resources = getResources();
-        Configuration configuration = resources.getConfiguration();
+        Configuration configuration = getResources().getConfiguration();
         configuration.setLocale(locale);
         configuration.setLayoutDirection(locale);
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 
+        // Update the configuration for the current resources
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+
+        // Save the selected language in SharedPreferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("language", language);
+        editor.apply();
+
+        // Restart the activity to apply the language change
         // Restart the activity to apply the language change
         Intent intent = getActivity().getIntent();
         getActivity().finish();
         startActivity(intent);
     }
+
 
 }

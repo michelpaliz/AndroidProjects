@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.caminoalba.R;
+import com.example.caminoalba.interfaces.ChildToParentInterface;
 import com.example.caminoalba.interfaces.OnClickListener;
 import com.example.caminoalba.models.Profile;
 import com.example.caminoalba.models.Publication;
@@ -44,6 +45,7 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
     private final Context context;
     private final Boolean isNews;
     private final boolean isUserList;
+
 
     public RecyclerAdapterPublication(List<Publication> publicationList, Profile profile, Context context, boolean isNews, boolean isUserList) {
         this.publicationList = publicationList;
@@ -71,6 +73,7 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
     @Override
     public void onBindViewHolder(@NonNull PublicationViewHolder holder, int position) {
         Publication publication = publicationList.get(position);
+        // Set the listener from the parent fragment
 //        notifyDataSetChanged();
         holder.init(publication);
     }
@@ -187,8 +190,8 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                     publicationCommentAction(publication);
                     publicationLikeAction(publication);
 
-                    if (authorPhoto.getContext() != null) {
-                        Glide.with(authorPhoto.getContext())
+                    if (itemView.getContext() != null) {
+                        Glide.with(itemView.getContext())
                                 .load(publication.getBlog().getProfile().getPhoto())
                                 .apply(new RequestOptions()
                                         .placeholder(R.drawable.default_image) // Placeholder image while loading
@@ -196,8 +199,6 @@ public class RecyclerAdapterPublication extends RecyclerView.Adapter<RecyclerAda
                                 .circleCrop() // Apply circular cropping
                                 .into(authorPhoto);
                     }
-
-
 
                     recyclerAdapterPublicationPhotos.setPhotos(publication.getPhotos());
                     recyclerAdapterPublicationPhotos = (RecyclerAdapterPublicationPhotos) rvPhotoGrid.getAdapter();
